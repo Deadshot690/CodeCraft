@@ -83,14 +83,16 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
           }
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [attackState]);
+    }, [attackState.results]);
 
     useEffect(() => {
         const lang = challenge.languages[0];
         setSelectedLanguage(lang);
-        setCode(challenge.templates[lang]);
-        attackState.results = undefined;
-    }, [challenge, attackState]);
+        setCode(challenge.templates[lang] || '');
+        // Reset state when challenge changes
+        runInitialState.results = undefined; 
+        runInitialState.message = '';
+    }, [challenge]);
 
     const handleLanguageChange = (lang: Language) => {
         setSelectedLanguage(lang);
