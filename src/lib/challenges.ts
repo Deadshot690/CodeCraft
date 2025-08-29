@@ -5,7 +5,13 @@ export interface Challenge {
   difficulty: 'Easy' | 'Medium' | 'Hard';
   domain: 'DSA' | 'Web' | 'AI';
   tags: string[];
-  template: string;
+  languages: ('javascript' | 'python' | 'cpp' | 'java')[];
+  templates: {
+    javascript: string;
+    python: string;
+    cpp: string;
+    java: string;
+  }
 }
 
 export const challenges: Challenge[] = [
@@ -16,7 +22,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Hash Table'],
-    template: `function twoSum(nums, target) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function twoSum(nums, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'reverse-string',
@@ -25,7 +37,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String', 'Two Pointers'],
-    template: `function reverseString(s) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function reverseString(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def reverseString(self, s: List[str]) -> None:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void reverseString(vector<char>& s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void reverseString(char[] s) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'palindrome-number',
@@ -34,7 +52,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Math'],
-    template: `function isPalindrome(x) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isPalindrome(x) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isPalindrome(self, x: int) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isPalindrome(int x) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isPalindrome(int x) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'valid-parentheses',
@@ -43,7 +67,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String', 'Stack'],
-    template: `function isValid(s) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isValid(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isValid(self, s: str) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isValid(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isValid(String s) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'merge-sorted-lists',
@@ -52,7 +82,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Linked List', 'Recursion'],
-    template: `function mergeTwoLists(list1, list2) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function mergeTwoLists(list1, list2) {\n  // Write your code here\n};`,
+      python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'longest-substring',
@@ -61,7 +97,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['String', 'Hash Table', 'Sliding Window'],
-    template: `function lengthOfLongestSubstring(s) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function lengthOfLongestSubstring(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def lengthOfLongestSubstring(self, s: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int lengthOfLongestSubstring(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int lengthOfLongestSubstring(String s) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'max-subarray',
@@ -70,7 +112,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Divide and Conquer', 'Dynamic Programming'],
-    template: `function maxSubArray(nums) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function maxSubArray(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def maxSubArray(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int maxSubArray(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int maxSubArray(int[] nums) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'inorder-traversal',
@@ -79,7 +127,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Tree', 'Depth-First Search', 'Binary Tree'],
-    template: `function inorderTraversal(root) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function inorderTraversal(root) {\n  // Write your code here\n};`,
+      python: `# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<int> inorderTraversal(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<Integer> inorderTraversal(TreeNode root) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'roman-to-integer',
@@ -88,7 +142,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String', 'Hash Table', 'Math'],
-    template: `function romanToInt(s) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function romanToInt(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def romanToInt(self, s: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int romanToInt(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int romanToInt(String s) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'longest-common-prefix',
@@ -97,7 +157,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String', 'Trie'],
-    template: `function longestCommonPrefix(strs) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function longestCommonPrefix(strs) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def longestCommonPrefix(self, strs: List[str]) -> str:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    string longestCommonPrefix(vector<string>& strs) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public String longestCommonPrefix(String[] strs) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'remove-duplicates-sorted-array',
@@ -106,7 +172,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Two Pointers'],
-    template: `function removeDuplicates(nums) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function removeDuplicates(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def removeDuplicates(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int removeDuplicates(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int removeDuplicates(int[] nums) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'implement-strstr',
@@ -115,7 +187,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String', 'Two Pointers'],
-    template: `function strStr(haystack, needle) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function strStr(haystack, needle) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def strStr(self, haystack: str, needle: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int strStr(string haystack, string needle) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int strStr(String haystack, String needle) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'add-two-numbers',
@@ -124,7 +202,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Linked List', 'Math', 'Recursion'],
-    template: `function addTwoNumbers(l1, l2) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function addTwoNumbers(l1, l2) {\n  // Write your code here\n};`,
+      python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: '3sum',
@@ -133,7 +217,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Two Pointers', 'Sorting'],
-    template: `function threeSum(nums) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function threeSum(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def threeSum(self, nums: List[int]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> threeSum(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> threeSum(int[] nums) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'letter-combinations-phone-number',
@@ -142,7 +232,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['String', 'Backtracking', 'Recursion'],
-    template: `function letterCombinations(digits) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function letterCombinations(digits) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def letterCombinations(self, digits: str) -> List[str]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<string> letterCombinations(string digits) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<String> letterCombinations(String digits) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'remove-nth-node-from-end',
@@ -151,7 +247,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Linked List', 'Two Pointers'],
-    template: `function removeNthFromEnd(head, n) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function removeNthFromEnd(head, n) {\n  // Write your code here\n};`,
+      python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'generate-parentheses',
@@ -160,7 +262,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['String', 'Backtracking', 'Dynamic Programming'],
-    template: `function generateParenthesis(n) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function generateParenthesis(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<string> generateParenthesis(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<String> generateParenthesis(int n) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'merge-k-sorted-lists',
@@ -169,7 +277,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Hard',
     domain: 'DSA',
     tags: ['Linked List', 'Heap', 'Divide and Conquer'],
-    template: `function mergeKLists(lists) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function mergeKLists(lists) {\n  // Write your code here\n};`,
+      python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'search-in-rotated-sorted-array',
@@ -178,7 +292,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Binary Search'],
-    template: `function search(nums, target) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function search(nums, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def search(self, nums: List[int], target: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int search(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int search(int[] nums, int target) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'group-anagrams',
@@ -187,7 +307,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Hash Table', 'String', 'Sorting'],
-    template: `function groupAnagrams(strs) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function groupAnagrams(strs) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'jump-game',
@@ -196,7 +322,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Greedy', 'Dynamic Programming'],
-    template: `function canJump(nums) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function canJump(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def canJump(self, nums: List[int]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool canJump(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean canJump(int[] nums) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'permutations',
@@ -205,7 +337,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Backtracking'],
-    template: `function permute(nums) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function permute(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'rotate-image',
@@ -214,7 +352,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Math', 'Matrix'],
-    template: `function rotate(matrix) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function rotate(matrix) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def rotate(self, matrix: List[List[int]]) -> None:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void rotate(vector<vector<int>>& matrix) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void rotate(int[][] matrix) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'climbing-stairs',
@@ -223,7 +367,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Math', 'Dynamic Programming', 'Memoization'],
-    template: `function climbStairs(n) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function climbStairs(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def climbStairs(self, n: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int climbStairs(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int climbStairs(int n) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'minimum-path-sum',
@@ -232,7 +382,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Dynamic Programming', 'Matrix'],
-    template: `function minPathSum(grid) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function minPathSum(grid) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def minPathSum(self, grid: List[List[int]]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int minPathSum(vector<vector<int>>& grid) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int minPathSum(int[][] grid) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'unique-paths',
@@ -241,7 +397,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Math', 'Dynamic Programming', 'Combinatorics'],
-    template: `function uniquePaths(m, n) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function uniquePaths(m, n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int uniquePaths(int m, int n) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'word-search',
@@ -250,7 +412,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Backtracking', 'Matrix'],
-    template: `function exist(board, word) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function exist(board, word) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool exist(vector<vector<char>>& board, string word) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean exist(char[][] board, String word) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'subsets',
@@ -259,7 +427,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Backtracking', 'Bit Manipulation'],
-    template: `function subsets(nums) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function subsets(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def subsets(self, nums: List[int]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> subsets(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> subsets(int[] nums) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'binary-tree-level-order-traversal',
@@ -268,7 +442,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Tree', 'Breadth-First Search', 'Binary Tree'],
-    template: `function levelOrder(root) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function levelOrder(root) {\n  // Write your code here\n};`,
+      python: `# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'maximum-depth-of-binary-tree',
@@ -277,7 +457,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Binary Tree'],
-    template: `function maxDepth(root) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function maxDepth(root) {\n  // Write your code here\n};`,
+      python: `# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def maxDepth(self, root: Optional[TreeNode]) -> int:\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int maxDepth(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int maxDepth(TreeNode root) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'best-time-to-buy-and-sell-stock',
@@ -286,7 +472,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Dynamic Programming'],
-    template: `function maxProfit(prices) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function maxProfit(prices) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int maxProfit(int[] prices) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'valid-palindrome',
@@ -295,7 +487,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String', 'Two Pointers'],
-    template: `function isPalindrome(s) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isPalindrome(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isPalindrome(self, s: str) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isPalindrome(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isPalindrome(String s) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'single-number',
@@ -304,7 +502,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Bit Manipulation'],
-    template: `function singleNumber(nums) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function singleNumber(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def singleNumber(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int singleNumber(int[] nums) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'linked-list-cycle',
@@ -313,7 +517,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Linked List', 'Hash Table', 'Two Pointers'],
-    template: `function hasCycle(head) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function hasCycle(head) {\n  // Write your code here\n};`,
+      python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution:\n    def hasCycle(self, head: Optional[ListNode]) -> bool:\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode(int x) : val(x), next(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    bool hasCycle(ListNode *head) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for singly-linked list.\n * class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public boolean hasCycle(ListNode head) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'lru-cache',
@@ -322,7 +532,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Design', 'Hash Table', 'Linked List', 'Doubly-Linked List'],
-    template: `class LRUCache {\n  constructor(capacity) {\n    // ...\n  }\n  get(key) {\n    // ...\n  }\n  put(key, value) {\n    // ...\n  }\n}`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `class LRUCache {\n  constructor(capacity) {\n    // ...\n  }\n  get(key) {\n    // ...\n  }\n  put(key, value) {\n    // ...\n  }\n}`,
+      python: `class LRUCache:\n\n    def __init__(self, capacity: int):\n        # Write your code here\n\n    def get(self, key: int) -> int:\n        # Write your code here\n\n    def put(self, key: int, value: int) -> None:\n        # Write your code here\n`,
+      cpp: `class LRUCache {\npublic:\n    LRUCache(int capacity) {\n        // Write your code here\n    }\n    \n    int get(int key) {\n        // Write your code here\n    }\n    \n    void put(int key, int value) {\n        // Write your code here\n    }\n};`,
+      java: `class LRUCache {\n    public LRUCache(int capacity) {\n        // Write your code here\n    }\n    \n    public int get(int key) {\n        // Write your code here\n    }\n    \n    public void put(int key, int value) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'min-stack',
@@ -331,7 +547,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Stack', 'Design'],
-    template: `class MinStack {\n  constructor() {\n    // ...\n  }\n  push(val) {\n    // ...\n  }\n  pop() {\n    // ...\n  }\n  top() {\n    // ...\n  }\n  getMin() {\n    // ...\n  }\n}`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `class MinStack {\n  constructor() {\n    // ...\n  }\n  push(val) {\n    // ...\n  }\n  pop() {\n    // ...\n  }\n  top() {\n    // ...\n  }\n  getMin() {\n    // ...\n  }\n}`,
+      python: `class MinStack:\n\n    def __init__(self):\n        # Write your code here\n\n    def push(self, val: int) -> None:\n        # Write your code here\n\n    def pop(self) -> None:\n        # Write your code here\n\n    def top(self) -> int:\n        # Write your code here\n\n    def getMin(self) -> int:\n        # Write your code here\n`,
+      cpp: `class MinStack {\npublic:\n    MinStack() {\n        // Write your code here\n    }\n    \n    void push(int val) {\n        // Write your code here\n    }\n    \n    void pop() {\n        // Write your code here\n    }\n    \n    int top() {\n        // Write your code here\n    }\n    \n    int getMin() {\n        // Write your code here\n    }\n};`,
+      java: `class MinStack {\n\n    public MinStack() {\n        // Write your code here\n    }\n    \n    public void push(int val) {\n        // Write your code here\n    }\n    \n    public void pop() {\n        // Write your code here\n    }\n    \n    public int top() {\n        // Write your code here\n    }\n    \n    public int getMin() {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'intersection-of-two-linked-lists',
@@ -340,7 +562,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Linked List', 'Hash Table', 'Two Pointers'],
-    template: `function getIntersectionNode(headA, headB) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function getIntersectionNode(headA, headB) {\n  // Write your code here\n};`,
+      python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution:\n    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode(int x) : val(x), next(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'majority-element',
@@ -349,7 +577,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Hash Table', 'Sorting', 'Counting'],
-    template: `function majorityElement(nums) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function majorityElement(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def majorityElement(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int majorityElement(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int majorityElement(int[] nums) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'reverse-linked-list',
@@ -358,7 +592,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Linked List', 'Recursion'],
-    template: `function reverseList(head) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function reverseList(head) {\n  // Write your code here\n};`,
+      python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* reverseList(ListNode* head) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode reverseList(ListNode head) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'contains-duplicate',
@@ -367,7 +607,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Hash Table', 'Sorting'],
-    template: `function containsDuplicate(nums) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function containsDuplicate(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def containsDuplicate(self, nums: List[int]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool containsDuplicate(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean containsDuplicate(int[] nums) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'invert-binary-tree',
@@ -376,7 +622,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Binary Tree'],
-    template: `function invertTree(root) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function invertTree(root) {\n  // Write your code here\n};`,
+      python: `# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public TreeNode invertTree(TreeNode root) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'valid-anagram',
@@ -385,7 +637,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String', 'Hash Table', 'Sorting'],
-    template: `function isAnagram(s, t) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isAnagram(s, t) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isAnagram(self, s: str, t: str) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isAnagram(string s, string t) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isAnagram(String s, String t) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'product-of-array-except-self',
@@ -394,7 +652,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Prefix Sum'],
-    template: `function productExceptSelf(nums) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function productExceptSelf(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def productExceptSelf(self, nums: List[int]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> productExceptSelf(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] productExceptSelf(int[] nums) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'lowest-common-ancestor-of-a-binary-search-tree',
@@ -403,7 +667,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Tree', 'Depth-First Search', 'Binary Search Tree', 'Binary Tree'],
-    template: `function lowestCommonAncestor(root, p, q) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function lowestCommonAncestor(root, p, q) {\n  // Write your code here\n};`,
+      python: `# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution:\n    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}\n * };\n */\n\nclass Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\n\nclass Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'serialize-and-deserialize-binary-tree',
@@ -412,7 +682,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Hard',
     domain: 'DSA',
     tags: ['Tree', 'String', 'Depth-First Search', 'Breadth-First Search', 'Design'],
-    template: `/**\n * Definition for a binary tree node.\n * function TreeNode(val) {\n *     this.val = val;\n *     this.left = this.right = null;\n * }\n */\n\n/**\n * Encodes a tree to a single string.\n *\n * @param {TreeNode} root\n * @return {string}\n */\nvar serialize = function(root) {\n    \n};\n\n/**\n * Decodes your encoded data to tree.\n *\n * @param {string} data\n * @return {TreeNode}\n */\nvar deserialize = function(data) {\n    \n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `/**\n * Definition for a binary tree node.\n * function TreeNode(val) {\n *     this.val = val;\n *     this.left = this.right = null;\n * }\n */\n\n/**\n * Encodes a tree to a single string.\n *\n * @param {TreeNode} root\n * @return {string}\n */\nvar serialize = function(root) {\n    \n};\n\n/**\n * Decodes your encoded data to tree.\n *\n * @param {string} data\n * @return {TreeNode}\n */\nvar deserialize = function(data) {\n    \n};`,
+      python: `# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Codec:\n\n    def serialize(self, root):\n        # Write your code here\n        \n\n    def deserialize(self, data):\n        # Write your code here\n`,
+      cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}\n * };\n */\nclass Codec {\npublic:\n\n    // Encodes a tree to a single string.\n    string serialize(TreeNode* root) {\n        // Write your code here\n    }\n\n    // Decodes your encoded data to tree.\n    TreeNode* deserialize(string data) {\n        // Write your code here\n    }\n};`,
+      java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\npublic class Codec {\n\n    // Encodes a tree to a single string.\n    public String serialize(TreeNode root) {\n        // Write your code here\n    }\n\n    // Decodes your encoded data to tree.\n    public TreeNode deserialize(String data) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'coin-change',
@@ -421,7 +697,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Dynamic Programming', 'Breadth-First Search'],
-    template: `function coinChange(coins, amount) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function coinChange(coins, amount) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int coinChange(vector<int>& coins, int amount) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int coinChange(int[] coins, int amount) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'longest-increasing-subsequence',
@@ -430,7 +712,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Medium',
     domain: 'DSA',
     tags: ['Array', 'Dynamic Programming', 'Binary Search'],
-    template: `function lengthOfLIS(nums) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function lengthOfLIS(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int lengthOfLIS(int[] nums) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'trapping-rain-water',
@@ -439,7 +727,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Hard',
     domain: 'DSA',
     tags: ['Array', 'Two Pointers', 'Dynamic Programming', 'Stack'],
-    template: `function trap(height) {\n  // Write your code here\n};`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function trap(height) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def trap(self, height: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int trap(vector<int>& height) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int trap(int[] height) {\n        // Write your code here\n    }\n}`
+    }
   },
   {
     id: 'find-median-from-data-stream',
@@ -448,7 +742,13 @@ export const challenges: Challenge[] = [
     difficulty: 'Hard',
     domain: 'DSA',
     tags: ['Design', 'Heap', 'Two Pointers', 'Data Stream'],
-    template: `class MedianFinder {\n  constructor() {\n    // ...\n  }\n  addNum(num) {\n    // ...\n  }\n  findMedian() {\n    // ...\n  }\n}`
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `class MedianFinder {\n  constructor() {\n    // ...\n  }\n  addNum(num) {\n    // ...\n  }\n  findMedian() {\n    // ...\n  }\n}`,
+      python: `class MedianFinder:\n\n    def __init__(self):\n        # Write your code here\n\n    def addNum(self, num: int) -> None:\n        # Write your code here\n\n    def findMedian(self) -> float:\n        # Write your code here\n`,
+      cpp: `class MedianFinder {\npublic:\n    MedianFinder() {\n        // Write your code here\n    }\n    \n    void addNum(int num) {\n        // Write your code here\n    }\n    \n    double findMedian() {\n        // Write your code here\n    }\n};`,
+      java: `class MedianFinder {\n\n    public MedianFinder() {\n        // Write your code here\n    }\n    \n    public void addNum(int num) {\n        // Write your code here\n    }\n    \n    public double findMedian() {\n        // Write your code here\n    }\n}`
+    }
   }
 ];
 
