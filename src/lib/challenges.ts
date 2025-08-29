@@ -44,6 +44,42 @@ export const challenges: Challenge[] = [
     domain: 'DSA',
     tags: ['String', 'Stack'],
     template: `function isValid(s) {\n  // Write your code here\n};`
+  },
+  {
+    id: 'merge-sorted-lists',
+    title: 'Merge Two Sorted Lists',
+    description: 'You are given the heads of two sorted linked lists `list1` and `list2`. Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists. Return the head of the merged linked list.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Linked List', 'Recursion'],
+    template: `function mergeTwoLists(list1, list2) {\n  // Write your code here\n};`
+  },
+  {
+    id: 'longest-substring',
+    title: 'Longest Substring Without Repeating Characters',
+    description: 'Given a string `s`, find the length of the longest substring without repeating characters.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Hash Table', 'Sliding Window'],
+    template: `function lengthOfLongestSubstring(s) {\n  // Write your code here\n};`
+  },
+  {
+    id: 'max-subarray',
+    title: 'Maximum Subarray',
+    description: 'Given an integer array `nums`, find the subarray with the largest sum, and return its sum.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Divide and Conquer', 'Dynamic Programming'],
+    template: `function maxSubArray(nums) {\n  // Write your code here\n};`
+  },
+  {
+    id: 'inorder-traversal',
+    title: 'Binary Tree Inorder Traversal',
+    description: 'Given the `root` of a binary tree, return the inorder traversal of its nodes\' values.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Binary Tree'],
+    template: `function inorderTraversal(root) {\n  // Write your code here\n};`
   }
 ];
 
