@@ -2,6 +2,7 @@
 'use server';
 
 import { aiCodeAssistant, type AICodeAssistantInput } from '@/ai/flows/ai-code-assistant';
+import { runCode, type RunCodeInput, type RunCodeOutput } from '@/ai/flows/run-code-flow';
 import { z } from 'zod';
 
 const assistantSchema = z.object({
@@ -48,4 +49,51 @@ export async function getAIAssistance(
     console.error('AI Code Assistant Error:', error);
     return { message: 'An unexpected error occurred while contacting the AI assistant. Please try again later.' };
   }
+}
+
+
+const runCodeSchema = z.object({
+  code: z.string(),
+  language: z.string(),
+  challengeTitle: z.string(),
+  testCases: z.string(),
+});
+
+type RunCodeState = {
+    formErrors?: {
+        code?: string[];
+        language?: string[];
+        challengeTitle?: string[];
+        testCases?: string[];
+    };
+    message?: string;
+    results?: RunCodeOutput['results'];
+};
+
+
+export async function runTestAction(
+    prevState: RunCodeState,
+    formData: FormData
+): Promise<RunCodeState> {
+    const validatedFields = runCodeSchema.safeParse({
+        code: formData.get('code'),
+        language: formData.get('language'),
+        challengeTitle: formData.get('challengeTitle'),
+        testCases: formData.get('testCases'),
+    });
+
+    if (!validatedFields.success) {
+        return {
+            formErrors: validatedFields.error.flatten().fieldErrors,
+            message: 'There was an error with your submission. Please check the fields.',
+        };
+    }
+
+    try {
+        const result = await runCode(validatedFields.data as RunCodeInput);
+        return { results: result.results };
+    } catch (error) {
+        console.error('Run Code Error:', error);
+        return { message: 'An unexpected error occurred while running the code. Please try again later.' };
+    }
 }

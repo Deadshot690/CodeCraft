@@ -1,3 +1,7 @@
+export interface TestCase {
+  input: any;
+  expectedOutput: any;
+}
 export interface Challenge {
   id: string;
   title: string;
@@ -11,7 +15,8 @@ export interface Challenge {
     python: string;
     cpp: string;
     java: string;
-  }
+  };
+  testCases: TestCase[];
 }
 
 export const challenges: Challenge[] = [
@@ -28,7 +33,12 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: [
+        { input: { nums: [2, 7, 11, 15], target: 9 }, expectedOutput: [0, 1] },
+        { input: { nums: [3, 2, 4], target: 6 }, expectedOutput: [1, 2] },
+        { input: { nums: [3, 3], target: 6 }, expectedOutput: [0, 1] },
+    ]
   },
   {
     id: 'reverse-string',
@@ -43,7 +53,11 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def reverseString(self, s: List[str]) -> None:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    void reverseString(vector<char>& s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public void reverseString(char[] s) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: [
+        { input: { s: ["h","e","l","l","o"] }, expectedOutput: ["o","l","l","e","h"] },
+        { input: { s: ["H","a","n","n","a","h"] }, expectedOutput: ["h","a","n","n","a","H"] },
+    ]
   },
   {
     id: 'palindrome-number',
@@ -58,7 +72,12 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def isPalindrome(self, x: int) -> bool:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    bool isPalindrome(int x) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isPalindrome(int x) {\n        // Write your code here\n    }\n}`
-    }
+    },
+     testCases: [
+        { input: { x: 121 }, expectedOutput: true },
+        { input: { x: -121 }, expectedOutput: false },
+        { input: { x: 10 }, expectedOutput: false },
+    ]
   },
   {
     id: 'valid-parentheses',
@@ -73,7 +92,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def isValid(self, s: str) -> bool:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    bool isValid(string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isValid(String s) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'merge-sorted-lists',
@@ -88,7 +108,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:\n        # Write your code here\n`,
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'longest-substring',
@@ -103,7 +124,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def lengthOfLongestSubstring(self, s: str) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int lengthOfLongestSubstring(string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int lengthOfLongestSubstring(String s) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'max-subarray',
@@ -118,7 +140,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def maxSubArray(self, nums: List[int]) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int maxSubArray(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int maxSubArray(int[] nums) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'inorder-traversal',
@@ -133,7 +156,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        # Write your code here\n`,
       cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<int> inorderTraversal(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<Integer> inorderTraversal(TreeNode root) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'roman-to-integer',
@@ -148,7 +172,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def romanToInt(self, s: str) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int romanToInt(string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int romanToInt(String s) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'longest-common-prefix',
@@ -163,7 +188,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def longestCommonPrefix(self, strs: List[str]) -> str:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    string longestCommonPrefix(vector<string>& strs) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public String longestCommonPrefix(String[] strs) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'remove-duplicates-sorted-array',
@@ -178,7 +204,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def removeDuplicates(self, nums: List[int]) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int removeDuplicates(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int removeDuplicates(int[] nums) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'implement-strstr',
@@ -193,7 +220,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def strStr(self, haystack: str, needle: str) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int strStr(string haystack, string needle) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int strStr(String haystack, String needle) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'add-two-numbers',
@@ -208,7 +236,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n        # Write your code here\n`,
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: '3sum',
@@ -223,7 +252,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def threeSum(self, nums: List[int]) -> List[List[int]]:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    vector<vector<int>> threeSum(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<List<Integer>> threeSum(int[] nums) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'letter-combinations-phone-number',
@@ -238,7 +268,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def letterCombinations(self, digits: str) -> List[str]:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    vector<string> letterCombinations(string digits) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<String> letterCombinations(String digits) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'remove-nth-node-from-end',
@@ -253,7 +284,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        # Write your code here\n`,
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'generate-parentheses',
@@ -268,7 +300,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    vector<string> generateParenthesis(int n) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<String> generateParenthesis(int n) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'merge-k-sorted-lists',
@@ -283,7 +316,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        # Write your code here\n`,
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'search-in-rotated-sorted-array',
@@ -298,7 +332,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def search(self, nums: List[int], target: int) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int search(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int search(int[] nums, int target) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'group-anagrams',
@@ -313,7 +348,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'jump-game',
@@ -328,7 +364,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def canJump(self, nums: List[int]) -> bool:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    bool canJump(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean canJump(int[] nums) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'permutations',
@@ -343,7 +380,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'rotate-image',
@@ -358,7 +396,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def rotate(self, matrix: List[List[int]]) -> None:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    void rotate(vector<vector<int>>& matrix) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public void rotate(int[][] matrix) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'climbing-stairs',
@@ -373,7 +412,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def climbStairs(self, n: int) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int climbStairs(int n) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int climbStairs(int n) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'minimum-path-sum',
@@ -388,7 +428,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def minPathSum(self, grid: List[List[int]]) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int minPathSum(vector<vector<int>>& grid) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int minPathSum(int[][] grid) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'unique-paths',
@@ -403,7 +444,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int uniquePaths(int m, int n) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'word-search',
@@ -418,7 +460,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    bool exist(vector<vector<char>>& board, string word) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean exist(char[][] board, String word) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'subsets',
@@ -433,7 +476,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def subsets(self, nums: List[int]) -> List[List[int]]:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    vector<vector<int>> subsets(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<List<Integer>> subsets(int[] nums) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'binary-tree-level-order-traversal',
@@ -448,7 +492,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        # Write your code here\n`,
       cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'maximum-depth-of-binary-tree',
@@ -463,7 +508,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def maxDepth(self, root: Optional[TreeNode]) -> int:\n        # Write your code here\n`,
       cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int maxDepth(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int maxDepth(TreeNode root) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'best-time-to-buy-and-sell-stock',
@@ -478,7 +524,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int maxProfit(int[] prices) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'valid-palindrome',
@@ -493,7 +540,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def isPalindrome(self, s: str) -> bool:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    bool isPalindrome(string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isPalindrome(String s) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'single-number',
@@ -508,7 +556,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def singleNumber(self, nums: List[int]) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int singleNumber(int[] nums) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'linked-list-cycle',
@@ -523,7 +572,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution:\n    def hasCycle(self, head: Optional[ListNode]) -> bool:\n        # Write your code here\n`,
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode(int x) : val(x), next(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    bool hasCycle(ListNode *head) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public boolean hasCycle(ListNode head) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'lru-cache',
@@ -538,7 +588,8 @@ export const challenges: Challenge[] = [
       python: `class LRUCache:\n\n    def __init__(self, capacity: int):\n        # Write your code here\n\n    def get(self, key: int) -> int:\n        # Write your code here\n\n    def put(self, key: int, value: int) -> None:\n        # Write your code here\n`,
       cpp: `class LRUCache {\npublic:\n    LRUCache(int capacity) {\n        // Write your code here\n    }\n    \n    int get(int key) {\n        // Write your code here\n    }\n    \n    void put(int key, int value) {\n        // Write your code here\n    }\n};`,
       java: `class LRUCache {\n    public LRUCache(int capacity) {\n        // Write your code here\n    }\n    \n    public int get(int key) {\n        // Write your code here\n    }\n    \n    public void put(int key, int value) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'min-stack',
@@ -553,7 +604,8 @@ export const challenges: Challenge[] = [
       python: `class MinStack:\n\n    def __init__(self):\n        # Write your code here\n\n    def push(self, val: int) -> None:\n        # Write your code here\n\n    def pop(self) -> None:\n        # Write your code here\n\n    def top(self) -> int:\n        # Write your code here\n\n    def getMin(self) -> int:\n        # Write your code here\n`,
       cpp: `class MinStack {\npublic:\n    MinStack() {\n        // Write your code here\n    }\n    \n    void push(int val) {\n        // Write your code here\n    }\n    \n    void pop() {\n        // Write your code here\n    }\n    \n    int top() {\n        // Write your code here\n    }\n    \n    int getMin() {\n        // Write your code here\n    }\n};`,
       java: `class MinStack {\n\n    public MinStack() {\n        // Write your code here\n    }\n    \n    public void push(int val) {\n        // Write your code here\n    }\n    \n    public void pop() {\n        // Write your code here\n    }\n    \n    public int top() {\n        // Write your code here\n    }\n    \n    public int getMin() {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'intersection-of-two-linked-lists',
@@ -568,7 +620,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution:\n    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:\n        # Write your code here\n`,
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode(int x) : val(x), next(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'majority-element',
@@ -583,7 +636,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def majorityElement(self, nums: List[int]) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int majorityElement(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int majorityElement(int[] nums) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'reverse-linked-list',
@@ -598,7 +652,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        # Write your code here\n`,
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* reverseList(ListNode* head) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode reverseList(ListNode head) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'contains-duplicate',
@@ -613,7 +668,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def containsDuplicate(self, nums: List[int]) -> bool:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    bool containsDuplicate(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean containsDuplicate(int[] nums) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'invert-binary-tree',
@@ -628,7 +684,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:\n        # Write your code here\n`,
       cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public TreeNode invertTree(TreeNode root) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'valid-anagram',
@@ -643,7 +700,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def isAnagram(self, s: str, t: str) -> bool:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    bool isAnagram(string s, string t) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isAnagram(String s, String t) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'product-of-array-except-self',
@@ -658,7 +716,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def productExceptSelf(self, nums: List[int]) -> List[int]:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    vector<int> productExceptSelf(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int[] productExceptSelf(int[] nums) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'lowest-common-ancestor-of-a-binary-search-tree',
@@ -673,7 +732,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution:\n    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':\n        # Write your code here\n`,
       cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}\n * };\n */\n\nclass Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\n\nclass Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'serialize-and-deserialize-binary-tree',
@@ -688,7 +748,8 @@ export const challenges: Challenge[] = [
       python: `# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Codec:\n\n    def serialize(self, root):\n        # Write your code here\n        \n\n    def deserialize(self, data):\n        # Write your code here\n`,
       cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}\n * };\n */\nclass Codec {\npublic:\n\n    // Encodes a tree to a single string.\n    string serialize(TreeNode* root) {\n        // Write your code here\n    }\n\n    // Decodes your encoded data to tree.\n    TreeNode* deserialize(string data) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\npublic class Codec {\n\n    // Encodes a tree to a single string.\n    public String serialize(TreeNode root) {\n        // Write your code here\n    }\n\n    // Decodes your encoded data to tree.\n    public TreeNode deserialize(String data) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'coin-change',
@@ -703,7 +764,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int coinChange(vector<int>& coins, int amount) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int coinChange(int[] coins, int amount) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'longest-increasing-subsequence',
@@ -718,7 +780,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int lengthOfLIS(int[] nums) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'trapping-rain-water',
@@ -733,7 +796,8 @@ export const challenges: Challenge[] = [
       python: `class Solution:\n    def trap(self, height: List[int]) -> int:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    int trap(vector<int>& height) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int trap(int[] height) {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   },
   {
     id: 'find-median-from-data-stream',
@@ -748,7 +812,8 @@ export const challenges: Challenge[] = [
       python: `class MedianFinder:\n\n    def __init__(self):\n        # Write your code here\n\n    def addNum(self, num: int) -> None:\n        # Write your code here\n\n    def findMedian(self) -> float:\n        # Write your code here\n`,
       cpp: `class MedianFinder {\npublic:\n    MedianFinder() {\n        // Write your code here\n    }\n    \n    void addNum(int num) {\n        // Write your code here\n    }\n    \n    double findMedian() {\n        // Write your code here\n    }\n};`,
       java: `class MedianFinder {\n\n    public MedianFinder() {\n        // Write your code here\n    }\n    \n    public void addNum(int num) {\n        // Write your code here\n    }\n    \n    public double findMedian() {\n        // Write your code here\n    }\n}`
-    }
+    },
+    testCases: []
   }
 ];
 
