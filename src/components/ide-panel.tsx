@@ -1,7 +1,7 @@
+
 'use client'
 
-import { useState } from "react";
-import { useActionState } from 'react';
+import { useState, useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Challenge } from "@/lib/challenges";
 import { runTestAction, submitAction } from '@/app/actions';
@@ -67,7 +67,7 @@ function TestCaseResult({ result, index }: { result: any, index: number}) {
     )
 }
 
-function SubmissionResult({ results }: { results: any[] }) {
+function SubmissionResult({ results, challengeId }: { results: any[], challengeId: string }) {
     const totalCases = results.length;
     const passedCases = results.filter(r => r.passed).length;
     const allPassed = totalCases > 0 && passedCases === totalCases;
@@ -77,6 +77,14 @@ function SubmissionResult({ results }: { results: any[] }) {
     const color = allPassed ? "text-green-500" : "text-red-500";
     const variant = allPassed ? "default" : "destructive";
 
+    if (allPassed) {
+         // In a real app, this would be a server call.
+         // For now, we use localStorage to track solved challenges.
+         const solved = new Set(JSON.parse(localStorage.getItem('solvedChallenges') || '[]'));
+         solved.add(challengeId);
+         localStorage.setItem('solvedChallenges', JSON.stringify(Array.from(solved)));
+    }
+
 
     return (
         <div className="p-4">
@@ -85,6 +93,7 @@ function SubmissionResult({ results }: { results: any[] }) {
                 <AlertTitle className={`text-xl ${color} font-bold`}>{title}</AlertTitle>
                 <AlertDescription>
                     You passed {passedCases} out of {totalCases} test cases.
+                    {allPassed && " Great job! This problem has been marked as solved."}
                 </AlertDescription>
             </Alert>
              <ScrollArea className="h-40 mt-4">
@@ -177,7 +186,7 @@ export default function IdePanel({ challenge }: { challenge: Challenge }) {
                     </TabsContent>
                     <TabsContent value="submit-output" className="h-[244px] p-0">
                         {!submitState.results && <p className="text-sm text-muted-foreground text-center py-20">Submission results will appear here.</p>}
-                        {submitState.results && <SubmissionResult results={submitState.results} />}
+                        {submitState.results && <SubmissionResult results={submitState.results} challengeId={challenge.id} />}
                     </TabsContent>
                 </Tabs>
             </div>
