@@ -67,7 +67,7 @@ function TestCaseResult({ result, index }: { result: any, index: number}) {
     )
 }
 
-function SubmissionResult({ results, challengeId }: { results: any[], challengeId: string }) {
+function SubmissionResult({ results, challenge }: { results: any[], challenge: Challenge }) {
     const totalCases = results.length;
     const passedCases = results.filter(r => r.passed).length;
     const allPassed = totalCases > 0 && passedCases === totalCases;
@@ -78,11 +78,18 @@ function SubmissionResult({ results, challengeId }: { results: any[], challengeI
     const variant = allPassed ? "default" : "destructive";
 
     if (allPassed) {
-         // In a real app, this would be a server call.
-         // For now, we use localStorage to track solved challenges.
-         const solved = new Set(JSON.parse(localStorage.getItem('solvedChallenges') || '[]'));
-         solved.add(challengeId);
-         localStorage.setItem('solvedChallenges', JSON.stringify(Array.from(solved)));
+         // This is a simplified way to track progress. In a real app, this would be a server call.
+         const solvedInfo = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
+         const existing = solvedInfo.find((s: any) => s.id === challenge.id);
+         if (!existing) {
+             solvedInfo.push({ id: challenge.id, title: challenge.title, solvedAt: new Date().toISOString() });
+             localStorage.setItem('solvedChallengesInfo', JSON.stringify(solvedInfo));
+         }
+
+         // Also update the old set for the challenge list page
+         const solvedSet = new Set(JSON.parse(localStorage.getItem('solvedChallenges') || '[]'));
+         solvedSet.add(challenge.id);
+         localStorage.setItem('solvedChallenges', JSON.stringify(Array.from(solvedSet)));
     }
 
 
@@ -186,7 +193,7 @@ export default function IdePanel({ challenge }: { challenge: Challenge }) {
                     </TabsContent>
                     <TabsContent value="submit-output" className="h-[244px] p-0">
                         {!submitState.results && <p className="text-sm text-muted-foreground text-center py-20">Submission results will appear here.</p>}
-                        {submitState.results && <SubmissionResult results={submitState.results} challengeId={challenge.id} />}
+                        {submitState.results && <SubmissionResult results={submitState.results} challenge={challenge} />}
                     </TabsContent>
                 </Tabs>
             </div>

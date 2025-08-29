@@ -1,35 +1,22 @@
 
+'use client';
+
+import { useState, useEffect } from 'react';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Check, Shield, Star, Swords, BrainCircuit, Bot } from "lucide-react";
 import Link from 'next/link';
+import { challenges, Challenge } from '@/lib/challenges';
+import { formatDistanceToNow } from 'date-fns';
 
-const user = {
-  name: "CodeCrafter",
-  email: "crafter@example.com",
-  level: 12,
-  xp: 12500,
-  xpToNextLevel: 250,
-  rank: 12,
-  challengesSolved: 58,
-  domains: {
-    DSA: 40,
-    Web: 10,
-    AI: 8
-  }
-};
-
-const recentSolutions = [
-  { id: 'two-sum', title: 'Two Sum', date: '2 days ago', status: 'Accepted' },
-  { id: 'reverse-string', title: 'Reverse String', date: '3 days ago', status: 'Accepted' },
-  { id: 'longest-substring', title: 'Longest Substring', date: '5 days ago', status: 'Accepted' },
-  { id: 'max-subarray', title: 'Maximum Subarray', date: '1 week ago', status: 'Accepted' },
-  { id: 'valid-parentheses', title: 'Valid Parentheses', date: '1 week ago', status: 'Accepted' },
-];
+interface SolvedChallengeInfo {
+  id: string;
+  title: string;
+  solvedAt: string; // ISO date string
+}
 
 const achievements = [
   { icon: <Star className="w-8 h-8 text-yellow-400" />, title: "Century Mark", description: "Solved 100 problems", unlocked: false },
@@ -41,6 +28,50 @@ const achievements = [
 ];
 
 export default function ProfilePage() {
+  const [user, setUser] = useState({
+    name: "CodeCrafter",
+    email: "crafter@example.com",
+    level: 1,
+    xp: 0,
+    rank: 0,
+    challengesSolved: 0,
+    domains: { DSA: 0, Web: 0, AI: 0 }
+  });
+  const [recentSolutions, setRecentSolutions] = useState<SolvedChallengeInfo[]>([]);
+
+  useEffect(() => {
+    const storedSolutions: SolvedChallengeInfo[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
+    
+    // Sort by date and take the last 5
+    const sortedSolutions = storedSolutions.sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
+    setRecentSolutions(sortedSolutions.slice(0, 5));
+
+    // Calculate stats
+    const challengesSolved = storedSolutions.length;
+    const solvedIds = new Set(storedSolutions.map(s => s.id));
+    const allSolvedChallenges = challenges.filter(c => solvedIds.has(c.id));
+
+    const domains = allSolvedChallenges.reduce((acc, c) => {
+        acc[c.domain] = (acc[c.domain] || 0) + 1;
+        return acc;
+    }, { DSA: 0, Web: 0, AI: 0 });
+
+    // Dummy calculations for other stats for now
+    const xp = challengesSolved * 100;
+    const level = Math.floor(xp / 1000) + 1;
+
+    setUser(prev => ({
+        ...prev,
+        challengesSolved,
+        domains,
+        xp,
+        level,
+        rank: 500 - (challengesSolved * 10) // dummy rank
+    }));
+
+  }, []);
+
+
   return (
     <DashboardLayout>
       <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
@@ -91,20 +122,24 @@ export default function ProfilePage() {
                 <CardDescription>Your last 5 accepted solutions.</CardDescription>
               </CardHeader>
               <CardContent>
+                 {recentSolutions.length === 0 ? (
+                    <p className="text-muted-foreground text-center py-4">No solutions submitted yet.</p>
+                ) : (
                 <ul className="space-y-2">
                   {recentSolutions.map(sol => (
                     <li key={sol.id} className="flex items-center justify-between p-2 rounded-md hover:bg-muted/50">
                        <div>
                          <Link href={`/challenge/${sol.id}`} className="font-medium hover:underline">{sol.title}</Link>
-                         <p className="text-sm text-muted-foreground">{sol.date}</p>
+                         <p className="text-sm text-muted-foreground">{formatDistanceToNow(new Date(sol.solvedAt), { addSuffix: true })}</p>
                        </div>
                        <Badge variant="default" className="bg-green-500/20 text-green-700 hover:bg-green-500/30">
                         <Check className="w-3 h-3 mr-1"/>
-                        {sol.status}
+                        Accepted
                        </Badge>
                     </li>
                   ))}
                 </ul>
+                )}
               </CardContent>
             </Card>
 
