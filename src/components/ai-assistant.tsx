@@ -1,6 +1,7 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState, useEffect, useRef } from 'react';
+import { useFormStatus } from 'react-dom';
 import { getAIAssistance } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,6 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Lightbulb, Loader2, FileCode2, BookText, GraduationCap, AlertCircle, Sparkles } from 'lucide-react';
-import { useEffect, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { ScrollArea } from './ui/scroll-area';
 
@@ -40,7 +40,7 @@ function SubmitButton() {
 }
 
 export default function AiAssistant() {
-  const [state, formAction] = useFormState(getAIAssistance, initialState);
+  const [state, formAction] = useActionState(getAIAssistance, initialState);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
 
