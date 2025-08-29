@@ -64,6 +64,24 @@ For each test case, determine the following:
 4.  **Error**: Any runtime or compilation errors that occur. If the code runs without error, this should be null.
 
 Return the results as a JSON object that adheres to the output schema. Ensure that the 'actualOutput' is in the same data type as the 'expectedOutput' for accurate comparison.
+
+{{#if (eq challengeTitle "Two Sum")}}
+Here is a reference solution for the "Two Sum" problem in JavaScript for your guidance:
+\`\`\`javascript
+function twoSum(nums, target) {
+  const map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (map.has(complement)) {
+      return [map.get(complement), i];
+    }
+    map.set(nums[i], i);
+  }
+  return [];
+};
+\`\`\`
+Use this example to correctly interpret and evaluate the user's submission for this specific problem.
+{{/if}}
 `,
 });
 
