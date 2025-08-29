@@ -97,3 +97,31 @@ export async function runTestAction(
         return { message: 'An unexpected error occurred while running the code. Please try again later.' };
     }
 }
+
+
+export async function submitAction(
+    prevState: RunCodeState,
+    formData: FormData
+): Promise<RunCodeState> {
+    const validatedFields = runCodeSchema.safeParse({
+        code: formData.get('code'),
+        language: formData.get('language'),
+        challengeTitle: formData.get('challengeTitle'),
+        testCases: formData.get('testCases'),
+    });
+
+    if (!validatedFields.success) {
+        return {
+            formErrors: validatedFields.error.flatten().fieldErrors,
+            message: 'There was an error with your submission. Please check the fields.',
+        };
+    }
+
+    try {
+        const result = await runCode(validatedFields.data as RunCodeInput);
+        return { results: result.results };
+    } catch (error) {
+        console.error('Run Code Error:', error);
+        return { message: 'An unexpected error occurred while running the code. Please try again later.' };
+    }
+}

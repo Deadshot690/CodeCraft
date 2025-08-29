@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Challenge } from "@/lib/challenges";
-import { runTestAction } from '@/app/actions';
+import { runTestAction, submitAction } from '@/app/actions';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlayCircle, Zap, Languages, Loader2, CheckCircle, XCircle } from "lucide-react";
@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "./ui/scroll-area";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 
 
 type Language = keyof Challenge['templates'];
@@ -32,7 +33,7 @@ const runInitialState = {
 function RunButton() {
   const { pending } = useFormStatus();
   return (
-    <Button size="sm" type="submit" disabled={pending} variant="outline">
+    <Button size="sm" type="submit" disabled={pending} variant="outline" form="run-form">
       {pending ? <><Loader2 className="mr-2 animate-spin" /> Testing...</> : <><Zap className="mr-2"/> Test</>}
     </Button>
   );
@@ -41,7 +42,7 @@ function RunButton() {
 function SubmitButton() {
     const { pending } = useFormStatus();
     return (
-        <Button size="sm" type="submit" disabled={pending}>
+        <Button size="sm" type="submit" disabled={pending} form="submit-form">
            {pending ? <><Loader2 className="mr-2 animate-spin" /> Submitting...</> : <><PlayCircle className="mr-2"/> Submit</>}
         </Button>
     )
@@ -66,46 +67,87 @@ function TestCaseResult({ result, index }: { result: any, index: number}) {
     )
 }
 
+function SubmissionResult({ results }: { results: any[] }) {
+    const totalCases = results.length;
+    const passedCases = results.filter(r => r.passed).length;
+    const allPassed = totalCases > 0 && passedCases === totalCases;
+
+    const title = allPassed ? "Accepted!" : "Wrong Answer";
+    const Icon = allPassed ? CheckCircle : XCircle;
+    const color = allPassed ? "text-green-500" : "text-red-500";
+    const variant = allPassed ? "default" : "destructive";
+
+
+    return (
+        <div className="p-4">
+            <Alert variant={variant}>
+                <Icon className={`h-5 w-5 ${color}`} />
+                <AlertTitle className={`text-xl ${color} font-bold`}>{title}</AlertTitle>
+                <AlertDescription>
+                    You passed {passedCases} out of {totalCases} test cases.
+                </AlertDescription>
+            </Alert>
+             <ScrollArea className="h-40 mt-4">
+                 <div className="space-y-2 p-1">
+                    {results?.map((result, index) => (
+                       <TestCaseResult key={index} result={result} index={index} />
+                    ))}
+                 </div>
+            </ScrollArea>
+        </div>
+    )
+}
+
 export default function IdePanel({ challenge }: { challenge: Challenge }) {
     const [selectedLanguage, setSelectedLanguage] = useState<Language>(challenge.languages[0]);
     const [code, setCode] = useState(challenge.templates[selectedLanguage]);
     const [runState, runAction] = useActionState(runTestAction, runInitialState);
+    const [submitState, submitActionFn] = useActionState(submitAction, runInitialState);
 
     const handleLanguageChange = (lang: Language) => {
         setSelectedLanguage(lang);
         setCode(challenge.templates[lang]);
     }
 
-
     return (
         <div className="h-full flex flex-col">
-            <form action={runAction} className="flex-shrink-0">
+            
+             <div className="flex-shrink-0 flex-row items-center justify-between p-4 flex border-b">
+                <div className="flex items-center gap-4">
+                    <Select onValueChange={handleLanguageChange as any} defaultValue={selectedLanguage}>
+                        <SelectTrigger className="w-[180px]">
+                            <Languages className="mr-2" />
+                            <SelectValue placeholder="Select language" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {challenge.languages.map(lang => (
+                                <SelectItem key={lang} value={lang}>
+                                    {languageDisplayNames[lang]}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="flex gap-2">
+                    <RunButton />
+                    <SubmitButton />
+                </div>
+            </div>
+            
+            <form id="run-form" action={runAction}>
                  <input type="hidden" name="code" value={code} />
                  <input type="hidden" name="language" value={selectedLanguage} />
                  <input type="hidden" name="challengeTitle" value={challenge.title} />
                  <input type="hidden" name="testCases" value={JSON.stringify(challenge.testCases)} />
-                <div className="flex-row items-center justify-between p-4 flex border-b">
-                    <div className="flex items-center gap-4">
-                        <Select onValueChange={handleLanguageChange} defaultValue={selectedLanguage}>
-                            <SelectTrigger className="w-[180px]">
-                                <Languages className="mr-2" />
-                                <SelectValue placeholder="Select language" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {challenge.languages.map(lang => (
-                                    <SelectItem key={lang} value={lang}>
-                                        {languageDisplayNames[lang]}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div className="flex gap-2">
-                        <RunButton />
-                        <SubmitButton />
-                    </div>
-                </div>
             </form>
+             <form id="submit-form" action={submitActionFn}>
+                 <input type="hidden" name="code" value={code} />
+                 <input type="hidden" name="language" value={selectedLanguage} />
+                 <input type="hidden" name="challengeTitle" value={challenge.title} />
+                 <input type="hidden" name="testCases" value={JSON.stringify(challenge.testCases)} />
+            </form>
+
+
             <div className="flex-grow flex flex-col min-h-0">
                 <div className="flex-grow relative">
                     <Textarea
@@ -133,8 +175,9 @@ export default function IdePanel({ challenge }: { challenge: Challenge }) {
                          </div>
                        </ScrollArea>
                     </TabsContent>
-                    <TabsContent value="submit-output" className="h-48 p-2">
-                         <p className="text-sm text-muted-foreground text-center py-8">Submission results will appear here.</p>
+                    <TabsContent value="submit-output" className="h-[244px] p-0">
+                        {!submitState.results && <p className="text-sm text-muted-foreground text-center py-20">Submission results will appear here.</p>}
+                        {submitState.results && <SubmissionResult results={submitState.results} />}
                     </TabsContent>
                 </Tabs>
             </div>
