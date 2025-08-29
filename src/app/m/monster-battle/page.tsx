@@ -13,17 +13,39 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { getMonsterTauntAction } from '@/app/actions';
 
-const challenge = {
-  title: 'FizzBuzz Basics',
-  description: 'Write a function that returns "Fizz" if the input number is divisible by 3, "Buzz" if divisible by 5, "FizzBuzz" if divisible by both, and the number itself otherwise. For this battle, solve for the number 15.',
-  correctAnswer: 'FizzBuzz',
-};
+const battleChallenges = [
+    {
+      title: 'FizzBuzz Basics',
+      description: 'Write a function that returns "Fizz" if the input number is divisible by 3, "Buzz" if divisible by 5, "FizzBuzz" if divisible by both, and the number itself otherwise. For this battle, solve for the number 15.',
+      correctAnswer: 'FizzBuzz',
+      monster: {
+        name: 'Syntax Serpent',
+        image: 'https://picsum.photos/seed/serpent/400/400',
+        maxHealth: 100,
+      },
+    },
+    {
+      title: 'String Reversal',
+      description: 'Reverse the string "hello" to defeat the monster.',
+      correctAnswer: 'olleh',
+       monster: {
+        name: 'Goblin Coder',
+        image: 'https://picsum.photos/seed/goblin/400/400',
+        maxHealth: 120,
+      },
+    },
+    {
+      title: 'Simple Sum',
+      description: 'What is the sum of 2, 7, and 11?',
+      correctAnswer: '20',
+      monster: {
+        name: 'Logic Labyrinth',
+        image: 'https://picsum.photos/seed/labyrinth/400/400',
+        maxHealth: 150,
+      },
+    }
+];
 
-const monster = {
-  name: 'Bugbear',
-  image: 'https://picsum.photos/400/400',
-  maxHealth: 100,
-};
 
 const player = {
   name: 'Code Warrior',
@@ -31,6 +53,10 @@ const player = {
 };
 
 export default function MonsterBattlePage() {
+  const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
+  const [challenge, setChallenge] = useState(battleChallenges[0]);
+  const [monster, setMonster] = useState(challenge.monster);
+
   const [playerHealth, setPlayerHealth] = useState(player.maxHealth);
   const [monsterHealth, setMonsterHealth] = useState(monster.maxHealth);
   const [playerAnswer, setPlayerAnswer] = useState('');
@@ -46,8 +72,18 @@ export default function MonsterBattlePage() {
   };
   
   useEffect(() => {
-    fetchTaunt('start');
-  }, []);
+    const currentChallenge = battleChallenges[currentChallengeIndex];
+    setChallenge(currentChallenge);
+    setMonster(currentChallenge.monster);
+    resetBattle(false);
+  }, [currentChallengeIndex]);
+
+  useEffect(() => {
+    if (monster?.name) {
+      fetchTaunt('start');
+    }
+  }, [monster.name]);
+
 
   const handleAttack = () => {
     if (isBattleOver) return;
@@ -65,7 +101,7 @@ export default function MonsterBattlePage() {
       });
        if (newMonsterHealth <= 0) {
         setIsBattleOver(true);
-        setBattleMessage('Victory! The Bugbear has been defeated!');
+        setBattleMessage(`Victory! The ${monster.name} has been defeated!`);
         setMonsterTaunt('Ugh... defeated by... code? The indignity!');
         setMessageVariant('default');
       }
@@ -81,7 +117,7 @@ export default function MonsterBattlePage() {
       });
       if (newPlayerHealth <= 0) {
         setIsBattleOver(true);
-        setBattleMessage('Defeat! The Bugbear overwhelmed you. Time to debug and try again!');
+        setBattleMessage(`Defeat! The ${monster.name} overwhelmed you. Time to debug and try again!`);
         setMonsterTaunt('Ha! Your logic is as weak as your attacks!');
         setMessageVariant('destructive');
       }
@@ -89,12 +125,19 @@ export default function MonsterBattlePage() {
      setPlayerAnswer('');
   };
   
-  const resetBattle = () => {
-      setPlayerHealth(player.maxHealth);
+  const resetBattle = (fullReset: boolean = true) => {
+      if (fullReset) {
+        setPlayerHealth(player.maxHealth);
+      }
       setMonsterHealth(monster.maxHealth);
       setIsBattleOver(false);
       setBattleMessage('');
       fetchTaunt('start');
+  }
+
+  const goToNextBattle = () => {
+      const nextIndex = (currentChallengeIndex + 1) % battleChallenges.length;
+      setCurrentChallengeIndex(nextIndex);
   }
 
   return (
@@ -165,10 +208,16 @@ export default function MonsterBattlePage() {
                 />
               </CardContent>
               <CardFooter className="flex flex-col gap-4 items-stretch">
-                <Button onClick={handleAttack} disabled={isBattleOver}>
-                  <Swords className="mr-2"/>
-                  Attack!
-                </Button>
+                 {isBattleOver && messageVariant === 'default' ? (
+                     <Button onClick={goToNextBattle}>
+                        Next Battle <ArrowRight className="ml-2"/>
+                     </Button>
+                 ) : (
+                    <Button onClick={handleAttack} disabled={isBattleOver}>
+                      <Swords className="mr-2"/>
+                      Attack!
+                    </Button>
+                 )}
                 
                 {isBattleOver && (
                     <>
@@ -179,9 +228,11 @@ export default function MonsterBattlePage() {
                                 {battleMessage}
                             </AlertDescription>
                         </Alert>
-                        <Button onClick={resetBattle} variant="secondary">
-                            Play Again <ArrowRight className="ml-2"/>
-                        </Button>
+                         {messageVariant === 'destructive' && (
+                             <Button onClick={() => resetBattle(true)} variant="secondary">
+                                Try Again <ArrowRight className="ml-2"/>
+                             </Button>
+                         )}
                     </>
                 )}
               </CardFooter>
