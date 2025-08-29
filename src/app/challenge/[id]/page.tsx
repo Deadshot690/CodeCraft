@@ -5,27 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
 import IdePanel from "@/components/ide-panel";
-import { ScrollArea } from "@/components/ui/scroll-area";
-
-function ChallengeDetails({ challenge }: { challenge: Challenge }) {
-  return (
-      <ScrollArea className="h-full">
-        <div className="p-1">
-            <h1 className="text-2xl font-bold font-headline">{challenge.title}</h1>
-            <div className="flex items-center gap-2 my-2">
-                <Badge variant="secondary">{challenge.difficulty}</Badge>
-                <Badge variant="outline" className="border-primary text-primary">{challenge.domain}</Badge>
-            </div>
-            <p className="text-muted-foreground my-4">{challenge.description}</p>
-            <div className="flex gap-2">
-                {challenge.tags.map(tag => (
-                    <Badge key={tag} variant="outline">{tag}</Badge>
-                ))}
-            </div>
-        </div>
-      </ScrollArea>
-  );
-}
+import AiAssistant from "@/components/ai-assistant";
 
 export default async function SingleChallengePage({ params }: { params: { id: string } }) {
   const challenge = getChallenge(params.id);
@@ -36,13 +16,24 @@ export default async function SingleChallengePage({ params }: { params: { id: st
 
   return (
     <DashboardLayout>
-      <div className="h-[calc(100vh-60px)] grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
-        <div className="h-full overflow-y-auto">
-            <ChallengeDetails challenge={challenge} />
-        </div>
-        <div className="h-full overflow-y-auto">
-            <IdePanel challenge={challenge} />
-        </div>
+      <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>{challenge.title}</CardTitle>
+            <CardDescription>{challenge.description}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="secondary">{challenge.difficulty}</Badge>
+              <Badge variant="outline" className="border-primary text-primary">{challenge.domain}</Badge>
+              {challenge.tags.map(tag => (
+                  <Badge key={tag} variant="outline">{tag}</Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+        <IdePanel challenge={challenge} />
+        <AiAssistant problemDescription={challenge.description} />
       </div>
     </DashboardLayout>
   );
