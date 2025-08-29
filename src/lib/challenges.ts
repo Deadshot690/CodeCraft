@@ -1,3 +1,4 @@
+
 export interface TestCase {
   input: any;
   expectedOutput: any;
@@ -93,7 +94,11 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool isValid(string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isValid(String s) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+      { input: { s: "()" }, expectedOutput: true },
+      { input: { s: "()[]{}" }, expectedOutput: true },
+      { input: { s: "(]" }, expectedOutput: false },
+    ]
   },
   {
     id: 'merge-sorted-lists',
@@ -125,7 +130,11 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int lengthOfLongestSubstring(string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int lengthOfLongestSubstring(String s) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+     testCases: [
+        { input: { s: "abcabcbb" }, expectedOutput: 3 },
+        { input: { s: "bbbbb" }, expectedOutput: 1 },
+        { input: { s: "pwwkew" }, expectedOutput: 3 },
+    ]
   },
   {
     id: 'max-subarray',
@@ -141,7 +150,11 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int maxSubArray(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int maxSubArray(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+     testCases: [
+        { input: { nums: [-2,1,-3,4,-1,2,1,-5,4] }, expectedOutput: 6 },
+        { input: { nums: [1] }, expectedOutput: 1 },
+        { input: { nums: [5,4,-1,7,8] }, expectedOutput: 23 },
+    ]
   },
   {
     id: 'inorder-traversal',
@@ -812,6 +825,246 @@ export const challenges: Challenge[] = [
       python: `class MedianFinder:\n\n    def __init__(self):\n        # Write your code here\n\n    def addNum(self, num: int) -> None:\n        # Write your code here\n\n    def findMedian(self) -> float:\n        # Write your code here\n`,
       cpp: `class MedianFinder {\npublic:\n    MedianFinder() {\n        // Write your code here\n    }\n    \n    void addNum(int num) {\n        // Write your code here\n    }\n    \n    double findMedian() {\n        // Write your code here\n    }\n};`,
       java: `class MedianFinder {\n\n    public MedianFinder() {\n        // Write your code here\n    }\n    \n    public void addNum(int num) {\n        // Write your code here\n    }\n    \n    public double findMedian() {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'container-with-most-water',
+    title: 'Container With Most Water',
+    description: 'You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]). Find two lines that together with the x-axis form a container, such that the container contains the most water. Return the maximum amount of water a container can store.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Two Pointers', 'Greedy'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function maxArea(height) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def maxArea(self, height: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int maxArea(vector<int>& height) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int maxArea(int[] height) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'merge-intervals',
+    title: 'Merge Intervals',
+    description: 'Given an array of `intervals` where `intervals[i] = [start_i, end_i]`, merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Sorting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function merge(intervals) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def merge(self, intervals: List[List[int]]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> merge(vector<vector<int>>& intervals) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[][] merge(int[][] intervals) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'sort-colors',
+    title: 'Sort Colors',
+    description: 'Given an array `nums` with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue. We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively. You must solve this problem without using the library\'s sort function.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Two Pointers', 'Sorting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function sortColors(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def sortColors(self, nums: List[int]) -> None:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void sortColors(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void sortColors(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'validate-binary-search-tree',
+    title: 'Validate Binary Search Tree',
+    description: 'Given the `root` of a binary tree, determine if it is a valid binary search tree (BST).',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Binary Search Tree', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isValidBST(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isValidBST(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'kth-smallest-element-in-a-bst',
+    title: 'Kth Smallest Element in a BST',
+    description: 'Given the `root` of a binary search tree, and an integer `k`, return the `kth` smallest value (1-indexed) of all the values of the nodes in the tree.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Binary Search Tree', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function kthSmallest(root, k) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'construct-binary-tree-from-preorder-and-inorder-traversal',
+    title: 'Construct Binary Tree from Preorder and Inorder Traversal',
+    description: 'Given two integer arrays `preorder` and `inorder` where `preorder` is the preorder traversal of a binary tree and `inorder` is the inorder traversal of the same tree, construct and return the binary tree.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Divide and Conquer', 'Tree', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function buildTree(preorder, inorder) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public TreeNode buildTree(int[] preorder, int[] inorder) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'word-break',
+    title: 'Word Break',
+    description: 'Given a string `s` and a dictionary of strings `wordDict`, return `true` if `s` can be segmented into a space-separated sequence of one or more dictionary words. Note that the same word in the dictionary may be reused multiple times in the segmentation.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'String', 'Dynamic Programming', 'Trie', 'Memoization'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function wordBreak(s, wordDict) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'course-schedule',
+    title: 'Course Schedule',
+    description: 'There are a total of `numCourses` courses you have to take, labeled from 0 to `numCourses - 1`. You are given an array `prerequisites` where `prerequisites[i] = [a_i, b_i]` indicates that you must take course `b_i` first if you want to take course `a_i`. Return `true` if you can finish all courses. Otherwise, return `false`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Depth-First Search', 'Breadth-First Search', 'Graph', 'Topological Sort'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function canFinish(numCourses, prerequisites) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean canFinish(int numCourses, int[][] prerequisites) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'implement-trie-prefix-tree',
+    title: 'Implement Trie (Prefix Tree)',
+    description: 'A trie (pronounced as "try") or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. There are various applications of this data structure, such as autocomplete and spellchecker. Implement the Trie class.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Hash Table', 'String', 'Design', 'Trie'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `class Trie {\n  constructor() {\n    // ...\n  }\n  insert(word) {\n    // ...\n  }\n  search(word) {\n    // ...\n  }\n  startsWith(prefix) {\n    // ...\n  }\n}`,
+      python: `class Trie:\n\n    def __init__(self):\n        # Write your code here\n\n    def insert(self, word: str) -> None:\n        # Write your code here\n\n    def search(self, word: str) -> bool:\n        # Write your code here\n\n    def startsWith(self, prefix: str) -> bool:\n        # Write your code here\n`,
+      cpp: `class Trie {\npublic:\n    Trie() {\n        // Write your code here\n    }\n    \n    void insert(string word) {\n        // Write your code here\n    }\n    \n    bool search(string word) {\n        // Write your code here\n    }\n    \n    bool startsWith(string prefix) {\n        // Write your code here\n    }\n};`,
+      java: `class Trie {\n\n    public Trie() {\n        // Write your code here\n    }\n    \n    public void insert(String word) {\n        // Write your code here\n    }\n    \n    public boolean search(String word) {\n        // Write your code here\n    }\n    \n    public boolean startsWith(String prefix) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'find-all-anagrams-in-a-string',
+    title: 'Find All Anagrams in a String',
+    description: 'Given two strings `s` and `p`, return an array of all the start indices of `p`\'s anagrams in `s`. You may return the answer in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Hash Table', 'String', 'Sliding Window'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findAnagrams(s, p) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findAnagrams(self, s: str, p: str) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> findAnagrams(string s, string p) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<Integer> findAnagrams(String s, String p) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'word-ladder',
+    title: 'Word Ladder',
+    description: 'A transformation sequence from word `beginWord` to `endWord` using a dictionary `wordList` is a sequence of words `beginWord -> s1 -> s2 -> ... -> sk` such that: Every adjacent pair of words differs by a single letter. Every `si` for `1 <= i <= k` is in `wordList`. Note that `beginWord` does not need to be in `wordList`. `sk == endWord`. Given two words, `beginWord` and `endWord`, and a dictionary `wordList`, return the number of words in the shortest transformation sequence from `beginWord` to `endWord`, or 0 if no such sequence exists.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Hash Table', 'String', 'Breadth-First Search'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function ladderLength(beginWord, endWord, wordList) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int ladderLength(String beginWord, String endWord, List<String> wordList) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'median-of-two-sorted-arrays',
+    title: 'Median of Two Sorted Arrays',
+    description: 'Given two sorted arrays `nums1` and `nums2` of size `m` and `n` respectively, return the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Array', 'Binary Search', 'Divide and Conquer'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findMedianSortedArrays(nums1, nums2) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public double findMedianSortedArrays(int[] nums1, int[] nums2) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'regular-expression-matching',
+    title: 'Regular Expression Matching',
+    description: 'Given an input string `s` and a pattern `p`, implement regular expression matching with support for \'.\' and \'*\' where: \'.\' Matches any single character. \'*\' Matches zero or more of the preceding element. The matching should cover the entire input string (not partial).',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['String', 'Dynamic Programming', 'Recursion'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isMatch(s, p) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isMatch(string s, string p) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isMatch(String s, String p) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'binary-tree-maximum-path-sum',
+    title: 'Binary Tree Maximum Path Sum',
+    description: 'A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once. Note that the path does not need to pass through the root. The path sum of a path is the sum of the node\'s values in the path. Given the `root` of a binary tree, return the maximum path sum of any non-empty path.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Binary Tree', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function maxPathSum(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def maxPathSum(self, root: Optional[TreeNode]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int maxPathSum(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int maxPathSum(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'longest-consecutive-sequence',
+    title: 'Longest Consecutive Sequence',
+    description: 'Given an unsorted array of integers `nums`, return the length of the longest consecutive elements sequence. You must write an algorithm that runs in O(n) time.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Union Find'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function longestConsecutive(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def longestConsecutive(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int longestConsecutive(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int longestConsecutive(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: []
   }
