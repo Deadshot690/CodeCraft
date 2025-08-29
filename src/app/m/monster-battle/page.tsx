@@ -110,7 +110,7 @@ export default function MonsterBattlePage() {
 
   return (
     <DashboardLayout>
-      <div className="h-[calc(100vh-60px)] flex flex-col p-4 gap-4">
+      <div className="flex flex-col h-full p-4 gap-4">
         {/* Top Section: Monster & Player Info */}
         <div className="flex-shrink-0 grid grid-cols-1 lg:grid-cols-3 gap-4">
           
