@@ -1,17 +1,17 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
-import { Swords, Heart, Shield, Code, ArrowRight, MessageCircle } from 'lucide-react';
+import { Swords, Heart, Shield, Code, ArrowRight, MessageCircle, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
-import { getMonsterTauntAction } from '@/app/actions';
+import { getMonsterTauntAction, evaluateAnswerAction } from '@/app/actions';
 
 const battleChallenges = [
     {
@@ -126,6 +126,7 @@ export default function MonsterBattlePage() {
   const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
   const [challenge, setChallenge] = useState(battleChallenges[0]);
   const [monster, setMonster] = useState(challenge.monster);
+  const [isPending, startTransition] = useTransition();
 
   const [playerHealth, setPlayerHealth] = useState(player.maxHealth);
   const [monsterHealth, setMonsterHealth] = useState(monster.maxHealth);
@@ -156,43 +157,49 @@ export default function MonsterBattlePage() {
 
 
   const handleAttack = () => {
-    if (isBattleOver) return;
+    if (isBattleOver || isPending) return;
 
-    const isCorrect = playerAnswer.trim().toLowerCase() === challenge.correctAnswer.toLowerCase();
-    
-    if (isCorrect) {
-      const damage = Math.floor(Math.random() * 15) + 25; // 25-39 damage
-      const newMonsterHealth = Math.max(0, monsterHealth - damage);
-      setMonsterHealth(newMonsterHealth);
-      fetchTaunt('correct');
-      toast({
-        title: 'Direct Hit! 💥',
-        description: `Your logic was flawless! You dealt ${damage} damage.`,
-      });
-       if (newMonsterHealth <= 0) {
-        setIsBattleOver(true);
-        setBattleMessage(`Victory! The ${monster.name} has been defeated!`);
-        setMonsterTaunt('Ugh... defeated by... code? The indignity!');
-        setMessageVariant('default');
-      }
-    } else {
-      const damage = Math.floor(Math.random() * 10) + 10; // 10-19 damage
-      const newPlayerHealth = Math.max(0, playerHealth - damage);
-      setPlayerHealth(newPlayerHealth);
-      fetchTaunt('incorrect');
-      toast({
-        title: 'Syntax Error! 😵',
-        variant: 'destructive',
-        description: `Your code missed the mark. The monster strikes back for ${damage} damage.`,
-      });
-      if (newPlayerHealth <= 0) {
-        setIsBattleOver(true);
-        setBattleMessage(`Defeat! The ${monster.name} overwhelmed you. Time to debug and try again!`);
-        setMonsterTaunt('Ha! Your logic is as weak as your attacks!');
-        setMessageVariant('destructive');
-      }
-    }
-     setPlayerAnswer('');
+    startTransition(async () => {
+        const isCorrect = await evaluateAnswerAction(
+            challenge.title,
+            playerAnswer,
+            challenge.correctAnswer
+        );
+        
+        if (isCorrect) {
+          const damage = Math.floor(Math.random() * 15) + 25; // 25-39 damage
+          const newMonsterHealth = Math.max(0, monsterHealth - damage);
+          setMonsterHealth(newMonsterHealth);
+          fetchTaunt('correct');
+          toast({
+            title: 'Direct Hit! 💥',
+            description: `Your logic was flawless! You dealt ${damage} damage.`,
+          });
+           if (newMonsterHealth <= 0) {
+            setIsBattleOver(true);
+            setBattleMessage(`Victory! The ${monster.name} has been defeated!`);
+            setMonsterTaunt('Ugh... defeated by... code? The indignity!');
+            setMessageVariant('default');
+          }
+        } else {
+          const damage = Math.floor(Math.random() * 10) + 10; // 10-19 damage
+          const newPlayerHealth = Math.max(0, playerHealth - damage);
+          setPlayerHealth(newPlayerHealth);
+          fetchTaunt('incorrect');
+          toast({
+            title: 'Incorrect Answer! 😵',
+            variant: 'destructive',
+            description: `Your code missed the mark. The monster strikes back for ${damage} damage.`,
+          });
+          if (newPlayerHealth <= 0) {
+            setIsBattleOver(true);
+            setBattleMessage(`Defeat! The ${monster.name} overwhelmed you. Time to debug and try again!`);
+            setMonsterTaunt('Ha! Your logic is as weak as your attacks!');
+            setMessageVariant('destructive');
+          }
+        }
+         setPlayerAnswer('');
+    });
   };
   
   const resetBattle = (fullReset: boolean = true) => {
@@ -274,7 +281,7 @@ export default function MonsterBattlePage() {
                   onChange={(e) => setPlayerAnswer(e.target.value)}
                   placeholder='// Your answer here'
                   className="font-code h-32"
-                  disabled={isBattleOver}
+                  disabled={isBattleOver || isPending}
                 />
               </CardContent>
               <CardFooter className="flex flex-col gap-4 items-stretch">
@@ -283,9 +290,9 @@ export default function MonsterBattlePage() {
                         Next Battle <ArrowRight className="ml-2"/>
                      </Button>
                  ) : (
-                    <Button onClick={handleAttack} disabled={isBattleOver}>
-                      <Swords className="mr-2"/>
-                      Attack!
+                    <Button onClick={handleAttack} disabled={isBattleOver || isPending}>
+                      {isPending ? <Loader2 className="mr-2 animate-spin" /> : <Swords className="mr-2"/>}
+                      {isPending ? 'Evaluating...' : 'Attack!'}
                     </Button>
                  )}
                 

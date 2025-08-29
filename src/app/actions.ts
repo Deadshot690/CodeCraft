@@ -137,3 +137,33 @@ export async function getMonsterTauntAction(input: MonsterTauntInput): Promise<s
         return "Grr... my brain isn't working. Lucky you.";
     }
 }
+
+
+export async function evaluateAnswerAction(
+    challengeTitle: string,
+    playerAnswer: string,
+    correctAnswer: string
+): Promise<boolean> {
+    try {
+        const testCase = {
+            input: 'evaluate',
+            expectedOutput: correctAnswer,
+        };
+
+        const result = await runCode({
+            code: `// The user's answer is: ${playerAnswer}\n// You should treat this as a direct answer to the question.\n// Does this answer mean the same thing as "${correctAnswer}"?\n// If it is correct, output "${correctAnswer}". Otherwise, output something incorrect.\n\nfunction solve() { return "${playerAnswer}"; }\nconsole.log(solve());`,
+            language: 'javascript',
+            challengeTitle,
+            testCases: JSON.stringify([testCase])
+        });
+
+        if (result.results && result.results.length > 0) {
+            return result.results[0].passed;
+        }
+        return false;
+    } catch (error) {
+        console.error('Evaluate Answer Error:', error);
+        // Fallback to simple check on error
+        return playerAnswer.trim().toLowerCase() === correctAnswer.toLowerCase();
+    }
+}
