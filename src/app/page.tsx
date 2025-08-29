@@ -7,13 +7,7 @@ import { Flame, CircleDollarSign, Trophy, ArrowRight, Dna } from 'lucide-react';
 import AiAssistant from '@/components/ai-assistant';
 import Image from 'next/image';
 import Link from 'next/link';
-
-const dailyChallenge = {
-  title: 'Two Sum',
-  description: 'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.',
-  difficulty: 'Easy',
-  domain: 'DSA',
-};
+import { getDailyChallenge } from '@/lib/challenges';
 
 const dungeonProgress = {
   floor: 'The Syntax Swamp',
@@ -23,6 +17,7 @@ const dungeonProgress = {
 };
 
 export default function Home() {
+  const dailyChallenge = getDailyChallenge();
   return (
     <DashboardLayout>
       <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
@@ -99,7 +94,7 @@ export default function Home() {
             </CardContent>
             <CardFooter>
               <Button className="w-full" asChild>
-                <Link href="/challenge">
+                <Link href={`/challenge/${dailyChallenge.id}`}>
                   Start Challenge <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

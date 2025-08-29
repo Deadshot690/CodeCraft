@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { PlayCircle, Zap } from "lucide-react";
 import AiAssistant from "@/components/ai-assistant";
 import { notFound } from "next/navigation";
+import { Textarea } from "@/components/ui/textarea";
 
 function ChallengeDetails({ challenge }: { challenge: Challenge }) {
   return (
@@ -29,15 +30,12 @@ function ChallengeDetails({ challenge }: { challenge: Challenge }) {
                 <Badge key={tag} variant="outline">{tag}</Badge>
             ))}
         </div>
-        <div className="rounded-lg bg-muted/50 p-4 font-code text-sm">
-            <pre><code>{challenge.template}</code></pre>
-        </div>
       </CardContent>
     </Card>
   );
 }
 
-function IdePanel() {
+function IdePanel({ challenge }: { challenge: Challenge }) {
     return (
         <Card className="lg:col-span-4 flex flex-col">
             <CardHeader className="flex-row items-center justify-between">
@@ -48,10 +46,12 @@ function IdePanel() {
                 </div>
             </CardHeader>
             <CardContent className="flex-grow">
-                <div className="h-full bg-background rounded-md border p-4 font-code text-base">
-                    {/* This would be a real code editor in a full app */}
-                    <p>// Start writing your code here...</p>
-                </div>
+                <Textarea 
+                    defaultValue={challenge.template}
+                    className="h-full bg-background rounded-md border p-4 font-code text-base resize-none"
+                    name="code"
+                    form="ai-assistant-form"
+                />
             </CardContent>
         </Card>
     )
@@ -69,9 +69,9 @@ export default function SingleChallengePage({ params }: { params: { id: string }
       <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
         <div className="grid gap-6 lg:grid-cols-7">
             <ChallengeDetails challenge={challenge} />
-            <IdePanel />
+            <IdePanel challenge={challenge} />
         </div>
-        <AiAssistant />
+        <AiAssistant problemDescription={challenge.description} />
       </div>
     </DashboardLayout>
   );

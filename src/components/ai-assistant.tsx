@@ -39,10 +39,12 @@ function SubmitButton() {
   );
 }
 
-export default function AiAssistant() {
+export default function AiAssistant({ problemDescription }: { problemDescription?: string }) {
   const [state, formAction] = useActionState(getAIAssistance, initialState);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
+   const codeTextareaRef = useRef<HTMLTextAreaElement>(null);
+
 
   useEffect(() => {
     if (state?.message && state.formErrors) {
@@ -60,13 +62,18 @@ export default function AiAssistant() {
     }
 
     if (state?.hint && state?.explanation) {
-      formRef.current?.reset();
+        if (formRef.current && !problemDescription) {
+            formRef.current.reset();
+        }
+        if (codeTextareaRef.current) {
+            codeTextareaRef.current.value = '';
+        }
     }
-  }, [state, toast]);
-
+  }, [state, toast, problemDescription]);
+  
   return (
     <Card>
-      <form action={formAction} ref={formRef}>
+      <form action={formAction} ref={formRef} id="ai-assistant-form">
         <CardHeader>
           <CardTitle className="font-headline text-xl flex items-center gap-2">
             <Sparkles className="text-primary" />
@@ -86,6 +93,8 @@ export default function AiAssistant() {
               placeholder="e.g., 'Given an array of integers, return indices of the two numbers that add up to a specific target...'"
               required
               className="min-h-[100px]"
+              defaultValue={problemDescription}
+              readOnly={!!problemDescription}
             />
             {state?.formErrors?.problemDescription && <p className="text-xs text-destructive">{state.formErrors.problemDescription.join(', ')}</p>}
           </div>
@@ -97,6 +106,7 @@ export default function AiAssistant() {
             <Textarea
               id="code"
               name="code"
+              ref={codeTextareaRef}
               placeholder="Paste your code snippet here..."
               required
               className="min-h-[150px] font-code"
