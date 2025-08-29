@@ -119,7 +119,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <Link href="/m/monster-battle">
+                <Link href="/m">
                   <Gamepad2 />
                   Mini-Games
                 </Link>
