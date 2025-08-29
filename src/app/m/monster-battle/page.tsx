@@ -7,10 +7,11 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
-import { Swords, Heart, Shield, Code, ArrowRight } from 'lucide-react';
+import { Swords, Heart, Shield, Code, ArrowRight, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
+import { getMonsterTauntAction } from '@/app/actions';
 
 const challenge = {
   title: 'FizzBuzz Basics',
@@ -35,8 +36,18 @@ export default function MonsterBattlePage() {
   const [playerAnswer, setPlayerAnswer] = useState('');
   const [isBattleOver, setIsBattleOver] = useState(false);
   const [battleMessage, setBattleMessage] = useState('');
+  const [monsterTaunt, setMonsterTaunt] = useState('...');
   const [messageVariant, setMessageVariant] = useState<'default' | 'destructive'>('default');
   const { toast } = useToast();
+
+  const fetchTaunt = async (playerAction: 'correct' | 'incorrect' | 'start') => {
+    const newTaunt = await getMonsterTauntAction({ monsterName: monster.name, playerAction });
+    setMonsterTaunt(newTaunt);
+  };
+  
+  useEffect(() => {
+    fetchTaunt('start');
+  }, []);
 
   const handleAttack = () => {
     if (isBattleOver) return;
@@ -47,6 +58,7 @@ export default function MonsterBattlePage() {
       const damage = Math.floor(Math.random() * 15) + 25; // 25-39 damage
       const newMonsterHealth = Math.max(0, monsterHealth - damage);
       setMonsterHealth(newMonsterHealth);
+      fetchTaunt('correct');
       toast({
         title: 'Direct Hit! 💥',
         description: `Your logic was flawless! You dealt ${damage} damage.`,
@@ -54,12 +66,14 @@ export default function MonsterBattlePage() {
        if (newMonsterHealth <= 0) {
         setIsBattleOver(true);
         setBattleMessage('Victory! The Bugbear has been defeated!');
+        setMonsterTaunt('Ugh... defeated by... code? The indignity!');
         setMessageVariant('default');
       }
     } else {
       const damage = Math.floor(Math.random() * 10) + 10; // 10-19 damage
       const newPlayerHealth = Math.max(0, playerHealth - damage);
       setPlayerHealth(newPlayerHealth);
+      fetchTaunt('incorrect');
       toast({
         title: 'Syntax Error! 😵',
         variant: 'destructive',
@@ -68,6 +82,7 @@ export default function MonsterBattlePage() {
       if (newPlayerHealth <= 0) {
         setIsBattleOver(true);
         setBattleMessage('Defeat! The Bugbear overwhelmed you. Time to debug and try again!');
+        setMonsterTaunt('Ha! Your logic is as weak as your attacks!');
         setMessageVariant('destructive');
       }
     }
@@ -79,6 +94,7 @@ export default function MonsterBattlePage() {
       setMonsterHealth(monster.maxHealth);
       setIsBattleOver(false);
       setBattleMessage('');
+      fetchTaunt('start');
   }
 
   return (
@@ -111,6 +127,10 @@ export default function MonsterBattlePage() {
                   <span>{monsterHealth} / {monster.maxHealth}</span>
                 </div>
                 <Progress value={(monsterHealth / monster.maxHealth) * 100} className="h-4" />
+                <div className="flex items-center justify-center gap-2 text-muted-foreground pt-2 italic">
+                    <MessageCircle className="h-4 w-4" />
+                    <p>"{monsterTaunt}"</p>
+                </div>
               </div>
           </Card>
 

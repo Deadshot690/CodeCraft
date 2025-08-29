@@ -3,6 +3,8 @@
 
 import { aiCodeAssistant, type AICodeAssistantInput } from '@/ai/flows/ai-code-assistant';
 import { runCode, type RunCodeInput, type RunCodeOutput } from '@/ai/flows/run-code-flow';
+import { monsterTaunt } from '@/ai/flows/monster-taunt-flow';
+import type { MonsterTauntInput } from '@/ai/schemas/monster-taunt-schema';
 import { z } from 'zod';
 
 const assistantSchema = z.object({
@@ -123,5 +125,15 @@ export async function submitAction(
     } catch (error) {
         console.error('Run Code Error:', error);
         return { message: 'An unexpected error occurred while running the code. Please try again later.' };
+    }
+}
+
+export async function getMonsterTauntAction(input: MonsterTauntInput): Promise<string> {
+    try {
+        const result = await monsterTaunt(input);
+        return result.taunt;
+    } catch (error) {
+        console.error('Monster Taunt Error:', error);
+        return "Grr... my brain isn't working. Lucky you.";
     }
 }
