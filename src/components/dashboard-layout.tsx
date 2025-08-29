@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -109,7 +110,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <Link href="#">
+                <Link href="/dungeon">
                   <Castle />
                   Code Dungeon
                   <SidebarMenuBadge>New</SidebarMenuBadge>

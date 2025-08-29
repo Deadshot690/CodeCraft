@@ -1,3 +1,4 @@
+
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -121,8 +122,10 @@ export default function Home() {
                 <p className="text-sm text-muted-foreground">Level {dungeonProgress.level}</p>
                 <Progress value={dungeonProgress.progress} className="my-2 h-2" />
                 <p className="text-xs text-muted-foreground">Next Boss: {dungeonProgress.nextBoss}</p>
-                <Button variant="secondary" className="w-full mt-4">
-                  Enter Dungeon
+                 <Button variant="secondary" className="w-full mt-4" asChild>
+                  <Link href="/dungeon">
+                    Enter Dungeon
+                  </Link>
                 </Button>
             </div>
           </Card>
