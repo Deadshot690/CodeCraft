@@ -13,8 +13,21 @@ const miniGames = [
         href: "/m/monster-battle",
         image: "https://picsum.photos/seed/games/400/300",
         imageHint: "fantasy battle monster"
+    },
+    {
+        title: "Code Guesser",
+        description: "Guess the output of a mysterious code snippet. How well do you know your language?",
+        href: "#", // Placeholder link
+        image: "https://picsum.photos/seed/guesser/400/300",
+        imageHint: "crystal ball code"
+    },
+    {
+        title: "Bug Squasher",
+        description: "Find and fix the single error in a block of code before time runs out!",
+        href: "#", // Placeholder link
+        image: "https://picsum.photos/seed/bug/400/300",
+        imageHint: "magnifying glass bug"
     }
-    // Future mini-games can be added here
 ];
 
 export default function MiniGamesPage() {
@@ -47,9 +60,10 @@ export default function MiniGamesPage() {
                             <CardDescription>{game.description}</CardDescription>
                         </CardHeader>
                         <CardFooter className="mt-auto">
-                            <Button asChild className="w-full">
+                            <Button asChild className="w-full" disabled={game.href === '#'}>
                                 <Link href={game.href}>
-                                    Play Now <ArrowRight className="ml-2" />
+                                    {game.href === '#' ? 'Coming Soon' : 'Play Now'} 
+                                    {game.href !== '#' && <ArrowRight className="ml-2" />}
                                 </Link>
                             </Button>
                         </CardFooter>
