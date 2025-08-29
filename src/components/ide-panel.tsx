@@ -78,15 +78,14 @@ export default function IdePanel({ challenge }: { challenge: Challenge }) {
 
 
     return (
-        <Card className="lg:col-span-4 flex flex-col">
-            <form action={runAction}>
+        <div className="h-full flex flex-col">
+            <form action={runAction} className="flex-shrink-0">
                  <input type="hidden" name="code" value={code} />
                  <input type="hidden" name="language" value={selectedLanguage} />
                  <input type="hidden" name="challengeTitle" value={challenge.title} />
                  <input type="hidden" name="testCases" value={JSON.stringify(challenge.testCases)} />
-                <CardHeader className="flex-row items-center justify-between">
+                <div className="flex-row items-center justify-between p-4 flex border-b">
                     <div className="flex items-center gap-4">
-                        <CardTitle className="font-headline text-2xl">Solution</CardTitle>
                         <Select onValueChange={handleLanguageChange} defaultValue={selectedLanguage}>
                             <SelectTrigger className="w-[180px]">
                                 <Languages className="mr-2" />
@@ -105,24 +104,26 @@ export default function IdePanel({ challenge }: { challenge: Challenge }) {
                         <RunButton />
                         <SubmitButton />
                     </div>
-                </CardHeader>
+                </div>
             </form>
-            <CardContent className="flex-grow flex flex-col min-h-0">
+            <div className="flex-grow flex flex-col min-h-0">
                 <div className="flex-grow relative">
                     <Textarea
                         value={code}
                         onChange={(e) => setCode(e.target.value)}
-                        className="h-full bg-background rounded-md border p-4 font-code text-base resize-none absolute inset-0"
+                        className="h-full w-full bg-background rounded-none border-0 p-4 font-code text-base resize-none absolute inset-0"
                         name="code"
                         form="ai-assistant-form"
                     />
                 </div>
-                 <Tabs defaultValue="test-results" className="mt-4">
-                    <TabsList>
-                        <TabsTrigger value="test-results">Test Results</TabsTrigger>
-                        <TabsTrigger value="submit-output">Submit Output</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="test-results" className="mt-2">
+                 <Tabs defaultValue="test-results" className="flex-shrink-0 border-t">
+                    <div className="p-2">
+                        <TabsList>
+                            <TabsTrigger value="test-results">Test Results</TabsTrigger>
+                            <TabsTrigger value="submit-output">Submit Output</TabsTrigger>
+                        </TabsList>
+                    </div>
+                    <TabsContent value="test-results" className="mt-0 p-2">
                        <ScrollArea className="h-48">
                          <div className="space-y-2 p-1">
                             {!runState.results && <p className="text-sm text-muted-foreground text-center py-8">Click "Test" to run your code against test cases.</p>}
@@ -132,11 +133,11 @@ export default function IdePanel({ challenge }: { challenge: Challenge }) {
                          </div>
                        </ScrollArea>
                     </TabsContent>
-                    <TabsContent value="submit-output" className="h-48">
+                    <TabsContent value="submit-output" className="h-48 p-2">
                          <p className="text-sm text-muted-foreground text-center py-8">Submission results will appear here.</p>
                     </TabsContent>
                 </Tabs>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     )
 }
