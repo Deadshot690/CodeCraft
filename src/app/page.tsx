@@ -6,6 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { Flame, CircleDollarSign, Trophy, ArrowRight, Dna } from 'lucide-react';
 import AiAssistant from '@/components/ai-assistant';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const dailyChallenge = {
   title: 'Two Sum',
@@ -97,8 +98,10 @@ export default function Home() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full">
-                Start Challenge <ArrowRight className="ml-2 h-4 w-4" />
+              <Button className="w-full" asChild>
+                <Link href="/challenge">
+                  Start Challenge <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
             </CardFooter>
           </Card>

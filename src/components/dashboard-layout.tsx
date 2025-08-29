@@ -90,10 +90,18 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         <SidebarContent>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive>
+              <SidebarMenuButton asChild>
                 <Link href="/">
                   <LayoutGrid />
                   Dashboard
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link href="/challenge">
+                  <Library />
+                  Challenges
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -111,14 +119,6 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <Link href="#">
                   <Gamepad2 />
                   Mini-Games
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Link href="#">
-                  <Library />
-                  Challenges
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
