@@ -75,7 +75,7 @@ export default function MonsterBattlePage() {
   };
   
   const resetBattle = () => {
-      setPlayerHealth(player.max_health);
+      setPlayerHealth(player.maxHealth);
       setMonsterHealth(monster.maxHealth);
       setIsBattleOver(false);
       setBattleMessage('');
@@ -93,9 +93,9 @@ export default function MonsterBattlePage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <div className="space-y-8">
           {/* Monster Panel */}
-          <Card className="flex flex-col items-center justify-center p-6 sticky top-20">
+          <Card className="flex flex-col items-center justify-center p-6 border-destructive/50 border-2">
              <h2 className="text-2xl font-bold font-headline mb-4">{monster.name}</h2>
              <Image
                 src={monster.image}
@@ -105,7 +105,7 @@ export default function MonsterBattlePage() {
                 className="rounded-lg shadow-lg mb-4"
                 data-ai-hint="scary monster"
               />
-              <div className="w-full space-y-2">
+              <div className="w-full max-w-md space-y-2">
                 <div className="flex justify-between text-sm font-medium">
                   <span>Health</span>
                   <span>{monsterHealth} / {monster.maxHealth}</span>
@@ -115,10 +115,10 @@ export default function MonsterBattlePage() {
           </Card>
 
           {/* Player & Challenge Panel */}
-          <div className="space-y-6">
-            <Card className="flex flex-col items-center justify-center p-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <Card className="flex flex-col items-center justify-center p-6 h-full">
                <h2 className="text-2xl font-bold font-headline mb-4">{player.name}</h2>
-               <div className="w-full space-y-2">
+               <div className="w-full max-w-md space-y-2">
                   <div className="flex justify-between text-sm font-medium">
                     <span>Health</span>
                     <span>{playerHealth} / {player.maxHealth}</span>
