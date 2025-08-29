@@ -16,7 +16,7 @@ import { getMonsterTauntAction } from '@/app/actions';
 const battleChallenges = [
     {
       title: 'FizzBuzz Basics',
-      description: 'Write a function that returns "Fizz" if the input number is divisible by 3, "Buzz" if divisible by 5, "FizzBuzz" if divisible by both, and the number itself otherwise. For this battle, solve for the number 15.',
+      description: 'Solve for the number 15 in a standard FizzBuzz. What is the output?',
       correctAnswer: 'FizzBuzz',
       monster: {
         name: 'Syntax Serpent',
@@ -26,8 +26,8 @@ const battleChallenges = [
     },
     {
       title: 'String Reversal',
-      description: 'Reverse the string "hello" to defeat the monster.',
-      correctAnswer: 'olleh',
+      description: 'Reverse the string "coder" to defeat the monster.',
+      correctAnswer: 'redoc',
        monster: {
         name: 'Goblin Coder',
         image: 'https://picsum.photos/seed/goblin/400/400',
@@ -43,7 +43,77 @@ const battleChallenges = [
         image: 'https://picsum.photos/seed/labyrinth/400/400',
         maxHealth: 150,
       },
-    }
+    },
+    {
+      title: 'Modulo Master',
+      description: 'What is the result of the expression `10 % 3`?',
+      correctAnswer: '1',
+      monster: {
+        name: 'Remainder Golem',
+        image: 'https://picsum.photos/seed/golem/400/400',
+        maxHealth: 90,
+      },
+    },
+    {
+      title: 'Constant Question',
+      description: 'Which keyword is used to declare a constant variable in JavaScript that cannot be reassigned?',
+      correctAnswer: 'const',
+      monster: {
+        name: 'Immutable Hydra',
+        image: 'https://picsum.photos/seed/hydra/400/400',
+        maxHealth: 110,
+      },
+    },
+    {
+      title: 'Style Sorcery',
+      description: 'What does CSS stand for?',
+      correctAnswer: 'Cascading Style Sheets',
+      monster: {
+        name: 'Style Specter',
+        image: 'https://picsum.photos/seed/specter/400/400',
+        maxHealth: 130,
+      },
+    },
+    {
+      title: 'Python\'s Mark',
+      description: 'What is the file extension for a standard Python script file?',
+      correctAnswer: '.py',
+      monster: {
+        name: 'Python Imp',
+        image: 'https://picsum.photos/seed/imp/400/400',
+        maxHealth: 100,
+      },
+    },
+    {
+      title: 'Table Titan',
+      description: 'What is the main container tag for `<tr>` (table row) elements in a semantic HTML table?',
+      correctAnswer: '<tbody>',
+      monster: {
+        name: 'Table Troll',
+        image: 'https://picsum.photos/seed/troll/400/400',
+        maxHealth: 140,
+      },
+    },
+    {
+      title: 'Array Addition',
+      description: 'Which method is used to add a new element to the end of a JavaScript array?',
+      correctAnswer: 'push',
+      monster: {
+        name: 'Array Alchemist',
+        image: 'https://picsum.photos/seed/alchemist/400/400',
+        maxHealth: 120,
+      },
+    },
+    {
+      title: 'Exponent Challenge',
+      description: 'What is the result of the expression `2 ** 4` in Python?',
+      correctAnswer: '16',
+      monster: {
+        name: 'Exponent Elemental',
+        image: 'https://picsum.photos/seed/elemental/400/400',
+        maxHealth: 160,
+      },
+    },
 ];
 
 
