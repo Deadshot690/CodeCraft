@@ -98,15 +98,11 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
     }
 
     return (
-        <Card className="h-full flex flex-col">
-            <CardHeader className="flex-shrink-0 flex-row items-center justify-between p-2 flex border-b">
-                <div>
-                  <CardTitle className="text-lg font-headline">{challenge.title}</CardTitle>
-                  <p className="text-sm text-muted-foreground">{challenge.description}</p>
-                </div>
-                <div className="flex gap-2 items-center">
+        <div className="h-full flex flex-col">
+            <div className="flex-shrink-0 flex-row items-center justify-between p-4 flex border-b bg-card rounded-t-lg">
+                <div className="flex items-center gap-4">
                      <Select onValueChange={handleLanguageChange as any} defaultValue={selectedLanguage}>
-                        <SelectTrigger className="w-[150px] h-9">
+                        <SelectTrigger className="w-[180px]">
                             <Languages className="mr-2" />
                             <SelectValue placeholder="Select language" />
                         </SelectTrigger>
@@ -118,9 +114,11 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
                             ))}
                         </SelectContent>
                     </Select>
+                </div>
+                <div className="flex gap-2">
                     <AttackButton isBattleOver={isBattleOver} />
                 </div>
-            </CardHeader>
+            </div>
             
             <form id="attack-form" action={attackAction}>
                  <input type="hidden" name="code" value={code} />
@@ -129,7 +127,7 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
                  <input type="hidden" name="testCases" value={JSON.stringify(challenge.testCases)} />
             </form>
 
-            <div className="flex-grow flex flex-col min-h-0">
+            <div className="flex-grow flex flex-col min-h-0 bg-card rounded-b-lg">
                 <div className="flex-grow relative">
                     <Textarea
                         value={code}
@@ -139,8 +137,22 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
                         disabled={isBattleOver}
                     />
                 </div>
-                 <div className="flex-shrink-0 border-t h-48">
-                    <CardContent className="h-full p-2">
+                 <Tabs defaultValue="challenge-info" className="flex-shrink-0 border-t">
+                    <div className="p-2">
+                        <TabsList>
+                            <TabsTrigger value="challenge-info">Challenge</TabsTrigger>
+                            <TabsTrigger value="test-results">Attack Results</TabsTrigger>
+                        </TabsList>
+                    </div>
+                     <TabsContent value="challenge-info" className="mt-0 p-4 h-[200px]">
+                        <ScrollArea className="h-full">
+                            <CardTitle className="text-lg font-headline mb-2">{challenge.title}</CardTitle>
+                            <div className="prose prose-sm dark:prose-invert max-w-none">
+                                <p>{challenge.description}</p>
+                            </div>
+                        </ScrollArea>
+                    </TabsContent>
+                    <TabsContent value="test-results" className="mt-0 p-2 h-[200px]">
                        <ScrollArea className="h-full">
                          <div className="space-y-2 p-1">
                             {!attackState.results && <p className="text-sm text-muted-foreground text-center py-8">Attack results will appear here.</p>}
@@ -150,9 +162,9 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
                             {attackState.message && <p className="text-sm text-destructive text-center py-8">{attackState.message}</p>}
                          </div>
                        </ScrollArea>
-                    </CardContent>
-                </div>
+                    </TabsContent>
+                </Tabs>
             </div>
-        </Card>
+        </div>
     )
 }
