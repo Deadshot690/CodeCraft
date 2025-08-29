@@ -10,12 +10,16 @@ export interface Challenge {
   difficulty: 'Easy' | 'Medium' | 'Hard';
   domain: 'DSA' | 'Web' | 'AI';
   tags: string[];
-  languages: ('javascript' | 'python' | 'cpp' | 'java')[];
+  languages: ('javascript' | 'python' | 'cpp' | 'java' | 'c' | 'typescript' | 'go' | 'csharp')[];
   templates: {
     javascript: string;
     python: string;
     cpp: string;
     java: string;
+    c?: string;
+    typescript?: string;
+    go?: string;
+    csharp?: string;
   };
   testCases: TestCase[];
 }
@@ -28,12 +32,16 @@ export const challenges: Challenge[] = [
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Hash Table'],
-    languages: ['javascript', 'python', 'cpp', 'java'],
+    languages: ['javascript', 'python', 'cpp', 'java', 'c', 'typescript', 'go', 'csharp'],
     templates: {
       javascript: `function twoSum(nums, target) {\n  // Write your code here\n};`,
       python: `class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        # Write your code here\n`,
       cpp: `class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
-      java: `class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // Write your code here\n    }\n}`
+      java: `class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // Write your code here\n    }\n}`,
+      c: `#include <stdio.h>\n\n// Note: The return type and function signature might need adjustments based on the platform's specific requirements.\nint* twoSum(int* nums, int numsSize, int target, int* returnSize) {\n    // Write your code here\n    *returnSize = 2;\n    int* result = malloc(2 * sizeof(int));\n    // ...\n    return result;\n}`,
+      typescript: `function twoSum(nums: number[], target: number): number[] {\n  // Write your code here\n};`,
+      go: `package main\n\nfunc twoSum(nums []int, target int) []int {\n    // Write your code here\n}`,
+      csharp: `public class Solution {\n    public int[] TwoSum(int[] nums, int target) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
         { input: { nums: [2, 7, 11, 15], target: 9 }, expectedOutput: [0, 1] },

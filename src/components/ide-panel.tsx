@@ -22,6 +22,10 @@ const languageDisplayNames: Record<Language, string> = {
     python: 'Python',
     cpp: 'C++',
     java: 'Java',
+    c: 'C',
+    typescript: 'TypeScript',
+    go: 'Go',
+    csharp: 'C#',
 }
 
 const runInitialState = {
@@ -122,7 +126,7 @@ export default function IdePanel({ challenge }: { challenge: Challenge }) {
 
     const handleLanguageChange = (lang: Language) => {
         setSelectedLanguage(lang);
-        setCode(challenge.templates[lang]);
+        setCode(challenge.templates[lang] || '');
     }
 
     return (
@@ -138,7 +142,7 @@ export default function IdePanel({ challenge }: { challenge: Challenge }) {
                         <SelectContent>
                             {challenge.languages.map(lang => (
                                 <SelectItem key={lang} value={lang}>
-                                    {languageDisplayNames[lang]}
+                                    {languageDisplayNames[lang as Language]}
                                 </SelectItem>
                             ))}
                         </SelectContent>
