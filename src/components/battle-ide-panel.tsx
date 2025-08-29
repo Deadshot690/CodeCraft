@@ -1,7 +1,7 @@
 
 'use client'
 
-import { useState, useActionState, useEffect } from 'react';
+import { useState, useActionState, useEffect, useRef } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Challenge } from "@/lib/challenges";
 import { runTestAction } from '@/app/actions';
@@ -71,10 +71,11 @@ interface BattleIdePanelProps {
 export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBattleOver }: BattleIdePanelProps) {
     const [selectedLanguage, setSelectedLanguage] = useState<Language>(challenge.languages[0]);
     const [code, setCode] = useState(challenge.templates[selectedLanguage]);
-    const [attackState, attackAction] = useActionState(runTestAction, runInitialState);
+    const [attackState, attackAction, isAttackPending] = useActionState(runTestAction, runInitialState);
+    const formRef = useRef<HTMLFormElement>(null);
 
     useEffect(() => {
-      if (attackState?.results) {
+      if (attackState?.results && !isAttackPending) {
           const allPassed = attackState.results.every(r => r.passed);
           if(allPassed) {
               onCorrect();
@@ -83,15 +84,14 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
           }
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [attackState.results]);
+    }, [attackState, isAttackPending]);
 
     useEffect(() => {
         const lang = challenge.languages[0];
         setSelectedLanguage(lang);
         setCode(challenge.templates[lang] || '');
-        // Reset state when challenge changes
-        runInitialState.results = undefined; 
-        runInitialState.message = '';
+        // Reset form state when challenge changes
+        formRef.current?.reset();
     }, [challenge]);
 
     const handleLanguageChange = (lang: Language) => {
@@ -103,7 +103,7 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
         <div className="h-full flex flex-col">
             <div className="flex-shrink-0 flex-row items-center justify-between p-4 flex border-b bg-card rounded-t-lg">
                 <div className="flex items-center gap-4">
-                     <Select onValueChange={handleLanguageChange as any} defaultValue={selectedLanguage}>
+                     <Select onValueChange={handleLanguageChange as any} value={selectedLanguage}>
                         <SelectTrigger className="w-[180px]">
                             <Languages className="mr-2" />
                             <SelectValue placeholder="Select language" />
@@ -122,7 +122,7 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
                 </div>
             </div>
             
-            <form id="attack-form" action={attackAction}>
+            <form id="attack-form" action={attackAction} ref={formRef}>
                  <input type="hidden" name="code" value={code} />
                  <input type="hidden" name="language" value={selectedLanguage} />
                  <input type="hidden" name="challengeTitle" value={challenge.title} />
