@@ -39,8 +39,8 @@ const games = [
         title: "Output Prediction",
         description: "Predict the output of tricky code snippets to test your language mastery.",
         icon: <BrainCircuit className="w-12 h-12 text-primary" />,
-        href: "#",
-        status: "Coming Soon"
+        href: "/m/output-prediction",
+        status: "Live"
     },
     {
         title: "Concept Match",
