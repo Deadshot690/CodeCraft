@@ -72,7 +72,11 @@ export default function MonsterBattlePage() {
   }, [currentChallengeIndex]);
 
   useEffect(() => {
-    if (isPending) return;
+    // This effect should only run when the form submission is complete (isPending is false)
+    // and when the 'state' object has been updated with a result.
+    if (isPending || state.isCorrect === undefined) {
+      return;
+    }
 
     if (state.isCorrect === true) {
         const damage = Math.floor(Math.random() * 15) + 25; // 25-39 damage
@@ -113,9 +117,11 @@ export default function MonsterBattlePage() {
         });
     }
 
-    if (state.isCorrect !== undefined) {
-       formRef.current?.reset();
-    }
+    // Reset form and state for the next submission
+    formRef.current?.reset();
+    // By resetting isCorrect to undefined, we ensure this effect only runs once per submission.
+    state.isCorrect = undefined;
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, isPending]);
 
@@ -132,7 +138,7 @@ export default function MonsterBattlePage() {
 
   const goToNextBattle = () => {
       const nextIndex = currentChallengeIndex + 1;
-      const { monster: nextMonster, challenge: nextChallenge } = getBattleChallenge(nextIndex);
+      const { monster: nextMonster } = getBattleChallenge(nextIndex);
       setCurrentChallengeIndex(nextIndex);
       setPlayerHealth(player.maxHealth);
       setMonsterHealth(nextMonster.maxHealth);
