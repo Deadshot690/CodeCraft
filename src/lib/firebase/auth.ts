@@ -32,7 +32,7 @@ export function onAuthUserChanged(
 
 export const signInWithGoogle = async () => {
   const auth = getFirebaseAuth();
-  auth.tenantId = null;
+  auth.tenantId = null; // Explicitly set tenantId to null
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({
     prompt: 'select_account'
@@ -46,7 +46,7 @@ export const signInWithGoogle = async () => {
 
 export const signInWithGithub = async () => {
   const auth = getFirebaseAuth();
-  auth.tenantId = null;
+  auth.tenantId = null; // Explicitly set tenantId to null
   const provider = new GithubAuthProvider();
   provider.setCustomParameters({
     prompt: 'select_account'
