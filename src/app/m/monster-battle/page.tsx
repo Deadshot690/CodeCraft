@@ -125,8 +125,8 @@ export default function MonsterBattlePage() {
                         <Image
                             src={monster.image}
                             alt={monster.name}
-                            width={200}
-                            height={200}
+                            width={300}
+                            height={300}
                             className="rounded-lg shadow-lg mb-4 inline-block"
                             data-ai-hint="scary monster"
                         />
@@ -187,6 +187,7 @@ export default function MonsterBattlePage() {
         {/* Right Panel: IDE */}
         <div className="w-1/2 flex flex-col h-full">
           <BattleIdePanel 
+            key={challenge.id}
             challenge={challenge} 
             onCorrect={handleCorrectAnswer}
             onIncorrect={handleIncorrectAnswer}

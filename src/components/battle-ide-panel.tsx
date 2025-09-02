@@ -90,14 +90,6 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
         const lang = challenge.languages[0];
         setSelectedLanguage(lang);
         setCode(challenge.templates[lang] || '');
-        // Reset form state when challenge changes
-        // A bit of a hack to reset the useActionState
-        if (formRef.current) {
-            formRef.current.reset();
-            const newInitialState = { ...runInitialState };
-            (attackAction as any)(newInitialState);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [challenge]);
 
     const handleLanguageChange = (lang: Language) => {
