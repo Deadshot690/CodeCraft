@@ -80,6 +80,7 @@ export default function MonsterBattlePage() {
      useEffect(() => {
         if (state.isCorrect === null || isBattleOver) return;
 
+        // Logic for a correct answer
         if (state.isCorrect) {
             setLastAnswerWasCorrect(true);
             const damage = monsterHP; 
@@ -88,7 +89,15 @@ export default function MonsterBattlePage() {
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
             setIsBattleOver(true);
-        } else {
+            formRef.current?.reset();
+             if (answerInputRef.current) {
+                answerInputRef.current.value = "";
+            }
+            return; // End the effect here
+        }
+
+        // Logic for an incorrect answer
+        if (state.isCorrect === false) {
             setLastAnswerWasCorrect(false);
             const damage = Math.floor(Math.random() * 2) + 25; // 25-26 damage
             const newPlayerHP = Math.max(0, playerHP - damage);
@@ -103,20 +112,11 @@ export default function MonsterBattlePage() {
             } else {
                 setDialogue(monster?.taunts[Math.floor(Math.random() * monster.taunts.length)] || "The monster strikes back!");
             }
+             setTimeout(() => {
+                playerCardRef.current?.classList.remove('animate-wobble');
+            }, 500);
         }
-
-        setTimeout(() => {
-            playerCardRef.current?.classList.remove('animate-wobble');
-        }, 500);
-
-        // Don't reset the form if the answer was incorrect
-        if (state.isCorrect) {
-            formRef.current?.reset();
-            if (answerInputRef.current) {
-                answerInputRef.current.value = "";
-            }
-        }
-    }, [state, playerHP, monsterHP, monster?.name, monster?.taunts, isBattleOver, challenge]);
+    }, [state, playerHP, monsterHP, monster?.name, monster?.taunts, isBattleOver]);
 
 
     if (!monster || !challenge) {
@@ -236,5 +236,3 @@ export default function MonsterBattlePage() {
     </DashboardLayout>
   );
 }
-
-    
