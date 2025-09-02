@@ -7,36 +7,52 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { signInWithGithub, signInWithGoogle } from '@/lib/firebase/auth';
 import { Github, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { onAuthUserChanged } from '@/lib/firebase/auth';
+import type { User } from 'firebase/auth';
 
 
 export default function LoginPage() {
   const router = useRouter();
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  const [isGithubLoading, setIsGithubLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSigningIn, setIsSigningIn] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthUserChanged((user) => {
+      if (user) {
+        router.push('/');
+      } else {
+        setIsLoading(false);
+      }
+    }, router);
+    
+    return () => unsubscribe();
+  }, [router]);
 
 
-  const handleGoogleSignIn = async () => {
-    setIsGoogleLoading(true);
+  const handleSignIn = async (provider: 'google' | 'github') => {
+    setIsSigningIn(true);
     try {
-      await signInWithGoogle();
-      router.push('/');
+      if (provider === 'google') {
+        await signInWithGoogle();
+      } else {
+        await signInWithGithub();
+      }
+      // signInWithRedirect will navigate away, so we don't need to push to router here.
+      // The loading state will persist until navigation.
     } catch (error) {
-      console.error('Google Sign-In Error:', error);
-      setIsGoogleLoading(false);
+      console.error('Sign-In Error:', error);
+      setIsSigningIn(false); // Only reset loading state on error
     }
   };
 
-  const handleGithubSignIn = async () => {
-    setIsGithubLoading(true);
-    try {
-      await signInWithGithub();
-       router.push('/');
-    } catch (error) {
-      console.error('GitHub Sign-In Error:', error);
-       setIsGithubLoading(false);
-    }
-  };
+  if (isLoading) {
+     return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+         <Loader2 className="h-16 w-16 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
@@ -52,10 +68,10 @@ export default function LoginPage() {
           <Button 
             variant="outline" 
             className="w-full" 
-            onClick={handleGoogleSignIn}
-            disabled={isGoogleLoading || isGithubLoading}
+            onClick={() => handleSignIn('google')}
+            disabled={isSigningIn}
           >
-            {isGoogleLoading ? (
+            {isSigningIn ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (
              <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 126 23.4 172.9 62.9l-67.7 67.7C313.6 114.5 283.5 104 248 104c-73.8 0-134.3 60.3-134.3 135s60.5 135 134.3 135c84.3 0 115.7-60.2 120.7-91.8H248v-85.3h236.1c2.3 12.7 3.9 26.9 3.9 41.4z"></path></svg>
@@ -65,10 +81,10 @@ export default function LoginPage() {
           <Button 
             variant="outline" 
             className="w-full" 
-            onClick={handleGithubSignIn}
-            disabled={isGoogleLoading || isGithubLoading}
+            onClick={() => handleSignIn('github')}
+            disabled={isSigningIn}
           >
-             {isGithubLoading ? (
+             {isSigningIn ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (
               <Github className="mr-2 h-4 w-4" />

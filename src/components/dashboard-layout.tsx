@@ -51,9 +51,11 @@ import { Badge } from './ui/badge';
 
 
 function UserNav({ user, onSignOut }: { user: User; onSignOut: () => void; }) {
+  const router = useRouter();
   const handleSignOut = async () => {
     await signOut();
     onSignOut();
+    router.push('/login');
   };
   return (
     <DropdownMenu>
@@ -103,23 +105,33 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
    useEffect(() => {
     const unsubscribe = onAuthUserChanged((user) => {
-      setUser(user);
-      setLoading(false);
+      if (!user) {
+        router.push('/login');
+      } else {
+        setUser(user);
+        setLoading(false);
+      }
     }, router);
     return () => unsubscribe();
   }, [router]);
 
 
-  if (loading || !user) {
+  if (loading) {
     return (
       <div className="flex h-screen w-screen items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
   }
+
+  if (!user) {
+    // This case should be handled by the redirect in the effect,
+    // but as a fallback, we can render null or a login link.
+    return null;
+  }
   
   const onSignOut = () => {
-    router.push('/login');
+    setUser(null);
   };
 
   return (
@@ -218,4 +230,3 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     </SidebarProvider>
   );
 }
-
