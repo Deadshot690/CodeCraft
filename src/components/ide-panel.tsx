@@ -113,7 +113,7 @@ function SubmissionResult({ results, challenge, onCompletion }: { results: any[]
                 <AlertDescription>
                     You passed {passedCases} out of {totalCases} test cases.
                     {allPassed && " Great job! This problem has been marked as solved."}
-                </AlertDescription>
+                </Aler   tDescription>
             </Alert>
              <ScrollArea className="h-40 mt-4">
                  <div className="space-y-2 p-1">
@@ -149,14 +149,14 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
             onRunCompletion(runState.results);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [runState]);
+    }, [runState.results]); // Important: Only react to changes in runState.results
 
      useEffect(() => {
         if (submitState.results && onSubmitCompletion) {
             onSubmitCompletion(submitState.results);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [submitState]);
+    }, [submitState.results]); // Important: Only react to changes in submitState.results
 
     return (
         <div className="h-full flex flex-col">
