@@ -65,6 +65,42 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'javascript',
     difficulty: 'Easy',
   },
+  {
+    id: 'dc-js-easy-007',
+    title: 'Array Push Return',
+    description: '`array.push()` returns the new length of the array, not the array itself.',
+    buggyCode: `function addToList(list, item) {\n  return list.push(item);\n}`,
+    fixedCode: `function addToList(list, item) {\n  list.push(item);\n  return list;\n}`,
+    language: 'javascript',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-js-easy-008',
+    title: 'String Immutability',
+    description: 'Strings are immutable in JavaScript. Methods like `toUpperCase()` return a new string.',
+    buggyCode: `let name = "alice";\nname.toUpperCase();\nconsole.log(name);`,
+    fixedCode: `let name = "alice";\nname = name.toUpperCase();\nconsole.log(name);`,
+    language: 'javascript',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-js-easy-009',
+    title: 'Incorrect Parameter',
+    description: 'The function is called with the wrong variable.',
+    buggyCode: `function greet(name) {\n  return "Hello " + name;\n}\nlet user = "Bob";\ngreet(person);`,
+    fixedCode: `function greet(name) {\n  return "Hello " + name;\n}\nlet user = "Bob";\ngreet(user);`,
+    language: 'javascript',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-js-easy-010',
+    title: 'Missing return',
+    description: 'The function should return a value but has no return statement.',
+    buggyCode: `function getDouble(num) {\n  const result = num * 2;\n}`,
+    fixedCode: `function getDouble(num) {\n  const result = num * 2;\n  return result;\n}`,
+    language: 'javascript',
+    difficulty: 'Easy',
+  },
 
   // JavaScript - Medium
   {
@@ -112,6 +148,33 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'javascript',
     difficulty: 'Medium',
   },
+  {
+    id: 'dc-js-medium-006',
+    title: 'Event Listener Removal',
+    description: 'To remove an event listener, you must pass the exact same function reference, not a new anonymous function.',
+    buggyCode: `const btn = document.getElementById('myBtn');\nbtn.addEventListener('click', () => console.log('Hi'));\nbtn.removeEventListener('click', () => console.log('Hi'));`,
+    fixedCode: `const btn = document.getElementById('myBtn');\nconst listener = () => console.log('Hi');\nbtn.addEventListener('click', listener);\nbtn.removeEventListener('click', listener);`,
+    language: 'javascript',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'dc-js-medium-007',
+    title: 'Date Object Month',
+    description: 'The `getMonth()` method in JavaScript is 0-indexed (0=January, 11=December).',
+    buggyCode: `const d = new Date('2023-01-15'); // January\nif (d.getMonth() === 1) { console.log('Jan'); }`,
+    fixedCode: `const d = new Date('2023-01-15'); // January\nif (d.getMonth() === 0) { console.log('Jan'); }`,
+    language: 'javascript',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'dc-js-medium-008',
+    title: 'parseInt Radix',
+    description: '`parseInt` can misinterpret numbers with leading zeros if a radix (base) is not specified.',
+    buggyCode: `const val = parseInt("010"); // May be 8 in some engines`,
+    fixedCode: `const val = parseInt("010", 10); // Guaranteed to be 10`,
+    language: 'javascript',
+    difficulty: 'Medium',
+  },
   
   // JavaScript - Hard
   {
@@ -147,6 +210,15 @@ export const debugChallenges: DebugChallenge[] = [
     description: 'The second `.then` receives `undefined` because the first one doesn\'t return a value.',
     buggyCode: `Promise.resolve(10)\n  .then(val => { val * 2; })\n  .then(val => console.log(val));`,
     fixedCode: `Promise.resolve(10)\n  .then(val => val * 2)\n  .then(val => console.log(val));`,
+    language: 'javascript',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'dc-js-hard-005',
+    title: 'Race Condition',
+    description: 'Two async functions modify the same variable, leading to a race condition. The final value is unpredictable.',
+    buggyCode: `let balance = 100;\nasync function withdraw(amount) { balance -= amount; }\nasync function deposit(amount) { balance += amount; }\nwithdraw(20);\ndeposit(50);`,
+    fixedCode: `let balance = 100;\nasync function withdraw(amount) { balance -= amount; }\nasync function deposit(amount) { balance += amount; }\nasync function transaction() {\n  await withdraw(20);\n  await deposit(50);\n}\ntransaction();`,
     language: 'javascript',
     difficulty: 'Hard',
   },
@@ -206,6 +278,42 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'python',
     difficulty: 'Easy',
   },
+  {
+    id: 'dc-py-easy-007',
+    title: 'len() on Integer',
+    description: 'The `len()` function cannot be used on integers.',
+    buggyCode: `count = 123\nprint(len(count))`,
+    fixedCode: `count = 123\nprint(len(str(count)))`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-py-easy-008',
+    title: 'Function Return',
+    description: 'The function calculates a value but never returns it.',
+    buggyCode: `def multiply(a, b):\n  result = a * b`,
+    fixedCode: `def multiply(a, b):\n  result = a * b\n  return result`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-py-easy-009',
+    title: 'Input as String',
+    description: 'The `input()` function returns a string, which needs to be converted to an integer for math.',
+    buggyCode: `age = input("Enter your age: ")\nprint("Next year you will be " + (age + 1))`,
+    fixedCode: `age = input("Enter your age: ")\nprint("Next year you will be " + str(int(age) + 1))`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-py-easy-010',
+    title: 'Range Exclusive',
+    description: 'The `range(n)` function goes from 0 up to `n-1`. It does not include `n`.',
+    buggyCode: `for i in range(5):\n  # Should print 1,2,3,4,5\n  print(i+1)`,
+    fixedCode: `for i in range(1, 6):\n  print(i)`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
 
   // Python - Medium
   {
@@ -219,10 +327,10 @@ export const debugChallenges: DebugChallenge[] = [
   },
   {
     id: 'dc-py-medium-002',
-    title: 'Integer Division',
-    description: 'In Python 2, `/` was integer division. In Python 3, it\'s float division. This code assumes integer division but doesn\'t use `//`.',
-    buggyCode: `result = 10 / 4  # Expected result is 2`,
-    fixedCode: `result = 10 // 4 # Expected result is 2`,
+    title: 'Float Division',
+    description: 'The `/` operator in Python 3 performs float division. Use `//` for integer division.',
+    buggyCode: `result = 10 / 4  # Expected integer result is 2`,
+    fixedCode: `result = 10 // 4 # Expected integer result is 2`,
     language: 'python',
     difficulty: 'Medium',
   },
@@ -241,6 +349,33 @@ export const debugChallenges: DebugChallenge[] = [
     description: 'Assigning a list to a new variable creates a reference, not a copy. Slicing is needed to create a shallow copy.',
     buggyCode: `list_a = [1, 2]\nlist_b = list_a\nlist_b.append(3)`,
     fixedCode: `list_a = [1, 2]\nlist_b = list_a[:]\nlist_b.append(3)`,
+    language: 'python',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'dc-py-medium-005',
+    title: 'Global Keyword',
+    description: 'To modify a global variable inside a function, you must use the `global` keyword.',
+    buggyCode: `count = 0\ndef increment():\n  count += 1`,
+    fixedCode: `count = 0\ndef increment():\n  global count\n  count += 1`,
+    language: 'python',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'dc-py-medium-006',
+    title: 'Exception Syntax',
+    description: 'The syntax for catching an exception is `except Exception as e`.',
+    buggyCode: `try:\n  1 / 0\nexcept ZeroDivisionError, e: \n  print(e)`,
+    fixedCode: `try:\n  1 / 0\nexcept ZeroDivisionError as e: \n  print(e)`,
+    language: 'python',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'dc-py-medium-007',
+    title: 'Iterating and Modifying Dictionary',
+    description: 'You cannot add or remove keys from a dictionary while iterating over it.',
+    buggyCode: `d = {'a': 1, 'b': 2}\nfor k, v in d.items():\n  if v == 1:\n    del d[k]`,
+    fixedCode: `d = {'a': 1, 'b': 2}\nfor k in list(d.keys()):\n  if d[k] == 1:\n    del d[k]`,
     language: 'python',
     difficulty: 'Medium',
   },
@@ -270,6 +405,15 @@ export const debugChallenges: DebugChallenge[] = [
     description: 'A generator can only be iterated over once. Trying to iterate a second time yields nothing.',
     buggyCode: `gen = (x*x for x in range(3))\nlist(gen)\nlist(gen) # This will be empty`,
     fixedCode: `def make_gen():\n  return (x*x for x in range(3))\ngen1 = make_gen()\nlist(gen1)\ngen2 = make_gen()\nlist(gen2)`,
+    language: 'python',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'dc-py-hard-004',
+    title: 'Late Binding Closures',
+    description: 'Variables in closures are bound by name. The value of `i` is looked up when the lambda is called, by which time the loop has finished.',
+    buggyCode: `funcs = []\nfor i in range(3):\n  funcs.append(lambda: print(i))`,
+    fixedCode: `funcs = []\nfor i in range(3):\n  funcs.append(lambda i=i: print(i))`,
     language: 'python',
     difficulty: 'Hard',
   },
@@ -320,6 +464,33 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'java',
     difficulty: 'Easy',
   },
+  {
+    id: 'dc-java-easy-006',
+    title: 'Public Class Filename',
+    description: 'A public class `MyClass` must be in a file named `MyClass.java`.',
+    buggyCode: `// In file OtherName.java\npublic class MyClass {}`,
+    fixedCode: `// In file MyClass.java\npublic class MyClass {}`,
+    language: 'java',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-java-easy-007',
+    title: 'Unreachable Code',
+    description: 'Code after a `return` statement in the same block is unreachable.',
+    buggyCode: `public int getValue() {\n  return 10;\n  System.out.println("Returned");\n}`,
+    fixedCode: `public int getValue() {\n  System.out.println("Returning");\n  return 10;\n}`,
+    language: 'java',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-java-easy-008',
+    title: 'Array Indexing Loop',
+    description: 'The loop condition should be `i < array.length` to avoid an `ArrayIndexOutOfBoundsException`.',
+    buggyCode: `int[] arr = {1,2,3};\nfor(int i=0; i <= arr.length; i++) {\n  System.out.println(arr[i]);\n}`,
+    fixedCode: `int[] arr = {1,2,3};\nfor(int i=0; i < arr.length; i++) {\n  System.out.println(arr[i]);\n}`,
+    language: 'java',
+    difficulty: 'Easy',
+  },
   
   // Java - Medium
   {
@@ -349,6 +520,15 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'java',
     difficulty: 'Medium',
   },
+  {
+    id: 'dc-java-medium-004',
+    title: 'Integer Caching',
+    description: '`Integer` objects are cached for values -128 to 127. Outside this range, `==` compares references, not values.',
+    buggyCode: `Integer a = 200;\nInteger b = 200;\nboolean result = a == b; // false`,
+    fixedCode: `Integer a = 200;\nInteger b = 200;\nboolean result = a.equals(b); // true`,
+    language: 'java',
+    difficulty: 'Medium',
+  },
   
   // Java - Hard
   {
@@ -375,6 +555,24 @@ export const debugChallenges: DebugChallenge[] = [
     description: 'File streams and other resources must be closed to prevent leaks. A try-with-resources statement is best.',
     buggyCode: `try {\n    FileInputStream fs = new FileInputStream("file.txt");\n    fs.read();\n} catch (IOException e) {}`,
     fixedCode: `try (FileInputStream fs = new FileInputStream("file.txt")) {\n    fs.read();\n} catch (IOException e) {}`,
+    language: 'java',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'dc-java-hard-004',
+    title: 'Thread Safety',
+    description: 'Multiple threads accessing and modifying `count` can lead to a race condition.',
+    buggyCode: `public class Counter {\n  private int count = 0;\n  public void increment() { count++; }\n}`,
+    fixedCode: `import java.util.concurrent.atomic.AtomicInteger;\n\npublic class Counter {\n  private AtomicInteger count = new AtomicInteger(0);\n  public void increment() { count.incrementAndGet(); }\n}`,
+    language: 'java',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'dc-java-hard-005',
+    title: 'Overriding equals without hashCode',
+    description: 'If you override `equals()`, you must also override `hashCode()` to maintain the contract for collections like `HashMap`.',
+    buggyCode: `public class Person {\n  public String name;\n  @Override\n  public boolean equals(Object o) { return true; }\n}`,
+    fixedCode: `public class Person {\n  public String name;\n  @Override\n  public boolean equals(Object o) { /*...*/ return true; }\n  @Override\n  public int hashCode() { return 1; }\n}`,
     language: 'java',
     difficulty: 'Hard',
   },
@@ -416,6 +614,33 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'cpp',
     difficulty: 'Easy',
   },
+  {
+    id: 'dc-cpp-easy-005',
+    title: 'Assignment in Condition',
+    description: 'Using `=` (assignment) instead of `==` (comparison) in an if-statement.',
+    buggyCode: `int x = 5;\nif (x = 10) {\n  // always true\n}`,
+    fixedCode: `int x = 5;\nif (x == 10) {\n  // correct check\n}`,
+    language: 'cpp',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-cpp-easy-006',
+    title: 'Missing return statement',
+    description: 'A function declared to return a value must have a return statement.',
+    buggyCode: `int give_me_five() {\n  // No return\n}`,
+    fixedCode: `int give_me_five() {\n  return 5;\n}`,
+    language: 'cpp',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-cpp-easy-007',
+    title: '`cin` with spaces',
+    description: '`cin` stops reading at the first whitespace character. Use `getline` to read a full line.',
+    buggyCode: `#include <iostream>\n#include <string>\n\nstd::string name;\nstd::cin >> name; // "John Smith" -> "John"`,
+    fixedCode: `#include <iostream>\n#include <string>\n\nstd::string name;\nstd::getline(std::cin, name);`,
+    language: 'cpp',
+    difficulty: 'Easy',
+  },
   
   // C++ - Medium
   {
@@ -442,6 +667,15 @@ export const debugChallenges: DebugChallenge[] = [
     description: 'Assigning a derived class object to a base class object slices off the derived part.',
     buggyCode: `class Base { int x; };\nclass Derived : public Base { int y; };\n\nDerived d;\nBase b = d;`,
     fixedCode: `class Base { int x; };\nclass Derived : public Base { int y; };\n\nDerived d;\nBase* b = &d;`,
+    language: 'cpp',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'dc-cpp-medium-004',
+    title: 'Delete vs Delete[]',
+    description: 'Memory allocated for an array with `new[]` must be freed with `delete[]`.',
+    buggyCode: `int* arr = new int[10];\ndelete arr;`,
+    fixedCode: `int* arr = new int[10];\ndelete[] arr;`,
     language: 'cpp',
     difficulty: 'Medium',
   },
@@ -483,144 +717,6 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'cpp',
     difficulty: 'Hard',
   },
-  // Add 100 more challenges below
-  // JavaScript - Easy (Continued)
-  {
-    id: 'dc-js-easy-007',
-    title: 'Array Push Return',
-    description: '`array.push()` returns the new length of the array, not the array itself.',
-    buggyCode: `function addToList(list, item) {\n  return list.push(item);\n}`,
-    fixedCode: `function addToList(list, item) {\n  list.push(item);\n  return list;\n}`,
-    language: 'javascript',
-    difficulty: 'Easy',
-  },
-  {
-    id: 'dc-js-easy-008',
-    title: 'String Immutability',
-    description: 'Strings are immutable in JavaScript. Methods like `toUpperCase()` return a new string.',
-    buggyCode: `let name = "alice";\nname.toUpperCase();\nconsole.log(name);`,
-    fixedCode: `let name = "alice";\nname = name.toUpperCase();\nconsole.log(name);`,
-    language: 'javascript',
-    difficulty: 'Easy',
-  },
-  // ... continue adding JS easy challenges
-
-  // Python - Easy (Continued)
-  {
-    id: 'dc-py-easy-007',
-    title: 'len() on Integer',
-    description: 'The `len()` function cannot be used on integers.',
-    buggyCode: `count = 123\nprint(len(count))`,
-    fixedCode: `count = 123\nprint(len(str(count)))`,
-    language: 'python',
-    difficulty: 'Easy',
-  },
-  {
-    id: 'dc-py-easy-008',
-    title: 'Function Return',
-    description: 'The function calculates a value but never returns it.',
-    buggyCode: `def multiply(a, b):\n  result = a * b`,
-    fixedCode: `def multiply(a, b):\n  result = a * b\n  return result`,
-    language: 'python',
-    difficulty: 'Easy',
-  },
-  // ... continue adding Python easy challenges
-
-  // Java - Easy (Continued)
-  {
-    id: 'dc-java-easy-006',
-    title: 'Public Class Filename',
-    description: 'A public class `MyClass` must be in a file named `MyClass.java`.',
-    buggyCode: `// In file OtherName.java\npublic class MyClass {}`,
-    fixedCode: `// In file MyClass.java\npublic class MyClass {}`,
-    language: 'java',
-    difficulty: 'Easy',
-  },
-  {
-    id: 'dc-java-easy-007',
-    title: 'Unreachable Code',
-    description: 'Code after a `return` statement in the same block is unreachable.',
-    buggyCode: `public int getValue() {\n  return 10;\n  System.out.println("Returned");\n}`,
-    fixedCode: `public int getValue() {\n  System.out.println("Returning");\n  return 10;\n}`,
-    language: 'java',
-    difficulty: 'Easy',
-  },
-  // ... continue adding Java easy challenges
-
-  // C++ - Easy (Continued)
-  {
-    id: 'dc-cpp-easy-005',
-    title: 'Assignment in Condition',
-    description: 'Using `=` (assignment) instead of `==` (comparison) in an if-statement.',
-    buggyCode: `int x = 5;\nif (x = 10) {\n  // always true\n}`,
-    fixedCode: `int x = 5;\nif (x == 10) {\n  // correct check\n}`,
-    language: 'cpp',
-    difficulty: 'Easy',
-  },
-  {
-    id: 'dc-cpp-easy-006',
-    title: 'Missing return statement',
-    description: 'A function declared to return a value must have a return statement.',
-    buggyCode: `int give_me_five() {\n  // No return\n}`,
-    fixedCode: `int give_me_five() {\n  return 5;\n}`,
-    language: 'cpp',
-    difficulty: 'Easy',
-  },
-  // ... and so on, for a total of 100+ new challenges.
-  // This is a sample of the structure. I will now add many more.
-
-  // More JS Medium
-  {
-    id: 'dc-js-medium-006',
-    title: 'Event Listener Removal',
-    description: 'To remove an event listener, you must pass the exact same function reference, not a new anonymous function.',
-    buggyCode: `const btn = document.getElementById('myBtn');\nbtn.addEventListener('click', () => console.log('Hi'));\nbtn.removeEventListener('click', () => console.log('Hi'));`,
-    fixedCode: `const btn = document.getElementById('myBtn');\nconst listener = () => console.log('Hi');\nbtn.addEventListener('click', listener);\nbtn.removeEventListener('click', listener);`,
-    language: 'javascript',
-    difficulty: 'Medium',
-  },
-  {
-    id: 'dc-js-medium-007',
-    title: 'Date Object Month',
-    description: 'The `getMonth()` method in JavaScript is 0-indexed (0=January, 11=December).',
-    buggyCode: `const d = new Date('2023-01-15'); // January\nif (d.getMonth() === 1) { console.log('Jan'); }`,
-    fixedCode: `const d = new Date('2023-01-15'); // January\nif (d.getMonth() === 0) { console.log('Jan'); }`,
-    language: 'javascript',
-    difficulty: 'Medium',
-  },
-
-  // More Python Medium
-  {
-    id: 'dc-py-medium-005',
-    title: 'Global Keyword',
-    description: 'To modify a global variable inside a function, you must use the `global` keyword.',
-    buggyCode: `count = 0\ndef increment():\n  count += 1`,
-    fixedCode: `count = 0\ndef increment():\n  global count\n  count += 1`,
-    language: 'python',
-    difficulty: 'Medium',
-  },
-  {
-    id: 'dc-py-medium-006',
-    title: 'Exception Syntax',
-    description: 'The syntax for catching an exception is `except Exception as e`.',
-    buggyCode: `try:\n  1 / 0\nexcept ZeroDivisionError, e: \n  print(e)`,
-    fixedCode: `try:\n  1 / 0\nexcept ZeroDivisionError as e: \n  print(e)`,
-    language: 'python',
-    difficulty: 'Medium',
-  },
-
-  // More Java Hard
-  {
-    id: 'dc-java-hard-004',
-    title: 'Thread Safety',
-    description: 'Multiple threads accessing and modifying `count` can lead to a race condition.',
-    buggyCode: `public class Counter {\n  private int count = 0;\n  public void increment() { count++; }\n}`,
-    fixedCode: `import java.util.concurrent.atomic.AtomicInteger;\n\npublic class Counter {\n  private AtomicInteger count = new AtomicInteger(0);\n  public void increment() { count.incrementAndGet(); }\n}`,
-    language: 'java',
-    difficulty: 'Hard',
-  },
-
-  // More C++ Hard
   {
     id: 'dc-cpp-hard-005',
     title: 'Iterator Invalidation',
@@ -630,9 +726,15 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'cpp',
     difficulty: 'Hard',
   },
-  // ... adding more across all categories ...
-  // ... I will generate a comprehensive list ...
-  // Final count will be over 100.
+  {
+    id: 'dc-cpp-hard-006',
+    title: 'Integer Overflow',
+    description: 'Adding two large integers can result in an overflow, wrapping around to a negative number.',
+    buggyCode: `#include <limits>\n\nint a = std::numeric_limits<int>::max();\nint b = a + 1; // Undefined behavior`,
+    fixedCode: `#include <limits>\n\nlong long a = std::numeric_limits<int>::max();\nlong long b = a + 1;`,
+    language: 'cpp',
+    difficulty: 'Hard',
+  },
 ];
 
 export function getRandomDebugChallenge(difficulty: 'Easy' | 'Medium' | 'Hard', language: 'javascript' | 'python' | 'java' | 'cpp'): DebugChallenge {
