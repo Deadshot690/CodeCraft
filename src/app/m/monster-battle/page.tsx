@@ -80,6 +80,8 @@ export default function MonsterBattlePage() {
      useEffect(() => {
         if (state.isCorrect === null) return;
 
+        let newPlayerHP = playerHP;
+
         if (state.isCorrect) {
             setLastAnswerWasCorrect(true);
             const damage = monsterHP; // One-hit KO
@@ -91,7 +93,7 @@ export default function MonsterBattlePage() {
         } else {
             setLastAnswerWasCorrect(false);
             const damage = Math.floor(Math.random() * 2) + 25; // 25-26 damage
-            const newPlayerHP = Math.max(0, playerHP - damage);
+            newPlayerHP = Math.max(0, playerHP - damage);
             setPlayerHP(newPlayerHP);
             toast({ variant: "destructive", title: "You Missed!", description: `The monster hit you for ${damage} damage!` });
             
@@ -116,13 +118,13 @@ export default function MonsterBattlePage() {
         }
 
         // Fetch a new challenge if the battle isn't over
-        if (monsterHP > 0 && playerHP > 0) {
+        if (monsterHP > 0 && newPlayerHP > 0) {
             if (challenge) {
                 setChallenge(getNewChallenge(challenge.id));
             }
         }
 
-    }, [state, challenge, monster?.name, monster?.taunts, monsterHP, playerHP, toast]);
+    }, [state]);
 
     const handleNextBattle = () => {
         const newMonster = getRandomMonster();
@@ -268,3 +270,5 @@ export default function MonsterBattlePage() {
     </DashboardLayout>
   );
 }
+
+    
