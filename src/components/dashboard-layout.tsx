@@ -1,5 +1,11 @@
 
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { onAuthUserChanged, signOut } from '@/lib/firebase/auth';
+import type { User } from 'firebase/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   SidebarProvider,
@@ -31,7 +37,7 @@ import {
   Castle,
   Library,
   Trophy,
-  User,
+  User as UserIcon,
   Settings,
   LogOut,
   Moon,
@@ -39,34 +45,39 @@ import {
   Gamepad2,
   Swords,
   HelpCircle,
+  Loader2,
 } from 'lucide-react';
 import { Badge } from './ui/badge';
 
 
-function UserNav() {
+function UserNav({ user, onSignOut }: { user: User; onSignOut: () => void; }) {
+  const handleSignOut = async () => {
+    await signOut();
+    onSignOut();
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-9 w-9 rounded-full">
           <Avatar className="h-9 w-9">
-            <AvatarImage src="https://picsum.photos/50/50" alt="@shadcn" data-ai-hint="user avatar" />
-            <AvatarFallback>CC</AvatarFallback>
+            <AvatarImage src={user.photoURL || undefined} alt={user.displayName || ""} data-ai-hint="user avatar" />
+            <AvatarFallback>{user.displayName?.[0] || 'U'}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">CodeCrafter</p>
+            <p className="text-sm font-medium leading-none">{user.displayName}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              crafter@example.com
+              {user.email}
             </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href="/profile" passHref>
           <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
+            <UserIcon className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>
         </Link>
@@ -75,7 +86,7 @@ function UserNav() {
           <span>Settings</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleSignOut}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>
@@ -85,6 +96,32 @@ function UserNav() {
 }
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
+
+   useEffect(() => {
+    const unsubscribe = onAuthUserChanged((user) => {
+      setUser(user);
+      setLoading(false);
+    }, router);
+    return () => unsubscribe();
+  }, [router]);
+
+
+  if (loading || !user) {
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      </div>
+    );
+  }
+  
+  const onSignOut = () => {
+    router.push('/login');
+  };
+
   return (
     <SidebarProvider>
       <Sidebar>
@@ -97,7 +134,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         <SidebarContent>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton asChild isActive={pathname === '/'}>
                 <Link href="/">
                   <LayoutGrid />
                   Dashboard
@@ -105,7 +142,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton asChild isActive={pathname.startsWith('/challenge')}>
                 <Link href="/challenge">
                   <Library />
                   Challenges
@@ -119,7 +156,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               </SidebarMenuButton>
                <SidebarMenuSub>
                   <SidebarMenuItem>
-                    <SidebarMenuSubButton asChild>
+                    <SidebarMenuSubButton asChild isActive={pathname === '/minigames'}>
                       <Link href="/minigames">
                         <Gamepad2 />
                         <span>All Games</span>
@@ -127,7 +164,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     </SidebarMenuSubButton>
                   </SidebarMenuItem>
                    <SidebarMenuItem>
-                    <SidebarMenuSubButton asChild>
+                    <SidebarMenuSubButton asChild isActive={pathname.startsWith('/m/monster-battle')}>
                       <Link href="/m/monster-battle">
                         <Swords />
                         <span>Monster Battle</span>
@@ -137,7 +174,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 </SidebarMenuSub>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton asChild isActive={pathname === '/dungeon'}>
                 <Link href="/dungeon">
                   <Castle />
                   Code Dungeon
@@ -174,10 +211,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <div className="w-full flex-1">
                 {/* Can add search bar here if needed */}
             </div>
-            <UserNav />
+            <UserNav user={user} onSignOut={onSignOut} />
         </header>
         <main className="flex-1 overflow-auto">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );
 }
+

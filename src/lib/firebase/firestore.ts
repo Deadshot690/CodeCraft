@@ -1,0 +1,65 @@
+'use client';
+
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from 'firebase/firestore';
+import { db } from './client';
+
+export interface UserProfile {
+  uid: string;
+  email?: string | null;
+  displayName?: string | null;
+  photoURL?: string | null;
+  createdAt: string;
+  level: number;
+  xp: number;
+  gold: number;
+  dailyStreak: number;
+  lastLogin: string;
+  solvedChallenges: string[];
+}
+
+export const getUserProfile = async (
+  uid: string
+): Promise<UserProfile | null> => {
+  const userDocRef = doc(db, 'users', uid);
+  const userDoc = await getDoc(userDocRef);
+
+  if (userDoc.exists()) {
+    return userDoc.data() as UserProfile;
+  } else {
+    return null;
+  }
+};
+
+export const updateUserProfile = async (
+  uid: string,
+  data: Partial<UserProfile>
+): Promise<void> => {
+  const userDocRef = doc(db, 'users', uid);
+  await updateDoc(userDocRef, data);
+};
+
+export const addSolvedChallenge = async (
+  uid: string,
+  challengeId: string
+): Promise<void> => {
+  const userDocRef = doc(db, 'users', uid);
+  await updateDoc(userDocRef, {
+    solvedChallenges: arrayUnion(challengeId),
+  });
+};
+
+export const removeSolvedChallenge = async (
+  uid: string,
+  challengeId: string
+): Promise<void> => {
+  const userDocRef = doc(db, 'users', uid);
+  await updateDoc(userDocRef, {
+    solvedChallenges: arrayRemove(challengeId),
+  });
+};
