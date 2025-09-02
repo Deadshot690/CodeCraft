@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useActionState, useEffect } from 'react';
-import { useFormState } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -24,7 +24,7 @@ const initialState = {
 };
 
 function SubmitButton() {
-  const { pending } = useFormState();
+  const { pending } = useFormStatus();
   return (
     <Button type="submit" disabled={pending} className="w-full">
       {pending ? (
