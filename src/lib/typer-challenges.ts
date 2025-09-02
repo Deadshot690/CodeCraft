@@ -30,38 +30,18 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'javascript',
     difficulty: 'Easy',
   },
-  
-  // Python - Easy
   {
-    id: 'tc-py-easy-01',
-    title: 'Function Definition',
-    snippet: `def greet(name):\n    return f"Hello, {name}!"`,
-    language: 'python',
+    id: 'tc-js-easy-04',
+    title: 'Object Literal',
+    snippet: `const person = {\n  name: "John Doe",\n  age: 30\n};`,
+    language: 'javascript',
     difficulty: 'Easy',
   },
   {
-    id: 'tc-py-easy-02',
-    title: 'Simple For Loop',
-    snippet: `for i in range(5):\n    print(i)`,
-    language: 'python',
-    difficulty: 'Easy',
-  },
-
-  // HTML - Easy
-  {
-    id: 'tc-html-easy-01',
-    title: 'Basic HTML Structure',
-    snippet: `<!DOCTYPE html>\n<html>\n<head>\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Welcome</h1>\n</body>\n</html>`,
-    language: 'html',
-    difficulty: 'Easy',
-  },
-
-  // CSS - Easy
-  {
-    id: 'tc-css-easy-01',
-    title: 'Simple Body Style',
-    snippet: `body {\n  font-family: sans-serif;\n  line-height: 1.5;\n  background-color: #f0f0f0;\n}`,
-    language: 'css',
+    id: 'tc-js-easy-05',
+    title: 'If/Else Statement',
+    snippet: `let x = 10;\nif (x > 5) {\n  console.log("x is greater than 5");\n} else {\n  console.log("x is not greater than 5");\n}`,
+    language: 'javascript',
     difficulty: 'Easy',
   },
 
@@ -80,6 +60,95 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'javascript',
     difficulty: 'Medium',
   },
+  {
+    id: 'tc-js-medium-03',
+    title: 'Simple Class',
+    snippet: `class Rectangle {\n  constructor(height, width) {\n    this.height = height;\n    this.width = width;\n  }\n  get area() {\n    return this.height * this.width;\n  }\n}`,
+    language: 'javascript',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-js-medium-04',
+    title: 'Destructuring Assignment',
+    snippet: `const { name, age } = person;\nconst [first, second] = [1, 2, 3];`,
+    language: 'javascript',
+    difficulty: 'Medium',
+  },
+    {
+    id: 'tc-js-medium-05',
+    title: 'setTimeout Callback',
+    snippet: `console.log("Start");\nsetTimeout(() => {\n  console.log("Delayed message");\n}, 1000);`,
+    language: 'javascript',
+    difficulty: 'Medium',
+  },
+
+  // JavaScript - Hard
+  {
+    id: 'tc-js-hard-01',
+    title: 'Reducer Function',
+    snippet: `const data = [{v: 5}, {v: 10}, {v: 15}];\nconst total = data.reduce((acc, current) => acc + current.v, 0);`,
+    language: 'javascript',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-js-hard-02',
+    title: 'Promise All',
+    snippet: `const promise1 = Promise.resolve(3);\nconst promise2 = 42;\nconst promise3 = new Promise((resolve) => {\n  setTimeout(resolve, 100, 'foo');\n});\nPromise.all([promise1, promise2, promise3]).then((values) => {\n  console.log(values);\n});`,
+    language: 'javascript',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-js-hard-03',
+    title: 'Closure Example',
+    snippet: `function makeCounter() {\n  let count = 0;\n  return function() {\n    count++;\n    return count;\n  };\n}`,
+    language: 'javascript',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-js-hard-04',
+    title: 'Generator Function',
+    snippet: `function* idGenerator() {\n  let id = 0;\n  while (true) {\n    yield id++;\n  }\n}`,
+    language: 'javascript',
+    difficulty: 'Hard',
+  },
+
+
+  // Python - Easy
+  {
+    id: 'tc-py-easy-01',
+    title: 'Function Definition',
+    snippet: `def greet(name):\n    return f"Hello, {name}!"`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-py-easy-02',
+    title: 'Simple For Loop',
+    snippet: `for i in range(5):\n    print(i)`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-py-easy-03',
+    title: 'Dictionary Creation',
+    snippet: `person = {\n  "name": "John Doe",\n  "age": 30\n}`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-py-easy-04',
+    title: 'If/Elif/Else',
+    snippet: `x = 10\nif x > 0:\n    print("Positive")\nelif x < 0:\n    print("Negative")\nelse:\n    print("Zero")`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
+    {
+    id: 'tc-py-easy-05',
+    title: 'List Creation',
+    snippet: `fruits = ["apple", "banana", "cherry"]`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
 
   // Python - Medium
   {
@@ -96,14 +165,26 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'python',
     difficulty: 'Medium',
   },
-
-  // JavaScript - Hard
   {
-    id: 'tc-js-hard-01',
-    title: 'Reducer Function',
-    snippet: `const data = [{v: 5}, {v: 10}, {v: 15}];\nconst total = data.reduce((acc, current) => acc + current.v, 0);`,
-    language: 'javascript',
-    difficulty: 'Hard',
+    id: 'tc-py-medium-03',
+    title: 'File Handling',
+    snippet: `with open("myfile.txt", "w") as f:\n    f.write("Hello, World!")`,
+    language: 'python',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-py-medium-04',
+    title: 'Lambda Function',
+    snippet: `multiply = lambda x, y: x * y`,
+    language: 'python',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-py-medium-05',
+    title: 'Importing a module',
+    snippet: `import math\n\nprint(math.sqrt(16))`,
+    language: 'python',
+    difficulty: 'Medium',
   },
 
   // Python - Hard
@@ -114,12 +195,155 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'python',
     difficulty: 'Hard',
   },
+  {
+    id: 'tc-py-hard-02',
+    title: 'Decorator',
+    snippet: `def my_decorator(func):\n    def wrapper():\n        print("Something is happening before the function is called.")\n        func()\n        print("Something is happening after the function is called.")\n    return wrapper`,
+    language: 'python',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-py-hard-03',
+    title: 'Generator Expression',
+    snippet: `my_generator = (i for i in range(10) if i % 2 == 0)`,
+    language: 'python',
+    difficulty: 'Hard',
+  },
+
+  // HTML - Easy
+  {
+    id: 'tc-html-easy-01',
+    title: 'Basic HTML Structure',
+    snippet: `<!DOCTYPE html>\n<html>\n<head>\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Welcome</h1>\n</body>\n</html>`,
+    language: 'html',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-html-easy-02',
+    title: 'Image Tag',
+    snippet: `<img src="image.jpg" alt="An example image">`,
+    language: 'html',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-html-easy-03',
+    title: 'Link Tag',
+    snippet: `<a href="https://www.example.com">Visit Example.com</a>`,
+    language: 'html',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-html-easy-04',
+    title: 'Unordered List',
+    snippet: `<ul>\n  <li>First item</li>\n  <li>Second item</li>\n</ul>`,
+    language: 'html',
+    difficulty: 'Easy',
+  },
+
+  // HTML - Medium
+  {
+    id: 'tc-html-medium-01',
+    title: 'Simple Form',
+    snippet: `<form action="/submit" method="post">\n  <label for="username">Username:</label>\n  <input type="text" id="username" name="username">\n  <button type="submit">Submit</button>\n</form>`,
+    language: 'html',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-html-medium-02',
+    title: 'Simple Table',
+    snippet: `<table>\n  <tr>\n    <th>Name</th>\n    <th>Age</th>\n  </tr>\n  <tr>\n    <td>John</td>\n    <td>30</td>\n  </tr>\n</table>`,
+    language: 'html',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-html-medium-03',
+    title: 'Semantic Tags',
+    snippet: `<header>\n  <h1>My Website</h1>\n</header>\n<nav>\n  <a href="/home">Home</a>\n</nav>\n<main>\n  <p>Main content.</p>\n</main>\n<footer>\n  <p>Copyright 2024</p>\n</footer>`,
+    language: 'html',
+    difficulty: 'Medium',
+  },
+
+  // HTML - Hard
+  {
+    id: 'tc-html-hard-01',
+    title: 'Complex Form',
+    snippet: `<fieldset>\n  <legend>Personal Information</legend>\n  <input type="radio" id="male" name="gender" value="male">\n  <label for="male">Male</label><br>\n  <input type="checkbox" id="subscribe" name="subscribe" value="yes">\n  <label for="subscribe">Subscribe to newsletter</label>\n</fieldset>`,
+    language: 'html',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-html-hard-02',
+    title: 'Video with Sources',
+    snippet: `<video controls width="250">\n  <source src="flower.webm" type="video/webm">\n  <source src="flower.mp4" type="video/mp4">\n  Sorry, your browser doesn't support embedded videos.\n</video>`,
+    language: 'html',
+    difficulty: 'Hard',
+  },
+
+  // CSS - Easy
+  {
+    id: 'tc-css-easy-01',
+    title: 'Simple Body Style',
+    snippet: `body {\n  font-family: sans-serif;\n  line-height: 1.5;\n  background-color: #f0f0f0;\n}`,
+    language: 'css',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-css-easy-02',
+    title: 'Class Selector',
+    snippet: `.button {\n  background-color: blue;\n  color: white;\n  padding: 10px 20px;\n}`,
+    language: 'css',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-css-easy-03',
+    title: 'ID Selector',
+    snippet: `#header {\n  font-size: 24px;\n  font-weight: bold;\n}`,
+    language: 'css',
+    difficulty: 'Easy',
+  },
+
+  // CSS - Medium
+  {
+    id: 'tc-css-medium-01',
+    title: 'Flexbox Centering',
+    snippet: `.container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}`,
+    language: 'css',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-css-medium-02',
+    title: 'Simple Transition',
+    snippet: `button {\n  transition: background-color 0.3s ease;\n}\n\nbutton:hover {\n  background-color: lightblue;\n}`,
+    language: 'css',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-css-medium-03',
+    title: 'Media Query',
+    snippet: `@media (max-width: 600px) {\n  body {\n    background-color: lightblue;\n  }\n}`,
+    language: 'css',
+    difficulty: 'Medium',
+  },
 
   // CSS - Hard
   {
     id: 'tc-css-hard-01',
     title: 'Keyframe Animation',
     snippet: `@keyframes slidein {\n  from {\n    transform: translateX(-100%);\n  }\n\n  to {\n    transform: translateX(0);\n  }\n}`,
+    language: 'css',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-css-hard-02',
+    title: 'CSS Grid Layout',
+    snippet: `.wrapper {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 10px;\n  grid-auto-rows: minmax(100px, auto);\n}`,
+    language: 'css',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-css-hard-03',
+    title: 'CSS Custom Properties',
+    snippet: `:root {\n  --main-bg-color: brown;\n}\n\nbody {\n  background-color: var(--main-bg-color);\n}`,
     language: 'css',
     difficulty: 'Hard',
   }
