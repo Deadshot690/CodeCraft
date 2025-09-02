@@ -105,8 +105,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     </SidebarMenuSubButton>
                   </SidebarMenuItem>
                    <SidebarMenuItem>
-                    <SidebarMenuSubButton asChild>
-                      <Link href="#">
+                    <SidebarMenuSubButton asChild isActive={pathname.startsWith('/m/code-jigsaw')}>
+                      <Link href="/m/code-jigsaw">
                         <Puzzle />
                         <span>Code Jigsaw</span>
                       </Link>

@@ -32,8 +32,8 @@ const games = [
         title: "Code Jigsaw",
         description: "Piece together scrambled code lines to make a functioning program.",
         icon: <Puzzle className="w-12 h-12 text-primary" />,
-        href: "#",
-        status: "Coming Soon"
+        href: "/m/code-jigsaw",
+        status: "Live"
     },
     {
         title: "Output Prediction",
