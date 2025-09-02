@@ -145,18 +145,19 @@ export default function MonsterBattlePage() {
 
   return (
     <DashboardLayout>
-        <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
-             <div className="flex items-center justify-between">
+        <div className="flex flex-col h-full">
+            <div className="flex-shrink-0 p-4 border-b">
                  <Button variant="outline" asChild>
                     <Link href="/m/monster-battle">
                         <ChevronLeft className="mr-2 h-4 w-4" />
                         Back to Challenges
                     </Link>
                 </Button>
-              </div>
+            </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-1 space-y-6">
+            <div className="flex-grow flex h-[calc(100%-65px)]">
+                 {/* Left Panel: Stats and Monster */}
+                <div className="w-1/2 p-4 lg:p-6 border-r space-y-6 overflow-y-auto">
                     <Card ref={playerCardRef}>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2"><Shield /> Your Stats</CardTitle>
@@ -181,9 +182,6 @@ export default function MonsterBattlePage() {
                             <p className="text-right font-bold">{monsterHP} / {monster.hp}</p>
                         </CardContent>
                     </Card>
-                </div>
-
-                 <div className="lg:col-span-2 space-y-4">
                      <Alert className="border-primary">
                         <MessageCircle className="h-4 w-4 text-primary" />
                         <AlertTitle className="font-headline">Battle Log</AlertTitle>
@@ -191,9 +189,12 @@ export default function MonsterBattlePage() {
                             {dialogue}
                         </AlertDescription>
                     </Alert>
-                    
+                </div>
+
+                {/* Right Panel: Question and Answer */}
+                <div className="w-1/2 p-4 lg:p-6 overflow-y-auto">
                     {isBattleOver ? (
-                        <Card>
+                        <Card className="flex flex-col items-center justify-center h-full">
                             <CardContent className="p-6 text-center">
                                 <h2 className="text-3xl font-bold font-headline mb-4">
                                     {monsterHP <= 0 ? "You are Victorious!" : "You have been Defeated!"}
@@ -244,7 +245,7 @@ export default function MonsterBattlePage() {
                     </Card>
                     )}
                  </div>
-              </div>
+            </div>
         </div>
     </DashboardLayout>
   );
