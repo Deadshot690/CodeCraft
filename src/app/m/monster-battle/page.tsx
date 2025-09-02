@@ -255,7 +255,7 @@ export default function MonsterBattlePage() {
                                         <AlertTitle>Correct!</AlertTitle>
                                         <AlertDescription>
                                             Your attack landed successfully!
-                                        </Aler_description>
+                                        </AlertDescription>
                                     </Alert>
                                 )}
                             </div>
