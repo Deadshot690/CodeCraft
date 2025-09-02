@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Timer, CheckCircle, XCircle, Bug, Sparkles, ChevronLeft } from 'lucide-react';
+import { Timer, CheckCircle, XCircle, Bug, Sparkles, ChevronLeft, Languages } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getRandomDebugChallenge, DebugChallenge } from '@/lib/debug-challenges';
@@ -16,6 +16,9 @@ import { Label } from '@/components/ui/label';
 
 const TIME_LIMIT = 60; // 60 seconds
 
+type Difficulty = 'Easy' | 'Medium' | 'Hard';
+type Language = 'javascript' | 'python' | 'java' | 'cpp';
+
 export default function DebugHuntPage() {
   const [challenge, setChallenge] = useState<DebugChallenge | null>(null);
   const [userCode, setUserCode] = useState('');
@@ -23,7 +26,8 @@ export default function DebugHuntPage() {
   const [isGameActive, setIsGameActive] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [result, setResult] = useState<'correct' | 'incorrect' | 'timeup' | null>(null);
-  const [difficulty, setDifficulty] = useState<'Easy' | 'Medium' | 'Hard'>('Easy');
+  const [difficulty, setDifficulty] = useState<Difficulty>('Easy');
+  const [language, setLanguage] = useState<Language>('javascript');
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
@@ -45,7 +49,7 @@ export default function DebugHuntPage() {
   }, [isGameActive, timeLeft]);
   
   const startNewGame = () => {
-    const newChallenge = getRandomDebugChallenge(difficulty);
+    const newChallenge = getRandomDebugChallenge(difficulty, language);
     setChallenge(newChallenge);
     setUserCode(newChallenge.buggyCode);
     setTimeLeft(TIME_LIMIT);
@@ -104,19 +108,38 @@ export default function DebugHuntPage() {
                      <Card className="max-w-xl mx-auto">
                         <CardHeader>
                             <CardTitle className="font-headline">Start the Hunt!</CardTitle>
-                            <CardDescription>Select a difficulty and find the bug before the timer runs out.</CardDescription>
+                            <CardDescription>Select a language and difficulty, then find the bug before the timer runs out.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <Select value={difficulty} onValueChange={(v) => setDifficulty(v as any)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select difficulty" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="Easy">Easy</SelectItem>
-                                    <SelectItem value="Medium">Medium</SelectItem>
-                                    <SelectItem value="Hard">Hard</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <div className='grid grid-cols-2 gap-4'>
+                                <div>
+                                    <Label className='mb-2 block'>Language</Label>
+                                    <Select value={language} onValueChange={(v) => setLanguage(v as any)}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select language" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="javascript">JavaScript</SelectItem>
+                                            <SelectItem value="python">Python</SelectItem>
+                                            <SelectItem value="java">Java</SelectItem>
+                                            <SelectItem value="cpp">C++</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div>
+                                    <Label className='mb-2 block'>Difficulty</Label>
+                                    <Select value={difficulty} onValueChange={(v) => setDifficulty(v as any)}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select difficulty" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Easy">Easy</SelectItem>
+                                            <SelectItem value="Medium">Medium</SelectItem>
+                                            <SelectItem value="Hard">Hard</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
                             <Button onClick={startNewGame} className="w-full">
                                 <Bug className="mr-2 h-4 w-4" />
                                 Start New Game
@@ -184,7 +207,7 @@ export default function DebugHuntPage() {
                                                 </pre>
                                             </Alert>
                                         )}
-                                        <Button onClick={startNewGame} className="w-full">Play Again ({difficulty})</Button>
+                                        <Button onClick={startNewGame} className="w-full">Play Again ({language} - {difficulty})</Button>
                                     </CardContent>
                                 </Card>
                             )}
