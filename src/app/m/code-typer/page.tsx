@@ -24,6 +24,8 @@ const languageDisplayMap: { [key: string]: string } = {
     'python': 'Python',
     'html': 'HTML',
     'css': 'CSS',
+    'java': 'Java',
+    'cpp': 'C++',
 };
 
 function ChallengeRow({ challenge }: { challenge: TyperChallenge }) {
@@ -119,6 +121,8 @@ export default function CodeTyperListPage() {
                     <SelectItem value="python">Python</SelectItem>
                     <SelectItem value="html">HTML</SelectItem>
                     <SelectItem value="css">CSS</SelectItem>
+                    <SelectItem value="java">Java</SelectItem>
+                    <SelectItem value="cpp">C++</SelectItem>
                 </SelectContent>
             </Select>
         </div>

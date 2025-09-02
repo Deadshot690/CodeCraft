@@ -3,7 +3,7 @@ export interface TyperChallenge {
   id: string;
   title: string;
   snippet: string;
-  language: 'javascript' | 'python' | 'html' | 'css';
+  language: 'javascript' | 'python' | 'html' | 'css' | 'java' | 'cpp';
   difficulty: 'Easy' | 'Medium' | 'Hard';
 }
 
@@ -204,7 +204,14 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'python',
     difficulty: 'Easy',
   },
-
+  {
+    id: 'tc-py-easy-08',
+    title: 'List Append',
+    snippet: `numbers = [1, 2, 3]\nnumbers.append(4)`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
+  
   // Python - Medium
   {
     id: 'tc-py-medium-01',
@@ -248,6 +255,13 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'python',
     difficulty: 'Medium',
   },
+  {
+    id: 'tc-py-medium-07',
+    title: 'Dictionary .get()',
+    snippet: `params = {"debug": True, "port": 8080}\nport = params.get("port", 8000)`,
+    language: 'python',
+    difficulty: 'Medium',
+  },
 
   // Python - Hard
   {
@@ -285,7 +299,6 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'python',
     difficulty: 'Hard',
   },
-
 
   // HTML - Easy
   {
@@ -485,6 +498,158 @@ export const typerChallenges: TyperChallenge[] = [
     title: 'Complex Selector',
     snippet: `nav > ul > li:nth-child(odd) {\n  background-color: #eee;\n}`,
     language: 'css',
+    difficulty: 'Hard',
+  },
+  
+  // C++ - Easy
+  {
+    id: 'tc-cpp-easy-01',
+    title: 'Hello World',
+    snippet: `#include <iostream>\n\nint main() {\n    std::cout << "Hello, World!";\n    return 0;\n}`,
+    language: 'cpp',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-cpp-easy-02',
+    title: 'For Loop',
+    snippet: `#include <iostream>\n\nfor (int i = 0; i < 5; ++i) {\n    std::cout << i << std::endl;\n}`,
+    language: 'cpp',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-cpp-easy-03',
+    title: 'Simple Vector',
+    snippet: `#include <vector>\n\nstd::vector<int> numbers = {1, 2, 3};`,
+    language: 'cpp',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-cpp-easy-04',
+    title: 'Simple Function',
+    snippet: `int add(int a, int b) {\n    return a + b;\n}`,
+    language: 'cpp',
+    difficulty: 'Easy',
+  },
+
+  // C++ - Medium
+  {
+    id: 'tc-cpp-medium-01',
+    title: 'Iterating a Vector',
+    snippet: `#include <vector>\n#include <iostream>\n\nstd::vector<int> nums = {10, 20, 30};\nfor (int num : nums) {\n    std::cout << num << std::endl;\n}`,
+    language: 'cpp',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-cpp-medium-02',
+    title: 'Simple Class',
+    snippet: `class Rectangle {\n    int width, height;\n  public:\n    void set_values (int,int);\n    int area() {return width*height;}\n};`,
+    language: 'cpp',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-cpp-medium-03',
+    title: 'Using Pointers',
+    snippet: `int myVar = 10;\nint* myPointer = &myVar;`,
+    language: 'cpp',
+    difficulty: 'Medium',
+  },
+
+  // C++ - Hard
+  {
+    id: 'tc-cpp-hard-01',
+    title: 'Simple Template',
+    snippet: `template <typename T>\nT GetMax (T a, T b) {\n  return (a>b?a:b);\n}`,
+    language: 'cpp',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-cpp-hard-02',
+    title: 'Dynamic Memory',
+    snippet: `int *ptr = new int;\n*ptr = 20;\ndelete ptr;`,
+    language: 'cpp',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-cpp-hard-03',
+    title: 'File I/O',
+    snippet: `#include <iostream>\n#include <fstream>\n\nstd::ofstream outfile ("test.txt");\noutfile << "my text here" << std::endl;\noutfile.close();`,
+    language: 'cpp',
+    difficulty: 'Hard',
+  },
+  
+  // Java - Easy
+  {
+    id: 'tc-java-easy-01',
+    title: 'Main Method',
+    snippet: `public class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello World");\n  }\n}`,
+    language: 'java',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-java-easy-02',
+    title: 'For Loop',
+    snippet: `for (int i = 0; i < 5; i++) {\n  System.out.println(i);\n}`,
+    language: 'java',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-java-easy-03',
+    title: 'ArrayList',
+    snippet: `import java.util.ArrayList;\n\nArrayList<String> cars = new ArrayList<String>();`,
+    language: 'java',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-java-easy-04',
+    title: 'Simple Method',
+    snippet: `static int myMethod(int x, int y) {\n  return x + y;\n}`,
+    language: 'java',
+    difficulty: 'Easy',
+  },
+
+  // Java - Medium
+  {
+    id: 'tc-java-medium-01',
+    title: 'Simple Class',
+    snippet: `public class Car {\n  String color;\n  int maxSpeed;\n\n  public void fullThrottle() {\n    System.out.println("The car is going as fast as it can!");\n  }\n}`,
+    language: 'java',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-java-medium-02',
+    title: 'HashMap',
+    snippet: `import java.util.HashMap;\n\nHashMap<String, String> capitalCities = new HashMap<String, String>();\ncapitalCities.put("England", "London");`,
+    language: 'java',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-java-medium-03',
+    title: 'Reading a File',
+    snippet: `import java.io.File;\nimport java.util.Scanner;\n\nFile myObj = new File("filename.txt");\nScanner myReader = new Scanner(myObj);`,
+    language: 'java',
+    difficulty: 'Medium',
+  },
+
+  // Java - Hard
+  {
+    id: 'tc-java-hard-01',
+    title: 'Inheritance',
+    snippet: `class Vehicle {\n  protected String brand = "Ford";\n}\n\nclass Car extends Vehicle {\n  private String modelName = "Mustang";\n}`,
+    language: 'java',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-java-hard-02',
+    title: 'Interface',
+    snippet: `interface Animal {\n  public void animalSound();\n  public void sleep();\n}`,
+    language: 'java',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-java-hard-03',
+    title: 'Try/Catch Block',
+    snippet: `try {\n  int[] myNumbers = {1, 2, 3};\n  System.out.println(myNumbers[10]);\n} catch (Exception e) {\n  System.out.println("Something went wrong.");\n}`,
+    language: 'java',
     difficulty: 'Hard',
   },
 ];

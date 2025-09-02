@@ -11,6 +11,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, RefreshCw, BarChart, Timer, Target, CheckCircle, XCircle } from 'lucide-react';
 
+const languageDisplayMap: { [key: string]: string } = {
+    'javascript': 'JavaScript',
+    'python': 'Python',
+    'html': 'HTML',
+    'css': 'CSS',
+    'java': 'Java',
+    'cpp': 'C++',
+};
+
 export default function CodeTyperGamePage() {
     const params = useParams<{ id: string }>();
     const [challenge, setChallenge] = useState<TyperChallenge | null>(null);
@@ -98,7 +107,7 @@ export default function CodeTyperGamePage() {
                             Back to Challenges
                         </Link>
                     </Button>
-                    <h1 className="text-xl font-bold tracking-tight font-headline text-center">{challenge.title}<br/><span className="text-sm text-muted-foreground font-normal">{challenge.language} - {challenge.difficulty}</span></h1>
+                    <h1 className="text-xl font-bold tracking-tight font-headline text-center">{challenge.title}<br/><span className="text-sm text-muted-foreground font-normal">{languageDisplayMap[challenge.language]} - {challenge.difficulty}</span></h1>
                     <Button variant="ghost" onClick={() => resetGame(challenge)}>
                         <RefreshCw className="mr-2 h-4 w-4" />
                         Restart
