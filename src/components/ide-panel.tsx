@@ -1,7 +1,7 @@
 
 'use client'
 
-import { useState, useActionState } from 'react';
+import { useState, useActionState, useEffect } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Challenge } from "@/lib/challenges";
 import { runTestAction, submitAction } from '@/app/actions';
@@ -71,7 +71,7 @@ function TestCaseResult({ result, index }: { result: any, index: number}) {
     )
 }
 
-function SubmissionResult({ results, challenge }: { results: any[], challenge: Challenge }) {
+function SubmissionResult({ results, challenge, onCompletion }: { results: any[], challenge: Challenge, onCompletion?: (results: any[]) => void }) {
     const totalCases = results.length;
     const passedCases = results.filter(r => r.passed).length;
     const allPassed = totalCases > 0 && passedCases === totalCases;
@@ -80,6 +80,14 @@ function SubmissionResult({ results, challenge }: { results: any[], challenge: C
     const Icon = allPassed ? CheckCircle : XCircle;
     const color = allPassed ? "text-green-500" : "text-red-500";
     const variant = allPassed ? "default" : "destructive";
+
+    useEffect(() => {
+        if (onCompletion) {
+            onCompletion(results);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
 
     if (allPassed) {
          // This is a simplified way to track progress. In a real app, this would be a server call.
@@ -118,7 +126,14 @@ function SubmissionResult({ results, challenge }: { results: any[], challenge: C
     )
 }
 
-export default function IdePanel({ challenge }: { challenge: Challenge }) {
+interface IdePanelProps {
+    challenge: Challenge;
+    onRunCompletion?: (results: any[]) => void;
+    onSubmitCompletion?: (results: any[]) => void;
+}
+
+
+export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletion }: IdePanelProps) {
     const [selectedLanguage, setSelectedLanguage] = useState<Language>(challenge.languages[0]);
     const [code, setCode] = useState(challenge.templates[selectedLanguage]);
     const [runState, runAction] = useActionState(runTestAction, runInitialState);
@@ -128,6 +143,20 @@ export default function IdePanel({ challenge }: { challenge: Challenge }) {
         setSelectedLanguage(lang);
         setCode(challenge.templates[lang] || '');
     }
+
+    useEffect(() => {
+        if (runState.results && onRunCompletion) {
+            onRunCompletion(runState.results);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [runState]);
+
+     useEffect(() => {
+        if (submitState.results && onSubmitCompletion) {
+            onSubmitCompletion(submitState.results);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [submitState]);
 
     return (
         <div className="h-full flex flex-col">
@@ -197,7 +226,7 @@ export default function IdePanel({ challenge }: { challenge: Challenge }) {
                     </TabsContent>
                     <TabsContent value="submit-output" className="h-[244px] p-0">
                         {!submitState.results && <p className="text-sm text-muted-foreground text-center py-20">Submission results will appear here.</p>}
-                        {submitState.results && <SubmissionResult results={submitState.results} challenge={challenge} />}
+                        {submitState.results && <SubmissionResult results={submitState.results} challenge={challenge} onCompletion={onSubmitCompletion} />}
                     </TabsContent>
                 </Tabs>
             </div>

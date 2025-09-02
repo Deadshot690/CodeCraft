@@ -1,32 +1,58 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useActionState, useEffect } from 'react';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getCommanderChallenge, CommanderChallenge } from '@/lib/code-commander-challenges';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Shield, Bug, ArrowRight, Bot } from 'lucide-react';
-import { runTestAction, submitAction } from '@/app/actions';
-import { useActionState, useEffect } from 'react';
-import { useFormStatus } from 'react-dom';
+import { ArrowRight, Bot, Bug, Shield, XCircle, CheckCircle } from 'lucide-react';
 import IdePanel from '@/components/ide-panel';
-
+import { useToast } from '@/hooks/use-toast';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
 export default function CodeCommanderPage() {
     const [level, setLevel] = useState(0);
     const [challenge, setChallenge] = useState<CommanderChallenge>(getCommanderChallenge(level)!);
-    
+    const [lastResult, setLastResult] = useState<'correct' | 'incorrect' | null>(null);
+    const { toast } = useToast();
+
+    useEffect(() => {
+        // Reset result when level changes
+        setLastResult(null);
+    }, [level]);
+
     const handleNextLevel = () => {
         const nextLevel = level + 1;
         const nextChallenge = getCommanderChallenge(nextLevel);
         if (nextChallenge) {
             setLevel(nextLevel);
             setChallenge(nextChallenge);
+            setLastResult(null); // Reset for the new level
         } else {
-            // Handle game completion
-            alert("Congratulations! You've completed all levels!");
+            toast({
+                title: "Victory!",
+                description: "Congratulations! You've completed all available levels of Code Commander.",
+            });
+        }
+    };
+
+    const handleSubmission = (results: any[]) => {
+        const allPassed = results.every(r => r.passed);
+        if (allPassed) {
+            setLastResult('correct');
+            toast({
+                title: "Target Destroyed!",
+                description: "Your logic was flawless. Proceed to the next wave.",
+                variant: 'default',
+            });
+        } else {
+            setLastResult('incorrect');
+             toast({
+                title: "Target Escaped!",
+                description: "Your logic failed. The enemy broke through.",
+                variant: 'destructive',
+            });
         }
     };
 
@@ -62,15 +88,35 @@ export default function CodeCommanderPage() {
                             <p className="text-sm text-muted-foreground">Will it be defeated?</p>
                         </div>
                     </div>
-                     <Button onClick={handleNextLevel}>
-                        Next Level <ArrowRight className="ml-2" />
-                    </Button>
+
+                    {lastResult && (
+                         <Alert variant={lastResult === 'correct' ? 'default' : 'destructive'}>
+                            {lastResult === 'correct' ? <CheckCircle className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
+                            <AlertTitle>{lastResult === 'correct' ? 'Success!' : 'Failure!'}</AlertTitle>
+                            <AlertDescription>
+                                {lastResult === 'correct'
+                                    ? "Your targeting logic was correct. The bug has been neutralized."
+                                    : "Your targeting logic was flawed. The bug got past your defenses."}
+                            </AlertDescription>
+                        </Alert>
+                    )}
+
+                    {lastResult === 'correct' && (
+                        <Button onClick={handleNextLevel} size="lg" className="w-full">
+                            Next Level <ArrowRight className="ml-2" />
+                        </Button>
+                    )}
                 </div>
 
                 {/* Right Panel: IDE */}
                 <div className="w-1/2 flex flex-col h-full">
                     {/* The key prop ensures the IDE resets when the challenge changes */}
-                    <IdePanel key={challenge.id} challenge={challenge as any} />
+                    <IdePanel
+                        key={challenge.id}
+                        challenge={challenge as any}
+                        onRunCompletion={handleSubmission}
+                        onSubmitCompletion={handleSubmission}
+                    />
                 </div>
             </div>
         </DashboardLayout>
