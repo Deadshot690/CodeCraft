@@ -139,6 +139,70 @@ function solve() {
 // The function should return 16.
 \`\`\`
 {{/if}}
+{{#if (eq challengeTitle "Boolean Logic")}}
+Here is a reference solution for "Boolean Logic":
+\`\`\`javascript
+function solve() {
+  return true && false;
+}
+// The function should return false.
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "Array Length")}}
+Here is a reference solution for "Array Length":
+\`\`\`javascript
+function solve() {
+  return [10, 20, 30].length;
+}
+// The function should return 3.
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "Data Type")}}
+Here is a reference solution for "Data Type":
+\`\`\`javascript
+function solve() {
+  return "string";
+}
+// The user's code should return the string "string".
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "Null vs Undefined")}}
+Here is a reference solution for "Null vs Undefined":
+\`\`\`javascript
+function solve() {
+  return null == undefined;
+}
+// The function should return true.
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "JSON Key")}}
+Here is a reference solution for "JSON Key":
+\`\`\`javascript
+function solve() {
+  // The question asks for the key of value "Alpha" in {"name": "Alpha"}
+  return "name";
+}
+// The function should return the string "name".
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "Git Commit")}}
+Here is a reference solution for "Git Commit":
+\`\`\`javascript
+function solve() {
+  return "git commit";
+}
+// The function should return the string "git commit".
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "HTML Tag")}}
+Here is a reference solution for "HTML Tag":
+\`\`\`javascript
+function solve() {
+  return "a";
+}
+// The function should return the string "a".
+\`\`\`
+{{/if}}
 `,
 });
 
