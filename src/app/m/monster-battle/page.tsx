@@ -7,7 +7,7 @@ import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from '@/components/ui/progress';
-import { Swords, Heart, Shield, ArrowRight, MessageCircle, Loader2, BrainCircuit } from 'lucide-react';
+import { Swords, Shield, ArrowRight, MessageCircle, Loader2, BrainCircuit } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
@@ -85,7 +85,7 @@ export default function MonsterBattlePage() {
         });
         if (newMonsterHealth <= 0) {
           setIsBattleOver(true);
-          setBattleMessage(`Victory! The ${monster!.name} has been defeated!`);
+          setBattleMessage(`Victory! The ${monster.name} has been defeated!`);
           setMonsterTaunt('Ugh... defeated by... code? The indignity!');
           setMessageVariant('default');
         }
@@ -101,7 +101,7 @@ export default function MonsterBattlePage() {
         });
         if (newPlayerHealth <= 0) {
           setIsBattleOver(true);
-          setBattleMessage(`Defeat! The ${monster!.name} overwhelmed you. Time to debug and try again!`);
+          setBattleMessage(`Defeat! The ${monster.name} overwhelmed you. Time to debug and try again!`);
           setMonsterTaunt('Ha! Your logic is as weak as your attacks!');
           setMessageVariant('destructive');
         }
@@ -117,7 +117,7 @@ export default function MonsterBattlePage() {
        formRef.current?.reset();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, isPending, fetchTaunt, toast, monsterHealth, playerHealth]);
+  }, [state, isPending]);
 
 
   const resetBattle = () => {
@@ -132,8 +132,8 @@ export default function MonsterBattlePage() {
 
   const goToNextBattle = () => {
       const nextIndex = currentChallengeIndex + 1;
+      const { monster: nextMonster, challenge: nextChallenge } = getBattleChallenge(nextIndex);
       setCurrentChallengeIndex(nextIndex);
-      const { monster: nextMonster } = getBattleChallenge(nextIndex);
       setPlayerHealth(player.maxHealth);
       setMonsterHealth(nextMonster.maxHealth);
       setIsBattleOver(false);
@@ -233,15 +233,15 @@ export default function MonsterBattlePage() {
                                 {battleMessage}
                             </AlertDescription>
                         </Alert>
-                        {messageVariant === 'default' ? (
+                        {messageVariant === 'default' && getBattleChallenge(currentChallengeIndex + 1) ? (
                             <Button onClick={goToNextBattle} className="w-full mt-4">
                                 Next Battle <ArrowRight className="ml-2"/>
                             </Button>
-                        ) : (
+                        ) : messageVariant === 'destructive' ? (
                             <Button onClick={resetBattle} variant="secondary" className="w-full mt-4">
-                                Try Again <ArrowRight className="ml-2"/>
+                                Try Again
                             </Button>
-                        )}
+                        ) : null}
                     </CardContent>
                 </Card>
              )}
