@@ -34,6 +34,9 @@ export const signInWithGoogle = async () => {
   const auth = getFirebaseAuth();
   auth.tenantId = null;
   const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({
+    prompt: 'select_account'
+  });
   try {
     await signInWithPopup(auth, provider);
   } catch (error) {
@@ -45,6 +48,9 @@ export const signInWithGithub = async () => {
   const auth = getFirebaseAuth();
   auth.tenantId = null;
   const provider = new GithubAuthProvider();
+  provider.setCustomParameters({
+    prompt: 'select_account'
+  });
   try {
     await signInWithPopup(auth, provider);
   } catch (error) {
