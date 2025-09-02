@@ -44,6 +44,27 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'javascript',
     difficulty: 'Easy',
   },
+   {
+    id: 'tc-js-easy-06',
+    title: 'Array Literal',
+    snippet: `const colors = ["red", "green", "blue"];`,
+    language: 'javascript',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-js-easy-07',
+    title: 'Accessing Array Element',
+    snippet: `const fruits = ["apple", "banana", "cherry"];\nconst firstFruit = fruits[0];`,
+    language: 'javascript',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-js-easy-08',
+    title: 'String Concatenation',
+    snippet: `const firstName = "John";\nconst lastName = "Doe";\nconst fullName = firstName + " " + lastName;`,
+    language: 'javascript',
+    difficulty: 'Easy',
+  },
 
   // JavaScript - Medium
   {
@@ -81,6 +102,20 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'javascript',
     difficulty: 'Medium',
   },
+  {
+    id: 'tc-js-medium-06',
+    title: 'Array Find',
+    snippet: `const users = [{id: 1, name: 'Alice'}, {id: 2, name: 'Bob'}];\nconst user = users.find(u => u.id === 1);`,
+    language: 'javascript',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-js-medium-07',
+    title: 'Switch Statement',
+    snippet: `switch (fruit) {\n  case "apple":\n    console.log("It is an apple.");\n    break;\n  case "banana":\n    console.log("It is a banana.");\n    break;\n  default:\n    console.log("Some other fruit.");\n}`,
+    language: 'javascript',
+    difficulty: 'Medium',
+  },
 
   // JavaScript - Hard
   {
@@ -111,7 +146,13 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'javascript',
     difficulty: 'Hard',
   },
-
+  {
+    id: 'tc-js-hard-05',
+    title: 'Proxy Object',
+    snippet: `const target = {};\nconst handler = {\n  get: function(obj, prop) {\n    return prop in obj ? obj[prop] : 42;\n  }\n};\nconst p = new Proxy(target, handler);`,
+    language: 'javascript',
+    difficulty: 'Hard',
+  },
 
   // Python - Easy
   {
@@ -146,6 +187,20 @@ export const typerChallenges: TyperChallenge[] = [
     id: 'tc-py-easy-05',
     title: 'List Creation',
     snippet: `fruits = ["apple", "banana", "cherry"]`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-py-easy-06',
+    title: 'While Loop',
+    snippet: `count = 0\nwhile count < 5:\n    print(count)\n    count += 1`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-py-easy-07',
+    title: 'Getting User Input',
+    snippet: `name = input("Enter your name: ")\nprint(f"Hello, {name}")`,
     language: 'python',
     difficulty: 'Easy',
   },
@@ -186,6 +241,13 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'python',
     difficulty: 'Medium',
   },
+  {
+    id: 'tc-py-medium-06',
+    title: 'Slicing a List',
+    snippet: `my_list = [10, 20, 30, 40, 50]\nsub_list = my_list[1:4]`,
+    language: 'python',
+    difficulty: 'Medium',
+  },
 
   // Python - Hard
   {
@@ -209,6 +271,21 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'python',
     difficulty: 'Hard',
   },
+  {
+    id: 'tc-py-hard-04',
+    title: 'Asyncio Coroutine',
+    snippet: `import asyncio\n\nasync def main():\n    print('Hello')\n    await asyncio.sleep(1)\n    print('World')`,
+    language: 'python',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-py-hard-05',
+    title: 'Reading CSV',
+    snippet: `import csv\n\nwith open('eggs.csv', newline='') as csvfile:\n    spamreader = csv.reader(csvfile, delimiter=' ')\n    for row in spamreader:\n        print(', '.join(row))`,
+    language: 'python',
+    difficulty: 'Hard',
+  },
+
 
   // HTML - Easy
   {
@@ -239,6 +316,20 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'html',
     difficulty: 'Easy',
   },
+  {
+    id: 'tc-html-easy-05',
+    title: 'Paragraph Tag',
+    snippet: `<p>This is a paragraph of text.</p>`,
+    language: 'html',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-html-easy-06',
+    title: 'Line Break',
+    snippet: `<p>This is the first line.<br>This is the second line.</p>`,
+    language: 'html',
+    difficulty: 'Easy',
+  },
 
   // HTML - Medium
   {
@@ -262,6 +353,13 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'html',
     difficulty: 'Medium',
   },
+  {
+    id: 'tc-html-medium-04',
+    title: 'Dropdown Select',
+    snippet: `<label for="cars">Choose a car:</label>\n<select id="cars" name="cars">\n  <option value="volvo">Volvo</option>\n  <option value="saab">Saab</option>\n</select>`,
+    language: 'html',
+    difficulty: 'Medium',
+  },
 
   // HTML - Hard
   {
@@ -275,6 +373,20 @@ export const typerChallenges: TyperChallenge[] = [
     id: 'tc-html-hard-02',
     title: 'Video with Sources',
     snippet: `<video controls width="250">\n  <source src="flower.webm" type="video/webm">\n  <source src="flower.mp4" type="video/mp4">\n  Sorry, your browser doesn't support embedded videos.\n</video>`,
+    language: 'html',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-html-hard-03',
+    title: 'Details and Summary',
+    snippet: `<details>\n  <summary>Click to see details</summary>\n  <p>More information about the topic.</p>\n</details>`,
+    language: 'html',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-html-hard-04',
+    title: 'Canvas Element',
+    snippet: `<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;"></canvas>`,
     language: 'html',
     difficulty: 'Hard',
   },
@@ -301,6 +413,20 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'css',
     difficulty: 'Easy',
   },
+  {
+    id: 'tc-css-easy-04',
+    title: 'Hover Pseudo-class',
+    snippet: `a:hover {\n  color: red;\n  text-decoration: underline;\n}`,
+    language: 'css',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'tc-css-easy-05',
+    title: 'Margin and Padding',
+    snippet: `.box {\n  margin: 10px;\n  padding: 20px;\n  border: 1px solid black;\n}`,
+    language: 'css',
+    difficulty: 'Easy',
+  },
 
   // CSS - Medium
   {
@@ -321,6 +447,13 @@ export const typerChallenges: TyperChallenge[] = [
     id: 'tc-css-medium-03',
     title: 'Media Query',
     snippet: `@media (max-width: 600px) {\n  body {\n    background-color: lightblue;\n  }\n}`,
+    language: 'css',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-css-medium-04',
+    title: 'Attribute Selector',
+    snippet: `input[type="text"] {\n  width: 100%;\n  padding: 12px 20px;\n  margin: 8px 0;\n  box-sizing: border-box;\n}`,
     language: 'css',
     difficulty: 'Medium',
   },
@@ -346,7 +479,14 @@ export const typerChallenges: TyperChallenge[] = [
     snippet: `:root {\n  --main-bg-color: brown;\n}\n\nbody {\n  background-color: var(--main-bg-color);\n}`,
     language: 'css',
     difficulty: 'Hard',
-  }
+  },
+  {
+    id: 'tc-css-hard-04',
+    title: 'Complex Selector',
+    snippet: `nav > ul > li:nth-child(odd) {\n  background-color: #eee;\n}`,
+    language: 'css',
+    difficulty: 'Hard',
+  },
 ];
 
 export function getTyperChallengeById(id: string): TyperChallenge | undefined {
