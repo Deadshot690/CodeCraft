@@ -84,6 +84,17 @@ export const jigsawChallenges: JigsawChallenge[] = [
       'const secondFruit = fruits[1];',
     ],
   },
+  {
+    id: 'jg-js-easy-07',
+    title: 'String Length',
+    description: 'Get the length of a string.',
+    language: 'javascript',
+    difficulty: 'Easy',
+    correctOrder: [
+      'const txt = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";',
+      'const length = txt.length;',
+    ],
+  },
 
   // JavaScript - Medium
   {
@@ -168,6 +179,18 @@ export const jigsawChallenges: JigsawChallenge[] = [
       '}',
     ],
   },
+  {
+    id: 'jg-js-medium-07',
+    title: 'Destructuring Assignment',
+    description: 'Use destructuring to extract values from an object.',
+    language: 'javascript',
+    difficulty: 'Medium',
+    correctOrder: [
+      'const vehicle = { brand: "Ford", model: "Mustang" };',
+      'const { brand, model } = vehicle;',
+      'console.log(brand);',
+    ],
+  },
 
   // JavaScript - Hard
   {
@@ -233,6 +256,31 @@ export const jigsawChallenges: JigsawChallenge[] = [
       '  };',
       '}',
       'const counter = makeCounter();',
+    ],
+  },
+    {
+    id: 'jg-js-hard-05',
+    title: 'Event Listener',
+    description: 'Add a click event listener to a button element.',
+    language: 'javascript',
+    difficulty: 'Hard',
+    correctOrder: [
+      'const button = document.getElementById("myButton");',
+      'button.addEventListener("click", () => {',
+      '  alert("Button was clicked!");',
+      '});',
+    ],
+  },
+  {
+    id: 'jg-js-hard-06',
+    title: 'JSON stringify',
+    description: 'Convert a JavaScript object to a JSON string.',
+    language: 'javascript',
+    difficulty: 'Hard',
+    correctOrder: [
+      'const data = { name: "John", age: 30 };',
+      'const jsonString = JSON.stringify(data);',
+      'console.log(jsonString);',
     ],
   },
 
@@ -306,6 +354,18 @@ export const jigsawChallenges: JigsawChallenge[] = [
       'while count > 0:',
       '    print(count)',
       '    count -= 1',
+    ],
+  },
+  {
+    id: 'jg-py-easy-07',
+    title: 'Get string length',
+    description: 'Find the length of a given string.',
+    language: 'python',
+    difficulty: 'Easy',
+    correctOrder: [
+      'text = "Python"',
+      'length = len(text)',
+      'print(length)',
     ],
   },
 
@@ -384,6 +444,18 @@ export const jigsawChallenges: JigsawChallenge[] = [
       '    print("Cannot divide by zero!")',
     ],
   },
+  {
+    id: 'jg-py-medium-07',
+    title: 'Import Module',
+    description: 'Import the `math` module and use a function from it.',
+    language: 'python',
+    difficulty: 'Medium',
+    correctOrder: [
+      'import math',
+      'result = math.sqrt(16)',
+      'print(result)',
+    ],
+  },
 
   // Python - Hard
   {
@@ -448,6 +520,31 @@ export const jigsawChallenges: JigsawChallenge[] = [
       'class Cat(Animal):',
       '    def speak(self):',
       '        return "Meow"',
+    ],
+  },
+  {
+    id: 'jg-py-hard-05',
+    title: 'File Writing',
+    description: 'Open a file for writing and add content to it.',
+    language: 'python',
+    difficulty: 'Hard',
+    correctOrder: [
+      'with open("test.txt", "w") as f:',
+      '    f.write("First line.\\n")',
+      '    f.write("Second line.\\n")',
+    ],
+  },
+  {
+    id: 'jg-py-hard-06',
+    title: 'Set Operations',
+    description: 'Find the intersection of two sets.',
+    language: 'python',
+    difficulty: 'Hard',
+    correctOrder: [
+      'set1 = {1, 2, 3, 4}',
+      'set2 = {3, 4, 5, 6}',
+      'intersection = set1.intersection(set2)',
+      'print(intersection)',
     ],
   },
 
@@ -537,6 +634,18 @@ export const jigsawChallenges: JigsawChallenge[] = [
       '}',
     ],
   },
+  {
+    id: 'jg-java-easy-07',
+    title: 'Boolean Variables',
+    description: 'Declare and use boolean variables.',
+    language: 'java',
+    difficulty: 'Easy',
+    correctOrder: [
+      'boolean isJavaFun = true;',
+      'boolean isFishTasty = false;',
+      'System.out.println(isJavaFun);',
+    ],
+  },
 
   // Java - Medium
   {
@@ -601,6 +710,36 @@ export const jigsawChallenges: JigsawChallenge[] = [
       '  public static void main(String[] args) {',
       '    myMethod("John");',
       '  }',
+      '}',
+    ],
+  },
+  {
+    id: 'jg-java-medium-05',
+    title: 'Enhanced For Loop',
+    description: 'Iterate over an array using the enhanced for loop.',
+    language: 'java',
+    difficulty: 'Medium',
+    correctOrder: [
+      'String[] cars = {"Volvo", "BMW", "Ford"};',
+      'for (String i : cars) {',
+      '  System.out.println(i);',
+      '}',
+    ],
+  },
+  {
+    id: 'jg-java-medium-06',
+    title: 'Switch Statement',
+    description: 'Use a switch statement to select a block of code to be executed.',
+    language: 'java',
+    difficulty: 'Medium',
+    correctOrder: [
+      'int day = 4;',
+      'switch (day) {',
+      '  case 1:',
+      '    System.out.println("Monday");',
+      '    break;',
+      '  default:',
+      '    System.out.println("Some other day");',
       '}',
     ],
   },
@@ -675,6 +814,19 @@ export const jigsawChallenges: JigsawChallenge[] = [
       '}',
       'static double plusMethod(double x, double y) {',
       '  return x + y;',
+      '}',
+    ],
+  },
+  {
+    id: 'jg-java-hard-05',
+    title: 'Inheritance',
+    description: 'Create a subclass that inherits from a superclass.',
+    language: 'java',
+    difficulty: 'Hard',
+    correctOrder: [
+      'class Vehicle { protected String brand = "Ford"; }',
+      'class Car extends Vehicle {',
+      '  private String modelName = "Mustang";',
       '}',
     ],
   },
@@ -758,6 +910,21 @@ export const jigsawChallenges: JigsawChallenge[] = [
       '}',
     ],
   },
+  {
+    id: 'jg-cpp-easy-06',
+    title: 'Boolean variable',
+    description: 'Work with boolean variables.',
+    language: 'cpp',
+    difficulty: 'Easy',
+    correctOrder: [
+      '#include <iostream>',
+      'int main() {',
+      '  bool isCodingFun = true;',
+      '  std::cout << isCodingFun;',
+      '  return 0;',
+      '}',
+    ],
+  },
 
   // C++ - Medium
   {
@@ -823,6 +990,24 @@ export const jigsawChallenges: JigsawChallenge[] = [
       '  std::string food = "Pizza";',
       '  std::string* ptr = &food;',
       '  std::cout << *ptr;',
+      '  return 0;',
+      '}',
+    ],
+  },
+  {
+    id: 'jg-cpp-medium-05',
+    title: 'Array of strings',
+    description: 'Declare an array of strings and loop through it.',
+    language: 'cpp',
+    difficulty: 'Medium',
+    correctOrder: [
+      '#include <iostream>',
+      '#include <string>',
+      'int main() {',
+      '  std::string cars[4] = {"Volvo", "BMW", "Ford"};',
+      '  for(int i = 0; i < 3; i++) {',
+      '    std::cout << cars[i] << "\\n";',
+      '  }',
       '  return 0;',
       '}',
     ],
@@ -903,6 +1088,23 @@ export const jigsawChallenges: JigsawChallenge[] = [
       '  for (int i : numbers) {',
       '    std::cout << i << "\\n";',
       '  }',
+      '  return 0;',
+      '}',
+    ],
+  },
+  {
+    id: 'jg-cpp-hard-05',
+    title: 'Simple File I/O',
+    description: 'Write to and read from a simple text file.',
+    language: 'cpp',
+    difficulty: 'Hard',
+    correctOrder: [
+      '#include <iostream>',
+      '#include <fstream>',
+      'int main() {',
+      '  std::ofstream MyFile("filename.txt");',
+      '  MyFile << "Some text.";',
+      '  MyFile.close();',
       '  return 0;',
       '}',
     ],
