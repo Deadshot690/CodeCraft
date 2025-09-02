@@ -174,8 +174,8 @@ export default function MonsterBattlePage() {
                              <CardDescription>{monster.description}</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-2 flex-grow">
-                             <div className="bg-muted rounded-lg aspect-square flex items-center justify-center p-4">
-                                <Image ref={monsterImageRef} src={monster.imageUrl} alt={monster.name} width={250} height={250} className={cn("transition-transform duration-500", monsterHP <= 0 && "opacity-0 scale-75")}/>
+                             <div className="bg-muted rounded-lg aspect-square flex items-center justify-center p-4 max-w-[300px] mx-auto">
+                                <Image ref={monsterImageRef} src={monster.imageUrl} alt={monster.name} width={200} height={200} className={cn("transition-transform duration-500", monsterHP <= 0 && "opacity-0 scale-75")}/>
                             </div>
                             <Label>Health</Label>
                             <Progress value={(monsterHP / monster.hp) * 100} variant={monsterHP < monster.hp / 4 ? "destructive" : "default"} className="h-4" />
