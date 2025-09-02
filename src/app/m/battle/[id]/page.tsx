@@ -78,39 +78,30 @@ export default function MonsterBattlePage() {
     }, [params.id]);
 
      useEffect(() => {
-        // Guard clause: Don't do anything if the form hasn't been submitted yet or the battle is already over.
         if (state.isCorrect === null || isBattleOver) {
             return;
         }
 
-        // Logic for a correct answer
         if (state.isCorrect === true) {
             setLastAnswerWasCorrect(true);
-            const damage = monsterHP; // Deal damage equal to the monster's remaining HP
+            const damage = monsterHP;
             setMonsterHP(0);
-            toast({ title: "Direct Hit!", description: `You dealt ${damage} damage and defeated the monster!` });
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
             setIsBattleOver(true);
-
-            // Clear the form for the next battle
+            toast({ title: "Direct Hit!", description: `You dealt ${damage} damage and defeated the monster!` });
+            
             formRef.current?.reset();
              if (answerInputRef.current) {
                 answerInputRef.current.value = "";
             }
-            return; // Stop execution for this render cycle
-        }
-
-        // Logic for an incorrect answer
-        if (state.isCorrect === false) {
+        } else if (state.isCorrect === false) {
             setLastAnswerWasCorrect(false);
-            const damage = Math.floor(Math.random() * 2) + 25; // 25-26 damage
-            
-            // This is the CRITICAL part: calculate new HP based on the PREVIOUS state
+            const damage = Math.floor(Math.random() * 2) + 25;
+
             setPlayerHP(prevHp => {
                 const newPlayerHP = Math.max(0, prevHp - damage);
 
-                toast({ variant: "destructive", title: "You Missed!", description: `The monster hit you for ${damage} damage!` });
                 playerCardRef.current?.classList.add('animate-wobble');
                 setTimeout(() => playerCardRef.current?.classList.remove('animate-wobble'), 500);
 
@@ -121,12 +112,11 @@ export default function MonsterBattlePage() {
                     setDialogue(monster?.taunts[Math.floor(Math.random() * monster.taunts.length)] || "The monster strikes back!");
                 }
                 
+                toast({ variant: "destructive", title: "You Missed!", description: `The monster hit you for ${damage} damage!` });
                 return newPlayerHP;
             });
         }
-    // The dependency array is kept minimal to avoid re-triggering on every HP change.
-    // It should only run when the server action `state` changes.
-    }, [state, isBattleOver, monster?.name, monster?.taunts, monsterHP, toast]);
+    }, [state, isBattleOver, monster, monsterHP, toast]);
 
 
     if (!monster || !challenge) {
