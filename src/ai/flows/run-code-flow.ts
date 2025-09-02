@@ -82,6 +82,63 @@ function twoSum(nums, target) {
 \`\`\`
 Use this example to correctly interpret and evaluate the user's submission for this specific problem.
 {{/if}}
+{{#if (eq challengeTitle "FizzBuzz Basics")}}
+Here is a reference solution for "FizzBuzz Basics":
+\`\`\`javascript
+function solve(n) {
+  if (n % 3 === 0 && n % 5 === 0) return "FizzBuzz";
+  if (n % 3 === 0) return "Fizz";
+  if (n % 5 === 0) return "Buzz";
+  return n;
+}
+// For input n=15, the output is "FizzBuzz". The user's code should return this string.
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "String Reversal")}}
+Here is a reference solution for "String Reversal":
+\`\`\`javascript
+function solve(s) {
+  return s.split('').reverse().join('');
+}
+// For input "coder", the output is "redoc". The user's code should return this string.
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "Simple Sum")}}
+Here is a reference solution for "Simple Sum":
+\`\`\`javascript
+function solve() {
+  return 2 + 7 + 11;
+}
+// The function should return 20.
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "Modulo Master")}}
+Here is a reference solution for "Modulo Master":
+\`\`\`javascript
+function solve() {
+  return 10 % 3;
+}
+// The function should return 1.
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "Constant Question")}}
+Here is a reference solution for "Constant Question":
+\`\`\`javascript
+function solve() {
+  return "const";
+}
+// The function should return the string "const".
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "Exponent Challenge")}}
+Here is a reference solution for "Exponent Challenge":
+\`\`\`javascript
+function solve() {
+  return 2 ** 4;
+}
+// The function should return 16.
+\`\`\`
+{{/if}}
 `,
 });
 
