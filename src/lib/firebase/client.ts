@@ -10,7 +10,6 @@ const firebaseConfig = {
   storageBucket: 'codecraft-quest-2rdg9.firebasestorage.app',
   apiKey: 'AIzaSyBteDYnffWafda7KRL3MeS8cAIC8Zapkhk',
   authDomain: 'codecraft-quest-2rdg9.firebaseapp.com',
-  measurementId: '',
   messagingSenderId: '335794390716',
 };
 
