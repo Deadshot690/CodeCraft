@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { getRandomDebugChallenge, DebugChallenge } from '@/lib/debug-challenges';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
 
 const TIME_LIMIT = 60; // 60 seconds
 
