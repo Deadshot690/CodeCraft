@@ -14,14 +14,18 @@ import type { User } from 'firebase/auth';
 
 export default function LoginPage() {
   const router = useRouter();
+  // Set loading to true initially to handle the redirect check
   const [isLoading, setIsLoading] = useState(true);
   const [isSigningIn, setIsSigningIn] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthUserChanged((user) => {
       if (user) {
-        router.push('/');
+        // The listener in auth.ts will handle the redirect to '/'
+        // We can just stop loading here.
+        setIsLoading(false);
       } else {
+        // No user, stop loading and show the login page.
         setIsLoading(false);
       }
     }, router);
@@ -38,11 +42,12 @@ export default function LoginPage() {
       } else {
         await signInWithGithub();
       }
-      // signInWithRedirect will navigate away, so we don't need to push to router here.
-      // The loading state will persist until navigation.
+      // signInWithRedirect will navigate away, so the user won't see the UI update.
+      // The page will appear to be loading until the redirect happens.
     } catch (error) {
       console.error('Sign-In Error:', error);
       setIsSigningIn(false); // Only reset loading state on error
+      setIsLoading(false);
     }
   };
 
@@ -101,4 +106,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

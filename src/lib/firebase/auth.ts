@@ -20,29 +20,35 @@ export function onAuthUserChanged(
 ) {
   const auth = getFirebaseAuth();
 
-  // Handle the redirect result
-  getRedirectResult(auth)
-    .then(async (result) => {
-      if (result && result.user) {
-        await createUserDocument(result.user);
-        callback(result.user);
-        router.push('/'); // Redirect to home after successful login
-      }
-    }).catch((error) => {
-        console.error("Redirect Result Error:", error);
-    });
-
   // Listen for auth state changes
-  return onAuthStateChanged(auth, async (user) => {
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
     if (user) {
       // User is signed in.
       await createUserDocument(user);
-    } else {
-      // User is signed out.
-      // Do not redirect here immediately, to allow login page to render.
+       // On successful sign-in, onAuthStateChanged fires, and we can redirect.
+      const currentPath = window.location.pathname;
+      if (currentPath === '/login') {
+        router.push('/');
+      }
     }
     callback(user);
   });
+
+   // Also handle the redirect result separately on initial load
+   getRedirectResult(auth)
+    .then(async (result) => {
+      if (result && result.user) {
+        // This will trigger the onAuthStateChanged listener above
+        // so no need to duplicate logic here.
+      }
+    }).catch((error) => {
+        // This can happen if there is no redirect result to process.
+        if (error.code !== 'auth/no-redirect-result') {
+          console.error("Redirect Result Error:", error);
+        }
+    });
+
+  return unsubscribe;
 }
 
 export const signInWithGoogle = async () => {
