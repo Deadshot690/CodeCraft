@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -9,7 +10,7 @@ import {
   signOut as firebaseSignOut,
   type User,
 } from 'firebase/auth';
-import { auth, db } from './client';
+import { db } from './client';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
@@ -17,6 +18,7 @@ export function onAuthUserChanged(
   callback: (user: User | null) => void,
   router: AppRouterInstance
 ) {
+  const auth = getAuth();
   return onAuthStateChanged(auth, async (user) => {
     if (user) {
       // User is signed in.
@@ -30,6 +32,7 @@ export function onAuthUserChanged(
 }
 
 export const signInWithGoogle = async () => {
+  const auth = getAuth();
   const provider = new GoogleAuthProvider();
   try {
     await signInWithPopup(auth, provider);
@@ -39,6 +42,7 @@ export const signInWithGoogle = async () => {
 };
 
 export const signInWithGithub = async () => {
+  const auth = getAuth();
   const provider = new GithubAuthProvider();
   try {
     await signInWithPopup(auth, provider);
@@ -49,6 +53,7 @@ export const signInWithGithub = async () => {
 
 
 export const signOut = async () => {
+  const auth = getAuth();
   try {
     await firebaseSignOut(auth);
   } catch (error) {
