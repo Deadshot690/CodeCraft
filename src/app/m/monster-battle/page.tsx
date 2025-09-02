@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useActionState, useEffect, useRef } from 'react';
@@ -81,17 +80,17 @@ export default function MonsterBattlePage() {
         if (state.isCorrect === null) return;
 
         let newPlayerHP = playerHP;
+        let newMonsterHP = monsterHP;
 
         if (state.isCorrect) {
             setLastAnswerWasCorrect(true);
             const damage = monsterHP; // One-hit KO
-            setMonsterHP(0);
+            newMonsterHP = 0;
+            setMonsterHP(newMonsterHP);
             toast({ title: "Direct Hit!", description: `You dealt ${damage} damage and defeated the monster!` });
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
-            
-            // On correct answer, if battle isn't over (which it will be), get new challenge.
-            // This is here for if we change the one-hit-ko logic later.
+
             if (challenge) {
                 setChallenge(getNewChallenge(challenge.id));
             }
@@ -246,7 +245,7 @@ export default function MonsterBattlePage() {
                                         <XCircle className="h-4 w-4" />
                                         <AlertTitle>Incorrect!</AlertTitle>
                                         <AlertDescription>
-                                            The correct answer was: <strong>{state.correctAnswer}</strong>
+                                            Your answer was incorrect. Try again!
                                         </AlertDescription>
                                     </Alert>
                                 ) : (
@@ -268,4 +267,3 @@ export default function MonsterBattlePage() {
     </DashboardLayout>
   );
 }
-
