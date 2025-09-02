@@ -72,7 +72,6 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
     const [selectedLanguage, setSelectedLanguage] = useState<Language>(challenge.languages[0]);
     const [code, setCode] = useState(challenge.templates[selectedLanguage]);
     const [attackState, attackAction, isAttackPending] = useActionState(runTestAction, runInitialState);
-    const formRef = useRef<HTMLFormElement>(null);
 
     useEffect(() => {
       if (attackState?.results && !isAttackPending) {
@@ -99,7 +98,7 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
 
     return (
         <div className="h-full flex flex-col">
-          <form action={attackAction} ref={formRef} className="h-full flex flex-col min-h-0">
+          <form action={attackAction} className="h-full flex flex-col min-h-0">
             <div className="flex-shrink-0 flex-row items-center justify-between p-4 flex border-b bg-card rounded-t-lg">
                 <div className="flex items-center gap-4">
                      <Select onValueChange={handleLanguageChange as any} value={selectedLanguage}>
