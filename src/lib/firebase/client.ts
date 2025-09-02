@@ -2,7 +2,6 @@
 'use client';
 
 import {initializeApp, getApps, getApp, type FirebaseApp} from 'firebase/app';
-import {getAuth, type Auth} from 'firebase/auth';
 import {getFirestore, type Firestore} from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -22,16 +21,11 @@ if (getApps().length === 0) {
   app = getApp();
 }
 
-const auth = getAuth(app);
 const db = getFirestore(app);
-
-function getFirebaseAuth(): Auth {
-    return auth;
-}
 
 function getFirestoreDb(): Firestore {
     return db;
 }
 
 
-export { app, getFirebaseAuth, getFirestoreDb };
+export { app, getFirestoreDb };

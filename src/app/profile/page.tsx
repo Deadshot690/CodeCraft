@@ -40,23 +40,23 @@ export default function ProfilePage() {
   const [recentSolutions, setRecentSolutions] = useState<SolvedChallengeInfo[]>([]);
 
   useEffect(() => {
+    // This component relies on localStorage now, as auth is removed.
+    // In a real app with a backend, this would fetch data from an API.
     const storedSolutions: SolvedChallengeInfo[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
     
-    // Sort by date and take the last 5
     const sortedSolutions = storedSolutions.sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
     setRecentSolutions(sortedSolutions.slice(0, 5));
 
-    // Calculate stats
     const challengesSolved = storedSolutions.length;
     const solvedIds = new Set(storedSolutions.map(s => s.id));
     const allSolvedChallenges = challenges.filter(c => solvedIds.has(c.id));
 
     const domains = allSolvedChallenges.reduce((acc, c) => {
-        acc[c.domain] = (acc[c.domain] || 0) + 1;
+        const domainKey = c.domain as keyof typeof acc;
+        acc[domainKey] = (acc[domainKey] || 0) + 1;
         return acc;
     }, { DSA: 0, Web: 0, AI: 0 });
 
-    // Dummy calculations for other stats for now
     const xp = challengesSolved * 100;
     const level = Math.floor(xp / 1000) + 1;
 
