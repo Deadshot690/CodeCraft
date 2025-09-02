@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Bot, Code, Puzzle, Swords, Bug } from 'lucide-react';
+import { ArrowRight, Bot, Code, Puzzle, Swords, Bug, BrainCircuit, BookCopy } from 'lucide-react';
 import Image from 'next/image';
 
 const games = [
@@ -28,7 +28,27 @@ const games = [
         href: "/m/code-typer",
         status: "Live"
     },
-    
+    {
+        title: "Code Jigsaw",
+        description: "Piece together scrambled code lines to make a functioning program.",
+        icon: <Puzzle className="w-12 h-12 text-primary" />,
+        href: "#",
+        status: "Coming Soon"
+    },
+    {
+        title: "Output Prediction",
+        description: "Predict the output of tricky code snippets to test your language mastery.",
+        icon: <BrainCircuit className="w-12 h-12 text-primary" />,
+        href: "#",
+        status: "Coming Soon"
+    },
+    {
+        title: "Concept Match",
+        description: "Match code examples to the programming concepts they demonstrate.",
+        icon: <BookCopy className="w-12 h-12 text-primary" />,
+        href: "#",
+        status: "Coming Soon"
+    }
 ];
 
 export default function MiniGamesPage() {

@@ -30,6 +30,9 @@ import {
   Swords,
   Bug,
   Code,
+  Puzzle,
+  BrainCircuit,
+  BookCopy,
 } from 'lucide-react';
 
 
@@ -98,6 +101,30 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                       <Link href="/m/code-typer">
                         <Code />
                         <span>Code Typer</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuItem>
+                   <SidebarMenuItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link href="#">
+                        <Puzzle />
+                        <span>Code Jigsaw</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuItem>
+                   <SidebarMenuItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link href="#">
+                        <BrainCircuit />
+                        <span>Output Prediction</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuItem>
+                   <SidebarMenuItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link href="#">
+                        <BookCopy />
+                        <span>Concept Match</span>
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuItem>
