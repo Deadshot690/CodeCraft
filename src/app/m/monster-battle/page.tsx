@@ -82,29 +82,19 @@ export default function MonsterBattlePage() {
 
         if (state.isCorrect) {
             setLastAnswerWasCorrect(true);
-            const damage = Math.floor(Math.random() * 10) + 20; // 20-29 damage
-            const newMonsterHP = Math.max(0, monsterHP - damage);
-            setMonsterHP(newMonsterHP);
-            toast({ title: "Direct Hit!", description: `You dealt ${damage} damage to the monster!` });
-            
-            if (newMonsterHP <= 0) {
-                 setDialogue(`You defeated the ${monster?.name}!`);
-                 monsterImageRef.current?.classList.add('animate-fade-out');
-            } else {
-                 setDialogue(`A fierce strike! The ${monster?.name} recoils. It prepares for another question!`);
-                 monsterImageRef.current?.classList.add('animate-shake');
-                 // Load the next question
-                 if (challenge) {
-                    setChallenge(getNewChallenge(challenge.id));
-                 }
-            }
+            const damage = monsterHP; // One-hit KO
+            setMonsterHP(0);
+            toast({ title: "Direct Hit!", description: `You dealt ${damage} damage and defeated the monster!` });
+            setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
+            monsterImageRef.current?.classList.add('animate-fade-out');
 
         } else {
             setLastAnswerWasCorrect(false);
-            const damage = Math.floor(Math.random() * 5) + 10; // 10-14 damage
+            const damage = Math.floor(Math.random() * 2) + 25; // 25-26 damage
             const newPlayerHP = Math.max(0, playerHP - damage);
             setPlayerHP(newPlayerHP);
             toast({ variant: "destructive", title: "You Missed!", description: `The monster hit you for ${damage} damage!` });
+            
             if (newPlayerHP <= 0) {
                 setDialogue("You have been defeated... Better luck next time.");
             } else {
@@ -123,6 +113,13 @@ export default function MonsterBattlePage() {
         formRef.current?.reset();
         if (answerInputRef.current) {
             answerInputRef.current.value = "";
+        }
+
+        // Fetch a new challenge if the battle isn't over
+        if (state.isCorrect && monsterHP > 0) {
+            if (challenge) {
+                setChallenge(getNewChallenge(challenge.id));
+            }
         }
 
     }, [state, challenge, monster?.name, monster?.taunts, monsterHP, playerHP, toast]);
