@@ -89,7 +89,12 @@ export default function MonsterBattlePage() {
             toast({ title: "Direct Hit!", description: `You dealt ${damage} damage and defeated the monster!` });
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
-
+            
+            // On correct answer, if battle isn't over (which it will be), get new challenge.
+            // This is here for if we change the one-hit-ko logic later.
+            if (challenge) {
+                setChallenge(getNewChallenge(challenge.id));
+            }
         } else {
             setLastAnswerWasCorrect(false);
             const damage = Math.floor(Math.random() * 2) + 25; // 25-26 damage
@@ -115,13 +120,6 @@ export default function MonsterBattlePage() {
         formRef.current?.reset();
         if (answerInputRef.current) {
             answerInputRef.current.value = "";
-        }
-
-        // Fetch a new challenge if the battle isn't over
-        if (monsterHP > 0 && newPlayerHP > 0) {
-            if (challenge) {
-                setChallenge(getNewChallenge(challenge.id));
-            }
         }
 
     }, [state]);
@@ -271,4 +269,3 @@ export default function MonsterBattlePage() {
   );
 }
 
-    
