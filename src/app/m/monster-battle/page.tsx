@@ -116,7 +116,7 @@ export default function MonsterBattlePage() {
         }
 
         // Fetch a new challenge if the battle isn't over
-        if (state.isCorrect && monsterHP > 0) {
+        if (monsterHP > 0 && playerHP > 0) {
             if (challenge) {
                 setChallenge(getNewChallenge(challenge.id));
             }
@@ -255,7 +255,7 @@ export default function MonsterBattlePage() {
                                         <AlertTitle>Correct!</AlertTitle>
                                         <AlertDescription>
                                             Your attack landed successfully!
-                                        </AlertDescription>
+                                        </Aler_description>
                                     </Alert>
                                 )}
                             </div>
