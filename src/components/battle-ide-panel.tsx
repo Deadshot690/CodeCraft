@@ -36,7 +36,7 @@ const runInitialState = {
 function AttackButton({ isBattleOver }: { isBattleOver: boolean }) {
     const { pending } = useFormStatus();
     return (
-        <Button size="sm" type="submit" disabled={pending || isBattleOver} form="attack-form">
+        <Button size="sm" type="submit" disabled={pending || isBattleOver}>
            {pending ? <><Loader2 className="mr-2 animate-spin" /> Evaluating...</> : <><Swords className="mr-2"/> Attack!</>}
         </Button>
     )
@@ -85,13 +85,19 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [attackState, isAttackPending]);
-
+    
     useEffect(() => {
         const lang = challenge.languages[0];
         setSelectedLanguage(lang);
         setCode(challenge.templates[lang] || '');
         // Reset form state when challenge changes
-        formRef.current?.reset();
+        // A bit of a hack to reset the useActionState
+        if (formRef.current) {
+            formRef.current.reset();
+            const newInitialState = { ...runInitialState };
+            (attackAction as any)(newInitialState);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [challenge]);
 
     const handleLanguageChange = (lang: Language) => {
@@ -101,6 +107,7 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
 
     return (
         <div className="h-full flex flex-col">
+          <form action={attackAction} ref={formRef} className="h-full flex flex-col min-h-0">
             <div className="flex-shrink-0 flex-row items-center justify-between p-4 flex border-b bg-card rounded-t-lg">
                 <div className="flex items-center gap-4">
                      <Select onValueChange={handleLanguageChange as any} value={selectedLanguage}>
@@ -122,12 +129,9 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
                 </div>
             </div>
             
-            <form id="attack-form" action={attackAction} ref={formRef}>
-                 <input type="hidden" name="code" value={code} />
                  <input type="hidden" name="language" value={selectedLanguage} />
                  <input type="hidden" name="challengeTitle" value={challenge.title} />
                  <input type="hidden" name="testCases" value={JSON.stringify(challenge.testCases)} />
-            </form>
 
             <div className="flex-grow flex flex-col min-h-0 bg-card rounded-b-lg">
                 <div className="flex-grow relative">
@@ -157,7 +161,7 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
                     <TabsContent value="test-results" className="mt-0 p-2 h-[200px]">
                        <ScrollArea className="h-full">
                          <div className="space-y-2 p-1">
-                            {!attackState.results && <p className="text-sm text-muted-foreground text-center py-8">Attack results will appear here.</p>}
+                            {!attackState.results && !attackState.message && <p className="text-sm text-muted-foreground text-center py-8">Attack results will appear here.</p>}
                             {attackState.results?.map((result, index) => (
                                <TestCaseResult key={index} result={result} index={index} />
                             ))}
@@ -167,6 +171,7 @@ export default function BattleIdePanel({ challenge, onCorrect, onIncorrect, isBa
                     </TabsContent>
                 </Tabs>
             </div>
+          </form>
         </div>
     )
 }

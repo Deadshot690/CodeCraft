@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useCallback, useActionState, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { Swords, Heart, Shield, ArrowRight, MessageCircle, Loader2 } from 'lucid
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
-import { getMonsterTauntAction, runTestAction } from '@/app/actions';
+import { getMonsterTauntAction } from '@/app/actions';
 import { Challenge } from '@/lib/challenges';
 import BattleIdePanel from '@/components/battle-ide-panel';
 import { getBattleChallenge } from '@/lib/battle-challenges';
@@ -20,12 +20,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 const player = {
   name: 'Code Warrior',
   maxHealth: 100,
-};
-
-const runInitialState = {
-  message: '',
-  results: undefined,
-  formErrors: {},
 };
 
 export default function MonsterBattlePage() {
@@ -63,7 +57,8 @@ export default function MonsterBattlePage() {
     }
   }, [monster, fetchTaunt]);
 
-  const handleCorrectAnswer = () => {
+  const handleCorrectAnswer = useCallback(() => {
+    if (isBattleOver) return;
     const damage = Math.floor(Math.random() * 15) + 25; // 25-39 damage
     const newMonsterHealth = Math.max(0, monsterHealth - damage);
     setMonsterHealth(newMonsterHealth);
@@ -78,9 +73,10 @@ export default function MonsterBattlePage() {
       setMonsterTaunt('Ugh... defeated by... code? The indignity!');
       setMessageVariant('default');
     }
-  }
+  }, [monsterHealth, isBattleOver, fetchTaunt, toast, monster]);
 
-  const handleIncorrectAnswer = () => {
+  const handleIncorrectAnswer = useCallback(() => {
+      if (isBattleOver) return;
       const damage = Math.floor(Math.random() * 10) + 10; // 10-19 damage
       const newPlayerHealth = Math.max(0, playerHealth - damage);
       setPlayerHealth(newPlayerHealth);
@@ -96,7 +92,7 @@ export default function MonsterBattlePage() {
         setMonsterTaunt('Ha! Your logic is as weak as your attacks!');
         setMessageVariant('destructive');
       }
-  }
+  }, [playerHealth, isBattleOver, fetchTaunt, toast, monster]);
 
   const resetBattle = () => {
       const { monster: currentMonster } = getBattleChallenge(currentChallengeIndex);
