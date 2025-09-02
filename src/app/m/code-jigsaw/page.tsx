@@ -22,6 +22,8 @@ const difficultyColorMap: { [key: string]: string } = {
 const languageDisplayMap: { [key: string]: string } = {
     'javascript': 'JavaScript',
     'python': 'Python',
+    'java': 'Java',
+    'cpp': 'C++',
 };
 
 function ChallengeRow({ challenge }: { challenge: JigsawChallenge }) {
@@ -115,6 +117,8 @@ export default function CodeJigsawListPage() {
                     <SelectItem value="all">All Languages</SelectItem>
                     <SelectItem value="javascript">JavaScript</SelectItem>
                     <SelectItem value="python">Python</SelectItem>
+                    <SelectItem value="java">Java</SelectItem>
+                    <SelectItem value="cpp">C++</SelectItem>
                 </SelectContent>
             </Select>
         </div>
