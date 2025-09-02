@@ -18,8 +18,8 @@ const games = [
         title: "Debug Hunt",
         description: "Find and fix bugs in short code snippets before the timer runs out.",
         icon: <Bot className="w-12 h-12 text-primary" />,
-        href: "#",
-        status: "Coming Soon"
+        href: "/m/debug-hunt",
+        status: "Live"
     },
     {
         title: "Code Typer",
@@ -74,4 +74,3 @@ export default function MiniGamesPage() {
         </DashboardLayout>
     );
 }
-
