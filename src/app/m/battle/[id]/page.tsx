@@ -56,6 +56,7 @@ export default function MonsterBattlePage() {
     const [lastAnswerWasCorrect, setLastAnswerWasCorrect] = useState<boolean | null>(null);
     const { toast } = useToast();
     const [dialogue, setDialogue] = useState<string>("A wild monster appears!");
+    const [isBattleOver, setIsBattleOver] = useState(false);
 
     const playerCardRef = useRef<HTMLDivElement>(null);
     const monsterImageRef = useRef<HTMLImageElement>(null);
@@ -78,6 +79,8 @@ export default function MonsterBattlePage() {
 
      useEffect(() => {
         if (state.isCorrect === null) return;
+        
+        if (isBattleOver) return;
 
         let newPlayerHP = playerHP;
 
@@ -88,6 +91,7 @@ export default function MonsterBattlePage() {
             toast({ title: "Direct Hit!", description: `You dealt ${damage} damage and defeated the monster!` });
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
+            setIsBattleOver(true);
 
         } else {
             setLastAnswerWasCorrect(false);
@@ -98,6 +102,7 @@ export default function MonsterBattlePage() {
             
             if (newPlayerHP <= 0) {
                 setDialogue("You have been defeated... Better luck next time.");
+                setIsBattleOver(true);
             } else {
                 setDialogue(monster?.taunts[Math.floor(Math.random() * monster.taunts.length)] || "The monster strikes back!");
                 playerCardRef.current?.classList.add('animate-wobble');
@@ -105,7 +110,6 @@ export default function MonsterBattlePage() {
         }
         
         setTimeout(() => {
-             monsterImageRef.current?.classList.remove('animate-shake');
              playerCardRef.current?.classList.remove('animate-wobble');
         }, 500);
 
@@ -114,7 +118,7 @@ export default function MonsterBattlePage() {
             answerInputRef.current.value = "";
         }
 
-    }, [state, playerHP, monsterHP, monster?.name, monster?.taunts]);
+    }, [state, playerHP, monsterHP, monster?.name, monster?.taunts, isBattleOver, challenge]);
 
 
     if (!monster || !challenge) {
@@ -127,9 +131,6 @@ export default function MonsterBattlePage() {
             </DashboardLayout>
         );
     }
-    
-    const isBattleOver = playerHP <= 0 || monsterHP <= 0;
-
 
   return (
     <DashboardLayout>
