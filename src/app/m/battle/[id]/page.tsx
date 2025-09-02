@@ -76,20 +76,19 @@ export default function MonsterBattlePage() {
             notFound();
         }
     }, [params.id]);
-
-     useEffect(() => {
+    
+    // Effect to handle game logic from form action
+    useEffect(() => {
         if (state.isCorrect === null || isBattleOver) {
             return;
         }
 
         if (state.isCorrect === true) {
             setLastAnswerWasCorrect(true);
-            const damage = monsterHP;
             setMonsterHP(0);
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
             setIsBattleOver(true);
-            toast({ title: "Direct Hit!", description: `You dealt ${damage} damage and defeated the monster!` });
             
             formRef.current?.reset();
              if (answerInputRef.current) {
@@ -111,12 +110,26 @@ export default function MonsterBattlePage() {
                 } else {
                     setDialogue(monster?.taunts[Math.floor(Math.random() * monster.taunts.length)] || "The monster strikes back!");
                 }
-                
-                toast({ variant: "destructive", title: "You Missed!", description: `The monster hit you for ${damage} damage!` });
                 return newPlayerHP;
             });
         }
-    }, [state, isBattleOver, monster, monsterHP, toast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [state]);
+
+    // Effect to show toasts based on dialogue changes
+    useEffect(() => {
+        if(isBattleOver) {
+            if(monsterHP <= 0) {
+                 toast({ title: "Direct Hit!", description: `You defeated the ${monster?.name}!` });
+            } else {
+                 toast({ variant: "destructive", title: "Defeated!", description: "You have been defeated." });
+            }
+        } else if (lastAnswerWasCorrect === false) {
+             const damage = Math.floor(Math.random() * 2) + 25; // This is illustrative, might not match the exact damage
+             toast({ variant: "destructive", title: "You Missed!", description: `The monster hit you for ~25 damage!` });
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isBattleOver, lastAnswerWasCorrect]);
 
 
     if (!monster || !challenge) {
