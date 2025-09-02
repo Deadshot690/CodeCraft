@@ -29,6 +29,7 @@ import {
   Gamepad2,
   Swords,
   Bug,
+  Code,
 } from 'lucide-react';
 
 
@@ -89,6 +90,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                       <Link href="/m/debug-hunt">
                         <Bug />
                         <span>Debug Hunt</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuItem>
+                   <SidebarMenuItem>
+                    <SidebarMenuSubButton asChild isActive={pathname.startsWith('/m/code-typer')}>
+                      <Link href="/m/code-typer">
+                        <Code />
+                        <span>Code Typer</span>
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuItem>

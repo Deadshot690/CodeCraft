@@ -25,8 +25,8 @@ const games = [
         title: "Code Typer",
         description: "Test your typing speed and accuracy with real programming syntax.",
         icon: <Code className="w-12 h-12 text-primary" />,
-        href: "#",
-        status: "Coming Soon"
+        href: "/m/code-typer",
+        status: "Live"
     },
     
 ];
