@@ -4,8 +4,6 @@
 
 import { aiCodeAssistant, type AICodeAssistantInput } from '@/ai/flows/ai-code-assistant';
 import { runCode, type RunCodeInput, type RunCodeOutput } from '@/ai/flows/run-code-flow';
-import { monsterTaunt } from '@/ai/flows/monster-taunt-flow';
-import type { MonsterTauntInput } from '@/ai/schemas/monster-taunt-schema';
 import { z } from 'zod';
 
 const assistantSchema = z.object({
@@ -126,61 +124,5 @@ export async function submitAction(
     } catch (error) {
         console.error('Run Code Error:', error);
         return { message: 'An unexpected error occurred while running the code. Please try again later.' };
-    }
-}
-
-export async function getMonsterTauntAction(input: MonsterTauntInput): Promise<string> {
-    try {
-        const result = await monsterTaunt(input);
-        return result.taunt;
-    } catch (error) {
-        console.error('Monster Taunt Error:', error);
-        return "Grr... my brain isn't working. Lucky you.";
-    }
-}
-
-const evaluateAnswerSchema = z.object({
-  answer: z.string(),
-  challengeTitle: z.string(),
-  testCases: z.string(),
-});
-
-type EvaluateAnswerState = {
-    isCorrect?: boolean;
-    message?: string;
-    formErrors?: any;
-}
-
-export async function evaluateAnswerAction(
-    prevState: EvaluateAnswerState,
-    formData: FormData
-): Promise<EvaluateAnswerState> {
-     const validatedFields = evaluateAnswerSchema.safeParse({
-        answer: formData.get('answer'),
-        challengeTitle: formData.get('challengeTitle'),
-        testCases: formData.get('testCases'),
-    });
-
-     if (!validatedFields.success) {
-        return {
-            formErrors: validatedFields.error.flatten().fieldErrors,
-            message: 'There was an error with your submission.',
-        };
-    }
-
-    try {
-        const runCodeInput: RunCodeInput = {
-            code: `function solve() { return ${JSON.stringify(validatedFields.data.answer)}; }`,
-            language: 'javascript',
-            challengeTitle: validatedFields.data.challengeTitle,
-            testCases: validatedFields.data.testCases,
-        };
-
-        const result = await runCode(runCodeInput);
-        const isCorrect = result.results.every(r => r.passed);
-        return { isCorrect };
-    } catch (error) {
-        console.error('Evaluate Answer Error:', error);
-        return { message: 'An unexpected error occurred while evaluating the answer.' };
     }
 }
