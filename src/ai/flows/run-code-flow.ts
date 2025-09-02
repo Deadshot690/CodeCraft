@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -82,6 +83,33 @@ function twoSum(nums, target) {
 \`\`\`
 Use this example to correctly interpret and evaluate the user's submission for this specific problem.
 {{/if}}
+{{#if (eq challengeTitle "Targeting System Online")}}
+Here is a reference solution for "Targeting System Online":
+\`\`\`javascript
+function shouldTarget(enemy) {
+  return true;
+}
+// The function should always return true, regardless of the enemy object.
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "Prioritize Close Threats")}}
+Here is a reference solution for "Prioritize Close Threats":
+\`\`\`javascript
+function shouldTarget(enemy) {
+  return enemy.distance < 100;
+}
+// The function should return true if the enemy's distance is less than 100.
+\`\`\`
+{{/if}}
+{{#if (eq challengeTitle "Anti-Air Defenses")}}
+Here is a reference solution for "Anti-Air Defenses":
+\`\`\`javascript
+function shouldTarget(enemy) {
+  return enemy.type === 'air';
+}
+// The function should return true if the enemy's type is 'air'.
+\`\`\`
+{{/if}}
 {{#if (eq challengeTitle "FizzBuzz Basics")}}
 Here is a reference solution for "FizzBuzz Basics":
 \`\`\`javascript
@@ -132,13 +160,9 @@ function solve() {
 {{/if}}
 {{#if (eq challengeTitle "Exponent Challenge")}}
 Here is a reference solution for "Exponent Challenge":
-\`\`\`javascript
-function solve() {
-  return 2 ** 4;
-}
-// The function should return 16.
-\`\`\`
-{{/if}}
+` +
+"```javascript\nfunction solve() {\n  return 2 ** 4;\n}\n// The function should return 16.\n```\n" +
+`{{/if}}
 {{#if (eq challengeTitle "Boolean Logic")}}
 Here is a reference solution for "Boolean Logic":
 \`\`\`javascript
