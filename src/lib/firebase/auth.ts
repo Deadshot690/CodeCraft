@@ -20,12 +20,13 @@ export function onAuthUserChanged(
 ) {
   const auth = getFirebaseAuth();
 
-  // Listen for auth state changes
+  // Listen for auth state changes. The Firebase SDK handles the redirect result
+  // and updates the auth state automatically.
   const unsubscribe = onAuthStateChanged(auth, async (user) => {
     if (user) {
       // User is signed in.
       await createUserDocument(user);
-       // On successful sign-in, onAuthStateChanged fires, and we can redirect.
+      // On successful sign-in, onAuthStateChanged fires, and we can redirect.
       const currentPath = window.location.pathname;
       if (currentPath === '/login') {
         router.push('/');
@@ -33,20 +34,6 @@ export function onAuthUserChanged(
     }
     callback(user);
   });
-
-   // Also handle the redirect result separately on initial load
-   getRedirectResult(auth)
-    .then(async (result) => {
-      if (result && result.user) {
-        // This will trigger the onAuthStateChanged listener above
-        // so no need to duplicate logic here.
-      }
-    }).catch((error) => {
-        // This can happen if there is no redirect result to process.
-        if (error.code !== 'auth/no-redirect-result') {
-          console.error("Redirect Result Error:", error);
-        }
-    });
 
   return unsubscribe;
 }
