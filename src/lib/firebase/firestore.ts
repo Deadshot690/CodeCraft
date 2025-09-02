@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -7,7 +8,7 @@ import {
   arrayUnion,
   arrayRemove,
 } from 'firebase/firestore';
-import { db } from './client';
+import { getFirestoreDb } from './client';
 
 export interface UserProfile {
   uid: string;
@@ -26,6 +27,7 @@ export interface UserProfile {
 export const getUserProfile = async (
   uid: string
 ): Promise<UserProfile | null> => {
+  const db = getFirestoreDb();
   const userDocRef = doc(db, 'users', uid);
   const userDoc = await getDoc(userDocRef);
 
@@ -40,6 +42,7 @@ export const updateUserProfile = async (
   uid: string,
   data: Partial<UserProfile>
 ): Promise<void> => {
+  const db = getFirestoreDb();
   const userDocRef = doc(db, 'users', uid);
   await updateDoc(userDocRef, data);
 };
@@ -48,6 +51,7 @@ export const addSolvedChallenge = async (
   uid: string,
   challengeId: string
 ): Promise<void> => {
+  const db = getFirestoreDb();
   const userDocRef = doc(db, 'users', uid);
   await updateDoc(userDocRef, {
     solvedChallenges: arrayUnion(challengeId),
@@ -58,6 +62,7 @@ export const removeSolvedChallenge = async (
   uid: string,
   challengeId: string
 ): Promise<void> => {
+  const db = getFirestoreDb();
   const userDocRef = doc(db, 'users', uid);
   await updateDoc(userDocRef, {
     solvedChallenges: arrayRemove(challengeId),
