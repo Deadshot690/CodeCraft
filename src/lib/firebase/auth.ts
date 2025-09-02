@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -31,6 +32,7 @@ export function onAuthUserChanged(
 
 export const signInWithGoogle = async () => {
   const auth = getFirebaseAuth();
+  auth.tenantId = null;
   const provider = new GoogleAuthProvider();
   try {
     await signInWithPopup(auth, provider);
@@ -41,6 +43,7 @@ export const signInWithGoogle = async () => {
 
 export const signInWithGithub = async () => {
   const auth = getFirebaseAuth();
+  auth.tenantId = null;
   const provider = new GithubAuthProvider();
   try {
     await signInWithPopup(auth, provider);
