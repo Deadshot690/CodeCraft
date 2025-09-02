@@ -1,4 +1,3 @@
-
 'use client';
 
 import {initializeApp, getApps, getApp, type FirebaseApp} from 'firebase/app';
@@ -15,9 +14,12 @@ const firebaseConfig = {
   messagingSenderId: '335794390716',
 };
 
-const app: FirebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
+// Initialize Firebase
+const app: FirebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const auth: Auth = getAuth(app);
+const db: Firestore = getFirestore(app);
 
-const getFirebaseAuth = (): Auth => getAuth(app);
-const getFirestoreDb = (): Firestore => getFirestore(app);
+const getFirebaseAuth = (): Auth => auth;
+const getFirestoreDb = (): Firestore => db;
 
 export { app, getFirebaseAuth, getFirestoreDb };
