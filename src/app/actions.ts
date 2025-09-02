@@ -4,7 +4,8 @@
 
 import { aiCodeAssistant, type AICodeAssistantInput } from '@/ai/flows/ai-code-assistant';
 import { runCode, type RunCodeInput, type RunCodeOutput } from '@/ai/flows/run-code-flow';
-import { z } from 'zod';
+import {z} from 'zod';
+import { challenges as battleChallenges } from '@/lib/battle-challenges';
 
 const assistantSchema = z.object({
   code: z.string().min(10, { message: "Please provide a code snippet of at least 10 characters." }),
@@ -125,4 +126,51 @@ export async function submitAction(
         console.error('Run Code Error:', error);
         return { message: 'An unexpected error occurred while running the code. Please try again later.' };
     }
+}
+
+// Monster Battle Action
+const evaluateAnswerSchema = z.object({
+  challengeId: z.string(),
+  answer: z.string().min(1, { message: "Answer cannot be empty." }),
+});
+
+type EvaluateAnswerState = {
+    formErrors?: {
+        answer?: string[];
+    };
+    message?: string;
+    isCorrect?: boolean | null;
+    correctAnswer?: string;
+};
+
+export async function evaluateAnswerAction(
+    prevState: EvaluateAnswerState,
+    formData: FormData
+): Promise<EvaluateAnswerState> {
+    const validatedFields = evaluateAnswerSchema.safeParse({
+        challengeId: formData.get('challengeId'),
+        answer: formData.get('answer'),
+    });
+
+    if (!validatedFields.success) {
+        return {
+            formErrors: validatedFields.error.flatten().fieldErrors,
+            message: 'There was an error with your submission.',
+            isCorrect: null,
+        };
+    }
+
+    const { challengeId, answer } = validatedFields.data;
+    const challenge = battleChallenges.find(c => c.id === challengeId);
+
+    if (!challenge) {
+        return { message: "Challenge not found.", isCorrect: null };
+    }
+    
+    const isCorrect = answer.trim().toLowerCase() === challenge.answer.toLowerCase();
+
+    return {
+        isCorrect: isCorrect,
+        correctAnswer: challenge.answer,
+    };
 }

@@ -3,31 +3,32 @@ import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Bot, Code, Puzzle } from 'lucide-react';
+import { ArrowRight, Bot, Code, Puzzle, Swords } from 'lucide-react';
 import Image from 'next/image';
 
 const games = [
     {
-        title: "Code Commander",
-        description: "A tower defense style game where you write functions to program your towers' behavior.",
-        icon: <Bot className="w-12 h-12 text-primary" />,
-        href: "/minigames/code-commander",
+        title: "Monster Battle",
+        description: "Answer coding questions to defeat powerful monsters in a turn-based RPG.",
+        icon: <Swords className="w-12 h-12 text-primary" />,
+        href: "/m/monster-battle",
         status: "Live"
     },
     {
-        title: "AlgoRhythm",
-        description: "A rhythm-based game to test your pattern recognition and coding speed.",
-        icon: <Puzzle className="w-12 h-12 text-primary" />,
+        title: "Debug Hunt",
+        description: "Find and fix bugs in short code snippets before the timer runs out.",
+        icon: <Bot className="w-12 h-12 text-primary" />,
         href: "#",
         status: "Coming Soon"
     },
     {
-        title: "CSS Scape",
-        description: "A relaxing, creative game where you replicate designs by writing CSS.",
+        title: "Code Typer",
+        description: "Test your typing speed and accuracy with real programming syntax.",
         icon: <Code className="w-12 h-12 text-primary" />,
         href: "#",
         status: "Coming Soon"
-    }
+    },
+    
 ];
 
 export default function MiniGamesPage() {
@@ -73,3 +74,4 @@ export default function MiniGamesPage() {
         </DashboardLayout>
     );
 }
+
