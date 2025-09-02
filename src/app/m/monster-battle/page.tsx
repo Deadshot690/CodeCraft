@@ -12,7 +12,7 @@ import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Swords, Heart, Shield, HelpCircle, Bot, Loader2, CheckCircle, XCircle, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
-import { getRandomMonster, BattleMonster, BattleChallenge } from '@/lib/battle-challenges';
+import { getRandomMonster, BattleMonster, BattleChallenge, challenges } from '@/lib/battle-challenges';
 import { evaluateAnswerAction } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -43,6 +43,14 @@ function SubmitButton() {
   );
 }
 
+function getNewChallenge(currentChallengeId: string): BattleChallenge {
+    let newChallenge;
+    do {
+        newChallenge = challenges[Math.floor(Math.random() * challenges.length)];
+    } while (newChallenge.id === currentChallengeId);
+    return newChallenge;
+}
+
 
 export default function MonsterBattlePage() {
     const [monster, setMonster] = useState<BattleMonster | null>(null);
@@ -58,6 +66,7 @@ export default function MonsterBattlePage() {
     const playerCardRef = useRef<HTMLDivElement>(null);
     const monsterImageRef = useRef<HTMLImageElement>(null);
     const answerInputRef = useRef<HTMLInputElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     useEffect(() => {
         const newMonster = getRandomMonster();
@@ -82,8 +91,12 @@ export default function MonsterBattlePage() {
                  setDialogue(`You defeated the ${monster?.name}!`);
                  monsterImageRef.current?.classList.add('animate-fade-out');
             } else {
-                 setDialogue(`A fierce strike! The ${monster?.name} recoils.`);
+                 setDialogue(`A fierce strike! The ${monster?.name} recoils. It prepares for another question!`);
                  monsterImageRef.current?.classList.add('animate-shake');
+                 // Load the next question
+                 if (challenge) {
+                    setChallenge(getNewChallenge(challenge.id));
+                 }
             }
 
         } else {
@@ -106,11 +119,13 @@ export default function MonsterBattlePage() {
              playerCardRef.current?.classList.remove('animate-wobble');
         }, 500);
 
+        // Reset the form after submission
+        formRef.current?.reset();
         if (answerInputRef.current) {
             answerInputRef.current.value = "";
         }
 
-    }, [state]);
+    }, [state, challenge, monster?.name, monster?.taunts, monsterHP, playerHP, toast]);
 
     const handleNextBattle = () => {
         const newMonster = getRandomMonster();
@@ -205,7 +220,7 @@ export default function MonsterBattlePage() {
                         </Card>
                     ) : (
                          <Card>
-                        <form action={formAction}>
+                        <form action={formAction} ref={formRef}>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2"><HelpCircle /> The Question</CardTitle>
                                 <CardDescription className="text-base pt-2">{challenge.question}</CardDescription>
