@@ -85,25 +85,23 @@ function SubmissionResult({ results, challenge, onCompletion }: { results: any[]
         if (onCompletion) {
             onCompletion(results);
         }
+
+        if (allPassed) {
+             // This is a simplified way to track progress. In a real app, this would be a server call.
+             const solvedInfo = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
+             const existing = solvedInfo.find((s: any) => s.id === challenge.id);
+             if (!existing) {
+                 solvedInfo.push({ id: challenge.id, title: challenge.title, solvedAt: new Date().toISOString() });
+                 localStorage.setItem('solvedChallengesInfo', JSON.stringify(solvedInfo));
+             }
+
+             // Also update the old set for the challenge list page
+             const solvedSet = new Set(JSON.parse(localStorage.getItem('solvedChallenges') || '[]'));
+             solvedSet.add(challenge.id);
+             localStorage.setItem('solvedChallenges', JSON.stringify(Array.from(solvedSet)));
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-
-    if (allPassed) {
-         // This is a simplified way to track progress. In a real app, this would be a server call.
-         const solvedInfo = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
-         const existing = solvedInfo.find((s: any) => s.id === challenge.id);
-         if (!existing) {
-             solvedInfo.push({ id: challenge.id, title: challenge.title, solvedAt: new Date().toISOString() });
-             localStorage.setItem('solvedChallengesInfo', JSON.stringify(solvedInfo));
-         }
-
-         // Also update the old set for the challenge list page
-         const solvedSet = new Set(JSON.parse(localStorage.getItem('solvedChallenges') || '[]'));
-         solvedSet.add(challenge.id);
-         localStorage.setItem('solvedChallenges', JSON.stringify(Array.from(solvedSet)));
-    }
-
+    }, [results, challenge, onCompletion]);
 
     return (
         <div className="p-4">

@@ -38,6 +38,8 @@ export default function CodeCommanderPage() {
     };
 
     const handleSubmission = (results: any[]) => {
+        if (!results || results.length === 0) return;
+        
         const allPassed = results.every(r => r.passed);
         if (allPassed) {
             setLastResult('correct');
