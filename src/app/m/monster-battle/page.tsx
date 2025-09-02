@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Swords, Heart, Shield, HelpCircle, Bot, Loader2, CheckCircle, XCircle } from 'lucide-react';
+import { Swords, Heart, Shield, HelpCircle, Bot, Loader2, CheckCircle, XCircle, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { getRandomMonster, BattleMonster, BattleChallenge } from '@/lib/battle-challenges';
 import { evaluateAnswerAction } from '@/app/actions';
@@ -181,12 +181,13 @@ export default function MonsterBattlePage() {
 
                 {/* Battle Arena */}
                  <div className="lg:col-span-2 space-y-4">
-                    <Card className="relative aspect-video overflow-hidden flex items-center justify-center bg-muted/30">
-                        <div className="p-8 text-center">
-                            <h2 className="text-2xl font-headline text-muted-foreground">Battle Arena</h2>
-                             <p className="text-lg font-code text-primary">{dialogue}</p>
-                        </div>
-                    </Card>
+                     <Alert className="border-primary">
+                        <MessageCircle className="h-4 w-4 text-primary" />
+                        <AlertTitle className="font-headline">Battle Log</AlertTitle>
+                        <AlertDescription className="font-code">
+                            {dialogue}
+                        </AlertDescription>
+                    </Alert>
                     
                     {isBattleOver ? (
                         <Card>
