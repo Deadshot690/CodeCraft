@@ -3,7 +3,7 @@
 
 import { useState, useActionState, useEffect, useRef } from 'react';
 import { useFormStatus } from 'react-dom';
-import { notFound, useRouter } from 'next/navigation';
+import { notFound, useRouter, useParams } from 'next/navigation';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -45,8 +45,9 @@ function SubmitButton() {
   );
 }
 
-export default function MonsterBattlePage({ params }: { params: { id: string } }) {
+export default function MonsterBattlePage() {
     const router = useRouter();
+    const params = useParams<{ id: string }>();
     const [monster, setMonster] = useState<BattleMonster | null>(null);
     const [challenge, setChallenge] = useState<BattleChallenge | null>(null);
     const [monsterHP, setMonsterHP] = useState(100);
