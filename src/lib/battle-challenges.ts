@@ -1,8 +1,14 @@
 
-import { Challenge } from './challenges';
+import { Challenge, TestCase } from './challenges';
+
+type BattleChallenge = {
+    title: string;
+    description: string;
+    testCases: TestCase[];
+}
 
 type BattleChallengeWrapper = {
-    challenge: Challenge;
+    challenge: BattleChallenge;
     monster: {
         name: string;
         image: string;
@@ -10,91 +16,72 @@ type BattleChallengeWrapper = {
     }
 }
 
-const battleChallenges: Omit<Challenge, 'domain' | 'tags'>[] = [
+const battleChallenges: BattleChallenge[] = [
     {
-      id: 'battle-fizzbuzz',
       title: 'FizzBuzz Basics',
-      description: 'Return "FizzBuzz" if a number is divisible by both 3 and 5, "Fizz" if by 3, "Buzz" if by 5, or the number otherwise. Solve for 15.',
-      difficulty: 'Easy',
-      languages: ['javascript', 'python'],
-      templates: {
-        javascript: `function solve(n) {\n  // if n is 15, what is the fizzbuzz output?\n  return "";\n};`,
-        python: `def solve(n):\n  # if n is 15, what is the fizzbuzz output?\n  return ""`,
-        cpp: ``,
-        java: ``
-      },
-      testCases: [ { input: {n: 15}, expectedOutput: "FizzBuzz" } ],
+      description: 'If a number is divisible by both 3 and 5, what is the FizzBuzz output?',
+      testCases: [ { input: {}, expectedOutput: "FizzBuzz" } ],
     },
     {
-      id: 'battle-reverse-string',
       title: 'String Reversal',
-      description: 'Reverse the input string "coder".',
-      difficulty: 'Easy',
-      languages: ['javascript', 'python'],
-      templates: {
-        javascript: `function solve(s) {\n  // reverse the string s\n  return s.split('').reverse().join('');\n};`,
-        python: `def solve(s):\n  # reverse the string s\n  return s[::-1]`,
-        cpp: ``,
-        java: ``
-      },
-      testCases: [ { input: { s: 'coder' }, expectedOutput: "redoc" } ],
+      description: 'What is the reverse of the string "coder"?',
+      testCases: [ { input: {}, expectedOutput: "redoc" } ],
     },
     {
-      id: 'battle-simple-sum',
       title: 'Simple Sum',
-      description: 'Return the sum of 2, 7, and 11.',
-      difficulty: 'Easy',
-      languages: ['javascript', 'python'],
-      templates: {
-        javascript: `function solve() {\n  // return sum of 2, 7, 11\n  return 0;\n};`,
-        python: `def solve():\n  # return sum of 2, 7, 11\n  return 0`,
-        cpp: ``,
-        java: ``
-      },
+      description: 'What is the sum of 2, 7, and 11?',
       testCases: [ { input: {}, expectedOutput: 20 } ],
     },
     {
-      id: 'battle-modulo-master',
       title: 'Modulo Master',
-      description: 'Return the result of the expression `10 % 3`.',
-      difficulty: 'Easy',
-      languages: ['javascript', 'python'],
-      templates: {
-        javascript: `function solve() {\n  // return 10 % 3\n  return 0;\n};`,
-        python: `def solve():\n  # return 10 % 3\n  return 0`,
-        cpp: ``,
-        java: ``
-      },
+      description: 'What is the result of the expression `10 % 3`?',
       testCases: [ { input: {}, expectedOutput: 1 } ],
     },
     {
-      id: 'battle-constant-question',
       title: 'Constant Question',
-      description: 'Return the keyword used to declare a constant variable in JavaScript that cannot be reassigned.',
-      difficulty: 'Easy',
-      languages: ['javascript', 'python'],
-      templates: {
-        javascript: `function solve() {\n  // return the keyword as a string\n  return "";\n};`,
-        python: `def solve():\n  # return the keyword as a string\n  return ""`,
-        cpp: ``,
-        java: ``
-      },
+      description: 'What keyword is used to declare a constant variable in JavaScript that cannot be reassigned?',
       testCases: [ { input: {}, expectedOutput: 'const' } ],
     },
     {
-      id: 'battle-exponent-challenge',
       title: 'Exponent Challenge',
-      description: 'Return the result of the expression `2 ** 4` in Python (2 to the power of 4).',
-      difficulty: 'Easy',
-      languages: ['javascript', 'python'],
-      templates: {
-        javascript: `function solve() {\n  // return 2 to the power of 4\n  return 0;\n};`,
-        python: `def solve():\n  # return 2 to the power of 4\n  return 0`,
-        cpp: ``,
-        java: ``
-      },
+      description: 'What is the result of the expression `2 ** 4` in Python (2 to the power of 4)?',
       testCases: [ { input: {}, expectedOutput: 16 } ],
     },
+    {
+      title: 'Boolean Logic',
+      description: 'What does the expression `true && false` evaluate to?',
+      testCases: [ { input: {}, expectedOutput: false } ],
+    },
+    {
+      title: 'Array Length',
+      description: 'What is the length of the array `[10, 20, 30]`?',
+      testCases: [ { input: {}, expectedOutput: 3 } ],
+    },
+    {
+      title: 'Data Type',
+      description: 'What is the data type of the value `"Hello"` in most programming languages?',
+      testCases: [ { input: {}, expectedOutput: "string" } ],
+    },
+    {
+      title: 'Null vs Undefined',
+      description: 'In JavaScript, what is the result of `null == undefined`?',
+      testCases: [ { input: {}, expectedOutput: true } ],
+    },
+    {
+      title: 'JSON Key',
+      description: 'In a JSON object `{"name": "Alpha"}`, what is the key for the value "Alpha"?',
+      testCases: [ { input: {}, expectedOutput: "name" } ],
+    },
+    {
+      title: 'Git Commit',
+      description: 'What is the git command to save your staged changes to the local repository?',
+      testCases: [ { input: {}, expectedOutput: "git commit" } ],
+    },
+    {
+      title: 'HTML Tag',
+      description: 'What HTML tag is used to create a hyperlink?',
+      testCases: [ { input: {}, expectedOutput: "a" } ],
+    }
 ];
 
 const monsters = [
@@ -113,7 +100,7 @@ const monsters = [
         image: 'https://picsum.photos/seed/labyrinth/400/400',
         maxHealth: 150,
       },
-      {
+       {
         name: 'Remainder Golem',
         image: 'https://picsum.photos/seed/golem/400/400',
         maxHealth: 90,
@@ -128,20 +115,49 @@ const monsters = [
         image: 'https://picsum.photos/seed/elemental/400/400',
         maxHealth: 160,
       },
+      {
+        name: 'Boolean Beast',
+        image: 'https://picsum.photos/seed/boolean/400/400',
+        maxHealth: 80,
+      },
+      {
+        name: 'Array Ogre',
+        image: 'https://picsum.photos/seed/array/400/400',
+        maxHealth: 130,
+      },
+      {
+        name: 'Type Terror',
+        image: 'https://picsum.photos/seed/type/400/400',
+        maxHealth: 100,
+      },
+      {
+        name: 'Null-ogre',
+        image: 'https://picsum.photos/seed/null/400/400',
+        maxHealth: 95,
+      },
+      {
+        name: 'JSON Juggernaut',
+        image: 'https://picsum.photos/seed/json/400/400',
+        maxHealth: 140,
+      },
+      {
+        name: 'Git Gremlin',
+        image: 'https://picsum.photos/seed/git/400/400',
+        maxHealth: 115,
+      },
+      {
+        name: 'HTML Horror',
+        image: 'https://picsum.photos/seed/html/400/400',
+        maxHealth: 105,
+      }
 ];
 
 export function getBattleChallenge(index: number): BattleChallengeWrapper {
     const challengeIndex = index % battleChallenges.length;
     const monsterIndex = index % monsters.length;
 
-    const challenge = {
-        ...battleChallenges[challengeIndex],
-        domain: 'AI' as const, //dummy value
-        tags: []
-    }
-
     return {
-        challenge,
+        challenge: battleChallenges[challengeIndex],
         monster: monsters[monsterIndex]
     }
 }
