@@ -143,8 +143,8 @@ export default function CodeJigsawGamePage() {
                              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                                  <SortableContext items={solutionLines} strategy={verticalListSortingStrategy}>
                                     <div className="space-y-2 bg-background p-4 rounded-lg border">
-                                        {solutionLines.map(line => (
-                                            <SortableItem key={line} id={line} isCorrect={isCorrect} isIncorrect={isCorrect === false} />
+                                        {solutionLines.map((line, index) => (
+                                            <SortableItem key={`${line}-${index}`} id={line} isCorrect={isCorrect} isIncorrect={isCorrect === false} />
                                         ))}
                                     </div>
                                  </SortableContext>
