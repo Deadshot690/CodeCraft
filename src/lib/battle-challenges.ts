@@ -4,7 +4,7 @@ export interface BattleChallenge {
   question: string;
   code?: string;
   answer: string;
-  domain: 'DSA' | 'Web' | 'AI' | 'General';
+  domain: 'DSA' | 'Web' | 'AI' | 'General' | 'Security';
 }
 
 export interface BattleMonster {
@@ -14,6 +14,7 @@ export interface BattleMonster {
   description: string;
   imageUrl: string;
   challenge: BattleChallenge;
+  taunts: string[];
 }
 
 export const challenges: BattleChallenge[] = [
@@ -90,6 +91,31 @@ export const challenges: BattleChallenge[] = [
     question: 'In Python, which method adds an element to the end of a list?',
     answer: 'append()',
     domain: 'General'
+  },
+  {
+    id: 'http-get',
+    question: 'Which HTTP method is typically used for retrieving data from a server?',
+    answer: 'GET',
+    domain: 'Web'
+  },
+  {
+    id: 'bitwise-and',
+    question: 'What is the result of the bitwise operation `5 & 1`?',
+    code: '// 5 is 101 in binary, 1 is 001',
+    answer: '1',
+    domain: 'General',
+  },
+  {
+    id: 'css-flexbox',
+    question: 'In CSS Flexbox, which property is used to align items along the main axis?',
+    answer: 'justify-content',
+    domain: 'Web'
+  },
+  {
+    id: 'sql-injection',
+    question: 'What type of security vulnerability involves inserting malicious SQL code into a query?',
+    answer: 'SQL Injection',
+    domain: 'Security'
   }
 ];
 
@@ -100,6 +126,7 @@ export const monsters: Omit<BattleMonster, 'challenge'>[] = [
         attack: 10,
         description: 'A gooey creature made of misplaced semicolons and brackets.',
         imageUrl: 'https://picsum.photos/seed/slime/400/400',
+        taunts: ["Gloop... bloop... Your syntax is goop!", "Missing a semicolon? Hehe..."]
     },
     {
         name: 'Compiler Golem',
@@ -107,6 +134,7 @@ export const monsters: Omit<BattleMonster, 'challenge'>[] = [
         attack: 15,
         description: 'A formidable beast of stone and stubbornness. It refuses to run until everything is perfect.',
         imageUrl: 'https://picsum.photos/seed/golem/400/400',
+        taunts: ["TYPE ERROR.", "Unresolved symbol. You are the unresolved symbol.", "CRUNCH. Build failed."]
     },
     {
         name: 'Runtime Raptor',
@@ -114,6 +142,7 @@ export const monsters: Omit<BattleMonster, 'challenge'>[] = [
         attack: 20,
         description: 'A swift and vicious creature that appears out of nowhere to crash your program.',
         imageUrl: 'https://picsum.photos/seed/raptor/400/400',
+        taunts: ["SCREEEE! Null Pointer Exception!", "Segmentation Fault! *chomps*"]
     },
     {
         name: 'Logic Hydra',
@@ -121,6 +150,7 @@ export const monsters: Omit<BattleMonster, 'challenge'>[] = [
         attack: 12,
         description: 'A multi-headed serpent of flawed logic. Solve one head, and two more appear.',
         imageUrl: 'https://picsum.photos/seed/hydra/400/400',
+        taunts: ["Hisss... your logic is flawed...", "An infinite loop... how delicious."]
     }
 ];
 
