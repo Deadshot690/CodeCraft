@@ -41,7 +41,7 @@ function ChallengeRow({ challenge }: { challenge: JigsawChallenge }) {
                 <span className={difficultyColorMap[challenge.difficulty] || 'text-muted-foreground'}>{challenge.difficulty}</span>
             </TableCell>
             <TableCell className="text-right">
-                <Button asChild size="sm" disabled>
+                <Button asChild size="sm">
                     <Link href={`/m/code-jigsaw/${challenge.id}`}>
                         <Puzzle className="mr-2 h-4 w-4" />
                         Start Puzzle
