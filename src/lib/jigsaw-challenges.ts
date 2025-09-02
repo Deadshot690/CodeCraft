@@ -511,6 +511,32 @@ export const jigsawChallenges: JigsawChallenge[] = [
       '}',
     ],
   },
+  {
+    id: 'jg-java-easy-05',
+    title: 'Array of Strings',
+    description: 'Create an array of strings and access an element.',
+    language: 'java',
+    difficulty: 'Easy',
+    correctOrder: [
+      'String[] cars = {"Volvo", "BMW", "Ford"};',
+      'System.out.println(cars[1]);',
+    ],
+  },
+  {
+    id: 'jg-java-easy-06',
+    title: 'Method Call',
+    description: 'Define and call a simple static method.',
+    language: 'java',
+    difficulty: 'Easy',
+    correctOrder: [
+      'static void myMethod() {',
+      '  System.out.println("I was called!");',
+      '}',
+      'public static void main(String[] args) {',
+      '  myMethod();',
+      '}',
+    ],
+  },
 
   // Java - Medium
   {
@@ -637,6 +663,21 @@ export const jigsawChallenges: JigsawChallenge[] = [
       '}',
     ],
   },
+  {
+    id: 'jg-java-hard-04',
+    title: 'Method Overloading',
+    description: 'Demonstrate method overloading with different parameter types.',
+    language: 'java',
+    difficulty: 'Hard',
+    correctOrder: [
+      'static int plusMethod(int x, int y) {',
+      '  return x + y;',
+      '}',
+      'static double plusMethod(double x, double y) {',
+      '  return x + y;',
+      '}',
+    ],
+  },
 
   // C++ - Easy
   {
@@ -696,6 +737,23 @@ export const jigsawChallenges: JigsawChallenge[] = [
       'int main() {',
       '  std::string greeting = "Hello";',
       '  std::cout << greeting;',
+      '  return 0;',
+      '}',
+    ],
+  },
+  {
+    id: 'jg-cpp-easy-05',
+    title: 'Math Operation',
+    description: 'Perform a simple addition and print the result.',
+    language: 'cpp',
+    difficulty: 'Easy',
+    correctOrder: [
+      '#include <iostream>',
+      'int main() {',
+      '  int x = 5;',
+      '  int y = 6;',
+      '  int sum = x + y;',
+      '  std::cout << sum;',
       '  return 0;',
       '}',
     ],
@@ -827,6 +885,24 @@ export const jigsawChallenges: JigsawChallenge[] = [
       'int main() {',
       '  Car myCar;',
       '  std::cout << myCar.brand;',
+      '  return 0;',
+      '}',
+    ],
+  },
+  {
+    id: 'jg-cpp-hard-04',
+    title: 'Simple Vector',
+    description: 'Create a vector and iterate through it.',
+    language: 'cpp',
+    difficulty: 'Hard',
+    correctOrder: [
+      '#include <iostream>',
+      '#include <vector>',
+      'int main() {',
+      '  std::vector<int> numbers = {1, 2, 3, 4, 5};',
+      '  for (int i : numbers) {',
+      '    std::cout << i << "\\n";',
+      '  }',
       '  return 0;',
       '}',
     ],
