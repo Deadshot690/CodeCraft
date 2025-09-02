@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useActionState, useEffect, useRef } from 'react';
@@ -9,12 +10,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Swords, Heart, Shield, HelpCircle, Bot, Loader2, CheckCircle, XCircle, MessageCircle } from 'lucide-react';
+import { Swords, Heart, Shield, HelpCircle, Bot, Loader2, CheckCircle, XCircle, MessageCircle, List } from 'lucide-react';
 import Image from 'next/image';
 import { getRandomMonster, BattleMonster, BattleChallenge, challenges } from '@/lib/battle-challenges';
 import { evaluateAnswerAction } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 const initialState = {
   isCorrect: null,
@@ -84,16 +86,20 @@ export default function MonsterBattlePage() {
 
         if (state.isCorrect) {
             setLastAnswerWasCorrect(true);
-            const damage = monsterHP; // One-hit KO
+            const damage = monsterHP; 
             newMonsterHP = 0;
             setMonsterHP(newMonsterHP);
             toast({ title: "Direct Hit!", description: `You dealt ${damage} damage and defeated the monster!` });
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
-
+            
             if (challenge) {
-                setChallenge(getNewChallenge(challenge.id));
+                 setTimeout(() => {
+                    const newChallenge = getNewChallenge(challenge.id)
+                    setChallenge(newChallenge);
+                }, 500); // give a little time for animation
             }
+
         } else {
             setLastAnswerWasCorrect(false);
             const damage = Math.floor(Math.random() * 2) + 25; // 25-26 damage
@@ -159,6 +165,12 @@ export default function MonsterBattlePage() {
                     Answer coding questions to defeat monsters!
                   </p>
                 </div>
+                <Button asChild variant="outline">
+                  <Link href="/m/battle-questions">
+                    <List className="mr-2 h-4 w-4" />
+                    View All Questions
+                  </Link>
+                </Button>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -238,25 +250,15 @@ export default function MonsterBattlePage() {
                                <SubmitButton />
                             </CardFooter>
                         </form>
-                         {lastAnswerWasCorrect !== null && (
+                         {lastAnswerWasCorrect !== null && state.isCorrect === false && (
                             <div className="p-6 pt-0">
-                                {lastAnswerWasCorrect === false ? (
-                                    <Alert variant="destructive">
-                                        <XCircle className="h-4 w-4" />
-                                        <AlertTitle>Incorrect!</AlertTitle>
-                                        <AlertDescription>
-                                            Your answer was incorrect. Try again!
-                                        </AlertDescription>
-                                    </Alert>
-                                ) : (
-                                    <Alert className="border-green-500 text-green-700">
-                                        <CheckCircle className="h-4 w-4 text-green-500" />
-                                        <AlertTitle>Correct!</AlertTitle>
-                                        <AlertDescription>
-                                            Your attack landed successfully!
-                                        </AlertDescription>
-                                    </Alert>
-                                )}
+                                <Alert variant="destructive">
+                                    <XCircle className="h-4 w-4" />
+                                    <AlertTitle>Incorrect!</AlertTitle>
+                                    <AlertDescription>
+                                        Your answer was incorrect. Try again!
+                                    </AlertDescription>
+                                </Alert>
                             </div>
                         )}
                     </Card>

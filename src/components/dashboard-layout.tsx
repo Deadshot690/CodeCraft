@@ -13,6 +13,8 @@ import {
   SidebarInset,
   SidebarTrigger,
   SidebarMenuBadge,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
 } from '@/components/ui/sidebar';
 import {
   DropdownMenu,
@@ -35,6 +37,8 @@ import {
   Moon,
   Sun,
   Gamepad2,
+  Swords,
+  HelpCircle,
 } from 'lucide-react';
 import { Badge } from './ui/badge';
 
@@ -109,12 +113,36 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               </SidebarMenuButton>
             </SidebarMenuItem>
              <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Link href="/minigames">
+              <SidebarMenuButton>
                   <Gamepad2 />
                   Mini-Games
-                </Link>
               </SidebarMenuButton>
+               <SidebarMenuSub>
+                  <SidebarMenuItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link href="/minigames">
+                        <Gamepad2 />
+                        <span>All Games</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuItem>
+                   <SidebarMenuItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link href="/m/monster-battle">
+                        <Swords />
+                        <span>Monster Battle</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link href="/m/battle-questions">
+                        <HelpCircle />
+                        <span>Battle Questions</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuItem>
+                </SidebarMenuSub>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
