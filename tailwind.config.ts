@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -103,7 +104,15 @@ export default {
         'fade-out': {
           '0%': { opacity: '1', transform: 'scale(1)' },
           '100%': { opacity: '0', transform: 'scale(0.5)' },
-        }
+        },
+        'fade-in': {
+          '0%': { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        'caret-blink': {
+          '0%, 70%, 100%': { opacity: '1' },
+          '20%, 50%': { opacity: '0' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -111,6 +120,8 @@ export default {
         shake: 'shake 0.5s ease-in-out',
         wobble: 'wobble 0.5s ease-in-out',
         'fade-out': 'fade-out 0.5s ease-in-out forwards',
+        'fade-in': 'fade-in 0.3s ease-out forwards',
+        'caret-blink': 'caret-blink 1.2s ease-out infinite',
       },
     },
   },
