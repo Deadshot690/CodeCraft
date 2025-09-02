@@ -101,6 +101,24 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'javascript',
     difficulty: 'Easy',
   },
+  {
+    id: 'dc-js-easy-011',
+    title: 'Array Length Property',
+    description: 'To get the number of elements in an array, use the `.length` property, not the `.length()` method.',
+    buggyCode: `const myArray = [1, 2, 3];\nconst len = myArray.length();`,
+    fixedCode: `const myArray = [1, 2, 3];\nconst len = myArray.length;`,
+    language: 'javascript',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-js-easy-012',
+    title: 'Case Sensitivity',
+    description: 'JavaScript is case-sensitive. `Console.log` is not the same as `console.log`.',
+    buggyCode: `Console.log("Hello");`,
+    fixedCode: `console.log("Hello");`,
+    language: 'javascript',
+    difficulty: 'Easy',
+  },
 
   // JavaScript - Medium
   {
@@ -193,6 +211,15 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'javascript',
     difficulty: 'Medium',
   },
+  {
+    id: 'dc-js-medium-011',
+    title: '`this` in a Callback',
+    description: 'In a regular function callback, `this` loses its original context. An arrow function is needed to preserve it.',
+    buggyCode: `function Counter() {\n  this.count = 0;\n  setInterval(function() {\n    this.count++;\n  }, 1000);\n}`,
+    fixedCode: `function Counter() {\n  this.count = 0;\n  setInterval(() => {\n    this.count++;\n  }, 1000);\n}`,
+    language: 'javascript',
+    difficulty: 'Medium',
+  },
   
   // JavaScript - Hard
   {
@@ -264,6 +291,24 @@ export const debugChallenges: DebugChallenge[] = [
     description: '`Promise.all` still returns a promise even if the array contains non-promise values.',
     buggyCode: `const results = Promise.all([1, Promise.resolve(2)]);\nconsole.log(results); // This logs a Promise, not [1, 2]`,
     fixedCode: `async function getResults() {\n  const results = await Promise.all([1, Promise.resolve(2)]);\n  console.log(results);\n}\ngetResults();`,
+    language: 'javascript',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'dc-js-hard-009',
+    title: 'Bind `this` Context',
+    description: 'When passing a method as a callback, its `this` context is lost. It must be explicitly bound.',
+    buggyCode: `const person = {\n  name: 'John',\n  sayHi: function() { console.log('Hi ' + this.name); }\n}\nsetTimeout(person.sayHi, 1000);`,
+    fixedCode: `const person = {\n  name: 'John',\n  sayHi: function() { console.log('Hi ' + this.name); }\n}\nsetTimeout(person.sayHi.bind(person), 1000);`,
+    language: 'javascript',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'dc-js-hard-010',
+    title: 'Incorrect `JSON.stringify` Use',
+    description: '`JSON.stringify` can take a replacer function and a space argument. Providing a number as the second argument is incorrect for spacing.',
+    buggyCode: `const data = { a: 1, b: 2 };\nconst jsonString = JSON.stringify(data, 2);`,
+    fixedCode: `const data = { a: 1, b: 2 };\nconst jsonString = JSON.stringify(data, null, 2);`,
     language: 'javascript',
     difficulty: 'Hard',
   },
@@ -359,6 +404,24 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'python',
     difficulty: 'Easy',
   },
+  {
+    id: 'dc-py-easy-011',
+    title: 'Boolean Capitalization',
+    description: 'In Python, boolean values are capitalized: `True` and `False`.',
+    buggyCode: `is_active = true`,
+    fixedCode: `is_active = True`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-py-easy-012',
+    title: 'Elif Syntax',
+    description: 'The keyword for "else if" in Python is `elif`, not `elseif`.',
+    buggyCode: `x = 0\nif x > 0:\n  print("Positive")\nelseif x < 0:\n  print("Negative")`,
+    fixedCode: `x = 0\nif x > 0:\n  print("Positive")\nelif x < 0:\n  print("Negative")`,
+    language: 'python',
+    difficulty: 'Easy',
+  },
 
   // Python - Medium
   {
@@ -442,6 +505,24 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'python',
     difficulty: 'Medium',
   },
+  {
+    id: 'dc-py-medium-010',
+    title: 'Tuple Immutability',
+    description: 'Tuples are immutable and their items cannot be reassigned.',
+    buggyCode: `my_tuple = (1, 2, 3)\nmy_tuple[0] = 4`,
+    fixedCode: `my_tuple = (1, 2, 3)\nmy_list = list(my_tuple)\nmy_list[0] = 4\nmy_tuple = tuple(my_list)`,
+    language: 'python',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'dc-py-medium-011',
+    title: 'Set vs List',
+    description: 'Sets do not allow duplicate elements. This code is trying to create a list of duplicates from a set.',
+    buggyCode: `my_set = {1, 2, 3}\nmy_set.add(1)`,
+    fixedCode: `my_list = [1, 2, 3]\nmy_list.append(1)`,
+    language: 'python',
+    difficulty: 'Medium',
+  },
 
   // Python - Hard
   {
@@ -495,6 +576,15 @@ export const debugChallenges: DebugChallenge[] = [
     description: '`datetime.now()` creates a "naive" datetime object without timezone info, which can cause issues.',
     buggyCode: `import datetime\n\nnow = datetime.datetime.now()\n# This is naive and can cause bugs`,
     fixedCode: `import datetime\nimport pytz\n\nnow = datetime.datetime.now(pytz.utc)\n# This is timezone-aware`,
+    language: 'python',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'dc-py-hard-007',
+    title: 'Circular Import',
+    description: 'Module `a` imports `b` and module `b` imports `a`. This causes a circular dependency.',
+    buggyCode: `# a.py\nimport b\ndef f():\n  return b.x\n\n# b.py\nimport a\nx = 1\na.f()`,
+    fixedCode: `# a.py\n\ndef f():\n  import b # Import locally\n  return b.x\n\n# b.py\nimport a\nx = 1\na.f()`,
     language: 'python',
     difficulty: 'Hard',
   },
@@ -581,6 +671,24 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'java',
     difficulty: 'Easy',
   },
+  {
+    id: 'dc-java-easy-010',
+    title: 'Character vs String',
+    description: 'Single quotes are for `char` literals, while double quotes are for `String` literals.',
+    buggyCode: `String myChar = 'a';`,
+    fixedCode: `char myChar = 'a';`,
+    language: 'java',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-java-easy-011',
+    title: 'Missing `new` Keyword',
+    description: 'The `new` keyword is required to instantiate an object.',
+    buggyCode: `StringBuilder sb = StringBuilder();`,
+    fixedCode: `StringBuilder sb = new StringBuilder();`,
+    language: 'java',
+    difficulty: 'Easy',
+  },
   
   // Java - Medium
   {
@@ -637,6 +745,24 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'java',
     difficulty: 'Medium',
   },
+  {
+    id: 'dc-java-medium-007',
+    title: 'Static Method Call',
+    description: 'Static methods belong to the class and should be called on the class itself, not on an instance.',
+    buggyCode: `public class MathUtils {\n  public static int add(int a, int b) { return a + b; }\n}\nMathUtils mu = new MathUtils();\nint sum = mu.add(1, 2);`,
+    fixedCode: `public class MathUtils {\n  public static int add(int a, int b) { return a + b; }\n}\nint sum = MathUtils.add(1, 2);`,
+    language: 'java',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'dc-java-medium-008',
+    title: 'Final Variable Reassignment',
+    description: 'A variable marked as `final` cannot be reassigned after it has been initialized.',
+    buggyCode: `final int myNum = 10;\nmyNum = 20;`,
+    fixedCode: `int myNum = 10;\nmyNum = 20;`,
+    language: 'java',
+    difficulty: 'Medium',
+  },
   
   // Java - Hard
   {
@@ -690,6 +816,15 @@ export const debugChallenges: DebugChallenge[] = [
     description: '`Date` objects are mutable. Returning a direct reference allows the caller to modify the internal state of the class.',
     buggyCode: `public class Event {\n  private Date eventDate;\n  public Date getDate() { return eventDate; }\n}`,
     fixedCode: `public class Event {\n  private Date eventDate;\n  public Date getDate() { return (Date) eventDate.clone(); }\n}`,
+    language: 'java',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'dc-java-hard-007',
+    title: 'Arrays.asList Immutability',
+    description: 'The list returned by `Arrays.asList` is fixed-size. You cannot add or remove elements.',
+    buggyCode: `List<String> list = Arrays.asList("a", "b");\nlist.add("c");`,
+    fixedCode: `List<String> list = new ArrayList<>(Arrays.asList("a", "b"));\nlist.add("c");`,
     language: 'java',
     difficulty: 'Hard',
   },
@@ -767,6 +902,24 @@ export const debugChallenges: DebugChallenge[] = [
     language: 'cpp',
     difficulty: 'Easy',
   },
+  {
+    id: 'dc-cpp-easy-009',
+    title: 'Header Guards',
+    description: 'A header file is missing include guards, which can cause multiple-definition errors.',
+    buggyCode: `// my_header.h\nstruct MyStruct {};`,
+    fixedCode: `// my_header.h\n#ifndef MY_HEADER_H\n#define MY_HEADER_H\nstruct MyStruct {};\n#endif`,
+    language: 'cpp',
+    difficulty: 'Easy',
+  },
+  {
+    id: 'dc-cpp-easy-010',
+    title: 'Character Literal',
+    description: 'Double quotes create a string literal, not a character literal.',
+    buggyCode: `char my_char = "a";`,
+    fixedCode: `char my_char = 'a';`,
+    language: 'cpp',
+    difficulty: 'Easy',
+  },
   
   // C++ - Medium
   {
@@ -820,6 +973,24 @@ export const debugChallenges: DebugChallenge[] = [
     description: 'The vector is passed by value, so modifications inside the function do not affect the original.',
     buggyCode: `void add_element(std::vector<int> v) {\n  v.push_back(1);\n}`,
     fixedCode: `void add_element(std::vector<int>& v) {\n  v.push_back(1);\n}`,
+    language: 'cpp',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'dc-cpp-medium-007',
+    title: 'Const correctness',
+    description: 'A method that does not modify the object\'s state should be marked `const`.',
+    buggyCode: `class MyClass {\n  int val;\npublic:\n  int getValue() { return val; }\n};`,
+    fixedCode: `class MyClass {\n  int val;\npublic:\n  int getValue() const { return val; }\n};`,
+    language: 'cpp',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'dc-cpp-medium-008',
+    title: 'Comparing Floats',
+    description: 'Directly comparing floating-point numbers for equality can fail due to precision issues.',
+    buggyCode: `float a = 0.1f + 0.2f;\nif (a == 0.3f) { /* ... */ }`,
+    fixedCode: `#include <cmath>\n\nfloat a = 0.1f + 0.2f;\nif (std::abs(a - 0.3f) < 1e-6) { /* ... */ }`,
     language: 'cpp',
     difficulty: 'Medium',
   },
@@ -894,6 +1065,15 @@ export const debugChallenges: DebugChallenge[] = [
     description: 'The template requires a type that supports the `>` operator, but `MyObject` does not.',
     buggyCode: `template <typename T>\nT max(T a, T b) { return a > b ? a : b; }\n\nstruct MyObject {};\nMyObject o1, o2;\nmax(o1, o2);`,
     fixedCode: `template <typename T>\nT max(T a, T b) { return a > b ? a : b; }\n\nstruct MyObject {\n  bool operator>(const MyObject& other) const { return true; }\n};\nMyObject o1, o2;\nmax(o1, o2);`,
+    language: 'cpp',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'dc-cpp-hard-009',
+    title: 'Using `std::endl`',
+    description: '`std::endl` is often used when `\'\\n\'` is sufficient. `std::endl` also forces a flush of the stream, which can be a performance bottleneck.',
+    buggyCode: `#include <iostream>\n\nfor (int i=0; i<100; ++i) std::cout << i << std::endl;`,
+    fixedCode: `#include <iostream>\n\nfor (int i=0; i<100; ++i) std::cout << i << '\\n';`,
     language: 'cpp',
     difficulty: 'Hard',
   },
