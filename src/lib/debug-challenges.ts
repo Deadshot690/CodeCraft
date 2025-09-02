@@ -1091,3 +1091,8 @@ export function getRandomDebugChallenge(difficulty: 'Easy' | 'Medium' | 'Hard', 
   }
   return filtered[Math.floor(Math.random() * filtered.length)];
 }
+
+
+export function getChallengeById(id: string): DebugChallenge | undefined {
+    return debugChallenges.find(c => c.id === id);
+}

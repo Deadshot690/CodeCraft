@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Bot, Code, Puzzle, Swords } from 'lucide-react';
+import { ArrowRight, Bot, Code, Puzzle, Swords, Bug } from 'lucide-react';
 import Image from 'next/image';
 
 const games = [
@@ -17,7 +17,7 @@ const games = [
     {
         title: "Debug Hunt",
         description: "Find and fix bugs in short code snippets before the timer runs out.",
-        icon: <Bot className="w-12 h-12 text-primary" />,
+        icon: <Bug className="w-12 h-12 text-primary" />,
         href: "/m/debug-hunt",
         status: "Live"
     },
