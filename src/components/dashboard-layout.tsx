@@ -134,14 +134,6 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuSubButton asChild>
-                      <Link href="/m/battle-questions">
-                        <HelpCircle />
-                        <span>Battle Questions</span>
-                      </Link>
-                    </SidebarMenuSubButton>
-                  </SidebarMenuItem>
                 </SidebarMenuSub>
             </SidebarMenuItem>
             <SidebarMenuItem>
