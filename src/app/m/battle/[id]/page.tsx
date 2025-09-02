@@ -78,46 +78,44 @@ export default function MonsterBattlePage() {
     }, [params.id]);
 
      useEffect(() => {
-        if (state.isCorrect === null) return;
-        
-        if (isBattleOver) return;
-
-        let newPlayerHP = playerHP;
+        if (state.isCorrect === null || isBattleOver) return;
 
         if (state.isCorrect) {
             setLastAnswerWasCorrect(true);
-            const damage = monsterHP; // Direct hit!
+            const damage = monsterHP; 
             setMonsterHP(0);
             toast({ title: "Direct Hit!", description: `You dealt ${damage} damage and defeated the monster!` });
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
             setIsBattleOver(true);
-
         } else {
             setLastAnswerWasCorrect(false);
             const damage = Math.floor(Math.random() * 2) + 25; // 25-26 damage
-            newPlayerHP = Math.max(0, playerHP - damage);
+            const newPlayerHP = Math.max(0, playerHP - damage);
             setPlayerHP(newPlayerHP);
+
             toast({ variant: "destructive", title: "You Missed!", description: `The monster hit you for ${damage} damage!` });
-            
+            playerCardRef.current?.classList.add('animate-wobble');
+
             if (newPlayerHP <= 0) {
                 setDialogue("You have been defeated... Better luck next time.");
                 setIsBattleOver(true);
             } else {
                 setDialogue(monster?.taunts[Math.floor(Math.random() * monster.taunts.length)] || "The monster strikes back!");
-                playerCardRef.current?.classList.add('animate-wobble');
             }
         }
-        
+
         setTimeout(() => {
-             playerCardRef.current?.classList.remove('animate-wobble');
+            playerCardRef.current?.classList.remove('animate-wobble');
         }, 500);
 
-        formRef.current?.reset();
-        if (answerInputRef.current) {
-            answerInputRef.current.value = "";
+        // Don't reset the form if the answer was incorrect
+        if (state.isCorrect) {
+            formRef.current?.reset();
+            if (answerInputRef.current) {
+                answerInputRef.current.value = "";
+            }
         }
-
     }, [state, playerHP, monsterHP, monster?.name, monster?.taunts, isBattleOver, challenge]);
 
 
@@ -136,9 +134,11 @@ export default function MonsterBattlePage() {
     <DashboardLayout>
         <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
              <div className="flex items-center justify-between">
-                 <Button variant="outline" onClick={() => router.push('/m/monster-battle')}>
-                    <ChevronLeft className="mr-2 h-4 w-4" />
-                    Back to Challenges
+                 <Button variant="outline" asChild>
+                    <Link href="/m/monster-battle">
+                        <ChevronLeft className="mr-2 h-4 w-4" />
+                        Back to Challenges
+                    </Link>
                 </Button>
               </div>
 
@@ -236,3 +236,5 @@ export default function MonsterBattlePage() {
     </DashboardLayout>
   );
 }
+
+    
