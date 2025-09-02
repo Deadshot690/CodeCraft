@@ -62,28 +62,21 @@ export default function MonsterBattlePage() {
 
 
   const fetchTaunt = useCallback(async (playerAction: 'correct' | 'incorrect' | 'start') => {
-    const newTaunt = await getMonsterTauntAction({ monsterName: monster.name, playerAction });
-    setMonsterTaunt(newTaunt);
+    try {
+      const newTaunt = await getMonsterTauntAction({ monsterName: monster.name, playerAction });
+      setMonsterTaunt(newTaunt);
+    } catch (e) {
+      setMonsterTaunt("Grrr... my brain isn't working. Lucky you.");
+    }
   }, [monster.name]);
   
   useEffect(() => {
     fetchTaunt('start');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentChallengeIndex]);
+  }, [currentChallengeIndex, fetchTaunt]);
 
 
-  const firstUpdate = useRef(true);
   useEffect(() => {
-    // This effect should only run AFTER the initial render and not on the first render.
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
-    
-    // This effect should not run while the form submission is pending.
-    if (isPending) {
-      return;
-    }
+    if (isPending) return;
 
     if (state.isCorrect === true) {
         const damage = Math.floor(Math.random() * 15) + 25; // 25-39 damage
@@ -124,11 +117,10 @@ export default function MonsterBattlePage() {
         });
     }
 
-    formRef.current?.reset();
+    if(state.isCorrect !== undefined) {
+      formRef.current?.reset();
+    }
     
-    // We intentionally don't reset the `state` here, as `useActionState` manages it.
-    // The effect dependency array ensures it runs when `state` or `isPending` changes.
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, isPending]);
 
@@ -141,20 +133,18 @@ export default function MonsterBattlePage() {
       setBattleMessage('');
       fetchTaunt('start');
       formRef.current?.reset();
-      firstUpdate.current = true;
   }
 
   const goToNextBattle = () => {
       const nextIndex = currentChallengeIndex + 1;
-      const { monster: nextMonster } = getBattleChallenge(nextIndex);
+      if (!getBattleChallenge(nextIndex)) {
+        // Handle case where there are no more battles
+        setIsBattleOver(true);
+        setBattleMessage("You have defeated all the monsters! Congratulations!");
+        return;
+      }
       setCurrentChallengeIndex(nextIndex);
-      setPlayerHealth(player.maxHealth);
-      setMonsterHealth(nextMonster.maxHealth);
-      setIsBattleOver(false);
-      setBattleMessage('');
-      fetchTaunt('start');
-      formRef.current?.reset();
-      firstUpdate.current = true;
+      resetBattle();
   }
 
   return (
@@ -243,16 +233,16 @@ export default function MonsterBattlePage() {
                     <CardContent className="p-6">
                         <Alert variant={messageVariant}>
                             <Shield className="h-4 w-4" />
-                            <AlertTitle className="font-bold">{messageVariant === 'default' ? 'Victory!' : 'Defeated!'}</AlertTitle>
+                            <AlertTitle className="font-bold">{playerHealth > 0 ? 'Victory!' : 'Defeated!'}</AlertTitle>
                             <AlertDescription>
                                 {battleMessage}
                             </AlertDescription>
                         </Alert>
-                        {messageVariant === 'default' && getBattleChallenge(currentChallengeIndex + 1) ? (
+                        {playerHealth > 0 && getBattleChallenge(currentChallengeIndex + 1) ? (
                             <Button onClick={goToNextBattle} className="w-full mt-4">
                                 Next Battle <ArrowRight className="ml-2"/>
                             </Button>
-                        ) : messageVariant === 'destructive' ? (
+                        ) : playerHealth <= 0 ? (
                             <Button onClick={resetBattle} variant="secondary" className="w-full mt-4">
                                 Try Again
                             </Button>
