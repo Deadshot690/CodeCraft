@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useActionState, useRef } from 'react';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,15 +10,22 @@ import { Swords, Heart, Shield, ArrowRight, MessageCircle, Loader2 } from 'lucid
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
-import { getMonsterTauntAction } from '@/app/actions';
+import { getMonsterTauntAction, runTestAction } from '@/app/actions';
 import { Challenge } from '@/lib/challenges';
 import BattleIdePanel from '@/components/battle-ide-panel';
 import { getBattleChallenge } from '@/lib/battle-challenges';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 
 const player = {
   name: 'Code Warrior',
   maxHealth: 100,
+};
+
+const runInitialState = {
+  message: '',
+  results: undefined,
+  formErrors: {},
 };
 
 export default function MonsterBattlePage() {
@@ -110,75 +117,79 @@ export default function MonsterBattlePage() {
 
   return (
     <DashboardLayout>
-      <div className="flex flex-col h-full p-4 gap-4">
-        {/* Top Section: Monster & Player Info */}
-        <div className="flex-shrink-0 grid grid-cols-1 lg:grid-cols-3 gap-4">
-          
-          <Card className="flex flex-col items-center justify-center p-4">
-             <h2 className="text-xl font-bold font-headline mb-2">{player.name}</h2>
-             <div className="w-full max-w-md space-y-2">
-                <div className="flex justify-between text-sm font-medium">
-                  <span>Health</span>
-                  <span>{playerHealth} / {player.maxHealth}</span>
-                </div>
-                <Progress value={(playerHealth / player.maxHealth) * 100} className="h-4" />
-              </div>
-          </Card>
+      <div className="h-[calc(100vh-60px)] flex">
+        {/* Left Panel: Battle View */}
+        <ScrollArea className="w-1/2 p-4 lg:p-6 border-r">
+           <div className="space-y-6">
+                <Card className="text-center">
+                    <CardHeader>
+                        <CardTitle className="font-headline text-2xl">{monster.name}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <Image
+                            src={monster.image}
+                            alt={monster.name}
+                            width={200}
+                            height={200}
+                            className="rounded-lg shadow-lg mb-4 inline-block"
+                            data-ai-hint="scary monster"
+                        />
+                        <div className="w-full max-w-md space-y-2 mx-auto">
+                            <div className="flex justify-between text-sm font-medium">
+                            <span>Health</span>
+                            <span>{monsterHealth} / {monster.maxHealth}</span>
+                            </div>
+                            <Progress value={(monsterHealth / monster.maxHealth) * 100} className="h-4" />
+                        </div>
+                        <div className="flex items-center justify-center gap-2 text-muted-foreground pt-4 italic text-center">
+                            <MessageCircle className="h-4 w-4 shrink-0" />
+                            <p>"{monsterTaunt}"</p>
+                        </div>
+                    </CardContent>
+                </Card>
 
-           <Card className="flex flex-col items-center justify-center p-4 border-destructive/50 border-2 order-first lg:order-none">
-             <h2 className="text-2xl font-bold font-headline mb-2">{monster.name}</h2>
-             <Image
-                src={monster.image}
-                alt={monster.name}
-                width={200}
-                height={200}
-                className="rounded-lg shadow-lg mb-2"
-                data-ai-hint="scary monster"
-              />
-              <div className="w-full max-w-md space-y-2">
-                <div className="flex justify-between text-sm font-medium">
-                  <span>Health</span>
-                  <span>{monsterHealth} / {monster.maxHealth}</span>
-                </div>
-                <Progress value={(monsterHealth / monster.maxHealth) * 100} className="h-4" />
-                <div className="flex items-center justify-center gap-2 text-muted-foreground pt-2 italic text-center">
-                    <MessageCircle className="h-4 w-4 shrink-0" />
-                    <p>"{monsterTaunt}"</p>
-                </div>
-              </div>
-          </Card>
+                <Card>
+                    <CardHeader className="text-center">
+                        <CardTitle className="font-headline text-2xl">{player.name}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="w-full max-w-md space-y-2 mx-auto">
+                            <div className="flex justify-between text-sm font-medium">
+                            <span>Health</span>
+                            <span>{playerHealth} / {player.maxHealth}</span>
+                            </div>
+                            <Progress value={(playerHealth / player.maxHealth) * 100} className="h-4" />
+                        </div>
+                    </CardContent>
+                </Card>
 
-          <Card className="p-4 flex flex-col justify-center">
-            {isBattleOver ? (
-              <div className="space-y-4">
-                <Alert variant={messageVariant}>
-                    <Shield className="h-4 w-4" />
-                    <AlertTitle className="font-bold">{messageVariant === 'default' ? 'Victory!' : 'Defeated!'}</AlertTitle>
-                    <AlertDescription>
-                        {battleMessage}
-                    </AlertDescription>
-                </Alert>
-                 {messageVariant === 'default' ? (
-                     <Button onClick={goToNextBattle} className="w-full">
-                        Next Battle <ArrowRight className="ml-2"/>
-                     </Button>
-                 ) : (
-                     <Button onClick={resetBattle} variant="secondary" className="w-full">
-                        Try Again <ArrowRight className="ml-2"/>
-                     </Button>
+                 {isBattleOver && (
+                    <Card>
+                        <CardContent className="p-6">
+                            <Alert variant={messageVariant}>
+                                <Shield className="h-4 w-4" />
+                                <AlertTitle className="font-bold">{messageVariant === 'default' ? 'Victory!' : 'Defeated!'}</AlertTitle>
+                                <AlertDescription>
+                                    {battleMessage}
+                                </AlertDescription>
+                            </Alert>
+                            {messageVariant === 'default' ? (
+                                <Button onClick={goToNextBattle} className="w-full mt-4">
+                                    Next Battle <ArrowRight className="ml-2"/>
+                                </Button>
+                            ) : (
+                                <Button onClick={resetBattle} variant="secondary" className="w-full mt-4">
+                                    Try Again <ArrowRight className="ml-2"/>
+                                </Button>
+                            )}
+                        </CardContent>
+                    </Card>
                  )}
-              </div>
-            ) : (
-                <div className="text-center">
-                    <CardTitle className="font-headline">Your Move</CardTitle>
-                    <p className="text-muted-foreground">Solve the challenge below. Submit your code to attack the monster!</p>
-                </div>
-            )}
-          </Card>
-        </div>
-        
-        {/* Bottom Section: IDE */}
-        <div className="flex-grow min-h-0">
+           </div>
+        </ScrollArea>
+
+        {/* Right Panel: IDE */}
+        <div className="w-1/2 flex flex-col h-full">
           <BattleIdePanel 
             challenge={challenge} 
             onCorrect={handleCorrectAnswer}
