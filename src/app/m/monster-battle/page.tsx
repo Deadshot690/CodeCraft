@@ -71,10 +71,17 @@ export default function MonsterBattlePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentChallengeIndex]);
 
+
+  const firstUpdate = useRef(true);
   useEffect(() => {
-    // This effect should only run when the form submission is complete (isPending is false)
-    // and when the 'state' object has been updated with a result.
-    if (isPending || state.isCorrect === undefined) {
+    // This effect should only run AFTER the initial render and not on the first render.
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    
+    // This effect should not run while the form submission is pending.
+    if (isPending) {
       return;
     }
 
@@ -117,12 +124,12 @@ export default function MonsterBattlePage() {
         });
     }
 
-    // Reset form and state for the next submission
     formRef.current?.reset();
-    // By resetting isCorrect to undefined, we ensure this effect only runs once per submission.
-    state.isCorrect = undefined;
+    
+    // We intentionally don't reset the `state` here, as `useActionState` manages it.
+    // The effect dependency array ensures it runs when `state` or `isPending` changes.
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, isPending]);
 
 
@@ -134,6 +141,7 @@ export default function MonsterBattlePage() {
       setBattleMessage('');
       fetchTaunt('start');
       formRef.current?.reset();
+      firstUpdate.current = true;
   }
 
   const goToNextBattle = () => {
@@ -146,6 +154,7 @@ export default function MonsterBattlePage() {
       setBattleMessage('');
       fetchTaunt('start');
       formRef.current?.reset();
+      firstUpdate.current = true;
   }
 
   return (
