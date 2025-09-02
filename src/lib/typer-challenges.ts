@@ -95,7 +95,7 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'javascript',
     difficulty: 'Medium',
   },
-    {
+  {
     id: 'tc-js-medium-05',
     title: 'setTimeout Callback',
     snippet: `console.log("Start");\nsetTimeout(() => {\n  console.log("Delayed message");\n}, 1000);`,
@@ -113,6 +113,20 @@ export const typerChallenges: TyperChallenge[] = [
     id: 'tc-js-medium-07',
     title: 'Switch Statement',
     snippet: `switch (fruit) {\n  case "apple":\n    console.log("It is an apple.");\n    break;\n  case "banana":\n    console.log("It is a banana.");\n    break;\n  default:\n    console.log("Some other fruit.");\n}`,
+    language: 'javascript',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-js-medium-08',
+    title: 'Spread Operator',
+    snippet: `const arr1 = [1, 2, 3];\nconst arr2 = [...arr1, 4, 5];\nconst obj1 = { a: 1, b: 2 };\nconst obj2 = { ...obj1, c: 3 };`,
+    language: 'javascript',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-js-medium-09',
+    title: 'Error Handling',
+    snippet: `try {\n  riskyOperation();\n} catch (error) {\n  console.error("An error occurred:", error.message);\n}`,
     language: 'javascript',
     difficulty: 'Medium',
   },
@@ -153,6 +167,20 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'javascript',
     difficulty: 'Hard',
   },
+  {
+    id: 'tc-js-hard-06',
+    title: 'Event Listener',
+    snippet: `document.getElementById("myBtn").addEventListener("click", function() {\n  alert("Button clicked!");\n});`,
+    language: 'javascript',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-js-hard-07',
+    title: 'Canvas Drawing',
+    snippet: `const canvas = document.getElementById('myCanvas');\nconst ctx = canvas.getContext('2d');\nctx.fillStyle = 'green';\nctx.fillRect(10, 10, 150, 100);`,
+    language: 'javascript',
+    difficulty: 'Hard',
+  },
 
   // Python - Easy
   {
@@ -183,7 +211,7 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'python',
     difficulty: 'Easy',
   },
-    {
+  {
     id: 'tc-py-easy-05',
     title: 'List Creation',
     snippet: `fruits = ["apple", "banana", "cherry"]`,
@@ -262,6 +290,20 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'python',
     difficulty: 'Medium',
   },
+  {
+    id: 'tc-py-medium-08',
+    title: 'Exception Handling',
+    snippet: `try:\n    result = 10 / 0\nexcept ZeroDivisionError:\n    print("Cannot divide by zero!")`,
+    language: 'python',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-py-medium-09',
+    title: 'F-String Formatting',
+    snippet: `name = "Alice"\nage = 30\nprint(f"{name} is {age} years old.")`,
+    language: 'python',
+    difficulty: 'Medium',
+  },
 
   // Python - Hard
   {
@@ -296,6 +338,20 @@ export const typerChallenges: TyperChallenge[] = [
     id: 'tc-py-hard-05',
     title: 'Reading CSV',
     snippet: `import csv\n\nwith open('eggs.csv', newline='') as csvfile:\n    spamreader = csv.reader(csvfile, delimiter=' ')\n    for row in spamreader:\n        print(', '.join(row))`,
+    language: 'python',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-py-hard-06',
+    title: 'Context Manager',
+    snippet: `from contextlib import contextmanager\n\n@contextmanager\ndef managed_resource(*args, **kwds):\n    resource = acquire_resource(*args, **kwds)\n    try:\n        yield resource\n    finally:\n        release_resource(resource)`,
+    language: 'python',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-py-hard-07',
+    title: 'Threading',
+    snippet: `import threading\n\ndef worker():\n    print("Worker")\n\nthreads = []\nfor i in range(5):\n    t = threading.Thread(target=worker)\n    threads.append(t)\n    t.start()`,
     language: 'python',
     difficulty: 'Hard',
   },
@@ -373,6 +429,13 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'html',
     difficulty: 'Medium',
   },
+  {
+    id: 'tc-html-medium-05',
+    title: 'Div with Class and ID',
+    snippet: `<div id="main-content" class="container featured">\n  <p>This is a featured section.</p>\n</div>`,
+    language: 'html',
+    difficulty: 'Medium',
+  },
 
   // HTML - Hard
   {
@@ -403,7 +466,14 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'html',
     difficulty: 'Hard',
   },
-
+  {
+    id: 'tc-html-hard-05',
+    title: 'Picture Element',
+    snippet: `<picture>\n <source media="(min-width:650px)" srcset="img_food.jpg">\n <source media="(min-width:465px)" srcset="img_car.jpg">\n <img src="img_avatar.png" alt="Avatar" style="width:auto;">\n</picture>`,
+    language: 'html',
+    difficulty: 'Hard',
+  },
+  
   // CSS - Easy
   {
     id: 'tc-css-easy-01',
@@ -470,7 +540,14 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'css',
     difficulty: 'Medium',
   },
-
+  {
+    id: 'tc-css-medium-05',
+    title: 'Pseudo-element',
+    snippet: `p::first-line {\n  color: #ff0000;\n  font-variant: small-caps;\n}`,
+    language: 'css',
+    difficulty: 'Medium',
+  },
+  
   // CSS - Hard
   {
     id: 'tc-css-hard-01',
@@ -497,6 +574,13 @@ export const typerChallenges: TyperChallenge[] = [
     id: 'tc-css-hard-04',
     title: 'Complex Selector',
     snippet: `nav > ul > li:nth-child(odd) {\n  background-color: #eee;\n}`,
+    language: 'css',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-css-hard-05',
+    title: 'Calc Function',
+    snippet: `#main {\n  position: absolute;\n  left: 50px;\n  width: calc(100% - 100px);\n  border: 1px solid black;\n  padding: 10px;\n}`,
     language: 'css',
     difficulty: 'Hard',
   },
@@ -530,6 +614,13 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'cpp',
     difficulty: 'Easy',
   },
+  {
+    id: 'tc-cpp-easy-05',
+    title: 'While Loop',
+    snippet: `int i = 0;\nwhile (i < 5) {\n  std::cout << i;\n  i++;\n}`,
+    language: 'cpp',
+    difficulty: 'Easy',
+  },
 
   // C++ - Medium
   {
@@ -553,6 +644,20 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'cpp',
     difficulty: 'Medium',
   },
+  {
+    id: 'tc-cpp-medium-04',
+    title: 'Reference Variable',
+    snippet: `std::string food = "Pizza";\nstd::string &meal = food;`,
+    language: 'cpp',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-cpp-medium-05',
+    title: 'Overloading',
+    snippet: `int plusFunc(int x, int y) {\n  return x + y;\n}\ndouble plusFunc(double x, double y) {\n  return x + y;\n}`,
+    language: 'cpp',
+    difficulty: 'Medium',
+  },
 
   // C++ - Hard
   {
@@ -573,6 +678,20 @@ export const typerChallenges: TyperChallenge[] = [
     id: 'tc-cpp-hard-03',
     title: 'File I/O',
     snippet: `#include <iostream>\n#include <fstream>\n\nstd::ofstream outfile ("test.txt");\noutfile << "my text here" << std::endl;\noutfile.close();`,
+    language: 'cpp',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-cpp-hard-04',
+    title: 'Inheritance',
+    snippet: `class Animal {\n public:\n    void eat() { std::cout << "I can eat!"; }\n};\nclass Dog : public Animal {\n public:\n    void bark() { std::cout << "I can bark!"; }\n};`,
+    language: 'cpp',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-cpp-hard-05',
+    title: 'Exception Handling',
+    snippet: `try {\n  int age = 15;\n  if (age >= 18) {\n    std::cout << "Access granted";\n  } else {\n    throw 505;\n  }\n} catch (int myNum) {\n  std::cout << "Access denied";\n}`,
     language: 'cpp',
     difficulty: 'Hard',
   },
@@ -606,6 +725,13 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'java',
     difficulty: 'Easy',
   },
+  {
+    id: 'tc-java-easy-05',
+    title: 'Simple If/Else',
+    snippet: `int time = 20;\nif (time < 18) {\n  System.out.println("Good day.");\n} else {\n  System.out.println("Good evening.");\n}`,
+    language: 'java',
+    difficulty: 'Easy',
+  },
 
   // Java - Medium
   {
@@ -629,6 +755,20 @@ export const typerChallenges: TyperChallenge[] = [
     language: 'java',
     difficulty: 'Medium',
   },
+  {
+    id: 'tc-java-medium-04',
+    title: 'Constructor',
+    snippet: `public class MyClass {\n  int x;\n\n  public MyClass(int y) {\n    x = y;\n  }\n}`,
+    language: 'java',
+    difficulty: 'Medium',
+  },
+  {
+    id: 'tc-java-medium-05',
+    title: 'Encapsulation',
+    snippet: `public class Person {\n  private String name;\n\n  public String getName() {\n    return name;\n  }\n\n  public void setName(String newName) {\n    this.name = newName;\n  }\n}`,
+    language: 'java',
+    difficulty: 'Medium',
+  },
 
   // Java - Hard
   {
@@ -649,6 +789,20 @@ export const typerChallenges: TyperChallenge[] = [
     id: 'tc-java-hard-03',
     title: 'Try/Catch Block',
     snippet: `try {\n  int[] myNumbers = {1, 2, 3};\n  System.out.println(myNumbers[10]);\n} catch (Exception e) {\n  System.out.println("Something went wrong.");\n}`,
+    language: 'java',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-java-hard-04',
+    title: 'Lambda Expressions',
+    snippet: `ArrayList<Integer> numbers = new ArrayList<Integer>();\nnumbers.add(5);\nnumbers.forEach( (n) -> { System.out.println(n); } );`,
+    language: 'java',
+    difficulty: 'Hard',
+  },
+  {
+    id: 'tc-java-hard-05',
+    title: 'Threads',
+    snippet: `public class MyThread extends Thread {\n  public void run() {\n    System.out.println("This code is running in a thread");\n  }\n}`,
     language: 'java',
     difficulty: 'Hard',
   },
