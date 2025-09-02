@@ -168,18 +168,22 @@ export default function MonsterBattlePage() {
                             <p className="text-right font-bold">{playerHP} / 100</p>
                         </CardContent>
                     </Card>
-                     <Card className="flex flex-col">
+                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2"><Bot /> {monster.name}</CardTitle>
                              <CardDescription>{monster.description}</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-2 flex-grow">
-                             <div className="bg-muted rounded-lg aspect-square flex items-center justify-center p-4 max-w-[250px] mx-auto">
-                                <Image ref={monsterImageRef} src={monster.imageUrl} alt={monster.name} width={150} height={150} className={cn("transition-transform duration-500", monsterHP <= 0 && "opacity-0 scale-75")}/>
-                            </div>
-                            <Label>Health</Label>
-                            <Progress value={(monsterHP / monster.hp) * 100} variant={monsterHP < monster.hp / 4 ? "destructive" : "default"} className="h-4" />
-                            <p className="text-right font-bold">{monsterHP} / {monster.hp}</p>
+                        <CardContent className="space-y-4">
+                             <div className="flex items-center gap-4">
+                                <div className="bg-muted rounded-lg w-24 h-24 flex items-center justify-center p-2 flex-shrink-0">
+                                    <Image ref={monsterImageRef} src={monster.imageUrl} alt={monster.name} width={80} height={80} className={cn("transition-transform duration-500", monsterHP <= 0 && "opacity-0 scale-75")}/>
+                                </div>
+                                <div className="w-full space-y-2">
+                                    <Label>Health</Label>
+                                    <Progress value={(monsterHP / monster.hp) * 100} variant={monsterHP < monster.hp / 4 ? "destructive" : "default"} className="h-4" />
+                                    <p className="text-right font-bold">{monsterHP} / {monster.hp}</p>
+                                </div>
+                             </div>
                         </CardContent>
                     </Card>
                      <Alert className="border-primary">
