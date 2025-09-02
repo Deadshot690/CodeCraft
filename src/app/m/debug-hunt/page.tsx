@@ -7,12 +7,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Timer, CheckCircle, XCircle, Bug, Bot, Sparkles, ChevronLeft } from 'lucide-react';
+import { Timer, CheckCircle, XCircle, Bug, Sparkles, ChevronLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getRandomDebugChallenge, DebugChallenge } from '@/lib/debug-challenges';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 
 const TIME_LIMIT = 60; // 60 seconds
@@ -42,6 +41,7 @@ export default function DebugHuntPage() {
         clearTimeout(timerRef.current);
       }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGameActive, timeLeft]);
   
   const startNewGame = () => {
