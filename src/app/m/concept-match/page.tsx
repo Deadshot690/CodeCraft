@@ -111,9 +111,9 @@ export default function ConceptMatchListPage({
     language?: string;
   };
 }) {
-    const search = searchParams?.search || '';
-    const difficulty = searchParams?.difficulty || 'all';
-    const language = searchParams?.language || 'all';
+    const search = searchParams?.search ?? '';
+    const difficulty = searchParams?.difficulty ?? 'all';
+    const language = searchParams?.language ?? 'all';
 
   return (
     <DashboardLayout>
