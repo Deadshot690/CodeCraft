@@ -19,18 +19,18 @@ export interface BattleMonster {
 
 export const challenges: BattleChallenge[] = [
   // Beginner Web
-  { id: 'html-link', question: 'In HTML, which tag is used to create a hyperlink?', answer: 'a', domain: 'Web', difficulty: 'Beginner' },
+  { id: 'html-link', question: 'In HTML, which tag is used to create a hyperlink?', answer: '<a>', domain: 'Web', difficulty: 'Beginner' },
   { id: 'css-color', question: 'In CSS, which property changes the text color of an element?', answer: 'color', domain: 'Web', difficulty: 'Beginner' },
   { id: 'js-const', question: 'In JavaScript, which keyword is used to declare a variable that cannot be reassigned?', answer: 'const', domain: 'Web', difficulty: 'Beginner' },
-  { id: 'html-title', question: 'Which HTML tag is used to define the title of a document?', answer: 'title', domain: 'Web', difficulty: 'Beginner' },
+  { id: 'html-title', question: 'Which HTML tag is used to define the title of a document?', answer: '<title>', domain: 'Web', difficulty: 'Beginner' },
   { id: 'css-font-size', question: 'Which CSS property controls the size of the text?', answer: 'font-size', domain: 'Web', difficulty: 'Beginner' },
   
   // Easy Web
   { id: 'js-let', question: 'Which keyword in JavaScript declares a block-scoped local variable, optionally initializing it to a value?', answer: 'let', domain: 'Web', difficulty: 'Easy' },
-  { id: 'html-img', question: 'What HTML tag is used to embed an image in a web page?', answer: 'img', domain: 'Web', difficulty: 'Easy' },
+  { id: 'html-img', question: 'What HTML tag is used to embed an image in a web page?', answer: '<img>', domain: 'Web', difficulty: 'Easy' },
   { id: 'css-background', question: 'How do you change the background color of an element in CSS?', answer: 'background-color', domain: 'Web', difficulty: 'Easy' },
   { id: 'js-alert', question: 'Which function in JavaScript will display a simple message in a dialog box?', answer: 'alert()', domain: 'Web', difficulty: 'Easy' },
-  { id: 'html-br', question: 'Which HTML tag produces a line break?', answer: 'br', domain: 'Web', difficulty: 'Easy' },
+  { id: 'html-br', question: 'Which HTML tag produces a line break?', answer: '<br>', domain: 'Web', difficulty: 'Easy' },
   { id: 'js-array-length', question: 'What is the output of the following JavaScript code?', code: 'console.log([10, 20, 30].length)', answer: '3', domain: 'Web', difficulty: 'Easy' },
   { id: 'js-strict-equality', question: 'Which operator checks for both value and type equality in JavaScript?', answer: '===', domain: 'Web', difficulty: 'Easy' },
   
@@ -46,7 +46,7 @@ export const challenges: BattleChallenge[] = [
   { id: 'js-promise', question: 'What object is used for asynchronous computations in JavaScript?', answer: 'Promise', domain: 'Web', difficulty: 'Medium' },
   
   // Hard Web
-  { id: 'html-form', question: 'Which HTML element is used to create a form for user input?', answer: 'form', domain: 'Web', difficulty: 'Hard' },
+  { id: 'html-form', question: 'Which HTML element is used to create a form for user input?', answer: '<form>', domain: 'Web', difficulty: 'Hard' },
   { id: 'css-grid', question: 'What is the name of the CSS layout module that offers a grid-based layout system, with rows and columns?', answer: 'Grid', domain: 'Web', difficulty: 'Hard' },
   { id: 'js-event-listener', question: 'Which method attaches an event handler to a specified element?', answer: 'addEventListener()', domain: 'Web', difficulty: 'Hard' },
   { id: 'js-closure', question: 'What is it called when a function remembers its lexical scope even when executed outside that scope?', answer: 'Closure', domain: 'Web', difficulty: 'Hard' },
