@@ -113,8 +113,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     </SidebarMenuSubButton>
                   </SidebarMenuItem>
                    <SidebarMenuItem>
-                    <SidebarMenuSubButton asChild>
-                      <Link href="#">
+                    <SidebarMenuSubButton asChild isActive={pathname.startsWith('/m/output-prediction')}>
+                      <Link href="/m/output-prediction">
                         <BrainCircuit />
                         <span>Output Prediction</span>
                       </Link>
