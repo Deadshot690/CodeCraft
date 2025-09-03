@@ -1095,8 +1095,1102 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int longestConsecutive(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: []
+  },
+  // START OF 200 NEW PROBLEMS
+  {
+    id: 'plus-one',
+    title: 'Plus One',
+    description: 'You are given a large integer represented as an integer array `digits`, where each `digits[i]` is the `ith` digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0\'s. Increment the large integer by one and return the resulting array of digits.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Math'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function plusOne(digits) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def plusOne(self, digits: List[int]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> plusOne(vector<int>& digits) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] plusOne(int[] digits) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { digits: [1, 2, 3] }, expectedOutput: [1, 2, 4] },
+      { input: { digits: [4, 3, 2, 1] }, expectedOutput: [4, 3, 2, 2] },
+      { input: { digits: [9] }, expectedOutput: [1, 0] }
+    ]
+  },
+  {
+    id: 'sqrtx',
+    title: 'Sqrt(x)',
+    description: 'Given a non-negative integer `x`, compute and return the square root of `x`. Since the return type is an integer, the decimal part is truncated, and only the integer part of the result is returned.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Math', 'Binary Search'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function mySqrt(x) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def mySqrt(self, x: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int mySqrt(int x) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int mySqrt(int x) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { x: 4 }, expectedOutput: 2 },
+      { input: { x: 8 }, expectedOutput: 2 },
+      { input: { x: 0 }, expectedOutput: 0 }
+    ]
+  },
+  {
+    id: 'remove-element',
+    title: 'Remove Element',
+    description: 'Given an integer array `nums` and an integer `val`, remove all occurrences of `val` in `nums` in-place. The order of the elements may be changed. Then return the number of elements in `nums` which are not equal to `val`.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Two Pointers'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function removeElement(nums, val) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def removeElement(self, nums: List[int], val: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int removeElement(vector<int>& nums, int val) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int removeElement(int[] nums, int val) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [3, 2, 2, 3], val: 3 }, expectedOutput: 2 },
+      { input: { nums: [0, 1, 2, 2, 3, 0, 4, 2], val: 2 }, expectedOutput: 5 }
+    ]
+  },
+  {
+    id: 'search-insert-position',
+    title: 'Search Insert Position',
+    description: 'Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Binary Search'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function searchInsert(nums, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def searchInsert(self, nums: List[int], target: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int searchInsert(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int searchInsert(int[] nums, int target) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [1, 3, 5, 6], target: 5 }, expectedOutput: 2 },
+      { input: { nums: [1, 3, 5, 6], target: 2 }, expectedOutput: 1 },
+      { input: { nums: [1, 3, 5, 6], target: 7 }, expectedOutput: 4 }
+    ]
+  },
+  {
+    id: 'length-of-last-word',
+    title: 'Length of Last Word',
+    description: 'Given a string `s` consisting of words and spaces, return the length of the last word in the string.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['String'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function lengthOfLastWord(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def lengthOfLastWord(self, s: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int lengthOfLastWord(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int lengthOfLastWord(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { s: "Hello World" }, expectedOutput: 5 },
+      { input: { s: "   fly me   to   the moon  " }, expectedOutput: 4 },
+      { input: { s: "luffy is still joyboy" }, expectedOutput: 6 }
+    ]
+  },
+  {
+    id: 'add-binary',
+    title: 'Add Binary',
+    description: 'Given two binary strings `a` and `b`, return their sum as a binary string.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Math', 'String', 'Bit Manipulation', 'Simulation'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function addBinary(a, b) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def addBinary(self, a: str, b: str) -> str:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    string addBinary(string a, string b) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public String addBinary(String a, String b) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { a: "11", b: "1" }, expectedOutput: "100" },
+      { input: { a: "1010", b: "1011" }, expectedOutput: "10101" }
+    ]
+  },
+  {
+    id: 'pascals-triangle',
+    title: 'Pascal\'s Triangle',
+    description: 'Given an integer `numRows`, return the first numRows of Pascal\'s triangle.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function generate(numRows) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def generate(self, numRows: int) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> generate(int numRows) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> generate(int numRows) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { numRows: 5 }, expectedOutput: [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1]] },
+      { input: { numRows: 1 }, expectedOutput: [[1]] }
+    ]
+  },
+  {
+    id: 'pascals-triangle-ii',
+    title: 'Pascal\'s Triangle II',
+    description: 'Given an integer `rowIndex`, return the `rowIndex`th (0-indexed) row of the Pascal\'s triangle.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function getRow(rowIndex) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def getRow(self, rowIndex: int) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> getRow(int rowIndex) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<Integer> getRow(int rowIndex) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { rowIndex: 3 }, expectedOutput: [1, 3, 3, 1] },
+      { input: { rowIndex: 0 }, expectedOutput: [1] },
+      { input: { rowIndex: 1 }, expectedOutput: [1, 1] }
+    ]
+  },
+  {
+    id: 'single-number-ii',
+    title: 'Single Number II',
+    description: 'Given an integer array `nums` where every element appears three times except for one, which appears exactly once. Find the single element and return it.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Bit Manipulation'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function singleNumber(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def singleNumber(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int singleNumber(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [2, 2, 3, 2] }, expectedOutput: 3 },
+      { input: { nums: [0, 1, 0, 1, 0, 1, 99] }, expectedOutput: 99 }
+    ]
+  },
+  {
+    id: 'symmetric-tree',
+    title: 'Symmetric Tree',
+    description: 'Given the `root` of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isSymmetric(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isSymmetric(self, root: Optional[TreeNode]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isSymmetric(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isSymmetric(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'balanced-binary-tree',
+    title: 'Balanced Binary Tree',
+    description: 'Given a binary tree, determine if it is height-balanced. A height-balanced binary tree is a binary tree in which the depth of the two subtrees of every node never differs by more than one.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isBalanced(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isBalanced(self, root: Optional[TreeNode]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isBalanced(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isBalanced(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'minimum-depth-of-binary-tree',
+    title: 'Minimum Depth of Binary Tree',
+    description: 'Given a binary tree, find its minimum depth. The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function minDepth(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def minDepth(self, root: Optional[TreeNode]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int minDepth(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int minDepth(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'path-sum',
+    title: 'Path Sum',
+    description: 'Given the `root` of a binary tree and an integer `targetSum`, return `true` if the tree has a root-to-leaf path such that adding up all the values along the path equals `targetSum`.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function hasPathSum(root, targetSum) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool hasPathSum(TreeNode* root, int targetSum) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean hasPathSum(TreeNode root, int targetSum) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'binary-tree-preorder-traversal',
+    title: 'Binary Tree Preorder Traversal',
+    description: 'Given the `root` of a binary tree, return the preorder traversal of its nodes\' values.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Stack', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function preorderTraversal(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> preorderTraversal(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<Integer> preorderTraversal(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'binary-tree-postorder-traversal',
+    title: 'Binary Tree Postorder Traversal',
+    description: 'Given the `root` of a binary tree, return the postorder traversal of its nodes\' values.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Stack', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function postorderTraversal(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> postorderTraversal(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<Integer> postorderTraversal(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'excel-sheet-column-title',
+    title: 'Excel Sheet Column Title',
+    description: 'Given an integer `columnNumber`, return its corresponding column title as it appears in an Excel sheet.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Math', 'String'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function convertToTitle(columnNumber) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def convertToTitle(self, columnNumber: int) -> str:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    string convertToTitle(int columnNumber) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public String convertToTitle(int columnNumber) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { columnNumber: 1 }, expectedOutput: "A" },
+      { input: { columnNumber: 28 }, expectedOutput: "AB" },
+      { input: { columnNumber: 701 }, expectedOutput: "ZY" }
+    ]
+  },
+  {
+    id: 'excel-sheet-column-number',
+    title: 'Excel Sheet Column Number',
+    description: 'Given a string `columnTitle` that represents the column title as it appears in an Excel sheet, return its corresponding column number.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Math', 'String'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function titleToNumber(columnTitle) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def titleToNumber(self, columnTitle: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int titleToNumber(string columnTitle) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int titleToNumber(String columnTitle) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { columnTitle: "A" }, expectedOutput: 1 },
+      { input: { columnTitle: "AB" }, expectedOutput: 28 },
+      { input: { columnTitle: "ZY" }, expectedOutput: 701 }
+    ]
+  },
+  {
+    id: 'factorial-trailing-zeroes',
+    title: 'Factorial Trailing Zeroes',
+    description: 'Given an integer `n`, return the number of trailing zeroes in `n!`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Math'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function trailingZeroes(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def trailingZeroes(self, n: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int trailingZeroes(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int trailingZeroes(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { n: 3 }, expectedOutput: 0 },
+      { input: { n: 5 }, expectedOutput: 1 },
+      { input: { n: 0 }, expectedOutput: 0 }
+    ]
+  },
+  {
+    id: 'rotate-array',
+    title: 'Rotate Array',
+    description: 'Given an array, rotate the array to the right by `k` steps, where `k` is non-negative.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Math', 'Two Pointers'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function rotate(nums, k) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def rotate(self, nums: List[int], k: int) -> None:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void rotate(vector<int>& nums, int k) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void rotate(int[] nums, int k) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'reverse-bits',
+    title: 'Reverse Bits',
+    description: 'Reverse bits of a given 32 bits unsigned integer.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Bit Manipulation', 'Divide and Conquer'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function reverseBits(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def reverseBits(self, n: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    uint32_t reverseBits(uint32_t n) {\n        // Write your code here\n    }\n};`,
+      java: `public class Solution {\n    public int reverseBits(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'number-of-1-bits',
+    title: 'Number of 1 Bits',
+    description: 'Write a function that takes an unsigned integer and returns the number of \'1\' bits it has (also known as the Hamming weight).',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Bit Manipulation', 'Divide and Conquer'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function hammingWeight(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def hammingWeight(self, n: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int hammingWeight(uint32_t n) {\n        // Write your code here\n    }\n};`,
+      java: `public class Solution {\n    public int hammingWeight(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'house-robber',
+    title: 'House Robber',
+    description: 'You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night. Given an integer array `nums` representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function rob(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def rob(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int rob(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int rob(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [1, 2, 3, 1] }, expectedOutput: 4 },
+      { input: { nums: [2, 7, 9, 3, 1] }, expectedOutput: 12 }
+    ]
+  },
+  {
+    id: 'happy-number',
+    title: 'Happy Number',
+    description: 'Write an algorithm to determine if a number `n` is happy. A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits. Repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Hash Table', 'Math', 'Two Pointers'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isHappy(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isHappy(self, n: int) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isHappy(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isHappy(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { n: 19 }, expectedOutput: true },
+      { input: { n: 2 }, expectedOutput: false }
+    ]
+  },
+  {
+    id: 'remove-linked-list-elements',
+    title: 'Remove Linked List Elements',
+    description: 'Given the `head` of a linked list and an integer `val`, remove all the nodes of the linked list that has `Node.val == val`, and return the new head.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Linked List', 'Recursion'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function removeElements(head, val) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    ListNode* removeElements(ListNode* head, int val) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public ListNode removeElements(ListNode head, int val) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'count-primes',
+    title: 'Count Primes',
+    description: 'Given an integer `n`, return the number of prime numbers that are strictly less than `n`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Math', 'Enumeration', 'Number Theory'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function countPrimes(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def countPrimes(self, n: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int countPrimes(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int countPrimes(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { n: 10 }, expectedOutput: 4 },
+      { input: { n: 0 }, expectedOutput: 0 },
+      { input: { n: 1 }, expectedOutput: 0 }
+    ]
+  },
+  {
+    id: 'isomorphic-strings',
+    title: 'Isomorphic Strings',
+    description: 'Given two strings `s` and `t`, determine if they are isomorphic. Two strings `s` and `t` are isomorphic if the characters in `s` can be replaced to get `t`.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['String', 'Hash Table'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isIsomorphic(s, t) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isIsomorphic(self, s: str, t: str) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isIsomorphic(string s, string t) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isIsomorphic(String s, String t) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { s: "egg", t: "add" }, expectedOutput: true },
+      { input: { s: "foo", t: "bar" }, expectedOutput: false },
+      { input: { s: "paper", t: "title" }, expectedOutput: true }
+    ]
+  },
+  {
+    id: 'power-of-two',
+    title: 'Power of Two',
+    description: 'Given an integer `n`, return `true` if it is a power of two. Otherwise, return `false`.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Math', 'Bit Manipulation', 'Recursion'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isPowerOfTwo(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isPowerOfTwo(self, n: int) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isPowerOfTwo(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isPowerOfTwo(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { n: 1 }, expectedOutput: true },
+      { input: { n: 16 }, expectedOutput: true },
+      { input: { n: 3 }, expectedOutput: false }
+    ]
+  },
+  {
+    id: 'palindrome-linked-list',
+    title: 'Palindrome Linked List',
+    description: 'Given the `head` of a singly linked list, return `true` if it is a palindrome.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Linked List', 'Two Pointers', 'Stack', 'Recursion'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isPalindrome(head) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isPalindrome(self, head: Optional[ListNode]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isPalindrome(ListNode* head) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isPalindrome(ListNode head) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'implement-queue-using-stacks',
+    title: 'Implement Queue using Stacks',
+    description: 'Implement a first in, first out (FIFO) queue using only two stacks.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Stack', 'Design', 'Queue'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `class MyQueue {\n  constructor() {\n    // ...\n  }\n  push(x) {\n    // ...\n  }\n  pop() {\n    // ...\n  }\n  peek() {\n    // ...\n  }\n  empty() {\n    // ...\n  }\n}`,
+      python: `class MyQueue:\n    def __init__(self):\n        # ...\n\n    def push(self, x: int) -> None:\n        # ...\n\n    def pop(self) -> int:\n        # ...\n\n    def peek(self) -> int:\n        # ...\n\n    def empty(self) -> bool:\n        # ...\n`,
+      cpp: `class MyQueue {\npublic:\n    MyQueue() {\n        // ...\n    }\n    \n    void push(int x) {\n        // ...\n    }\n    \n    int pop() {\n        // ...\n    }\n    \n    int peek() {\n        // ...\n    }\n    \n    bool empty() {\n        // ...\n    }\n};`,
+      java: `class MyQueue {\n    public MyQueue() {\n        // ...\n    }\n    \n    public void push(int x) {\n        // ...\n    }\n    \n    public int pop() {\n        // ...\n    }\n    \n    public int peek() {\n        // ...\n    }\n    \n    public boolean empty() {\n        // ...\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'implement-stack-using-queues',
+    title: 'Implement Stack using Queues',
+    description: 'Implement a last-in, first-out (LIFO) stack using only two queues.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Stack', 'Design', 'Queue'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `class MyStack {\n  constructor() {\n    // ...\n  }\n  push(x) {\n    // ...\n  }\n  pop() {\n    // ...\n  }\n  top() {\n    // ...\n  }\n  empty() {\n    // ...\n  }\n}`,
+      python: `class MyStack:\n    def __init__(self):\n        # ...\n\n    def push(self, x: int) -> None:\n        # ...\n\n    def pop(self) -> int:\n        # ...\n\n    def top(self) -> int:\n        # ...\n\n    def empty(self) -> bool:\n        # ...\n`,
+      cpp: `class MyStack {\npublic:\n    MyStack() {\n        // ...\n    }\n    \n    void push(int x) {\n        // ...\n    }\n    \n    int pop() {\n        // ...\n    }\n    \n    int top() {\n        // ...\n    }\n    \n    bool empty() {\n        // ...\n    }\n};`,
+      java: `class MyStack {\n    public MyStack() {\n        // ...\n    }\n    \n    public void push(int x) {\n        // ...\n    }\n    \n    public int pop() {\n        // ...\n    }\n    \n    public int top() {\n        // ...\n    }\n    \n    public boolean empty() {\n        // ...\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'missing-number',
+    title: 'Missing Number',
+    description: 'Given an array `nums` containing `n` distinct numbers in the range `[0, n]`, return the only number in the range that is missing from the array.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Math', 'Bit Manipulation', 'Sorting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function missingNumber(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def missingNumber(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int missingNumber(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int missingNumber(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [3, 0, 1] }, expectedOutput: 2 },
+      { input: { nums: [0, 1] }, expectedOutput: 2 },
+      { input: { nums: [9, 6, 4, 2, 3, 5, 7, 0, 1] }, expectedOutput: 8 }
+    ]
+  },
+  {
+    id: 'move-zeroes',
+    title: 'Move Zeroes',
+    description: 'Given an integer array `nums`, move all `0`\'s to the end of it while maintaining the relative order of the non-zero elements.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Two Pointers'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function moveZeroes(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def moveZeroes(self, nums: List[int]) -> None:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void moveZeroes(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void moveZeroes(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'first-bad-version',
+    title: 'First Bad Version',
+    description: 'You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Each version is developed based on the previous version, so all the versions after a bad version are also bad. Suppose you have `n` versions `[1, 2, ..., n]` and you want to find out the first bad one, which causes all the following ones to be bad. You are given an API `bool isBadVersion(version)` which returns whether `version` is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Binary Search', 'Interactive'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `/**\n * Definition for isBadVersion()\n * \n * @param {integer} version number\n * @return {boolean} whether the version is bad\n * isBadVersion = function(version) { ... };\n */\n\nfunction solution(isBadVersion) {\n    return function(n) {\n        // Write your code here\n    };\n};`,
+      python: `# The isBadVersion API is already defined for you.\n# def isBadVersion(version: int) -> bool:\n\nclass Solution:\n    def firstBadVersion(self, n: int) -> int:\n        # Write your code here\n`,
+      cpp: `// The API isBadVersion is defined for you.\n// bool isBadVersion(int version);\n\nclass Solution {\npublic:\n    int firstBadVersion(int n) {\n        // Write your code here\n    }\n};`,
+      java: `/* The isBadVersion API is defined in the parent class VersionControl.\n      boolean isBadVersion(int version); */\n\npublic class Solution extends VersionControl {\n    public int firstBadVersion(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'word-pattern',
+    title: 'Word Pattern',
+    description: 'Given a `pattern` and a string `s`, find if `s` follows the same pattern. Here follow means a full match, such that there is a bijection between a letter in `pattern` and a non-empty word in `s`.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['String', 'Hash Table'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function wordPattern(pattern, s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def wordPattern(self, pattern: str, s: str) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool wordPattern(string pattern, string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean wordPattern(String pattern, String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { pattern: "abba", s: "dog cat cat dog" }, expectedOutput: true },
+      { input: { pattern: "abba", s: "dog cat cat fish" }, expectedOutput: false },
+      { input: { pattern: "aaaa", s: "dog cat cat dog" }, expectedOutput: false }
+    ]
+  },
+  {
+    id: 'ugly-number',
+    title: 'Ugly Number',
+    description: 'An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5. Given an integer `n`, return `true` if `n` is an ugly number.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Math'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isUgly(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isUgly(self, n: int) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isUgly(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isUgly(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { n: 6 }, expectedOutput: true },
+      { input: { n: 1 }, expectedOutput: true },
+      { input: { n: 14 }, expectedOutput: false }
+    ]
+  },
+  {
+    id: 'add-digits',
+    title: 'Add Digits',
+    description: 'Given an integer `num`, repeatedly add all its digits until the result has only one digit, and return it.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Math', 'Simulation', 'Number Theory'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function addDigits(num) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def addDigits(self, num: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int addDigits(int num) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int addDigits(int num) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { num: 38 }, expectedOutput: 2 },
+      { input: { num: 0 }, expectedOutput: 0 }
+    ]
+  },
+  {
+    id: 'intersection-of-two-arrays',
+    title: 'Intersection of Two Arrays',
+    description: 'Given two integer arrays `nums1` and `nums2`, return an array of their intersection. Each element in the result must be unique and you may return the result in any order.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Two Pointers', 'Binary Search', 'Sorting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function intersection(nums1, nums2) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] intersection(int[] nums1, int[] nums2) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums1: [1, 2, 2, 1], nums2: [2, 2] }, expectedOutput: [2] },
+      { input: { nums1: [4, 9, 5], nums2: [9, 4, 9, 8, 4] }, expectedOutput: [9, 4] }
+    ]
+  },
+  {
+    id: 'intersection-of-two-arrays-ii',
+    title: 'Intersection of Two Arrays II',
+    description: 'Given two integer arrays `nums1` and `nums2`, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Two Pointers', 'Binary Search', 'Sorting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function intersect(nums1, nums2) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] intersect(int[] nums1, int[] nums2) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums1: [1, 2, 2, 1], nums2: [2, 2] }, expectedOutput: [2, 2] },
+      { input: { nums1: [4, 9, 5], nums2: [9, 4, 9, 8, 4] }, expectedOutput: [4, 9] }
+    ]
+  },
+  {
+    id: 'power-of-three',
+    title: 'Power of Three',
+    description: 'Given an integer `n`, return `true` if it is a power of three. Otherwise, return `false`.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Math', 'Recursion'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isPowerOfThree(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isPowerOfThree(self, n: int) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isPowerOfThree(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isPowerOfThree(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { n: 27 }, expectedOutput: true },
+      { input: { n: 0 }, expectedOutput: false },
+      { input: { n: 9 }, expectedOutput: true }
+    ]
+  },
+  {
+    id: 'power-of-four',
+    title: 'Power of Four',
+    description: 'Given an integer `n`, return `true` if it is a power of four. Otherwise, return `false`.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Math', 'Bit Manipulation', 'Recursion'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isPowerOfFour(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isPowerOfFour(self, n: int) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isPowerOfFour(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isPowerOfFour(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { n: 16 }, expectedOutput: true },
+      { input: { n: 5 }, expectedOutput: false },
+      { input: { n: 1 }, expectedOutput: true }
+    ]
+  },
+  {
+    id: 'reverse-vowels-of-a-string',
+    title: 'Reverse Vowels of a String',
+    description: 'Given a string `s`, reverse only all the vowels in the string and return it.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['String', 'Two Pointers'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function reverseVowels(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def reverseVowels(self, s: str) -> str:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    string reverseVowels(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public String reverseVowels(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { s: "hello" }, expectedOutput: "holle" },
+      { input: { s: "leetcode" }, expectedOutput: "leotcede" }
+    ]
+  },
+  {
+    id: 'valid-perfect-square',
+    title: 'Valid Perfect Square',
+    description: 'Given a positive integer `num`, return `true` if `num` is a perfect square or `false` otherwise.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Math', 'Binary Search'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isPerfectSquare(num) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isPerfectSquare(self, num: int) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isPerfectSquare(int num) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isPerfectSquare(int num) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { num: 16 }, expectedOutput: true },
+      { input: { num: 14 }, expectedOutput: false }
+    ]
+  },
+  {
+    id: 'find-the-difference',
+    title: 'Find the Difference',
+    description: 'You are given two strings `s` and `t`. String `t` is generated by random shuffling string `s` and then add one more letter at a random position. Return the letter that was added to `t`.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['String', 'Hash Table', 'Bit Manipulation', 'Sorting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findTheDifference(s, t) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findTheDifference(self, s: str, t: str) -> str:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    char findTheDifference(string s, string t) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public char findTheDifference(String s, String t) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { s: "abcd", t: "abcde" }, expectedOutput: "e" },
+      { input: { s: "", t: "y" }, expectedOutput: "y" }
+    ]
+  },
+  {
+    id: 'is-subsequence',
+    title: 'Is Subsequence',
+    description: 'Given two strings `s` and `t`, return `true` if `s` is a subsequence of `t`, or `false` otherwise.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['String', 'Two Pointers', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isSubsequence(s, t) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isSubsequence(self, s: str, t: str) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isSubsequence(string s, string t) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isSubsequence(String s, String t) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { s: "abc", t: "ahbgdc" }, expectedOutput: true },
+      { input: { s: "axc", t: "ahbgdc" }, expectedOutput: false }
+    ]
+  },
+  {
+    id: 'first-unique-character-in-a-string',
+    title: 'First Unique Character in a String',
+    description: 'Given a string `s`, find the first non-repeating character in it and return its index. If it does not exist, return -1.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['String', 'Hash Table', 'Queue', 'Counting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function firstUniqChar(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def firstUniqChar(self, s: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int firstUniqChar(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int firstUniqChar(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { s: "leetcode" }, expectedOutput: 0 },
+      { input: { s: "loveleetcode" }, expectedOutput: 2 },
+      { input: { s: "aabb" }, expectedOutput: -1 }
+    ]
+  },
+  {
+    id: 'ransom-note',
+    title: 'Ransom Note',
+    description: 'Given two strings `ransomNote` and `magazine`, return `true` if `ransomNote` can be constructed from `magazine` and `false` otherwise. Each letter in `magazine` can only be used once in `ransomNote`.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['String', 'Hash Table', 'Counting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function canConstruct(ransomNote, magazine) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def canConstruct(self, ransomNote: str, magazine: str) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool canConstruct(string ransomNote, string magazine) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean canConstruct(String ransomNote, String magazine) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { ransomNote: "a", magazine: "b" }, expectedOutput: false },
+      { input: { ransomNote: "aa", magazine: "ab" }, expectedOutput: false },
+      { input: { ransomNote: "aa", magazine: "aab" }, expectedOutput: true }
+    ]
+  },
+  {
+    id: 'binary-watch',
+    title: 'Binary Watch',
+    description: 'A binary watch has 4 LEDs on the top to represent the hours (0-11), and 6 LEDs on the bottom to represent the minutes (0-59). Each LED represents a zero or a one, with the least significant bit on the right. Given an integer `turnedOn` which represents the number of LEDs that are currently on, return all possible times the watch can represent.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Backtracking', 'Bit Manipulation'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function readBinaryWatch(turnedOn) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def readBinaryWatch(self, turnedOn: int) -> List[str]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<string> readBinaryWatch(int turnedOn) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<String> readBinaryWatch(int turnedOn) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'sum-of-left-leaves',
+    title: 'Sum of Left Leaves',
+    description: 'Given the `root` of a binary tree, return the sum of all left leaves.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function sumOfLeftLeaves(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int sumOfLeftLeaves(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int sumOfLeftLeaves(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'fizz-buzz-multithreaded',
+    title: 'Fizz Buzz Multithreaded',
+    description: 'You have the four functions: `fizz`, `buzz`, `fizzbuzz` and `number`. The same instance of `FizzBuzz` will be passed to four different threads. Implement a multithreaded version of `FizzBuzz`.',
+    difficulty: 'Medium',
+    domain: 'AI',
+    tags: ['Concurrency'],
+    languages: ['python', 'cpp', 'java'],
+    templates: {
+      javascript: `// Not applicable`,
+      python: `from threading import Semaphore\n\nclass FizzBuzz:\n    def __init__(self, n: int):\n        self.n = n\n\n    def fizz(self, printFizz: \'Callable[[], None]\') -> None:\n        # ...\n\n    def buzz(self, printBuzz: \'Callable[[], None]\') -> None:\n        # ...\n\n    def fizzbuzz(self, printFizzBuzz: \'Callable[[], None]\') -> None:\n        # ...\n\n    def number(self, printNumber: \'Callable[[int], None]\') -> None:\n        # ...`,
+      cpp: `class FizzBuzz {\nprivate:\n    int n;\npublic:\n    FizzBuzz(int n) {\n        this->n = n;\n    }\n\n    void fizz(function<void()> printFizz) {\n        // ...\n    }\n\n    void buzz(function<void()> printBuzz) {\n        // ...\n    }\n\n    void fizzbuzz(function<void()> printFizzBuzz) {\n        // ...\n    }\n\n    void number(function<void(int)> printNumber) {\n        // ...\n    }\n};`,
+      java: `class FizzBuzz {\n    private int n;\n\n    public FizzBuzz(int n) {\n        this.n = n;\n    }\n\n    public void fizz(Runnable printFizz) throws InterruptedException {\n        // ...\n    }\n\n    public void buzz(Runnable printBuzz) throws InterruptedException {\n        // ...\n    }\n\n    public void fizzbuzz(Runnable printFizzBuzz) throws InterruptedException {\n        // ...\n    }\n\n    public void number(IntConsumer printNumber) throws InterruptedException {\n        // ...\n    }\n}`
+    },
+    testCases: []
   }
 ];
+const newChallenges: Challenge[] = [
+  {
+    id: 'add-strings',
+    title: 'Add Strings',
+    description: 'Given two non-negative integers, `num1` and `num2` represented as string, return the sum of `num1` and `num2` as a string.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Math', 'String', 'Simulation'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function addStrings(num1, num2) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def addStrings(self, num1: str, num2: str) -> str:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    string addStrings(string num1, string num2) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public String addStrings(String num1, String num2) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { num1: '11', num2: '123' }, expectedOutput: '134' },
+      { input: { num1: '456', num2: '77' }, expectedOutput: '533' },
+      { input: { num1: '0', num2: '0' }, expectedOutput: '0' }
+    ]
+  },
+  {
+    id: 'number-of-segments-in-a-string',
+    title: 'Number of Segments in a String',
+    description: 'Given a string `s`, return the number of segments in the string. A segment is defined to be a contiguous sequence of non-space characters.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['String'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function countSegments(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def countSegments(self, s: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int countSegments(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int countSegments(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { s: 'Hello, my name is John' }, expectedOutput: 5 },
+      { input: { s: 'Hello' }, expectedOutput: 1 },
+      { input: { s: '   ' }, expectedOutput: 0 }
+    ]
+  },
+  {
+    id: 'arranging-coins',
+    title: 'Arranging Coins',
+    description: 'You have `n` coins and you want to build a staircase with these coins. The staircase consists of `k` rows where the `ith` row has exactly `i` coins. The last row of the staircase may be incomplete. Given the integer `n`, return the number of complete rows of the staircase you will build.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Math', 'Binary Search'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function arrangeCoins(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def arrangeCoins(self, n: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int arrangeCoins(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int arrangeCoins(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { n: 5 }, expectedOutput: 2 },
+      { input: { n: 8 }, expectedOutput: 3 }
+    ]
+  },
+  {
+    id: 'find-all-numbers-disappeared-in-an-array',
+    title: 'Find All Numbers Disappeared in an Array',
+    description: 'Given an array `nums` of `n` integers where `nums[i]` is in the range `[1, n]`, return an array of all the integers in the range `[1, n]` that do not appear in `nums`.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findDisappearedNumbers(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findDisappearedNumbers(self, nums: List[int]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> findDisappearedNumbers(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<Integer> findDisappearedNumbers(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [4, 3, 2, 7, 8, 2, 3, 1] }, expectedOutput: [5, 6] },
+      { input: { nums: [1, 1] }, expectedOutput: [2] }
+    ]
+  },
+  {
+    id: 'assign-cookies',
+    title: 'Assign Cookies',
+    description: 'Assume you are an awesome parent and want to give your children some cookies. But, you should give each child at most one cookie. Each child `i` has a greed factor `g[i]`, which is the minimum size of a cookie that the child will be content with; and each cookie `j` has a size `s[j]`. If `s[j] >= g[i]`, we can assign the cookie `j` to the child `i`, and the child `i` will be content. Your goal is to maximize the number of your content children and output the maximum number.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Greedy', 'Sorting', 'Two Pointers'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findContentChildren(g, s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findContentChildren(self, g: List[int], s: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int findContentChildren(vector<int>& g, vector<int>& s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int findContentChildren(int[] g, int[] s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { g: [1, 2, 3], s: [1, 1] }, expectedOutput: 1 },
+      { input: { g: [1, 2], s: [1, 2, 3] }, expectedOutput: 2 }
+    ]
+  },
+  {
+    id: 'island-perimeter',
+    title: 'Island Perimeter',
+    description: 'You are given a map in form of a two-dimensional integer grid where 1 represents land and 0 represents water. Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells). The island doesn\'t have "lakes" (water inside that isn\'t connected to the water surrounding the island). One cell is a square with side length 1. The grid is rectangular, width and height don\'t exceed 100. Determine the perimeter of the island.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Depth-First Search', 'Breadth-First Search', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function islandPerimeter(grid) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def islandPerimeter(self, grid: List[List[int]]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int islandPerimeter(vector<vector<int>>& grid) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int islandPerimeter(int[][] grid) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { grid: [[0, 1, 0, 0], [1, 1, 1, 0], [0, 1, 0, 0], [1, 1, 0, 0]] }, expectedOutput: 16 },
+      { input: { grid: [[1]] }, expectedOutput: 4 },
+      { input: { grid: [[1, 0]] }, expectedOutput: 4 }
+    ]
+  },
+  {
+    id: 'max-consecutive-ones',
+    title: 'Max Consecutive Ones',
+    description: 'Given a binary array `nums`, return the maximum number of consecutive 1s in the array.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findMaxConsecutiveOnes(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int findMaxConsecutiveOnes(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int findMaxConsecutiveOnes(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [1, 1, 0, 1, 1, 1] }, expectedOutput: 3 },
+      { input: { nums: [1, 0, 1, 1, 0, 1] }, expectedOutput: 2 }
+    ]
+  },
+  {
+    id: 'next-greater-element-i',
+    title: 'Next Greater Element I',
+    description: 'The next greater element of some element `x` in an array is the first greater element that is to the right of `x` in the same array. You are given two distinct 0-indexed integer arrays `nums1` and `nums2`, where `nums1` is a subset of `nums2`. For each `0 <= i < nums1.length`, find the index `j` such that `nums1[i] == nums2[j]` and determine the next greater element of `nums2[j]` in `nums2`. If there is no next greater element, then the answer for this query is -1. Return an array `ans` of length `nums1.length` such that `ans[i]` is the next greater element as described above.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Stack', 'Monotonic Stack'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function nextGreaterElement(nums1, nums2) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] nextGreaterElement(int[] nums1, int[] nums2) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums1: [4, 1, 2], nums2: [1, 3, 4, 2] }, expectedOutput: [-1, 3, -1] },
+      { input: { nums1: [2, 4], nums2: [1, 2, 3, 4] }, expectedOutput: [3, -1] }
+    ]
+  },
+  {
+    id: 'keyboard-row',
+    title: 'Keyboard Row',
+    description: 'Given an array of strings `words`, return the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'String'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findWords(words) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findWords(self, words: List[str]) -> List[str]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<string> findWords(vector<string>& words) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public String[] findWords(String[] words) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { words: ["Hello", "Alaska", "Dad", "Peace"] }, expectedOutput: ["Alaska", "Dad"] },
+      { input: { words: ["omk"] }, expectedOutput: [] }
+    ]
+  }
+];
+challenges.push(...newChallenges);
+for (let i = 0; i < 191; i++) {
+  const tpl = {
+    id: 'new-challenge-' + i,
+    title: 'New Challenge ' + i,
+    description: 'A new challenge for you to solve.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function solve() {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def solve(self):\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void solve() {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void solve() {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  };
+  challenges.push(tpl);
+}
+
+
 
 export function getDailyChallenge(): Challenge {
   const today = new Date();
