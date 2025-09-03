@@ -216,13 +216,17 @@ export default function MonsterBattlePage() {
                                 <p className="text-muted-foreground mb-6">
                                      {monsterHP <= 0 ? `You defeated the ${monster.name}!` : `The ${monster.name} was too strong.`}
                                 </p>
-                                {monsterHP <= 0 && nextChallengeId && (
+                                {monsterHP <= 0 && nextChallengeId ? (
                                      <Button onClick={() => router.push(`/m/battle/${nextChallengeId}`)} size="lg" className="w-full">
                                         Next Challenge <ArrowRight className="ml-2" />
                                     </Button>
+                                ) : (
+                                    <Button onClick={() => router.push('/m/monster-battle')} size="lg" variant="outline" className="w-full">
+                                        Back to Challenges
+                                    </Button>
                                 )}
                                 <Button onClick={() => router.push('/m/monster-battle')} size="lg" variant="outline" className="w-full">
-                                    {monsterHP <= 0 ? "Fight Another Monster" : "Try Another Challenge"}
+                                    {monsterHP <= 0 ? "Back to Challenges" : "Try Another Challenge"}
                                 </Button>
                             </CardContent>
                         </Card>
