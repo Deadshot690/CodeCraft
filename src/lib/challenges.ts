@@ -2164,6 +2164,587 @@ export const challenges: Challenge[] = [
       { input: { words: ["Hello", "Alaska", "Dad", "Peace"] }, expectedOutput: ["Alaska", "Dad"] },
       { input: { words: ["omk"] }, expectedOutput: [] }
     ]
+  },
+  {
+    id: 'two-sum-ii-input-array-is-sorted',
+    title: 'Two Sum II - Input Array Is Sorted',
+    description: 'Given a 1-indexed array of integers `numbers` that is already sorted in non-decreasing order, find two numbers such that they add up to a specific `target` number. Let these two numbers be `numbers[index1]` and `numbers[index2]` where `1 <= index1 < index2 <= numbers.length`. Return the indices of the two numbers, `index1` and `index2`, added by one as an integer array `[index1, index2]` of length 2.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Two Pointers', 'Binary Search'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function twoSum(numbers, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def twoSum(self, numbers: List[int], target: int) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> twoSum(vector<int>& numbers, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] twoSum(int[] numbers, int target) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { numbers: [2, 7, 11, 15], target: 9 }, expectedOutput: [1, 2] },
+      { input: { numbers: [2, 3, 4], target: 6 }, expectedOutput: [1, 3] },
+      { input: { numbers: [-1, 0], target: -1 }, expectedOutput: [1, 2] }
+    ]
+  },
+  {
+    id: '3sum-closest',
+    title: '3Sum Closest',
+    description: 'Given an integer array `nums` of length `n` and an integer `target`, find three integers in `nums` such that the sum is closest to `target`. Return the sum of the three integers. You may assume that each input would have exactly one solution.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Two Pointers', 'Sorting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function threeSumClosest(nums, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def threeSumClosest(self, nums: List[int], target: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int threeSumClosest(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int threeSumClosest(int[] nums, int target) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [-1, 2, 1, -4], target: 1 }, expectedOutput: 2 },
+      { input: { nums: [0, 0, 0], target: 1 }, expectedOutput: 0 }
+    ]
+  },
+  {
+    id: '4sum',
+    title: '4Sum',
+    description: 'Given an array `nums` of `n` integers, return an array of all the unique quadruplets `[nums[a], nums[b], nums[c], nums[d]]` such that: `0 <= a, b, c, d < n`, `a`, `b`, `c`, and `d` are distinct, and `nums[a] + nums[b] + nums[c] + nums[d] == target`. You may return the answer in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Two Pointers', 'Sorting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function fourSum(nums, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> fourSum(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> fourSum(int[] nums, int target) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [1, 0, -1, 0, -2, 2], target: 0 }, expectedOutput: [[-2, -1, 1, 2], [-2, 0, 0, 2], [-1, 0, 0, 1]] },
+      { input: { nums: [2, 2, 2, 2, 2], target: 8 }, expectedOutput: [[2, 2, 2, 2]] }
+    ]
+  },
+  {
+    id: 'valid-sudoku',
+    title: 'Valid Sudoku',
+    description: 'Determine if a `9 x 9` Sudoku board is valid. Only the filled cells need to be validated according to the following rules: Each row must contain the digits 1-9 without repetition. Each column must contain the digits 1-9 without repetition. Each of the nine `3 x 3` sub-boxes of the grid must contain the digits 1-9 without repetition.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isValidSudoku(board) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isValidSudoku(self, board: List[List[str]]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isValidSudoku(vector<vector<char>>& board) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isValidSudoku(char[][] board) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'combination-sum',
+    title: 'Combination Sum',
+    description: 'Given an array of distinct integers `candidates` and a target integer `target`, return a list of all unique combinations of `candidates` where the chosen numbers sum to `target`. You may return the combinations in any order. The same number may be chosen from `candidates` an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Backtracking'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function combinationSum(candidates, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { candidates: [2, 3, 6, 7], target: 7 }, expectedOutput: [[2, 2, 3], [7]] },
+      { input: { candidates: [2, 3, 5], target: 8 }, expectedOutput: [[2, 2, 2, 2], [2, 3, 3], [3, 5]] }
+    ]
+  },
+  {
+    id: 'combination-sum-ii',
+    title: 'Combination Sum II',
+    description: 'Given a collection of candidate numbers `candidates` and a target number `target`, find all unique combinations in `candidates` where the candidate numbers sum to `target`. Each number in `candidates` may only be used once in the combination.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Backtracking'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function combinationSum2(candidates, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> combinationSum2(int[] candidates, int target) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { candidates: [10, 1, 2, 7, 6, 1, 5], target: 8 }, expectedOutput: [[1, 1, 6], [1, 2, 5], [1, 7], [2, 6]] },
+      { input: { candidates: [2, 5, 2, 1, 2], target: 5 }, expectedOutput: [[1, 2, 2], [5]] }
+    ]
+  },
+  {
+    id: 'permutations-ii',
+    title: 'Permutations II',
+    description: 'Given a collection of numbers, `nums`, that might contain duplicates, return all possible unique permutations in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Backtracking'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function permuteUnique(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def permuteUnique(self, nums: List[int]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> permuteUnique(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> permuteUnique(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [1, 1, 2] }, expectedOutput: [[1, 1, 2], [1, 2, 1], [2, 1, 1]] },
+      { input: { nums: [1, 2, 3] }, expectedOutput: [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]] }
+    ]
+  },
+  {
+    id: 'rotate-list',
+    title: 'Rotate List',
+    description: 'Given the `head` of a linked list, rotate the list to the right by `k` places.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Linked List', 'Two Pointers'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function rotateRight(head, k) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    ListNode* rotateRight(ListNode* head, int k) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public ListNode rotateRight(ListNode head, int k) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'unique-paths-ii',
+    title: 'Unique Paths II',
+    description: 'You are given an `m x n` integer array `grid`. There is a robot on an `m x n` grid. The robot is initially located at the top-left corner. The robot tries to move to the bottom-right corner. The robot can only move either down or right at any point in time. An obstacle and space are marked as `1` or `0` respectively in `grid`. A path that the robot takes cannot include any square that is an obstacle. Return the number of possible unique paths that the robot can take to reach the bottom-right corner.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function uniquePathsWithObstacles(obstacleGrid) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int uniquePathsWithObstacles(int[][] obstacleGrid) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { obstacleGrid: [[0, 0, 0], [0, 1, 0], [0, 0, 0]] }, expectedOutput: 2 },
+      { input: { obstacleGrid: [[0, 1], [0, 0]] }, expectedOutput: 1 }
+    ]
+  },
+  {
+    id: 'simplify-path',
+    title: 'Simplify Path',
+    description: 'Given a string `path`, which is an absolute path (starting with a slash \'/\') to a file or directory in a Unix-style file system, convert it to the simplified canonical path.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Stack'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function simplifyPath(path) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def simplifyPath(self, path: str) -> str:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    string simplifyPath(string path) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public String simplifyPath(String path) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { path: '/home/' }, expectedOutput: '/home' },
+      { input: { path: '/../' }, expectedOutput: '/' },
+      { input: { path: '/home//foo/' }, expectedOutput: '/home/foo' }
+    ]
+  },
+  {
+    id: 'set-matrix-zeroes',
+    title: 'Set Matrix Zeroes',
+    description: 'Given an `m x n` integer matrix `matrix`, if an element is 0, set its entire row and column to 0\'s. You must do it in-place.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function setZeroes(matrix) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def setZeroes(self, matrix: List[List[int]]) -> None:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void setZeroes(vector<vector<int>>& matrix) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void setZeroes(int[][] matrix) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'sort-list',
+    title: 'Sort List',
+    description: 'Given the `head` of a linked list, return the list after sorting it in ascending order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Linked List', 'Two Pointers', 'Divide and Conquer', 'Sorting', 'Merge Sort'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function sortList(head) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    ListNode* sortList(ListNode* head) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public ListNode sortList(ListNode head) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'linked-list-cycle-ii',
+    title: 'Linked List Cycle II',
+    description: 'Given the `head` of a linked list, return the node where the cycle begins. If there is no cycle, return `null`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Linked List', 'Hash Table', 'Two Pointers'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function detectCycle(head) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    ListNode *detectCycle(ListNode *head) {\n        // Write your code here\n    }\n};`,
+      java: `public class Solution {\n    public ListNode detectCycle(ListNode head) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'reorder-list',
+    title: 'Reorder List',
+    description: 'You are given the `head` of a singly linked-list. The list can be represented as: `L0 → L1 → … → Ln - 1 → Ln`. Reorder the list to be on the following form: `L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …`',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Linked List', 'Two Pointers', 'Stack', 'Recursion'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function reorderList(head) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def reorderList(self, head: Optional[ListNode]) -> None:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void reorderList(ListNode* head) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void reorderList(ListNode head) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'maximum-product-subarray',
+    title: 'Maximum Product Subarray',
+    description: 'Given an integer array `nums`, find a subarray that has the largest product, and return the product.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function maxProduct(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def maxProduct(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int maxProduct(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int maxProduct(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [2, 3, -2, 4] }, expectedOutput: 6 },
+      { input: { nums: [-2, 0, -1] }, expectedOutput: 0 }
+    ]
+  },
+  {
+    id: 'find-minimum-in-rotated-sorted-array',
+    title: 'Find Minimum in Rotated Sorted Array',
+    description: 'Suppose an array of length `n` sorted in ascending order is rotated between `1` and `n` times. Given the sorted rotated array `nums` of unique elements, return the minimum element of this array.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Binary Search'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findMin(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findMin(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int findMin(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int findMin(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [3, 4, 5, 1, 2] }, expectedOutput: 1 },
+      { input: { nums: [4, 5, 6, 7, 0, 1, 2] }, expectedOutput: 0 },
+      { input: { nums: [11, 13, 15, 17] }, expectedOutput: 11 }
+    ]
+  },
+  {
+    id: 'gas-station',
+    title: 'Gas Station',
+    description: 'There are `n` gas stations along a circular route, where the amount of gas at the `ith` station is `gas[i]`. You have a car with an unlimited gas tank and it costs `cost[i]` of gas to travel from the `ith` station to its next station (`i + 1`). You begin the journey with an empty tank at one of the gas stations. Given two integer arrays `gas` and `cost`, return the starting gas station\'s index if you can travel around the circuit once in the clockwise direction, otherwise return -1.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Greedy'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function canCompleteCircuit(gas, cost) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int canCompleteCircuit(int[] gas, int[] cost) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { gas: [1, 2, 3, 4, 5], cost: [3, 4, 5, 1, 2] }, expectedOutput: 3 },
+      { input: { gas: [2, 3, 4], cost: [3, 4, 3] }, expectedOutput: -1 }
+    ]
+  },
+  {
+    id: 'clone-graph',
+    title: 'Clone Graph',
+    description: 'Given a reference of a node in a connected undirected graph. Return a deep copy (clone) of the graph.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Hash Table', 'Depth-First Search', 'Breadth-First Search', 'Graph'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function cloneGraph(node) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def cloneGraph(self, node: 'Node') -> 'Node':\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    Node* cloneGraph(Node* node) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public Node cloneGraph(Node node) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'palindrome-partitioning',
+    title: 'Palindrome Partitioning',
+    description: 'Given a string `s`, partition `s` such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of `s`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Dynamic Programming', 'Backtracking'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function partition(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def partition(self, s: str) -> List[List[str]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<string>> partition(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<String>> partition(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { s: 'aab' }, expectedOutput: [['a', 'a', 'b'], ['aa', 'b']] },
+      { input: { s: 'a' }, expectedOutput: [['a']] }
+    ]
+  },
+  {
+    id: 'surrounded-regions',
+    title: 'Surrounded Regions',
+    description: 'Given an `m x n` matrix `board` containing \'X\' and \'O\', capture all regions that are 4-directionally surrounded by \'X\'. A region is captured by flipping all \'O\'s into \'X\'s in that surrounded region.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Depth-First Search', 'Breadth-First Search', 'Union Find', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function solve(board) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def solve(self, board: List[List[str]]) -> None:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void solve(vector<vector<char>>& board) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void solve(char[][] board) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'number-of-islands',
+    title: 'Number of Islands',
+    description: 'Given an `m x n` 2D binary grid `grid` which represents a map of \'1\'s (land) and \'0\'s (water), return the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Depth-First Search', 'Breadth-First Search', 'Union Find', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function numIslands(grid) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def numIslands(self, grid: List[List[str]]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int numIslands(vector<vector<char>>& grid) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int numIslands(char[][] grid) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'house-robber-ii',
+    title: 'House Robber II',
+    description: 'You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, adjacent houses have a security system connected, and it will automatically contact the police if two adjacent houses were broken into on the same night. Given an integer array `nums` representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function rob(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def rob(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int rob(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int rob(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [2, 3, 2] }, expectedOutput: 3 },
+      { input: { nums: [1, 2, 3, 1] }, expectedOutput: 4 }
+    ]
+  },
+  {
+    id: 'kth-largest-element-in-an-array',
+    title: 'Kth Largest Element in an Array',
+    description: 'Given an integer array `nums` and an integer `k`, return the `kth` largest element in the array. Note that it is the `kth` largest element in the sorted order, not the `kth` distinct element.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Divide and Conquer', 'Sorting', 'Heap', 'Quickselect'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findKthLargest(nums, k) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findKthLargest(self, nums: List[int], k: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int findKthLargest(vector<int>& nums, int k) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int findKthLargest(int[] nums, int k) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [3, 2, 1, 5, 6, 4], k: 2 }, expectedOutput: 5 },
+      { input: { nums: [3, 2, 3, 1, 2, 4, 5, 5, 6], k: 4 }, expectedOutput: 4 }
+    ]
+  },
+  {
+    id: 'contains-duplicate-ii',
+    title: 'Contains Duplicate II',
+    description: 'Given an integer array `nums` and an integer `k`, return `true` if there are two distinct indices `i` and `j` in the array such that `nums[i] == nums[j]` and `abs(i - j) <= k`.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Sliding Window'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function containsNearbyDuplicate(nums, k) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool containsNearbyDuplicate(vector<int>& nums, int k) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean containsNearbyDuplicate(int[] nums, int k) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [1, 2, 3, 1], k: 3 }, expectedOutput: true },
+      { input: { nums: [1, 0, 1, 1], k: 1 }, expectedOutput: true },
+      { input: { nums: [1, 2, 3, 1, 2, 3], k: 2 }, expectedOutput: false }
+    ]
+  },
+  {
+    id: 'contains-duplicate-iii',
+    title: 'Contains Duplicate III',
+    description: 'You are given an integer array `nums` and two integers `indexDiff` and `valueDiff`. Find a pair of indices `(i, j)` such that: `i != j`, `abs(i - j) <= indexDiff`, `abs(nums[i] - nums[j]) <= valueDiff`. Return `true` if such a pair exists or `false` otherwise.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Sliding Window', 'Sorting', 'Bucket Sort'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def containsNearbyAlmostDuplicate(self, nums: List[int], indexDiff: int, valueDiff: int) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool containsNearbyAlmostDuplicate(vector<int>& nums, int indexDiff, int valueDiff) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean containsNearbyAlmostDuplicate(int[] nums, int indexDiff, int valueDiff) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [1, 2, 3, 1], indexDiff: 3, valueDiff: 0 }, expectedOutput: true },
+      { input: { nums: [1, 5, 9, 1, 5, 9], indexDiff: 2, valueDiff: 3 }, expectedOutput: false }
+    ]
+  },
+  {
+    id: 'sliding-window-maximum',
+    title: 'Sliding Window Maximum',
+    description: 'You are given an array of integers `nums`, there is a sliding window of size `k` which is moving from the very left of the array to the very right. You can only see the `k` numbers in the window. Each time the sliding window moves right by one position. Return the max sliding window.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Array', 'Queue', 'Sliding Window', 'Heap', 'Monotonic Queue'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function maxSlidingWindow(nums, k) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> maxSlidingWindow(vector<int>& nums, int k) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] maxSlidingWindow(int[] nums, int k) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [1, 3, -1, -3, 5, 3, 6, 7], k: 3 }, expectedOutput: [3, 3, 5, 5, 6, 7] },
+      { input: { nums: [1], k: 1 }, expectedOutput: [1] }
+    ]
+  },
+  {
+    id: 'search-a-2d-matrix-ii',
+    title: 'Search a 2D Matrix II',
+    description: 'Write an efficient algorithm that searches for a `value` in an `m x n` `matrix`. This matrix has the following properties: Integers in each row are sorted in ascending from left to right. Integers in each column are sorted in ascending from top to bottom.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Binary Search', 'Divide and Conquer', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function searchMatrix(matrix, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool searchMatrix(vector<vector<int>>& matrix, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean searchMatrix(int[][] matrix, int target) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'top-k-frequent-elements',
+    title: 'Top K Frequent Elements',
+    description: 'Given an integer array `nums` and an integer `k`, return the `k` most frequent elements. You may return the answer in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Divide and Conquer', 'Sorting', 'Heap', 'Bucket Sort', 'Quickselect'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function topKFrequent(nums, k) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> topKFrequent(vector<int>& nums, int k) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] topKFrequent(int[] nums, int k) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { nums: [1, 1, 1, 2, 2, 3], k: 2 }, expectedOutput: [1, 2] },
+      { input: { nums: [1], k: 1 }, expectedOutput: [1] }
+    ]
+  },
+  {
+    id: 'decode-string',
+    title: 'Decode String',
+    description: 'Given an encoded string, return its decoded string. The encoding rule is: `k[encoded_string]`, where the `encoded_string` inside the square brackets is being repeated exactly `k` times. Note that `k` is guaranteed to be a positive integer.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Stack', 'Recursion'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function decodeString(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def decodeString(self, s: str) -> str:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    string decodeString(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public String decodeString(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { s: '3[a]2[bc]' }, expectedOutput: 'aaabcbc' },
+      { input: { s: '3[a2[c]]' }, expectedOutput: 'accaccacc' },
+      { input: { s: '2[abc]3[cd]ef' }, expectedOutput: 'abcabccdcdcdef' }
+    ]
+  },
+  {
+    id: 'daily-temperatures',
+    title: 'Daily Temperatures',
+    description: 'Given an array of integers `temperatures` represents the daily temperatures, return an array `answer` such that `answer[i]` is the number of days you have to wait after the `ith` day to get a warmer temperature. If there is no future day for which this is possible, keep `answer[i] == 0` instead.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Stack', 'Monotonic Stack'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function dailyTemperatures(temperatures) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> dailyTemperatures(vector<int>& temperatures) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] dailyTemperatures(int[] temperatures) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { temperatures: [73, 74, 75, 71, 69, 72, 76, 73] }, expectedOutput: [1, 1, 4, 2, 1, 1, 0, 0] },
+      { input: { temperatures: [30, 40, 50, 60] }, expectedOutput: [1, 1, 1, 0] }
+    ]
+  },
+  {
+    id: 'basic-calculator',
+    title: 'Basic Calculator',
+    description: 'Given a string `s` representing a valid expression, implement a basic calculator to evaluate it and return the result of the evaluation.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Math', 'String', 'Stack', 'Recursion'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function calculate(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def calculate(self, s: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int calculate(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int calculate(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+      { input: { s: '1 + 1' }, expectedOutput: 2 },
+      { input: { s: ' 2-1 + 2 ' }, expectedOutput: 3 },
+      { input: { s: '(1+(4+5+2)-3)+(6+8)' }, expectedOutput: 23 }
+    ]
+  },
+  {
+    id: 'word-search-ii',
+    title: 'Word Search II',
+    description: 'Given an `m x n` `board` of characters and a list of strings `words`, return all words on the board. Each word must be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Array', 'String', 'Backtracking', 'Trie', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findWords(board, words) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<String> findWords(char[][] board, String[] words) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
   }
 ];
 
