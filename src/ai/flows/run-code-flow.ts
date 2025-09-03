@@ -180,9 +180,13 @@ function solve() {
 {{/if}}
 {{#if (eq challengeTitle "Exponent Challenge")}}
 Here is a reference solution for "Exponent Challenge":
-` +
-"```javascript\nfunction solve() {\n  return 2 ** 4;\n}\n// The function should return 16.\n```\n" +
-`{{/if}}
+\`\`\`javascript
+function solve() {
+  return 2 ** 4;
+}
+// The function should return 16.
+\`\`\`
+{{/if}}
 {{#if (eq challengeTitle "Boolean Logic")}}
 Here is a reference solution for "Boolean Logic":
 \`\`\`javascript
