@@ -1096,7 +1096,6 @@ export const challenges: Challenge[] = [
     },
     testCases: []
   },
-  // START OF 200 NEW PROBLEMS
   {
     id: 'plus-one',
     title: 'Plus One',
@@ -1991,9 +1990,7 @@ export const challenges: Challenge[] = [
       java: `class FizzBuzz {\n    private int n;\n\n    public FizzBuzz(int n) {\n        this.n = n;\n    }\n\n    public void fizz(Runnable printFizz) throws InterruptedException {\n        // ...\n    }\n\n    public void buzz(Runnable printBuzz) throws InterruptedException {\n        // ...\n    }\n\n    public void fizzbuzz(Runnable printFizzBuzz) throws InterruptedException {\n        // ...\n    }\n\n    public void number(IntConsumer printNumber) throws InterruptedException {\n        // ...\n    }\n}`
     },
     testCases: []
-  }
-];
-const newChallenges: Challenge[] = [
+  },
   {
     id: 'add-strings',
     title: 'Add Strings',
@@ -2169,28 +2166,6 @@ const newChallenges: Challenge[] = [
     ]
   }
 ];
-challenges.push(...newChallenges);
-for (let i = 0; i < 191; i++) {
-  const tpl = {
-    id: 'new-challenge-' + i,
-    title: 'New Challenge ' + i,
-    description: 'A new challenge for you to solve.',
-    difficulty: 'Easy',
-    domain: 'DSA',
-    tags: ['Array'],
-    languages: ['javascript', 'python', 'cpp', 'java'],
-    templates: {
-      javascript: `function solve() {\n  // Write your code here\n};`,
-      python: `class Solution:\n    def solve(self):\n        # Write your code here\n`,
-      cpp: `class Solution {\npublic:\n    void solve() {\n        // Write your code here\n    }\n};`,
-      java: `class Solution {\n    public void solve() {\n        // Write your code here\n    }\n}`
-    },
-    testCases: []
-  };
-  challenges.push(tpl);
-}
-
-
 
 export function getDailyChallenge(): Challenge {
   const today = new Date();
