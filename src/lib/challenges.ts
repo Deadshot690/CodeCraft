@@ -2745,7 +2745,967 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<String> findWords(char[][] board, String[] words) {\n        // Write your code here\n    }\n}`
     },
     testCases: []
-  }
+  },
+  {
+    id: 'find-all-duplicates-in-an-array',
+    title: 'Find All Duplicates in an Array',
+    description: 'Given an integer array `nums` of length `n` where all the integers of `nums` are in the range `[1, n]` and each integer appears once or twice, return an array of all the integers that appears twice.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findDuplicates(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findDuplicates(self, nums: List[int]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> findDuplicates(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<Integer> findDuplicates(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { nums: [4,3,2,7,8,2,3,1] }, expectedOutput: [2, 3] },
+        { input: { nums: [1,1,2] }, expectedOutput: [1] },
+        { input: { nums: [1] }, expectedOutput: [] }
+    ]
+  },
+  {
+    id: 'kth-smallest-element-in-a-sorted-matrix',
+    title: 'Kth Smallest Element in a Sorted Matrix',
+    description: 'Given an `n x n` `matrix` where each of the rows and columns is sorted in ascending order, return the `k`th smallest element in the matrix.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Binary Search', 'Matrix', 'Heap'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function kthSmallest(matrix, k) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int kthSmallest(vector<vector<int>>& matrix, int k) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int kthSmallest(int[][] matrix, int k) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { matrix: [[1,5,9],[10,11,13],[12,13,15]], k: 8 }, expectedOutput: 13 },
+        { input: { matrix: [[-5]], k: 1 }, expectedOutput: -5 }
+    ]
+  },
+  {
+    id: 'longest-palindromic-substring',
+    title: 'Longest Palindromic Substring',
+    description: 'Given a string `s`, return the longest palindromic substring in `s`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function longestPalindrome(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def longestPalindrome(self, s: str) -> str:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    string longestPalindrome(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public String longestPalindrome(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { s: 'babad' }, expectedOutput: 'bab' },
+        { input: { s: 'cbbd' }, expectedOutput: 'bb' }
+    ]
+  },
+  {
+    id: 'unique-binary-search-trees',
+    title: 'Unique Binary Search Trees',
+    description: 'Given an integer `n`, return the number of structurally unique BST\'s (binary search trees) which has exactly `n` nodes of unique values from 1 to `n`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Math', 'Dynamic Programming', 'Tree', 'Binary Search Tree', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function numTrees(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def numTrees(self, n: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int numTrees(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int numTrees(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { n: 3 }, expectedOutput: 5 },
+        { input: { n: 1 }, expectedOutput: 1 }
+    ]
+  },
+  {
+    id: 'same-tree',
+    title: 'Same Tree',
+    description: 'Given the roots of two binary trees `p` and `q`, write a function to check if they are the same or not. Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isSameTree(p, q) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isSameTree(TreeNode* p, TreeNode* q) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isSameTree(TreeNode p, TreeNode q) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { p: '[1,2,3]', q: '[1,2,3]' }, expectedOutput: true },
+        { input: { p: '[1,2]', q: '[1,null,2]' }, expectedOutput: false }
+    ]
+  },
+  {
+    id: 'path-sum-ii',
+    title: 'Path Sum II',
+    description: 'Given the `root` of a binary tree and an integer `targetSum`, return all root-to-leaf paths where the sum of the node values in the path equals `targetSum`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Backtracking', 'Depth-First Search', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function pathSum(root, targetSum) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'binary-tree-right-side-view',
+    title: 'Binary Tree Right Side View',
+    description: 'Given the `root` of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function rightSideView(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> rightSideView(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<Integer> rightSideView(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'number-of-provinces',
+    title: 'Number of Provinces',
+    description: 'There are `n` cities. Some of them are connected, while some are not. If city `a` is connected directly with city `b`, and city `b` is connected directly with city `c`, then city `a` is connected indirectly with city `c`. A province is a group of directly or indirectly connected cities and no other cities outside of the group. You are given an `n x n` matrix `isConnected` where `isConnected[i][j] = 1` if the `ith` city and the `jth` city are directly connected, and `isConnected[i][j] = 0` otherwise. Return the total number of provinces.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Depth-First Search', 'Breadth-First Search', 'Graph', 'Union Find'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findCircleNum(isConnected) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findCircleNum(self, isConnected: List[List[int]]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int findCircleNum(vector<vector<int>>& isConnected) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int findCircleNum(int[][] isConnected) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'edit-distance',
+    title: 'Edit Distance',
+    description: 'Given two strings `word1` and `word2`, return the minimum number of operations required to convert `word1` to `word2`. You have the following three operations permitted on a word: Insert a character, Delete a character, Replace a character.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function minDistance(word1, word2) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int minDistance(string word1, string word2) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int minDistance(String word1, String word2) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'jump-game-ii',
+    title: 'Jump Game II',
+    description: 'You are given a 0-indexed array of integers `nums` of length `n`. You are initially positioned at `nums[0]`. Each element `nums[i]` represents the maximum length of a forward jump from index `i`. Return the minimum number of jumps to reach `nums[n - 1]`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Greedy', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function jump(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def jump(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int jump(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int jump(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'unique-binary-search-trees-ii',
+    title: 'Unique Binary Search Trees II',
+    description: 'Given an integer `n`, return all the structurally unique BST\'s (binary search trees), which has exactly `n` nodes of unique values from 1 to `n`. Return the answer in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Dynamic Programming', 'Backtracking', 'Tree', 'Binary Search Tree', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function generateTrees(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def generateTrees(self, n: int) -> List[Optional[TreeNode]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<TreeNode*> generateTrees(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<TreeNode> generateTrees(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'interleaving-string',
+    title: 'Interleaving String',
+    description: 'Given strings `s1`, `s2`, and `s3`, find whether `s3` is formed by an interleaving of `s1` and `s2`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function isInterleave(s1, s2, s3) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isInterleave(string s1, string s2, string s3) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isInterleave(String s1, String s2, String s3) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'restore-ip-addresses',
+    title: 'Restore IP Addresses',
+    description: 'A valid IP address consists of exactly four integers separated by single dots. Each integer is between 0 and 255 (inclusive) and cannot have leading zeros. Given a string `s` containing only digits, return all possible valid IP addresses that can be formed by inserting dots into `s`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Backtracking'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function restoreIpAddresses(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def restoreIpAddresses(self, s: str) -> List[str]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<string> restoreIpAddresses(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<String> restoreIpAddresses(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'reverse-linked-list-ii',
+    title: 'Reverse Linked List II',
+    description: 'Given the `head` of a singly linked list and two integers `left` and `right` where `left <= right`, reverse the nodes of the list from position `left` to position `right`, and return the reversed list.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Linked List'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function reverseBetween(head, left, right) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    ListNode* reverseBetween(ListNode* head, int left, int right) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public ListNode reverseBetween(ListNode head, int left, int right) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'subsets-ii',
+    title: 'Subsets II',
+    description: 'Given an integer array `nums` that may contain duplicates, return all possible subsets (the power set). The solution set must not contain duplicate subsets. Return the solution in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Backtracking', 'Bit Manipulation'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function subsetsWithDup(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> subsetsWithDup(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> subsetsWithDup(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'decode-ways',
+    title: 'Decode Ways',
+    description: 'A message containing letters from A-Z can be encoded into numbers using the following mapping: \'A\' -> "1", \'B\' -> "2", ..., \'Z\' -> "26". Given a string `s` containing only digits, return the number of ways to decode it.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function numDecodings(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def numDecodings(self, s: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int numDecodings(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int numDecodings(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'gray-code',
+    title: 'Gray Code',
+    description: 'An n-bit gray code sequence is a sequence of 2^n integers where: Every integer is in the inclusive range [0, 2^n - 1], The first integer is 0, An integer appears no more than once in the sequence, The binary representation of every pair of adjacent integers differs by exactly one bit, and The binary representation of the first and last integers differs by exactly one bit. Given an integer n, return any valid n-bit gray code sequence.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Math', 'Backtracking', 'Bit Manipulation'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function grayCode(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def grayCode(self, n: int) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> grayCode(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<Integer> grayCode(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'partition-list',
+    title: 'Partition List',
+    description: 'Given the `head` of a linked list and a value `x`, partition it such that all nodes less than `x` come before nodes greater than or equal to `x`. You should preserve the original relative order of the nodes in each of the two partitions.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Linked List', 'Two Pointers'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function partition(head, x) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    ListNode* partition(ListNode* head, int x) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public ListNode partition(ListNode head, int x) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'combinations',
+    title: 'Combinations',
+    description: 'Given two integers `n` and `k`, return all possible combinations of `k` numbers chosen from the range `[1, n]`. You may return the answer in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Backtracking'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function combine(n, k) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def combine(self, n: int, k: int) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> combine(int n, int k) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> combine(int n, int k) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'merge-sorted-array',
+    title: 'Merge Sorted Array',
+    description: 'You are given two integer arrays `nums1` and `nums2`, sorted in non-decreasing order, and two integers `m` and `n`, representing the number of elements in `nums1` and `nums2` respectively. Merge `nums1` and `nums2` into a single array sorted in non-decreasing order. The final sorted array should not be returned by the function, but instead be stored inside the array `nums1`.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'Two Pointers', 'Sorting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function merge(nums1, m, nums2, n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void merge(int[] nums1, int m, int[] nums2, int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'search-a-2d-matrix',
+    title: 'Search a 2D Matrix',
+    description: 'You are given an `m x n` integer matrix `matrix` with the following two properties: Each row is sorted in non-decreasing order. The first integer of each row is greater than the last integer of the previous row. Given an integer `target`, return `true` if `target` is in `matrix` or `false` otherwise.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Binary Search', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function searchMatrix(matrix, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool searchMatrix(vector<vector<int>>& matrix, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean searchMatrix(int[][] matrix, int target) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'remove-duplicates-from-sorted-list-ii',
+    title: 'Remove Duplicates from Sorted List II',
+    description: 'Given the `head` of a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list. Return the linked list sorted as well.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Linked List', 'Two Pointers'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function deleteDuplicates(head) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    ListNode* deleteDuplicates(ListNode* head) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public ListNode deleteDuplicates(ListNode head) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'remove-duplicates-from-sorted-list',
+    title: 'Remove Duplicates from Sorted List',
+    description: 'Given the `head` of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Linked List'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function deleteDuplicates(head) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    ListNode* deleteDuplicates(ListNode* head) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public ListNode deleteDuplicates(ListNode head) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'largest-rectangle-in-histogram',
+    title: 'Largest Rectangle in Histogram',
+    description: 'Given an array of integers `heights` representing the histogram\'s bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Array', 'Stack', 'Monotonic Stack'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function largestRectangleArea(heights) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def largestRectangleArea(self, heights: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int largestRectangleArea(vector<int>& heights) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int largestRectangleArea(int[] heights) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'maximal-rectangle',
+    title: 'Maximal Rectangle',
+    description: 'Given a `rows x cols` binary `matrix` filled with 0\'s and 1\'s, find the largest rectangle containing only 1\'s and return its area.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming', 'Stack', 'Matrix', 'Monotonic Stack'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function maximalRectangle(matrix) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def maximalRectangle(self, matrix: List[List[str]]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int maximalRectangle(vector<vector<char>>& matrix) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int maximalRectangle(char[][] matrix) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'populating-next-right-pointers-in-each-node',
+    title: 'Populating Next Right Pointers in Each Node',
+    description: 'You are given a perfect binary tree where all leaves are on the same level, and every parent has two children. Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL. Initially, all next pointers are set to NULL.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Linked List', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function connect(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    Node* connect(Node* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public Node connect(Node root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'populating-next-right-pointers-in-each-node-ii',
+    title: 'Populating Next Right Pointers in Each Node II',
+    description: 'Given a binary tree, populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL. Initially, all next pointers are set to NULL.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Linked List', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function connect(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def connect(self, root: 'Node') -> 'Node':\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    Node* connect(Node* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public Node connect(Node root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'flatten-binary-tree-to-linked-list',
+    title: 'Flatten Binary Tree to Linked List',
+    description: 'Given the `root` of a binary tree, flatten the tree into a "linked list". The "linked list" should use the same `TreeNode` class where the `right` child pointer points to the next node in the list and the `left` child pointer is always `null`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Linked List', 'Stack', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function flatten(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def flatten(self, root: Optional[TreeNode]) -> None:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void flatten(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void flatten(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'distinct-subsequences',
+    title: 'Distinct Subsequences',
+    description: 'Given two strings `s` and `t`, return the number of distinct subsequences of `s` which equals `t`.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['String', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function numDistinct(s, t) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def numDistinct(self, s: str, t: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int numDistinct(string s, string t) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int numDistinct(String s, String t) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'best-time-to-buy-and-sell-stock-ii',
+    title: 'Best Time to Buy and Sell Stock II',
+    description: 'You are given an integer array `prices` where `prices[i]` is the price of a given stock on the `ith` day. On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day. Find and return the maximum profit you can achieve.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Greedy', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function maxProfit(prices) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int maxProfit(int[] prices) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'best-time-to-buy-and-sell-stock-iii',
+    title: 'Best Time to Buy and Sell Stock III',
+    description: 'You are given an array `prices` where `prices[i]` is the price of a given stock on the `ith` day. Find the maximum profit you can achieve. You may complete at most two transactions.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function maxProfit(prices) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int maxProfit(int[] prices) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'triangle',
+    title: 'Triangle',
+    description: 'Given a triangle array, return the minimum path sum from top to bottom. For each step, you may move to an adjacent number of the row below.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function minimumTotal(triangle) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def minimumTotal(self, triangle: List[List[int]]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int minimumTotal(vector<vector<int>>& triangle) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int minimumTotal(List<List<Integer>> triangle) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'sum-root-to-leaf-numbers',
+    title: 'Sum Root to Leaf Numbers',
+    description: 'You are given the `root` of a binary tree containing digits from 0 to 9 only. Each root-to-leaf path in the tree represents a number. Return the total sum of all root-to-leaf numbers.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function sumNumbers(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def sumNumbers(self, root: Optional[TreeNode]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int sumNumbers(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int sumNumbers(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'gas-station',
+    title: 'Gas Station',
+    description: 'There are `n` gas stations along a circular route, where the amount of gas at the `ith` station is `gas[i]`. You have a car with an unlimited gas tank and it costs `cost[i]` of gas to travel from the `ith` station to its next station (`i + 1`). You begin the journey with an empty tank at one of the gas stations. Given two integer arrays `gas` and `cost`, return the starting gas station\'s index if you can travel around the circuit once in the clockwise direction, otherwise return -1.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Greedy'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function canCompleteCircuit(gas, cost) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int canCompleteCircuit(int[] gas, int[] cost) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'single-number-iii',
+    title: 'Single Number III',
+    description: 'Given an integer array `nums`, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Bit Manipulation'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function singleNumber(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def singleNumber(self, nums: List[int]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> singleNumber(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] singleNumber(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'find-peak-element',
+    title: 'Find Peak Element',
+    description: 'A peak element is an element that is strictly greater than its neighbors. Given a 0-indexed integer array `nums`, find a peak element, and return its index. If the array contains multiple peaks, return the index to any of the peaks.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Binary Search'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findPeakElement(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findPeakElement(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int findPeakElement(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int findPeakElement(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'combination-sum-iv',
+    title: 'Combination Sum IV',
+    description: 'Given an array of distinct integers `nums` and a target integer `target`, return the number of possible combinations that add up to `target`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function combinationSum4(nums, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def combinationSum4(self, nums: List[int], target: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int combinationSum4(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int combinationSum4(int[] nums, int target) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'path-sum-iii',
+    title: 'Path Sum III',
+    description: 'Given the `root` of a binary tree and an integer `targetSum`, return the number of paths where the sum of the values along the path equals `targetSum`. The path does not need to start or end at the root or a leaf, but it must go downwards (i.e., traveling only from parent nodes to child nodes).',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function pathSum(root, targetSum) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int pathSum(TreeNode* root, int targetSum) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int pathSum(TreeNode root, int targetSum) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'find-bottom-left-tree-value',
+    title: 'Find Bottom Left Tree Value',
+    description: 'Given the `root` of a binary tree, return the leftmost value in the last row of the tree.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findBottomLeftValue(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int findBottomLeftValue(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int findBottomLeftValue(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'beautiful-arrangement',
+    title: 'Beautiful Arrangement',
+    description: 'Suppose you have `n` integers labeled 1 to `n`. A permutation of those `n` integers `perm` (1-indexed) is called a beautiful arrangement if for every `i` (1 <= i <= n), either `perm[i]` is divisible by `i` or `i` is divisible by `perm[i]`. Given an integer `n`, return the number of the beautiful arrangements that you can construct.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming', 'Backtracking', 'Bit Manipulation'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function countArrangement(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def countArrangement(self, n: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int countArrangement(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int countArrangement(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'next-greater-element-ii',
+    title: 'Next Greater Element II',
+    description: 'Given a circular integer array `nums` (i.e., the next element of `nums[nums.length - 1]` is `nums[0]`), return the next greater number for every element in `nums`.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Stack', 'Monotonic Stack'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function nextGreaterElements(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def nextGreaterElements(self, nums: List[int]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> nextGreaterElements(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] nextGreaterElements(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'coin-change-2',
+    title: 'Coin Change 2',
+    description: 'You are given an integer array `coins` representing coins of different denominations and an integer `amount` representing a total amount of money. Return the number of combinations that make up that amount. If that amount of money cannot be made up by any combination of the coins, return 0.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function change(amount, coins) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def change(self, amount: int, coins: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int change(int amount, vector<int>& coins) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int change(int amount, int[] coins) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'palindromic-substrings',
+    title: 'Palindromic Substrings',
+    description: 'Given a string `s`, return the number of palindromic substrings in it.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function countSubstrings(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def countSubstrings(self, s: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int countSubstrings(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int countSubstrings(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'maximum-length-of-repeated-subarray',
+    title: 'Maximum Length of Repeated Subarray',
+    description: 'Given two integer arrays `nums1` and `nums2`, return the maximum length of a subarray that appears in both arrays.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Binary Search', 'Dynamic Programming', 'Sliding Window', 'Hash Function', 'Rolling Hash'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findLength(nums1, nums2) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findLength(self, nums1: List[int], nums2: List[int]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int findLength(vector<int>& nums1, vector<int>& nums2) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int findLength(int[] nums1, int[] nums2) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: '01-matrix',
+    title: '01 Matrix',
+    description: 'Given an `m x n` binary `matrix` `mat`, return the distance of the nearest 0 for each cell.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming', 'Breadth-First Search', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function updateMatrix(mat) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[][] updateMatrix(int[][] mat) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'partition-labels',
+    title: 'Partition Labels',
+    description: 'You are given a string `s`. We want to partition the string into as many parts as possible so that each letter appears in at most one part. Return a list of integers representing the size of these parts.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Hash Table', 'Two Pointers', 'String', 'Greedy'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function partitionLabels(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def partitionLabels(self, s: str) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> partitionLabels(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<Integer> partitionLabels(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'max-area-of-island',
+    title: 'Max Area of Island',
+    description: 'You are given an `m x n` binary `matrix` `grid`. An island is a group of 1\'s (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water. The area of an island is the number of cells with a value 1 in the island. Return the maximum area of an island in `grid`. If there is no island, return 0.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Depth-First Search', 'Breadth-First Search', 'Union Find', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function maxAreaOfIsland(grid) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int maxAreaOfIsland(vector<vector<int>>& grid) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int maxAreaOfIsland(int[][] grid) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'letter-case-permutation',
+    title: 'Letter Case Permutation',
+    description: 'Given a string `s`, you can transform every letter individually to be lowercase or uppercase to create another string. Return a list of all possible strings we could create. Return the output in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Backtracking', 'Bit Manipulation'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function letterCasePermutation(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def letterCasePermutation(self, s: str) -> List[str]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<string> letterCasePermutation(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<String> letterCasePermutation(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'all-paths-from-source-to-target',
+    title: 'All Paths From Source to Target',
+    description: 'Given a directed acyclic graph (DAG) of `n` nodes labeled from `0` to `n - 1`, find all possible paths from node `0` to node `n - 1` and return them in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Graph', 'Backtracking', 'Depth-First Search', 'Breadth-First Search'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function allPathsSourceTarget(graph) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'find-and-replace-pattern',
+    title: 'Find and Replace Pattern',
+    description: 'Given a list of strings `words` and a string `pattern`, return a list of `words[i]` that match `pattern`. You may return the answer in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'String'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findAndReplacePattern(words, pattern) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findAndReplacePattern(self, words: List[str], pattern: str) -> List[str]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<String> findAndReplacePattern(String[] words, String pattern) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'validate-stack-sequences',
+    title: 'Validate Stack Sequences',
+    description: 'Given two integer arrays `pushed` and `popped` each with distinct values, return `true` if this could have been the result of a sequence of push and pop operations on an initially empty stack, or `false` otherwise.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Stack', 'Simulation'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function validateStackSequences(pushed, popped) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean validateStackSequences(int[] pushed, int[] popped) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'minimum-add-to-make-parentheses-valid',
+    title: 'Minimum Add to Make Parentheses Valid',
+    description: 'A parentheses string is valid if and only if for every opening bracket there is a corresponding closing bracket. Given a parentheses string `s`, return the minimum number of parentheses we must add to make the resulting string valid.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Stack', 'Greedy'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function minAddToMakeValid(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def minAddToMakeValid(self, s: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int minAddToMakeValid(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int minAddToMakeValid(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'rotting-oranges',
+    title: 'Rotting Oranges',
+    description: 'You are given an `m x n` `grid` where each cell can have one of three values: 0 representing an empty cell, 1 representing a fresh orange, or 2 representing a rotten orange. Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten. Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is impossible, return -1.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Breadth-First Search', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function orangesRotting(grid) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def orangesRotting(self, grid: List[List[int]]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int orangesRotting(vector<vector<int>>& grid) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int orangesRotting(int[][] grid) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'longest-common-subsequence',
+    title: 'Longest Common Subsequence',
+    description: 'Given two strings `text1` and `text2`, return the length of their longest common subsequence. If there is no common subsequence, return 0.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function longestCommonSubsequence(text1, text2) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def longestCommonSubsequence(self, text1: str, text2: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int longestCommonSubsequence(string text1, string text2) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int longestCommonSubsequence(String text1, String text2) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'number-of-closed-islands',
+    title: 'Number of Closed Islands',
+    description: 'Given a 2D `grid` consists of 0s (land) and 1s (water).  An island is a maximal 4-directionally connected group of 0s and a closed island is an island totally (all left, top, right, bottom) surrounded by 1s. Return the number of closed islands.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Depth-First Search', 'Breadth-First Search', 'Union Find', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function closedIsland(grid) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def closedIsland(self, grid: List[List[int]]) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int closedIsland(vector<vector<int>>& grid) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int closedIsland(int[][] grid) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'reconstruct-itinerary',
+    title: 'Reconstruct Itinerary',
+    description: 'You are given a list of airline `tickets` where `tickets[i] = [from_i, to_i]` represent the departure and the arrival airports of one flight. Reconstruct the itinerary in order and return it. All of the tickets belong to a man who departs from "JFK". Thus, the itinerary must begin with "JFK". If there are multiple valid itineraries, you should return the itinerary that has the smallest lexical order when read as a single string.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Depth-First Search', 'Graph', 'Eulerian Circuit'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findItinerary(tickets) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findItinerary(self, tickets: List[List[str]]) -> List[str]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<string> findItinerary(vector<vector<string>>& tickets) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<String> findItinerary(List<List<String>> tickets) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'minimum-height-trees',
+    title: 'Minimum Height Trees',
+    description: 'A tree is an undirected graph in which any two vertices are connected by exactly one path. In other words, any connected graph without simple cycles is a tree. Given a tree of `n` nodes labelled from `0` to `n - 1` and an array of `n - 1` `edges` where `edges[i] = [a_i, b_i]` indicates that there is an undirected edge between the two nodes `a_i` and `b_i` in the tree, you can choose any node of the tree as the root. When you select a node `x` as the root, the result tree has height `h`. Among all possible rooted trees, those with minimum height are called minimum height trees (MHTs). Return a list of all MHTs\' root labels.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Depth-First Search', 'Breadth-First Search', 'Graph', 'Topological Sort'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findMinHeightTrees(n, edges) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<Integer> findMinHeightTrees(int n, int[][] edges) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'pacific-atlantic-water-flow',
+    title: 'Pacific Atlantic Water Flow',
+    description: 'There is an `m x n` rectangular island that borders both the Pacific Ocean and the Atlantic Ocean. The Pacific Ocean touches the island\'s left and top edges, and the Atlantic Ocean touches the island\'s right and bottom edges. The island is partitioned into a grid of square cells. You are given an `m x n` integer matrix `heights` where `heights[r][c]` represents the height above sea level of the cell at coordinate `(r, c)`. Return a 2D list of grid coordinates `result` where `result[i] = [ri, ci]` denotes that rain water can flow from cell `(ri, ci)` to both the Pacific and Atlantic oceans.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Depth-First Search', 'Breadth-First Search', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function pacificAtlantic(heights) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> pacificAtlantic(int[][] heights) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    id: 'course-schedule-ii',
+    title: 'Course Schedule II',
+    description: 'There are a total of `numCourses` courses you have to take, labeled from `0` to `numCourses - 1`. You are given an array `prerequisites` where `prerequisites[i] = [ai, bi]` indicates that you must take course `bi` first if you want to take course `ai`. Return the ordering of courses you should take to finish all courses. If there are many valid answers, return any of them. If it is impossible to finish all courses, return an empty array.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Depth-First Search', 'Breadth-First Search', 'Graph', 'Topological Sort'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function findOrder(numCourses, prerequisites) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[] findOrder(int numCourses, int[][] prerequisites) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
 ];
 
 export function getDailyChallenge(): Challenge {
