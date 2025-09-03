@@ -4,31 +4,36 @@
 import { useState, useEffect } from 'react';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Lock, Unlock } from 'lucide-react';
-import { dungeon, DungeonFloor } from '@/lib/dungeon';
+import { ArrowRight, Lock, Unlock } from 'lucide-react';
+import { dungeon } from '@/lib/dungeon';
 import { challenges } from '@/lib/challenges';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { CheckCircle } from 'lucide-react';
 
 export default function DungeonPage() {
     const [solvedDungeonChallenges, setSolvedDungeonChallenges] = useState<Set<string>>(new Set());
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-        // We can reuse the same localStorage item for simplicity
+        setIsClient(true);
         const storedSolvedInfo: { id: string }[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
         const solvedIds = new Set(storedSolvedInfo.map(info => info.id));
         setSolvedDungeonChallenges(solvedIds);
     }, []);
 
     const isFloorUnlocked = (floorIndex: number) => {
-        if (floorIndex === 0) return true; // First floor is always unlocked
+        if (floorIndex === 0) return true; 
         const prevFloor = dungeon[floorIndex - 1];
+        if (!prevFloor) return false;
         const prevFloorSolvedCount = prevFloor.challenges.filter(id => solvedDungeonChallenges.has(id)).length;
-        // Unlock if more than half of the previous floor's challenges are solved
         return prevFloorSolvedCount >= prevFloor.challenges.length / 2;
     };
+    
+    if (!isClient) {
+        return <DashboardLayout><div>Loading...</div></DashboardLayout>;
+    }
 
     return (
         <DashboardLayout>

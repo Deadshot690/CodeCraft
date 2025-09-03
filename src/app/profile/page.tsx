@@ -38,10 +38,10 @@ export default function ProfilePage() {
     domains: { DSA: 0, Web: 0, AI: 0 }
   });
   const [recentSolutions, setRecentSolutions] = useState<SolvedChallengeInfo[]>([]);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // This component relies on localStorage now, as auth is removed.
-    // In a real app with a backend, this would fetch data from an API.
+    setIsClient(true);
     const storedSolutions: SolvedChallengeInfo[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
     
     const sortedSolutions = storedSolutions.sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
@@ -71,6 +71,9 @@ export default function ProfilePage() {
 
   }, []);
 
+  if (!isClient) {
+      return <DashboardLayout><div>Loading profile...</div></DashboardLayout>;
+  }
 
   return (
     <DashboardLayout>

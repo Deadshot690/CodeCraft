@@ -1,6 +1,4 @@
 
-'use client';
-
 import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { challenges as battleChallenges, BattleChallenge } from "@/lib/battle-challenges";
