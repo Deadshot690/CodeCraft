@@ -3291,22 +3291,6 @@ export const challenges: Challenge[] = [
     testCases: []
   },
   {
-    id: 'gas-station',
-    title: 'Gas Station',
-    description: 'There are `n` gas stations along a circular route, where the amount of gas at the `ith` station is `gas[i]`. You have a car with an unlimited gas tank and it costs `cost[i]` of gas to travel from the `ith` station to its next station (`i + 1`). You begin the journey with an empty tank at one of the gas stations. Given two integer arrays `gas` and `cost`, return the starting gas station\'s index if you can travel around the circuit once in the clockwise direction, otherwise return -1.',
-    difficulty: 'Medium',
-    domain: 'DSA',
-    tags: ['Array', 'Greedy'],
-    languages: ['javascript', 'python', 'cpp', 'java'],
-    templates: {
-      javascript: `function canCompleteCircuit(gas, cost) {\n  // Write your code here\n};`,
-      python: `class Solution:\n    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:\n        # Write your code here\n`,
-      cpp: `class Solution {\npublic:\n    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {\n        // Write your code here\n    }\n};`,
-      java: `class Solution {\n    public int canCompleteCircuit(int[] gas, int[] cost) {\n        // Write your code here\n    }\n}`
-    },
-    testCases: []
-  },
-  {
     id: 'single-number-iii',
     title: 'Single Number III',
     description: 'Given an integer array `nums`, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.',
@@ -3723,3 +3707,5 @@ export function getChallenge(id: string): Challenge | undefined {
 export function getAllChallenges(): Challenge[] {
   return challenges;
 }
+
+    
