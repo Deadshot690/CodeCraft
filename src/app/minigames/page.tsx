@@ -46,8 +46,8 @@ const games = [
         title: "Concept Match",
         description: "Match code examples to the programming concepts they demonstrate.",
         icon: <BookCopy className="w-12 h-12 text-primary" />,
-        href: "#",
-        status: "Coming Soon"
+        href: "/m/concept-match",
+        status: "Live"
     }
 ];
 

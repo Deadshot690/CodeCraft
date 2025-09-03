@@ -121,8 +121,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     </SidebarMenuSubButton>
                   </SidebarMenuItem>
                    <SidebarMenuItem>
-                    <SidebarMenuSubButton asChild>
-                      <Link href="#">
+                    <SidebarMenuSubButton asChild isActive={pathname.startsWith('/m/concept-match')}>
+                      <Link href="/m/concept-match">
                         <BookCopy />
                         <span>Concept Match</span>
                       </Link>
