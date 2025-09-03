@@ -1,7 +1,4 @@
 
-'use client';
-
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { debugChallenges, DebugChallenge } from "@/lib/debug-challenges";
@@ -10,8 +7,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Bug, Languages } from "lucide-react";
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from '@/components/ui/input';
+import { Suspense } from 'react';
+import ChallengeFilter from './_components/challenge-filter';
 
 const difficultyColorMap: { [key: string]: string } = {
     'Easy': 'text-green-500',
@@ -54,75 +51,24 @@ function ChallengeRow({ challenge }: { challenge: DebugChallenge }) {
     )
 }
 
-export default function DebugHuntListPage() {
-    const [filteredChallenges, setFilteredChallenges] = useState<DebugChallenge[]>(debugChallenges);
-    const [difficultyFilter, setDifficultyFilter] = useState('all');
-    const [languageFilter, setLanguageFilter] = useState('all');
-    const [searchTerm, setSearchTerm] = useState('');
+function ChallengeTable({ difficulty, language, search }: { difficulty: string; language: string; search: string; }) {
+    let challenges = debugChallenges;
 
-    useEffect(() => {
-        let challenges = debugChallenges;
+    if (difficulty !== 'all') {
+        challenges = challenges.filter(c => c.difficulty === difficulty);
+    }
+    if (language !== 'all') {
+        challenges = challenges.filter(c => c.language === language);
+    }
+    if (search) {
+        const searchTerm = search.toLowerCase();
+        challenges = challenges.filter(c => 
+            c.title.toLowerCase().includes(searchTerm) || 
+            c.description.toLowerCase().includes(searchTerm)
+        );
+    }
 
-        if (difficultyFilter !== 'all') {
-            challenges = challenges.filter(c => c.difficulty === difficultyFilter);
-        }
-        if (languageFilter !== 'all') {
-            challenges = challenges.filter(c => c.language === languageFilter);
-        }
-        if (searchTerm) {
-            challenges = challenges.filter(c => 
-                c.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                c.description.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-        }
-
-        setFilteredChallenges(challenges);
-    }, [difficultyFilter, languageFilter, searchTerm]);
-
-  return (
-    <DashboardLayout>
-      <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
-         <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight font-headline flex items-center gap-2"><Bug /> Debug Hunt</h1>
-              <p className="text-muted-foreground">
-                Choose a challenge to find and fix the bug.
-              </p>
-            </div>
-          </div>
-
-        <div className="flex flex-col md:flex-row items-center gap-4">
-            <Input 
-                placeholder="Search challenges..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full md:max-w-sm"
-            />
-            <Select value={difficultyFilter} onValueChange={setDifficultyFilter}>
-                <SelectTrigger className="w-full md:w-[180px]">
-                    <SelectValue placeholder="Filter by difficulty" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="all">All Difficulties</SelectItem>
-                    <SelectItem value="Easy">Easy</SelectItem>
-                    <SelectItem value="Medium">Medium</SelectItem>
-                    <SelectItem value="Hard">Hard</SelectItem>
-                </SelectContent>
-            </Select>
-            <Select value={languageFilter} onValueChange={setLanguageFilter}>
-                <SelectTrigger className="w-full md:w-[180px]">
-                    <SelectValue placeholder="Filter by language" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="all">All Languages</SelectItem>
-                    <SelectItem value="javascript">JavaScript</SelectItem>
-                    <SelectItem value="python">Python</SelectItem>
-                    <SelectItem value="java">Java</SelectItem>
-                    <SelectItem value="cpp">C++</SelectItem>
-                </SelectContent>
-            </Select>
-        </div>
-
+    return (
         <Card>
             <CardContent className="!p-0">
                 <Table>
@@ -135,8 +81,8 @@ export default function DebugHuntListPage() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {filteredChallenges.length > 0 ? (
-                            filteredChallenges.map(challenge => (
+                        {challenges.length > 0 ? (
+                            challenges.map(challenge => (
                                <ChallengeRow 
                                     key={challenge.id} 
                                     challenge={challenge} 
@@ -153,6 +99,39 @@ export default function DebugHuntListPage() {
                 </Table>
             </CardContent>
         </Card>
+    );
+}
+
+export default function DebugHuntListPage({
+  searchParams,
+}: {
+  searchParams?: {
+    search?: string;
+    difficulty?: string;
+    language?: string;
+  };
+}) {
+    const search = searchParams?.search || '';
+    const difficulty = searchParams?.difficulty || 'all';
+    const language = searchParams?.language || 'all';
+
+  return (
+    <DashboardLayout>
+      <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
+         <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight font-headline flex items-center gap-2"><Bug /> Debug Hunt</h1>
+              <p className="text-muted-foreground">
+                Choose a challenge to find and fix the bug.
+              </p>
+            </div>
+          </div>
+
+        <ChallengeFilter />
+        
+        <Suspense fallback={<div>Loading challenges...</div>}>
+            <ChallengeTable search={search} difficulty={difficulty} language={language} />
+        </Suspense>
       </div>
     </DashboardLayout>
   );
