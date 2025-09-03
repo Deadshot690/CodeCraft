@@ -26,6 +26,26 @@ export interface Challenge {
 
 export const challenges: Challenge[] = [
   {
+    id: 'fizz-buzz',
+    title: 'FizzBuzz',
+    description: 'Given an integer `n`, return a string array `answer` (1-indexed) where:\n\n- `answer[i] == "FizzBuzz"` if `i` is divisible by 3 and 5.\n- `answer[i] == "Fizz"` if `i` is divisible by 3.\n- `answer[i] == "Buzz"` if `i` is divisible by 5.\n- `answer[i] == i` (as a string) if none of the above conditions are true.',
+    difficulty: 'Easy',
+    domain: 'DSA',
+    tags: ['Array', 'String', 'Math', 'Simulation'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `function fizzBuzz(n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def fizzBuzz(self, n: int) -> List[str]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<string> fizzBuzz(int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<String> fizzBuzz(int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { n: 3 }, expectedOutput: ["1","2","Fizz"] },
+        { input: { n: 5 }, expectedOutput: ["1","2","Fizz","4","Buzz"] },
+        { input: { n: 15 }, expectedOutput: ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"] },
+    ]
+  },
+  {
     id: 'two-sum',
     title: 'Two Sum',
     description: 'Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`. You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order.',
