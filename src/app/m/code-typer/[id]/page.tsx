@@ -2,14 +2,14 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { notFound, useParams } from 'next/navigation';
+import { notFound, useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
-import { getTyperChallengeById, TyperChallenge } from "@/lib/typer-challenges";
+import { getTyperChallengeById, TyperChallenge, typerChallenges } from "@/lib/typer-challenges";
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, RefreshCw, BarChart, Timer, Target, CheckCircle, XCircle } from 'lucide-react';
+import { ChevronLeft, RefreshCw, BarChart, Timer, Target, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 
 const languageDisplayMap: { [key: string]: string } = {
     'javascript': 'JavaScript',
@@ -21,6 +21,7 @@ const languageDisplayMap: { [key: string]: string } = {
 };
 
 export default function CodeTyperGamePage() {
+    const router = useRouter();
     const params = useParams<{ id: string }>();
     const [challenge, setChallenge] = useState<TyperChallenge | null>(null);
     const [typedCode, setTypedCode] = useState('');
@@ -59,7 +60,10 @@ export default function CodeTyperGamePage() {
         setErrors(0);
         setIsFinished(false);
         isIncorrect.current = false;
-        inputRef.current?.focus();
+        if(inputRef.current) {
+             inputRef.current.value = '';
+             inputRef.current.focus();
+        }
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -87,6 +91,17 @@ export default function CodeTyperGamePage() {
 
         setTypedCode(currentTyped);
     };
+
+     const getNextChallengeId = () => {
+        if (!challenge) return null;
+        const currentIndex = typerChallenges.findIndex(c => c.id === challenge.id);
+        if (currentIndex < typerChallenges.length - 1) {
+            return typerChallenges[currentIndex + 1].id;
+        }
+        return null;
+    }
+    
+    const nextChallengeId = getNextChallengeId();
 
     if (!challenge) {
         return <DashboardLayout><div>Loading...</div></DashboardLayout>;
@@ -135,10 +150,18 @@ export default function CodeTyperGamePage() {
                                </Card>
                            </CardContent>
                            <CardFooter className="flex-col gap-4 pt-6">
-                                <Button className="w-full" onClick={() => resetGame(challenge)}>
-                                    <RefreshCw className="mr-2" />
-                                    Try Again
-                                </Button>
+                                {nextChallengeId ? (
+                                     <Button asChild className="w-full">
+                                        <Link href={`/m/code-typer/${nextChallengeId}`}>
+                                            Next Challenge <ArrowRight className="ml-2"/>
+                                        </Link>
+                                    </Button>
+                                ) : (
+                                     <Button className="w-full" onClick={() => resetGame(challenge)}>
+                                        <RefreshCw className="mr-2" />
+                                        Try Again
+                                    </Button>
+                                )}
                                <Button variant="outline" className="w-full" asChild>
                                    <Link href="/m/code-typer">
                                         <BarChart className="mr-2" />

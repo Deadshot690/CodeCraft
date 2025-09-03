@@ -2,13 +2,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { notFound, useParams } from 'next/navigation';
+import { notFound, useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
-import { getJigsawChallengeById, JigsawChallenge } from "@/lib/jigsaw-challenges";
+import { getJigsawChallengeById, JigsawChallenge, jigsawChallenges } from "@/lib/jigsaw-challenges";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Puzzle, CheckCircle, XCircle, Shuffle, Lightbulb, Sparkles } from 'lucide-react';
+import { ChevronLeft, Puzzle, CheckCircle, XCircle, Shuffle, Lightbulb, Sparkles, ArrowRight } from 'lucide-react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -51,6 +51,7 @@ function SortableItem({ id, isCorrect, isIncorrect }: { id: string, isCorrect: b
 
 
 export default function CodeJigsawGamePage() {
+    const router = useRouter();
     const params = useParams<{ id: string }>();
     const [challenge, setChallenge] = useState<JigsawChallenge | null>(null);
     const [scrambledLines, setScrambledLines] = useState<string[]>([]);
@@ -109,6 +110,17 @@ export default function CodeJigsawGamePage() {
             });
         }
     };
+    
+    const getNextChallengeId = () => {
+        if (!challenge) return null;
+        const currentIndex = jigsawChallenges.findIndex(c => c.id === challenge.id);
+        if (currentIndex < jigsawChallenges.length - 1) {
+            return jigsawChallenges[currentIndex + 1].id;
+        }
+        return null;
+    }
+
+    const nextChallengeId = getNextChallengeId();
 
     if (!challenge) {
         return <DashboardLayout><div>Loading...</div></DashboardLayout>;
@@ -151,19 +163,30 @@ export default function CodeJigsawGamePage() {
                              </DndContext>
                         </CardContent>
                         <CardFooter className="flex-col gap-4">
-                            <Button onClick={checkAnswer} className="w-full">
-                                <CheckCircle className="mr-2" />
-                                Submit Answer
-                            </Button>
+                            {!isCorrect && (
+                                <Button onClick={checkAnswer} className="w-full">
+                                    <CheckCircle className="mr-2" />
+                                    Submit Answer
+                                </Button>
+                            )}
                              {isCorrect === true && (
-                                <Alert className="border-green-500 text-green-700">
-                                    <CheckCircle className="h-4 w-4 text-green-500" />
-                                    <AlertTitle>Success!</AlertTitle>
-                                    <AlertDescription>Great job! The code is in the correct order.</AlertDescription>
-                                </Alert>
+                                <>
+                                    <Alert className="border-green-500 text-green-700 w-full">
+                                        <CheckCircle className="h-4 w-4 text-green-500" />
+                                        <AlertTitle>Success!</AlertTitle>
+                                        <AlertDescription>Great job! The code is in the correct order.</AlertDescription>
+                                    </Alert>
+                                     {nextChallengeId && (
+                                        <Button asChild className="w-full">
+                                            <Link href={`/m/code-jigsaw/${nextChallengeId}`}>
+                                                Next Puzzle <ArrowRight className="ml-2" />
+                                            </Link>
+                                        </Button>
+                                    )}
+                                </>
                             )}
                              {isCorrect === false && (
-                                <Alert variant="destructive">
+                                <Alert variant="destructive" className="w-full">
                                     <XCircle className="h-4 w-4" />
                                     <AlertTitle>Incorrect</AlertTitle>
                                     <AlertDescription>That's not quite right. Rearrange the lines and try again.</AlertDescription>

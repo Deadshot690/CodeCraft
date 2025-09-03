@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Swords, Heart, Shield, HelpCircle, Bot, Loader2, XCircle, MessageCircle, List, ChevronLeft } from 'lucide-react';
+import { Swords, Heart, Shield, HelpCircle, Bot, Loader2, XCircle, MessageCircle, List, ChevronLeft, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { getRandomMonster, BattleMonster, BattleChallenge, challenges } from '@/lib/battle-challenges';
 import { evaluateAnswerAction } from '@/app/actions';
@@ -131,6 +131,16 @@ export default function MonsterBattlePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isBattleOver, lastAnswerWasCorrect]);
 
+    const getNextChallengeId = () => {
+        if (!challenge) return null;
+        const currentIndex = challenges.findIndex(c => c.id === challenge.id);
+        if (currentIndex < challenges.length - 1) {
+            return challenges[currentIndex + 1].id;
+        }
+        return null;
+    }
+    
+    const nextChallengeId = getNextChallengeId();
 
     if (!monster || !challenge) {
         return (
@@ -199,14 +209,19 @@ export default function MonsterBattlePage() {
                 <div className="w-1/2 p-4 lg:p-6 overflow-y-auto">
                     {isBattleOver ? (
                         <Card className="flex flex-col items-center justify-center h-full">
-                            <CardContent className="p-6 text-center">
+                            <CardContent className="p-6 text-center space-y-4">
                                 <h2 className="text-3xl font-bold font-headline mb-4">
                                     {monsterHP <= 0 ? "You are Victorious!" : "You have been Defeated!"}
                                 </h2>
                                 <p className="text-muted-foreground mb-6">
                                      {monsterHP <= 0 ? `You defeated the ${monster.name}!` : `The ${monster.name} was too strong.`}
                                 </p>
-                                <Button onClick={() => router.push('/m/monster-battle')} size="lg">
+                                {monsterHP <= 0 && nextChallengeId && (
+                                     <Button onClick={() => router.push(`/m/battle/${nextChallengeId}`)} size="lg" className="w-full">
+                                        Next Challenge <ArrowRight className="ml-2" />
+                                    </Button>
+                                )}
+                                <Button onClick={() => router.push('/m/monster-battle')} size="lg" variant="outline" className="w-full">
                                     {monsterHP <= 0 ? "Fight Another Monster" : "Try Another Challenge"}
                                 </Button>
                             </CardContent>

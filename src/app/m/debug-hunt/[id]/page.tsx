@@ -7,16 +7,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Timer, CheckCircle, XCircle, Bug, Sparkles, ChevronLeft, Loader2 } from 'lucide-react';
+import { Timer, CheckCircle, XCircle, Bug, Sparkles, ChevronLeft, Loader2, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { getChallengeById, DebugChallenge } from '@/lib/debug-challenges';
+import { getChallengeById, DebugChallenge, debugChallenges } from '@/lib/debug-challenges';
 import Link from 'next/link';
 import { Label } from '@/components/ui/label';
-import { notFound, useParams } from 'next/navigation';
+import { notFound, useParams, useRouter } from 'next/navigation';
 
 const TIME_LIMIT = 60; // 60 seconds
 
 export default function DebugHuntGamePage() {
+  const router = useRouter();
   const params = useParams<{ id: string }>();
   const [challenge, setChallenge] = useState<DebugChallenge | null>(null);
   const [userCode, setUserCode] = useState('');
@@ -92,6 +93,17 @@ export default function DebugHuntGamePage() {
       endGame('incorrect');
     }
   };
+
+  const getNextChallengeId = () => {
+        if (!challenge) return null;
+        const currentIndex = debugChallenges.findIndex(c => c.id === challenge.id);
+        if (currentIndex < debugChallenges.length - 1) {
+            return debugChallenges[currentIndex + 1].id;
+        }
+        return null;
+    }
+
+  const nextChallengeId = getNextChallengeId();
   
     if (!challenge) {
         return (
@@ -178,9 +190,17 @@ export default function DebugHuntGamePage() {
                                                 </pre>
                                             </Alert>
                                         )}
-                                        <Button asChild className="w-full">
-                                            <Link href="/m/debug-hunt">Play Another</Link>
-                                        </Button>
+                                        {nextChallengeId ? (
+                                            <Button asChild className="w-full">
+                                                <Link href={`/m/debug-hunt/${nextChallengeId}`}>
+                                                    Next Challenge <ArrowRight className="ml-2"/>
+                                                </Link>
+                                            </Button>
+                                        ) : (
+                                            <Button asChild className="w-full">
+                                                <Link href="/m/debug-hunt">Back to Challenges</Link>
+                                            </Button>
+                                        )}
                                     </CardContent>
                                 </Card>
                             )}
