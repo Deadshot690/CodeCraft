@@ -34,6 +34,7 @@ import {
   BrainCircuit,
   BookCopy,
 } from 'lucide-react';
+import { ThemeToggle } from './theme-toggle';
 
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -168,6 +169,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <div className="w-full flex-1">
                 {/* Can add search bar here if needed */}
             </div>
+            <ThemeToggle />
             {/* UserNav would go here if auth was enabled */}
         </header>
         <main className="flex-1 overflow-auto">{children}</main>
