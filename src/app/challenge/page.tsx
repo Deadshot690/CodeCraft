@@ -100,9 +100,9 @@ export default function AllChallengesPage({
     tag?: string;
   };
 }) {
-    const status = searchParams?.status || 'all';
-    const difficulty = searchParams?.difficulty || 'all';
-    const tag = searchParams?.tag || 'all';
+    const status = searchParams?.status ?? 'all';
+    const difficulty = searchParams?.difficulty ?? 'all';
+    const tag = searchParams?.tag ?? 'all';
 
   return (
     <DashboardLayout>
