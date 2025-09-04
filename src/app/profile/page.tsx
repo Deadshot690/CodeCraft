@@ -132,7 +132,7 @@ export default function ProfilePage() {
                   {recentSolutions.map(sol => (
                     <li key={sol.id} className="flex items-center justify-between p-2 rounded-md hover:bg-muted/50">
                        <div>
-                         <Link href={`/challenge/${sol.id}`} className="font-medium hover:underline">{sol.title}</Link>
+                         <span className="font-medium">{sol.title}</span>
                          <p className="text-sm text-muted-foreground">{formatDistanceToNow(new Date(sol.solvedAt), { addSuffix: true })}</p>
                        </div>
                        <Badge variant="default" className="bg-green-500/20 text-green-700 hover:bg-green-500/30">

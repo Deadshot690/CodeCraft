@@ -74,35 +74,8 @@ export default function Home() {
           </Card>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
-          <Card className="lg:col-span-3 flex flex-col">
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="font-headline text-xl">Daily Challenge</CardTitle>
-                  <CardDescription>A new challenge to test your skills.</CardDescription>
-                </div>
-                <Badge variant="outline" className="border-primary text-primary">{dailyChallenge.domain}</Badge>
-              </div>
-            </CardHeader>
-            <CardContent className="flex-grow">
-              <h3 className="font-semibold text-lg font-headline">{dailyChallenge.title}</h3>
-              <p className="text-muted-foreground my-2">{dailyChallenge.description}</p>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">Difficulty:</span>
-                <Badge variant="secondary">{dailyChallenge.difficulty}</Badge>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button className="w-full" asChild>
-                <Link href={`/challenge/${dailyChallenge.id}`}>
-                  Start Challenge <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </CardFooter>
-          </Card>
-
-          <Card className="lg:col-span-2 relative flex flex-col justify-between overflow-hidden">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-1">
+          <Card className="lg:col-span-2 relative flex flex-col justify-between overflow-hidden min-h-[300px]">
              <Image
               src="https://picsum.photos/600/400"
               alt="Dungeon artwork"
