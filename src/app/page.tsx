@@ -74,8 +74,30 @@ export default function Home() {
           </Card>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-1">
-          <Card className="lg:col-span-2 relative flex flex-col justify-between overflow-hidden min-h-[300px]">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+           <Card className="lg:col-span-2">
+                <CardHeader>
+                    <CardTitle className="font-headline text-xl">Daily Challenge</CardTitle>
+                    <CardDescription>A new challenge every day to keep your skills sharp.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <h3 className="font-semibold text-lg">{dailyChallenge.title}</h3>
+                    <p className="text-sm text-muted-foreground line-clamp-2">{dailyChallenge.description}</p>
+                    <div className="flex gap-2 mt-2">
+                        <Badge variant="secondary">{dailyChallenge.difficulty}</Badge>
+                        <Badge variant="outline">{dailyChallenge.domain}</Badge>
+                    </div>
+                </CardContent>
+                <CardFooter>
+                    <Button asChild className="w-full">
+                        <Link href={`/challenge/${dailyChallenge.id}`}>
+                            Attempt Challenge <ArrowRight className="ml-2" />
+                        </Link>
+                    </Button>
+                </CardFooter>
+            </Card>
+
+          <Card className="lg:col-span-1 relative flex flex-col justify-between overflow-hidden min-h-[300px]">
              <Image
               src="https://picsum.photos/600/400"
               alt="Dungeon artwork"

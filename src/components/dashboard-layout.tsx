@@ -60,6 +60,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               </SidebarMenuButton>
             </SidebarMenuItem>
              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/challenge')}>
+                    <Link href="/challenge">
+                        <Trophy />
+                        Challenges
+                    </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+             <SidebarMenuItem>
               <SidebarMenuButton>
                   <Gamepad2 />
                   Mini-Games
@@ -134,9 +142,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <Link href="#">
+                <Link href="/profile">
                   <Trophy />
-                  Leaderboard
+                  Profile & Progress
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

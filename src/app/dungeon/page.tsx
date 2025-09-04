@@ -76,8 +76,8 @@ export default function DungeonPage() {
                                             if (!challenge) return null;
                                             const isSolved = solvedDungeonChallenges.has(challenge.id);
                                             return (
-                                                <div key={challenge.id} className={`group ${!unlocked ? 'pointer-events-none' : ''}`}>
-                                                    <Card className="h-full">
+                                                <Link key={challenge.id} href={`/challenge/${challenge.id}`} className={`group ${!unlocked ? 'pointer-events-none' : ''}`}>
+                                                    <Card className="h-full transition-all hover:border-primary">
                                                         <CardContent className="p-4 flex items-center justify-between">
                                                             <div className="flex items-center gap-2">
                                                                {isSolved ? <CheckCircle className="text-green-500"/> : <div className="w-5 h-5 rounded-full border-2 border-muted" /> }
@@ -89,7 +89,7 @@ export default function DungeonPage() {
                                                             <ArrowRight className="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                                                         </CardContent>
                                                     </Card>
-                                                </div>
+                                                </Link>
                                             )
                                         })}
                                     </div>

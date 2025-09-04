@@ -131,10 +131,10 @@ export default function ProfilePage() {
                 <ul className="space-y-2">
                   {recentSolutions.map(sol => (
                     <li key={sol.id} className="flex items-center justify-between p-2 rounded-md hover:bg-muted/50">
-                       <div>
+                       <Link href={`/challenge/${sol.id}`} className="hover:underline">
                          <span className="font-medium">{sol.title}</span>
                          <p className="text-sm text-muted-foreground">{formatDistanceToNow(new Date(sol.solvedAt), { addSuffix: true })}</p>
-                       </div>
+                       </Link>
                        <Badge variant="default" className="bg-green-500/20 text-green-700 hover:bg-green-500/30">
                         <Check className="w-3 h-3 mr-1"/>
                         Accepted
