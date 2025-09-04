@@ -1,3 +1,4 @@
+
 import {z} from 'zod';
 
 export const RunCodeInputSchema = z.object({
@@ -13,6 +14,7 @@ export const RunCodeInputSchema = z.object({
     .describe(
       'A JSON string of an array of test cases, where each case has `input` and `expectedOutput`.'
     ),
+  referenceSolution: z.string().describe('A correct reference solution in JavaScript to guide the evaluation.')
 });
 export type RunCodeInput = z.infer<typeof RunCodeInputSchema>;
 

@@ -185,12 +185,14 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                  <input type="hidden" name="code" value={code} />
                  <input type="hidden" name="language" value={selectedLanguage} />
                  <input type="hidden" name="challengeTitle" value={challenge.title} />
+                 <input type="hidden" name="challengeId" value={challenge.id} />
                  <input type="hidden" name="testCases" value={JSON.stringify(challenge.testCases)} />
             </form>
              <form id="submit-form" action={submitActionFn}>
                  <input type="hidden" name="code" value={code} />
                  <input type="hidden" name="language" value={selectedLanguage} />
                  <input type="hidden" name="challengeTitle" value={challenge.title} />
+                 <input type="hidden" name="challengeId" value={challenge.id} />
                  <input type="hidden" name="testCases" value={JSON.stringify(challenge.testCases)} />
             </form>
 

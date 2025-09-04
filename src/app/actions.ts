@@ -5,8 +5,9 @@ import { aiCodeAssistant, type AICodeAssistantInput } from '@/ai/flows/ai-code-a
 import { runCode } from '@/ai/flows/run-code-flow';
 import {z} from 'zod';
 import { challenges as battleChallenges } from '@/lib/battle-challenges';
+import { getChallenge } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
-import { RunCodeInputSchema } from '@/lib/code-execution-types';
+import { RunCodeInputSchema as ServerRunCodeInputSchema } from '@/lib/code-execution-types';
 
 const assistantSchema = z.object({
   code: z.string().min(10, { message: "Please provide a code snippet of at least 10 characters." }),
@@ -54,6 +55,15 @@ export async function getAIAssistance(
   }
 }
 
+// Extend the schema for server-side validation to include challengeId for fetching the reference solution
+const RunCodeActionSchema = z.object({
+  code: z.string(),
+  language: z.string(),
+  challengeTitle: z.string(),
+  challengeId: z.string(), // Added to fetch the challenge details
+  testCases: z.string(),
+});
+
 type RunCodeState = {
     formErrors?: z.ZodError<RunCodeInput>['formErrors']['fieldErrors'];
     message?: string;
@@ -61,26 +71,36 @@ type RunCodeState = {
 };
 
 
-export async function runTestAction(
-    prevState: RunCodeState,
-    formData: FormData
-): Promise<RunCodeState> {
-    const validatedFields = RunCodeInputSchema.safeParse({
+async function handleCodeExecution(formData: FormData): Promise<RunCodeState> {
+    const validatedFields = RunCodeActionSchema.safeParse({
         code: formData.get('code'),
         language: formData.get('language'),
         challengeTitle: formData.get('challengeTitle'),
+        challengeId: formData.get('challengeId'),
         testCases: formData.get('testCases'),
     });
-
+    
     if (!validatedFields.success) {
         return {
             formErrors: validatedFields.error.flatten().fieldErrors,
             message: 'There was an error with your submission. Please check the fields.',
         };
     }
+    
+    const { challengeId, ...runCodeInput } = validatedFields.data;
+
+    const challenge = getChallenge(challengeId);
+    if (!challenge) {
+        return { message: 'Challenge not found.' };
+    }
+
+    const referenceSolution = challenge.templates.javascript; // Always use JS reference for now
 
     try {
-        const result = await runCode(validatedFields.data);
+        const result = await runCode({
+            ...runCodeInput,
+            referenceSolution,
+        });
         return { results: result.results };
     } catch (error) {
         console.error('Run Code Error:', error);
@@ -89,31 +109,19 @@ export async function runTestAction(
 }
 
 
+export async function runTestAction(
+    prevState: RunCodeState,
+    formData: FormData
+): Promise<RunCodeState> {
+    return handleCodeExecution(formData);
+}
+
+
 export async function submitAction(
     prevState: RunCodeState,
     formData: FormData
 ): Promise<RunCodeState> {
-    const validatedFields = RunCodeInputSchema.safeParse({
-        code: formData.get('code'),
-        language: formData.get('language'),
-        challengeTitle: formData.get('challengeTitle'),
-        testCases: formData.get('testCases'),
-    });
-
-    if (!validatedFields.success) {
-        return {
-            formErrors: validatedFields.error.flatten().fieldErrors,
-            message: 'There was an error with your submission. Please check the fields.',
-        };
-    }
-
-    try {
-        const result = await runCode(validatedFields.data);
-        return { results: result.results };
-    } catch (error) {
-        console.error('Run Code Error:', error);
-        return { message: 'An unexpected error occurred while running the code. Please try again later.' };
-    }
+    return handleCodeExecution(formData);
 }
 
 // Monster Battle Action
