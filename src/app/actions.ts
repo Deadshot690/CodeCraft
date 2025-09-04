@@ -1,11 +1,12 @@
 
-// @ts-nocheck
 'use server';
 
 import { aiCodeAssistant, type AICodeAssistantInput } from '@/ai/flows/ai-code-assistant';
-import { runCode, type RunCodeInput, type RunCodeOutput } from '@/ai/flows/run-code-flow';
+import { runCode } from '@/ai/flows/run-code-flow';
 import {z} from 'zod';
 import { challenges as battleChallenges } from '@/lib/battle-challenges';
+import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
+import { RunCodeInputSchema } from '@/lib/code-execution-types';
 
 const assistantSchema = z.object({
   code: z.string().min(10, { message: "Please provide a code snippet of at least 10 characters." }),
@@ -53,21 +54,8 @@ export async function getAIAssistance(
   }
 }
 
-
-const runCodeSchema = z.object({
-  code: z.string(),
-  language: z.string(),
-  challengeTitle: z.string(),
-  testCases: z.string(),
-});
-
 type RunCodeState = {
-    formErrors?: {
-        code?: string[];
-        language?: string[];
-        challengeTitle?: string[];
-        testCases?: string[];
-    };
+    formErrors?: z.ZodError<RunCodeInput>['formErrors']['fieldErrors'];
     message?: string;
     results?: RunCodeOutput['results'];
 };
@@ -77,7 +65,7 @@ export async function runTestAction(
     prevState: RunCodeState,
     formData: FormData
 ): Promise<RunCodeState> {
-    const validatedFields = runCodeSchema.safeParse({
+    const validatedFields = RunCodeInputSchema.safeParse({
         code: formData.get('code'),
         language: formData.get('language'),
         challengeTitle: formData.get('challengeTitle'),
@@ -92,7 +80,7 @@ export async function runTestAction(
     }
 
     try {
-        const result = await runCode(validatedFields.data as RunCodeInput);
+        const result = await runCode(validatedFields.data);
         return { results: result.results };
     } catch (error) {
         console.error('Run Code Error:', error);
@@ -105,7 +93,7 @@ export async function submitAction(
     prevState: RunCodeState,
     formData: FormData
 ): Promise<RunCodeState> {
-    const validatedFields = runCodeSchema.safeParse({
+    const validatedFields = RunCodeInputSchema.safeParse({
         code: formData.get('code'),
         language: formData.get('language'),
         challengeTitle: formData.get('challengeTitle'),
@@ -120,7 +108,7 @@ export async function submitAction(
     }
 
     try {
-        const result = await runCode(validatedFields.data as RunCodeInput);
+        const result = await runCode(validatedFields.data);
         return { results: result.results };
     } catch (error) {
         console.error('Run Code Error:', error);
