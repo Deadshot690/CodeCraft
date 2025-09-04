@@ -1818,6 +1818,8 @@ export function getChallenge(id: string): Challenge | undefined {
   return challenges.find(c => c.id === id);
 }
 
-export function getAllChallenges(): Challenge[] {
-  return challenges;
+export function getChallengeReferenceSolution(id: string): string | undefined {
+    const challenge = challenges.find(c => c.id === id);
+    // For now, we will always use the javascript solution as the reference for the AI.
+    return challenge?.templates?.javascript;
 }

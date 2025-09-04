@@ -4,10 +4,8 @@
 import { aiCodeAssistant, type AICodeAssistantInput } from '@/ai/flows/ai-code-assistant';
 import { runCode } from '@/ai/flows/run-code-flow';
 import {z} from 'zod';
-import { challenges as battleChallenges } from '@/lib/battle-challenges';
-import { getChallenge } from '@/lib/challenges';
+import { getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
-import { RunCodeInputSchema as ServerRunCodeInputSchema } from '@/lib/code-execution-types';
 
 const assistantSchema = z.object({
   code: z.string().min(10, { message: "Please provide a code snippet of at least 10 characters." }),
@@ -89,12 +87,10 @@ async function handleCodeExecution(formData: FormData): Promise<RunCodeState> {
     
     const { challengeId, ...runCodeInput } = validatedFields.data;
 
-    const challenge = getChallenge(challengeId);
-    if (!challenge) {
-        return { message: 'Challenge not found.' };
+    const referenceSolution = getChallengeReferenceSolution(challengeId);
+    if (!referenceSolution) {
+        return { message: 'Challenge reference solution not found.' };
     }
-
-    const referenceSolution = challenge.templates.javascript; // Always use JS reference for now
 
     try {
         const result = await runCode({
@@ -157,7 +153,10 @@ export async function evaluateAnswerAction(
     }
 
     const { challengeId, answer } = validatedFields.data;
-    const challenge = battleChallenges.find(c => c.id === challengeId);
+    // In a real app, you'd fetch this from a DB. For now, we filter the imported array.
+    // This is not ideal for performance if the array is large.
+    const { challenges } = await import('@/lib/battle-challenges');
+    const challenge = challenges.find(c => c.id === challengeId);
 
     if (!challenge) {
         return { message: "Challenge not found.", isCorrect: null };
