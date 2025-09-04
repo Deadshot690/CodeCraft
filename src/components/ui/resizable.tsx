@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { ImperativePanelHandle, PanelGroup } from "react-resizable-panels"
+import { ImperativePanelHandle, PanelGroup, Panel } from "react-resizable-panels"
 
 import { cn } from "@/lib/utils"
 
@@ -21,7 +21,14 @@ const ResizablePanelGroup = React.forwardRef<
 ))
 ResizablePanelGroup.displayName = "ResizablePanelGroup"
 
-const ResizablePanel = PanelGroup.Panel
+const ResizablePanel = React.forwardRef<
+    HTMLDivElement,
+    React.ComponentProps<typeof Panel>
+>((props, ref) => {
+    return <Panel ref={ref} {...props} />;
+});
+ResizablePanel.displayName = "ResizablePanel"
+
 
 const ResizableHandle = React.forwardRef<
   HTMLDivElement,
