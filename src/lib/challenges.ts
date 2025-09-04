@@ -1,4 +1,5 @@
 
+
 export interface TestCase {
   input: any;
   expectedOutput: any;
@@ -1817,6 +1818,23 @@ export function getDailyChallenge(): Challenge {
 export function getChallenge(id: string): Challenge | undefined {
   return challenges.find(c => c.id === id);
 }
+
+export function getNextChallengeId(currentId: string): string | null {
+  const currentIndex = challenges.findIndex(c => c.id === currentId);
+  if (currentIndex === -1 || currentIndex === challenges.length - 1) {
+    return null; // Not found or it's the last challenge
+  }
+  return challenges[currentIndex + 1].id;
+}
+
+export function getPreviousChallengeId(currentId: string): string | null {
+  const currentIndex = challenges.findIndex(c => c.id === currentId);
+  if (currentIndex <= 0) {
+    return null; // Not found or it's the first challenge
+  }
+  return challenges[currentIndex - 1].id;
+}
+
 
 export function getChallengeReferenceSolution(id: string): string | undefined {
     const challenge = challenges.find(c => c.id === id);
