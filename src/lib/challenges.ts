@@ -1,5 +1,6 @@
 
 
+
 export interface TestCase {
   input: any;
   expectedOutput: any;
@@ -1805,6 +1806,261 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public ListNode reverseKGroup(ListNode head, int k) {\n        // Write your code here\n    }\n}`
     },
     testCases: []
+  },
+  {
+    srNo: 102,
+    id: 'search-in-rotated-sorted-array',
+    title: 'Search in Rotated Sorted Array',
+    description: 'There is an integer array nums sorted in ascending order (with distinct values). Prior to being passed to your function, nums is possibly rotated at an unknown pivot index. Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Binary Search'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var search = function(nums, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def search(self, nums: List[int], target: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int search(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int search(int[] nums, int target) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 103,
+    id: 'combination-sum',
+    title: 'Combination Sum',
+    description: 'Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Backtracking'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var combinationSum = function(candidates, target) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 104,
+    id: 'permutations',
+    title: 'Permutations',
+    description: 'Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Backtracking'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var permute = function(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 105,
+    id: 'rotate-image',
+    title: 'Rotate Image',
+    description: 'You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise). You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Math', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var rotate = function(matrix) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def rotate(self, matrix: List[List[int]]) -> None:\n        """\n        Do not return anything, modify matrix in-place instead.\n        """\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void rotate(vector<vector<int>>& matrix) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void rotate(int[][] matrix) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 106,
+    id: 'group-anagrams',
+    title: 'Group Anagrams',
+    description: 'Given an array of strings strs, group the anagrams together. You can return the answer in any order. An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'String', 'Sorting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var groupAnagrams = function(strs) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 107,
+    id: 'jump-game',
+    title: 'Jump Game',
+    description: 'You are given an integer array nums. You are initially positioned at the array\'s first index, and each element in the array represents your maximum jump length at that position. Return true if you can reach the last index, or false otherwise.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming', 'Greedy'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var canJump = function(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def canJump(self, nums: List[int]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool canJump(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean canJump(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 108,
+    id: 'merge-intervals',
+    title: 'Merge Intervals',
+    description: 'Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Sorting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var merge = function(intervals) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def merge(self, intervals: List[List[int]]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> merge(vector<vector<int>>& intervals) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int[][] merge(int[][] intervals) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 109,
+    id: 'unique-paths',
+    title: 'Unique Paths',
+    description: 'There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time. Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Math', 'Dynamic Programming', 'Combinatorics'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var uniquePaths = function(m, n) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int uniquePaths(int m, int n) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 110,
+    id: 'set-matrix-zeroes',
+    title: 'Set Matrix Zeroes',
+    description: 'Given an m x n integer matrix, if an element is 0, set its entire row and column to 0\'s. You must do it in-place.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var setZeroes = function(matrix) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def setZeroes(self, matrix: List[List[int]]) -> None:\n        """\n        Do not return anything, modify matrix in-place instead.\n        """\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void setZeroes(vector<vector<int>>& matrix) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void setZeroes(int[][] matrix) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 111,
+    id: 'sort-colors',
+    title: 'Sort Colors',
+    description: 'Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue. We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Two Pointers', 'Sorting'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var sortColors = function(nums) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def sortColors(self, nums: List[int]) -> None:\n        """\n        Do not return anything, modify nums in-place instead.\n        """\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    void sortColors(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public void sortColors(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 112,
+    id: 'word-search',
+    title: 'Word Search',
+    description: 'Given an m x n grid of characters board and a string word, return true if word exists in the grid. The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Backtracking', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var exist = function(board, word) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool exist(vector<vector<char>>& board, string word) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean exist(char[][] board, String word) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 113,
+    id: 'decode-ways',
+    title: 'Decode Ways',
+    description: 'A message containing letters from A-Z can be encoded into numbers using the following mapping: \'A\' -> "1", \'B\' -> "2", ..., \'Z\' -> "26". To decode an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above (there may be multiple ways). Given a string s containing only digits, return the number of ways to decode it.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['String', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var numDecodings = function(s) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def numDecodings(self, s: str) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int numDecodings(string s) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int numDecodings(String s) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 114,
+    id: 'validate-binary-search-tree',
+    title: 'Validate Binary Search Tree',
+    description: 'Given the root of a binary tree, determine if it is a valid binary search tree (BST). A valid BST is defined as follows: The left subtree of a node contains only nodes with keys less than the node\'s key. The right subtree of a node contains only nodes with keys greater than the node\'s key. Both the left and right subtrees must also be binary search trees.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Binary Search Tree', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var isValidBST = function(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public boolean isValidBST(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 115,
+    id: 'binary-tree-level-order-traversal',
+    title: 'Binary Tree Level Order Traversal',
+    description: 'Given the root of a binary tree, return the level order traversal of its nodes\' values. (i.e., from left to right, level by level).',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Breadth-First Search', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var levelOrder = function(root) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
+  },
+  {
+    srNo: 116,
+    id: 'coin-change',
+    title: 'Coin Change',
+    description: 'You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money. Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Dynamic Programming', 'Breadth-First Search'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+      javascript: `var coinChange = function(coins, amount) {\n  // Write your code here\n};`,
+      python: `class Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n        # Write your code here\n`,
+      cpp: `class Solution {\npublic:\n    int coinChange(vector<int>& coins, int amount) {\n        // Write your code here\n    }\n};`,
+      java: `class Solution {\n    public int coinChange(int[] coins, int amount) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: []
   }
 ];
 
@@ -1841,3 +2097,4 @@ export function getChallengeReferenceSolution(id: string): string | undefined {
     // For now, we will always use the javascript solution as the reference for the AI.
     return challenge?.templates?.javascript;
 }
+
