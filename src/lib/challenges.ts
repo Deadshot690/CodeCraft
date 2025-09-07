@@ -168,7 +168,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { list1: {val: 1, next: {val: 2, next: {val: 4, next: null}}}, list2: {val: 1, next: {val: 3, next: {val: 4, next: null}}} }, expectedOutput: {val: 1, next: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 4, next: null}}}}}}} },
+        { input: { list1: {val: 1, next: {val: 2, next: {val: 4, next: null}}}, list2: {val: 1, next: {val: 3, next: {val: 4, next: null}}} }, expectedOutput: {val: 1, next: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 4, next: null}}}}}} },
         { input: { list1: null, list2: null }, expectedOutput: null }
     ]
   },
@@ -258,7 +258,7 @@ export const challenges: Challenge[] = [
     srNo: 12,
     id: 'plus-one',
     title: 'Plus One',
-    description: 'You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0\'s. Increment the large integer by one and return the resulting array of digits.',
+    description: 'You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0s. Increment the large integer by one and return the resulting array of digits.',
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Math'],
@@ -352,7 +352,7 @@ export const challenges: Challenge[] = [
     },
     testCases: [
       { input: { head: {val: 1, next: {val: 1, next: {val: 2, next: null}}} }, expectedOutput: {val: 1, next: {val: 2, next: null}} },
-      { input: { head: {val: 1, next: {val: 1, next: {val: 2, next: {val: 3, next: {val: 3}}}}}} }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3}}} }
+      { input: { head: {val: 1, next: {val: 1, next: {val: 2, next: {val: 3, next: {val: 3, next: null}}}}} }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: null}}} }
     ]
   },
   {
@@ -447,7 +447,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public TreeNode sortedArrayToBST(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [-10,-3,0,5,9] }, expectedOutput: {val: 0, left: {val: -3, left: {val: -10}}, right: {val: 9, left: {val: 5}}} }
+        { input: { nums: [-10,-3,0,5,9] }, expectedOutput: {val: 0, left: {val: -3, left: {val: -10, left: null, right: null}, right: null}, right: {val: 9, left: {val: 5, left: null, right: null}, right: null}} }
     ]
   },
   {
@@ -656,7 +656,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for singly-linked list.\n * class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public boolean hasCycle(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} }, expectedOutput: true }
+        { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} } }, expectedOutput: true }
     ]
   },
   {
@@ -675,7 +675,7 @@ export const challenges: Challenge[] = [
       java: `public class Solution {\n    public ListNode detectCycle(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-         { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} }, expectedOutput: "node_at_index_1" }
+         { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} } }, expectedOutput: "node_at_index_1" }
     ]
   },
   {
@@ -694,7 +694,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public void reorderList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4}}}}}, expectedOutput: {val: 1, next: {val: 4, next: {val: 2, next: {val: 3}}}} }
+        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4}}}} }, expectedOutput: {val: 1, next: {val: 4, next: {val: 2, next: {val: 3}}}} }
     ]
   },
   {
@@ -1589,7 +1589,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public ListNode middleNode(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5}}}}}}, expectedOutput: {val: 3, next: {val: 4, next: {val: 5}}} }
+        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5}}}}}} }, expectedOutput: {val: 3, next: {val: 4, next: {val: 5}}} }
     ]
   },
   {
@@ -2569,8 +2569,7 @@ export function getPreviousChallengeId(currentId: string): string | null {
   return challenges[currentIndex - 1].id;
 }
 
-
 export function getChallengeReferenceSolution(id: string): string | undefined {
-    const challenge = challenges.find(c => c.id === id);
+    const challenge = getChallenge(id);
     return challenge?.templates?.javascript;
 }
