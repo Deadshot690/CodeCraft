@@ -94,11 +94,6 @@ function SubmissionResult({ results, challenge, onCompletion }: { results: any[]
                  solvedInfo.push({ id: challenge.id, title: challenge.title, solvedAt: new Date().toISOString() });
                  localStorage.setItem('solvedChallengesInfo', JSON.stringify(solvedInfo));
              }
-
-             // Also update the old set for the challenge list page
-             const solvedSet = new Set(JSON.parse(localStorage.getItem('solvedChallenges') || '[]'));
-             solvedSet.add(challenge.id);
-             localStorage.setItem('solvedChallenges', JSON.stringify(Array.from(solvedSet)));
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [results, challenge, onCompletion]);
@@ -136,6 +131,15 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
     const [code, setCode] = useState(challenge.templates[selectedLanguage]);
     const [runState, runAction] = useActionState(runTestAction, runInitialState);
     const [submitState, submitActionFn] = useActionState(submitAction, runInitialState);
+    const [activeTestCases, setActiveTestCases] = useState(challenge.testCases);
+
+    useEffect(() => {
+        // Ensure there's always at least one test case to prevent AI flow errors
+        const cases = challenge.testCases && challenge.testCases.length > 0
+            ? challenge.testCases
+            : [{ input: {}, expectedOutput: {} }];
+        setActiveTestCases(cases);
+    }, [challenge.testCases]);
 
     const handleLanguageChange = (lang: Language) => {
         setSelectedLanguage(lang);
@@ -186,14 +190,14 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                  <input type="hidden" name="language" value={selectedLanguage} />
                  <input type="hidden" name="challengeTitle" value={challenge.title} />
                  <input type="hidden" name="challengeId" value={challenge.id} />
-                 <input type="hidden" name="testCases" value={JSON.stringify(challenge.testCases)} />
+                 <input type="hidden" name="testCases" value={JSON.stringify(activeTestCases)} />
             </form>
              <form id="submit-form" action={submitActionFn}>
                  <input type="hidden" name="code" value={code} />
                  <input type="hidden" name="language" value={selectedLanguage} />
                  <input type="hidden" name="challengeTitle" value={challenge.title} />
                  <input type="hidden" name="challengeId" value={challenge.id} />
-                 <input type="hidden" name="testCases" value={JSON.stringify(challenge.testCases)} />
+                 <input type="hidden" name="testCases" value={JSON.stringify(activeTestCases)} />
             </form>
 
 

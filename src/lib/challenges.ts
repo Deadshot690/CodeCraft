@@ -1,6 +1,4 @@
 
-
-
 export interface TestCase {
   input: any;
   expectedOutput: any;
@@ -68,6 +66,7 @@ export const challenges: Challenge[] = [
       { input: { x: 123 }, expectedOutput: 321 },
       { input: { x: -123 }, expectedOutput: -321 },
       { input: { x: 120 }, expectedOutput: 21 },
+      { input: { x: 0 }, expectedOutput: 0 },
     ]
   },
   {
@@ -168,7 +167,10 @@ export const challenges: Challenge[] = [
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { list1: {val: 1, next: {val: 2, next: {val: 4, next: null}}}, list2: {val: 1, next: {val: 3, next: {val: 4, next: null}}} }, expectedOutput: {val: 1, next: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 4, next: null}}}}}}} },
+        { input: { list1: null, list2: null }, expectedOutput: null }
+    ]
   },
   {
     srNo: 8,
@@ -348,7 +350,10 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    ListNode* deleteDuplicates(ListNode* head) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public ListNode deleteDuplicates(ListNode head) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+      { input: { head: {val: 1, next: {val: 1, next: {val: 2, next: null}}} }, expectedOutput: {val: 1, next: {val: 2, next: null}} },
+      { input: { head: {val: 1, next: {val: 1, next: {val: 2, next: {val: 3, next: {val: 3}}}}}} }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3}}} }
+    ]
   },
   {
     srNo: 17,
@@ -365,7 +370,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public void merge(int[] nums1, int m, int[] nums2, int n) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums1: [1,2,3,0,0,0], m: 3, nums2: [2,5,6], n: 3 }, expectedOutput: [1,2,2,3,5,6] }
+    ]
   },
   {
     srNo: 18,
@@ -382,7 +389,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<int> inorderTraversal(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<Integer> inorderTraversal(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3, left: null, right: null}, right: null}} }, expectedOutput: [1,3,2] }
+    ]
   },
   {
     srNo: 19,
@@ -399,7 +408,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool isSymmetric(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isSymmetric(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 1, left: {val:2, left: {val:3}, right: {val:4}}, right: {val:2, left: {val:4}, right: {val:3}}} }, expectedOutput: true }
+    ]
   },
   {
     srNo: 20,
@@ -416,7 +427,9 @@ export const challenges: Challenge[] = [
       cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int maxDepth(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int maxDepth(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 3, left: {val: 9}, right: {val: 20, left: {val: 15}, right: {val: 7}}} }, expectedOutput: 3 }
+    ]
   },
   {
     srNo: 21,
@@ -433,7 +446,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    TreeNode* sortedArrayToBST(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public TreeNode sortedArrayToBST(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [-10,-3,0,5,9] }, expectedOutput: {val: 0, left: {val: -3, left: {val: -10}}, right: {val: 9, left: {val: 5}}} }
+    ]
   },
   {
     srNo: 22,
@@ -450,7 +465,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool isBalanced(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isBalanced(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 3, left: {val: 9}, right: {val: 20, left: {val: 15}, right: {val: 7}}} }, expectedOutput: true }
+    ]
   },
   {
     srNo: 23,
@@ -467,7 +484,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int minDepth(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int minDepth(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 3, left: {val: 9}, right: {val: 20, left: {val: 15}, right: {val: 7}}} }, expectedOutput: 2 }
+    ]
   },
   {
     srNo: 24,
@@ -484,7 +503,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool hasPathSum(TreeNode* root, int targetSum) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean hasPathSum(TreeNode root, int targetSum) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 5, left: {val: 4, left: {val: 11, left: {val: 7}, right: {val: 2}}}, right: {val: 8, left: {val: 13}, right: {val: 4, right: {val: 1}}}}, targetSum: 22 }, expectedOutput: true }
+    ]
   },
   {
     srNo: 25,
@@ -501,7 +522,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<vector<int>> generate(int numRows) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<List<Integer>> generate(int numRows) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { numRows: 5 }, expectedOutput: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]] }
+    ]
   },
   {
     srNo: 26,
@@ -518,7 +541,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<int> getRow(int rowIndex) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<Integer> getRow(int rowIndex) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { rowIndex: 3 }, expectedOutput: [1,3,3,1] }
+    ]
   },
   {
     srNo: 27,
@@ -535,7 +560,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int maxProfit(int[] prices) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { prices: [7,1,5,3,6,4] }, expectedOutput: 5 }
+    ]
   },
   {
     srNo: 28,
@@ -552,7 +579,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int maxProfit(int[] prices) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { prices: [7,1,5,3,6,4] }, expectedOutput: 7 }
+    ]
   },
   {
     srNo: 29,
@@ -569,7 +598,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool isPalindrome(string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isPalindrome(String s) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { s: "A man, a plan, a canal: Panama" }, expectedOutput: true }
+    ]
   },
   {
     srNo: 30,
@@ -586,7 +617,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int singleNumber(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [4,1,2,1,2] }, expectedOutput: 4 }
+    ]
   },
   {
     srNo: 31,
@@ -603,7 +636,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int singleNumber(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [2,2,3,2] }, expectedOutput: 3 }
+    ]
   },
   {
     srNo: 32,
@@ -620,7 +655,9 @@ export const challenges: Challenge[] = [
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode(int x) : val(x), next(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    bool hasCycle(ListNode *head) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public boolean hasCycle(ListNode head) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} }, expectedOutput: true }
+    ]
   },
   {
     srNo: 33,
@@ -637,7 +674,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    ListNode *detectCycle(ListNode *head) {\n        // Write your code here\n    }\n};`,
       java: `public class Solution {\n    public ListNode detectCycle(ListNode head) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+         { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} }, expectedOutput: "node_at_index_1" }
+    ]
   },
   {
     srNo: 34,
@@ -654,7 +693,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    void reorderList(ListNode* head) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public void reorderList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4}}}}}, expectedOutput: {val: 1, next: {val: 4, next: {val: 2, next: {val: 3}}}} }
+    ]
   },
   {
     srNo: 35,
@@ -671,7 +712,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<int> preorderTraversal(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<Integer> preorderTraversal(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3}}} }, expectedOutput: [1,2,3] }
+    ]
   },
   {
     srNo: 36,
@@ -688,7 +731,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<int> postorderTraversal(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<Integer> postorderTraversal(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3}}} }, expectedOutput: [3,2,1] }
+    ]
   },
   {
     srNo: 37,
@@ -705,7 +750,9 @@ export const challenges: Challenge[] = [
       cpp: `class LRUCache {\npublic:\n    LRUCache(int capacity) {\n        // Write your code here\n    }\n    \n    int get(int key) {\n        // Write your code here\n    }\n    \n    void put(int key, int value) {\n        // Write your code here\n    }\n};`,
       java: `class LRUCache {\n    public LRUCache(int capacity) {\n        // Write your code here\n    }\n    \n    public int get(int key) {\n        // Write your code here\n    }\n    \n    public void put(int key, int value) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { operations: ["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"], args: [[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]] }, expectedOutput: [null, null, null, 1, null, -1, null, -1, 3, 4] }
+    ]
   },
   {
     srNo: 38,
@@ -722,7 +769,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    ListNode* insertionSortList(ListNode* head) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public ListNode insertionSortList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { head: {val: 4, next: {val: 2, next: {val: 1, next: {val: 3}}}} }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4}}}} }
+    ]
   },
   {
     srNo: 39,
@@ -739,7 +788,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    ListNode* sortList(ListNode* head) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public ListNode sortList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { head: {val: 4, next: {val: 2, next: {val: 1, next: {val: 3}}}} }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4}}}} }
+    ]
   },
   {
     srNo: 40,
@@ -756,7 +807,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int maxPoints(vector<vector<int>>& points) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int maxPoints(int[][] points) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { points: [[1,1],[2,2],[3,3]] }, expectedOutput: 3 }
+    ]
   },
   {
     srNo: 41,
@@ -773,7 +826,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int evalRPN(vector<string>& tokens) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int evalRPN(String[] tokens) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { tokens: ["2","1","+","3","*"] }, expectedOutput: 9 }
+    ]
   },
   {
     srNo: 42,
@@ -790,7 +845,9 @@ export const challenges: Challenge[] = [
       cpp: `class MinStack {\npublic:\n    MinStack() {\n        // Write your code here\n    }\n    \n    void push(int val) {\n        // Write your code here\n    }\n    \n    void pop() {\n        // Write your code here\n    }\n    \n    int top() {\n        // Write your code here\n    }\n    \n    int getMin() {\n        // Write your code here\n    }\n};`,
       java: `class MinStack {\n\n    public MinStack() {\n        // Write your code here\n    }\n    \n    public void push(int val) {\n        // Write your code here\n    }\n    \n    public void pop() {\n        // Write your code here\n    }\n    \n    public int top() {\n        // Write your code here\n    }\n    \n    public int getMin() {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { operations: ["MinStack","push","push","push","getMin","pop","top","getMin"], args: [[],[-2],[0],[-3],[],[],[],[]] }, expectedOutput: [null,null,null,null,-3,null,0,-2] }
+    ]
   },
   {
     srNo: 43,
@@ -807,7 +864,9 @@ export const challenges: Challenge[] = [
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode(int x) : val(x), next(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { intersectVal: 8, listA: [4,1,8,4,5], listB: [5,6,1,8,4,5], skipA: 2, skipB: 3 }, expectedOutput: "Reference to the node with value 8" }
+    ]
   },
   {
     srNo: 44,
@@ -824,7 +883,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int majorityElement(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int majorityElement(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [2,2,1,1,1,2,2] }, expectedOutput: 2 }
+    ]
   },
   {
     srNo: 45,
@@ -841,7 +902,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    string convertToTitle(int columnNumber) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public String convertToTitle(int columnNumber) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { columnNumber: 701 }, expectedOutput: "ZY" }
+    ]
   },
   {
     srNo: 46,
@@ -858,7 +921,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int titleToNumber(string columnTitle) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int titleToNumber(String columnTitle) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { columnTitle: "ZY" }, expectedOutput: 701 }
+    ]
   },
   {
     srNo: 47,
@@ -875,7 +940,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int trailingZeroes(int n) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int trailingZeroes(int n) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { n: 5 }, expectedOutput: 1 }
+    ]
   },
   {
     srNo: 48,
@@ -892,7 +959,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    void rotate(vector<int>& nums, int k) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public void rotate(int[] nums, int k) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [1,2,3,4,5,6,7], k: 3 }, expectedOutput: [5,6,7,1,2,3,4] }
+    ]
   },
   {
     srNo: 49,
@@ -909,7 +978,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    uint32_t reverseBits(uint32_t n) {\n        // Write your code here\n    }\n};`,
       java: `public class Solution {\n    // you need treat n as an unsigned value\n    public int reverseBits(int n) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { n: "00000010100101000001111010011100" }, expectedOutput: "964176192" }
+    ]
   },
   {
     srNo: 50,
@@ -926,7 +997,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int hammingWeight(uint32_t n) {\n        // Write your code here\n    }\n};`,
       java: `public class Solution {\n    // you need to treat n as an unsigned value\n    public int hammingWeight(int n) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { n: "00000000000000000000000000001011" }, expectedOutput: 3 }
+    ]
   },
   {
     srNo: 51,
@@ -943,7 +1016,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int rob(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int rob(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [2,7,9,3,1] }, expectedOutput: 12 }
+    ]
   },
   {
     srNo: 52,
@@ -960,7 +1035,9 @@ export const challenges: Challenge[] = [
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* reverseList(ListNode* head) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode reverseList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5}}}}}} }, expectedOutput: {val: 5, next: {val: 4, next: {val: 3, next: {val: 2, next: {val: 1}}}}} }
+    ]
   },
   {
     srNo: 53,
@@ -977,7 +1054,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool containsDuplicate(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean containsDuplicate(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [1,2,3,1] }, expectedOutput: true }
+    ]
   },
   {
     srNo: 54,
@@ -994,7 +1073,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool containsNearbyDuplicate(vector<int>& nums, int k) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean containsNearbyDuplicate(int[] nums, int k) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [1,2,3,1], k: 3 }, expectedOutput: true }
+    ]
   },
   {
     srNo: 55,
@@ -1011,7 +1092,9 @@ export const challenges: Challenge[] = [
       cpp: `class MyStack {\npublic:\n    MyStack() {\n        // Write your code here\n    }\n};`,
       java: `class MyStack {\n    public MyStack() {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { operations: ["MyStack", "push", "push", "top", "pop", "empty"], args: [[], [1], [2], [], [], []] }, expectedOutput: [null, null, null, 2, 2, false] }
+    ]
   },
   {
     srNo: 56,
@@ -1028,7 +1111,9 @@ export const challenges: Challenge[] = [
       cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public TreeNode invertTree(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 4, left: {val: 2, left: {val: 1}, right: {val: 3}}, right: {val: 7, left: {val: 6}, right: {val: 9}}} }, expectedOutput: {val: 4, left: {val: 7, left: {val: 9}, right: {val: 6}}, right: {val: 2, left: {val: 3}, right: {val: 1}}} }
+    ]
   },
   {
     srNo: 57,
@@ -1045,7 +1130,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool isAnagram(string s, string t) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isAnagram(String s, String t) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { s: "anagram", t: "nagaram" }, expectedOutput: true }
+    ]
   },
   {
     srNo: 58,
@@ -1062,7 +1149,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int addDigits(int num) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int addDigits(int num) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { num: 38 }, expectedOutput: 2 }
+    ]
   },
   {
     srNo: 59,
@@ -1079,7 +1168,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int missingNumber(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int missingNumber(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [9,6,4,2,3,5,7,0,1] }, expectedOutput: 8 }
+    ]
   },
   {
     srNo: 60,
@@ -1096,7 +1187,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    void moveZeroes(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public void moveZeroes(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [0,1,0,3,12] }, expectedOutput: [1,3,12,0,0] }
+    ]
   },
   {
     srNo: 61,
@@ -1113,7 +1206,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool wordPattern(string pattern, string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean wordPattern(String pattern, String s) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { pattern: "abba", s: "dog cat cat dog" }, expectedOutput: true }
+    ]
   },
   {
     srNo: 62,
@@ -1130,7 +1225,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool isPerfectSquare(int num) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isPerfectSquare(int num) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { num: 16 }, expectedOutput: true }
+    ]
   },
   {
     srNo: 63,
@@ -1147,7 +1244,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool canConstruct(string ransomNote, string magazine) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean canConstruct(String ransomNote, String magazine) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { ransomNote: "aa", magazine: "aab" }, expectedOutput: true }
+    ]
   },
   {
     srNo: 64,
@@ -1164,7 +1263,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int firstUniqChar(string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int firstUniqChar(String s) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { s: "leetcode" }, expectedOutput: 0 }
+    ]
   },
   {
     srNo: 65,
@@ -1181,7 +1282,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    char findTheDifference(string s, string t) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public char findTheDifference(String s, String t) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { s: "abcd", t: "abcde" }, expectedOutput: "e" }
+    ]
   },
   {
     srNo: 66,
@@ -1198,7 +1301,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<string> binaryTreePaths(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<String> binaryTreePaths(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 1, left: {val: 2, right: {val: 5}}, right: {val: 3}} }, expectedOutput: ["1->2->5", "1->3"] }
+    ]
   },
   {
     srNo: 67,
@@ -1215,7 +1320,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool isUgly(int n) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isUgly(int n) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { n: 6 }, expectedOutput: true }
+    ]
   },
   {
     srNo: 68,
@@ -1232,7 +1339,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool isPowerOfTwo(int n) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isPowerOfTwo(int n) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { n: 16 }, expectedOutput: true }
+    ]
   },
   {
     srNo: 69,
@@ -1249,7 +1358,9 @@ export const challenges: Challenge[] = [
       cpp: `class MyQueue {\npublic:\n    MyQueue() {\n        // Write your code here\n    }\n};`,
       java: `class MyQueue {\n    public MyQueue() {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { operations: ["MyQueue", "push", "push", "peek", "pop", "empty"], args: [[], [1], [2], [], [], []] }, expectedOutput: [null, null, null, 1, 1, false] }
+    ]
   },
   {
     srNo: 70,
@@ -1266,7 +1377,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool isPalindrome(ListNode* head) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isPalindrome(ListNode head) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { head: {val: 1, next: {val: 2, next: {val: 2, next: {val: 1}}}} }, expectedOutput: true }
+    ]
   },
   {
     srNo: 71,
@@ -1283,7 +1396,9 @@ export const challenges: Challenge[] = [
       cpp: `/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}\n * };\n */\n\nclass Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\n\nclass Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 6, left: {val: 2, left: {val: 0}, right: {val: 4, left: {val: 3}, right: {val: 5}}}, right: {val: 8, left: {val: 7}, right: {val: 9}}}, p: {val: 2}, q: {val: 8} }, expectedOutput: {val: 6} }
+    ]
   },
   {
     srNo: 72,
@@ -1300,7 +1415,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    void deleteNode(ListNode* node) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public void deleteNode(ListNode node) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { head: [4,5,1,9], node: 5 }, expectedOutput: [4,1,9] }
+    ]
   },
   {
     srNo: 73,
@@ -1317,7 +1434,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<int> productExceptSelf(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int[] productExceptSelf(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [1,2,3,4] }, expectedOutput: [24,12,8,6] }
+    ]
   },
   {
     srNo: 74,
@@ -1334,7 +1453,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool isAnagram(string s, string t) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isAnagram(String s, String t) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { s: "rat", t: "car" }, expectedOutput: false }
+    ]
   },
   {
     srNo: 75,
@@ -1351,7 +1472,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<int> findDisappearedNumbers(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<Integer> findDisappearedNumbers(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [4,3,2,7,8,2,3,1] }, expectedOutput: [5,6] }
+    ]
   },
   {
     srNo: 76,
@@ -1368,7 +1491,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int getSum(int a, int b) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int getSum(int a, int b) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { a: 2, b: 3 }, expectedOutput: 5 }
+    ]
   },
   {
     srNo: 77,
@@ -1385,7 +1510,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int longestPalindrome(string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int longestPalindrome(String s) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { s: "abccccdd" }, expectedOutput: 7 }
+    ]
   },
   {
     srNo: 78,
@@ -1423,7 +1550,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    TreeNode* convertBST(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public TreeNode convertBST(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 4, left: {val: 1, left: {val: 0}, right: {val: 2, right: {val: 3}}}, right: {val: 6, left: {val: 5}, right: {val: 7, right: {val: 8}}}} }, expectedOutput: {val: 30, left: {val: 36, left: {val: 36}, right: {val: 35, right: {val: 33}}}, right: {val: 21, left: {val: 26}, right: {val: 15, right: {val: 8}}}} }
+    ]
   },
   {
     srNo: 80,
@@ -1440,7 +1569,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int diameterOfBinaryTree(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int diameterOfBinaryTree(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 1, left: {val: 2, left: {val: 4}, right: {val: 5}}, right: {val: 3}} }, expectedOutput: 3 }
+    ]
   },
   {
     srNo: 81,
@@ -1457,7 +1588,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    ListNode* middleNode(ListNode* head) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public ListNode middleNode(ListNode head) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5}}}}}}, expectedOutput: {val: 3, next: {val: 4, next: {val: 5}}} }
+    ]
   },
   {
     srNo: 82,
@@ -1495,7 +1628,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<int> sortedSquares(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int[] sortedSquares(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [-4,-1,0,3,10] }, expectedOutput: [0,1,9,16,100] }
+    ]
   },
   {
     srNo: 84,
@@ -1512,7 +1647,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool backspaceCompare(string s, string t) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean backspaceCompare(String s, String t) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { s: "ab#c", t: "ad#c" }, expectedOutput: true }
+    ]
   },
   {
     srNo: 85,
@@ -1529,7 +1666,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<int> countBits(int n) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int[] countBits(int n) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { n: 5 }, expectedOutput: [0,1,1,2,1,2] }
+    ]
   },
   {
     srNo: 86,
@@ -1546,7 +1685,9 @@ export const challenges: Challenge[] = [
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { l1: {val: 2, next: {val: 4, next: {val: 3}}}, l2: {val: 5, next: {val: 6, next: {val: 4}}} }, expectedOutput: {val: 7, next: {val: 0, next: {val: 8}}} }
+    ]
   },
   {
     srNo: 87,
@@ -1584,7 +1725,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    string longestPalindrome(string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public String longestPalindrome(String s) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { s: "babad" }, expectedOutput: "bab" }
+    ]
   },
   {
     srNo: 89,
@@ -1601,7 +1744,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    string convert(string s, int numRows) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public String convert(String s, int numRows) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { s: "PAYPALISHIRING", numRows: 3 }, expectedOutput: "PAHNAPLSIIGYIR" }
+    ]
   },
   {
     srNo: 90,
@@ -1618,7 +1763,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int myAtoi(string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int myAtoi(String s) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { s: "42" }, expectedOutput: 42 }
+    ]
   },
   {
     srNo: 91,
@@ -1635,7 +1782,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    string intToRoman(int num) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public String intToRoman(int num) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { num: 58 }, expectedOutput: "LVIII" }
+    ]
   },
   {
     srNo: 92,
@@ -1652,7 +1801,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int maxArea(vector<int>& height) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int maxArea(int[] height) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { height: [1,8,6,2,5,4,8,3,7] }, expectedOutput: 49 }
+    ]
   },
   {
     srNo: 93,
@@ -1669,7 +1820,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<vector<int>> threeSum(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<List<Integer>> threeSum(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [-1,0,1,2,-1,-4] }, expectedOutput: [[-1,-1,2],[-1,0,1]] }
+    ]
   },
   {
     srNo: 94,
@@ -1686,7 +1839,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int threeSumClosest(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int threeSumClosest(int[] nums, int target) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [-1,2,1,-4], target: 1 }, expectedOutput: 2 }
+    ]
   },
   {
     srNo: 95,
@@ -1703,7 +1858,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<string> letterCombinations(string digits) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<String> letterCombinations(String digits) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { digits: "23" }, expectedOutput: ["ad","ae","af","bd","be","bf","cd","ce","cf"] }
+    ]
   },
   {
     srNo: 96,
@@ -1720,7 +1877,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<vector<int>> fourSum(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<List<Integer>> fourSum(int[] nums, int target) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [1,0,-1,0,-2,2], target: 0 }, expectedOutput: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]] }
+    ]
   },
   {
     srNo: 97,
@@ -1737,7 +1896,9 @@ export const challenges: Challenge[] = [
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5}}}}}, n: 2 }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 5}}}} }
+    ]
   },
   {
     srNo: 98,
@@ -1754,7 +1915,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<string> generateParenthesis(int n) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<String> generateParenthesis(int n) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { n: 3 }, expectedOutput: ["((()))","(()())","(())()","()(())","()()()"] }
+    ]
   },
   {
     srNo: 99,
@@ -1771,7 +1934,9 @@ export const challenges: Challenge[] = [
       cpp: `/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n        // Write your code here\n    }\n};`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { lists: [{val: 1, next: {val: 4, next: {val: 5}}}, {val: 1, next: {val: 3, next: {val: 4}}}, {val: 2, next: {val: 6}}] }, expectedOutput: {val: 1, next: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 4, next: {val: 5, next: {val: 6}}}}}}}} }
+    ]
   },
   {
     srNo: 100,
@@ -1788,7 +1953,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    ListNode* swapPairs(ListNode* head) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public ListNode swapPairs(ListNode head) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4}}}} }, expectedOutput: {val: 2, next: {val: 1, next: {val: 4, next: {val: 3}}}} }
+    ]
   },
   {
     srNo: 101,
@@ -1805,7 +1972,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    ListNode* reverseKGroup(ListNode* head, int k) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public ListNode reverseKGroup(ListNode head, int k) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5}}}}}, k: 2 }, expectedOutput: {val: 2, next: {val: 1, next: {val: 4, next: {val: 3, next: {val: 5}}}}} }
+    ]
   },
   {
     srNo: 102,
@@ -1822,7 +1991,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int search(vector<int>& nums, int target) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int search(int[] nums, int target) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [4,5,6,7,0,1,2], target: 0 }, expectedOutput: 4 }
+    ]
   },
   {
     srNo: 103,
@@ -1839,7 +2010,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { candidates: [2,3,6,7], target: 7 }, expectedOutput: [[2,2,3],[7]] }
+    ]
   },
   {
     srNo: 104,
@@ -1856,7 +2029,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [1,2,3] }, expectedOutput: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]] }
+    ]
   },
   {
     srNo: 105,
@@ -1873,7 +2048,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    void rotate(vector<vector<int>>& matrix) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public void rotate(int[][] matrix) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { matrix: [[1,2,3],[4,5,6],[7,8,9]] }, expectedOutput: [[7,4,1],[8,5,2],[9,6,3]] }
+    ]
   },
   {
     srNo: 106,
@@ -1890,7 +2067,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { strs: ["eat","tea","tan","ate","nat","bat"] }, expectedOutput: [["bat"],["nat","tan"],["ate","eat","tea"]] }
+    ]
   },
   {
     srNo: 107,
@@ -1907,7 +2086,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool canJump(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean canJump(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [2,3,1,1,4] }, expectedOutput: true }
+    ]
   },
   {
     srNo: 108,
@@ -1924,7 +2105,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<vector<int>> merge(vector<vector<int>>& intervals) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int[][] merge(int[][] intervals) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { intervals: [[1,3],[2,6],[8,10],[15,18]] }, expectedOutput: [[1,6],[8,10],[15,18]] }
+    ]
   },
   {
     srNo: 109,
@@ -1941,7 +2124,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int uniquePaths(int m, int n) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { m: 3, n: 7 }, expectedOutput: 28 }
+    ]
   },
   {
     srNo: 110,
@@ -1958,7 +2143,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    void setZeroes(vector<vector<int>>& matrix) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public void setZeroes(int[][] matrix) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { matrix: [[1,1,1],[1,0,1],[1,1,1]] }, expectedOutput: [[1,0,1],[0,0,0],[1,0,1]] }
+    ]
   },
   {
     srNo: 111,
@@ -1975,7 +2162,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    void sortColors(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public void sortColors(int[] nums) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { nums: [2,0,2,1,1,0] }, expectedOutput: [0,0,1,1,2,2] }
+    ]
   },
   {
     srNo: 112,
@@ -1992,7 +2181,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool exist(vector<vector<char>>& board, string word) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean exist(char[][] board, String word) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { board: [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word: "ABCCED" }, expectedOutput: true }
+    ]
   },
   {
     srNo: 113,
@@ -2009,7 +2200,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int numDecodings(string s) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int numDecodings(String s) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { s: "226" }, expectedOutput: 3 }
+    ]
   },
   {
     srNo: 114,
@@ -2026,7 +2219,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public boolean isValidBST(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 5, left: {val: 1}, right: {val: 4, left: {val: 3}, right: {val: 6}}} }, expectedOutput: false }
+    ]
   },
   {
     srNo: 115,
@@ -2043,7 +2238,9 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { root: {val: 3, left: {val: 9}, right: {val: 20, left: {val: 15}, right: {val: 7}}} }, expectedOutput: [[3],[9,20],[15,7]] }
+    ]
   },
   {
     srNo: 116,
@@ -2060,7 +2257,288 @@ export const challenges: Challenge[] = [
       cpp: `class Solution {\npublic:\n    int coinChange(vector<int>& coins, int amount) {\n        // Write your code here\n    }\n};`,
       java: `class Solution {\n    public int coinChange(int[] coins, int amount) {\n        // Write your code here\n    }\n}`
     },
-    testCases: []
+    testCases: [
+        { input: { coins: [1,2,5], amount: 11 }, expectedOutput: 3 }
+    ]
+  },
+  {
+    srNo: 117,
+    id: 'longest-increasing-subsequence',
+    title: 'Longest Increasing Subsequence',
+    description: 'Given an integer array nums, return the length of the longest strictly increasing subsequence.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Binary Search', 'Dynamic Programming'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var lengthOfLIS = function(nums) {\n  // Write your code here\n};`,
+        python: `class Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+        cpp: `class Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+        java: `class Solution {\n    public int lengthOfLIS(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { nums: [10,9,2,5,3,7,101,18] }, expectedOutput: 4 },
+        { input: { nums: [0,1,0,3,2,3] }, expectedOutput: 4 },
+        { input: { nums: [7,7,7,7,7,7,7] }, expectedOutput: 1 }
+    ]
+  },
+  {
+    srNo: 118,
+    id: 'word-break',
+    title: 'Word Break',
+    description: 'Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Hash Table', 'String', 'Dynamic Programming', 'Trie', 'Memoization'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var wordBreak = function(s, wordDict) {\n  // Write your code here\n};`,
+        python: `class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        # Write your code here\n`,
+        cpp: `class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        // Write your code here\n    }\n};`,
+        java: `class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { s: "leetcode", wordDict: ["leet","code"] }, expectedOutput: true },
+        { input: { s: "applepenapple", wordDict: ["apple","pen"] }, expectedOutput: true },
+        { input: { s: "catsandog", wordDict: ["cats","dog","sand","and","cat"] }, expectedOutput: false }
+    ]
+  },
+  {
+    srNo: 119,
+    id: 'implement-trie-prefix-tree',
+    title: 'Implement Trie (Prefix Tree)',
+    description: 'A trie (pronounced as "try") or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. Implement the Trie class.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Hash Table', 'String', 'Design', 'Trie'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var Trie = function() {\n  // ...\n};\nTrie.prototype.insert = function(word) {\n  // ...\n};\nTrie.prototype.search = function(word) {\n  // ...\n};\nTrie.prototype.startsWith = function(prefix) {\n  // ...\n};`,
+        python: `class Trie:\n    def __init__(self):\n        # ...\n\n    def insert(self, word: str) -> None:\n        # ...\n\n    def search(self, word: str) -> bool:\n        # ...\n\n    def startsWith(self, prefix: str) -> bool:\n        # ...`,
+        cpp: `class Trie {\npublic:\n    Trie() {\n        // ...\n    }\n    \n    void insert(string word) {\n        // ...\n    }\n    \n    bool search(string word) {\n        // ...\n    }\n    \n    bool startsWith(string prefix) {\n        // ...\n    }\n};`,
+        java: `class Trie {\n    public Trie() {\n        // ...\n    }\n    \n    public void insert(String word) {\n        // ...\n    }\n    \n    public boolean search(String word) {\n        // ...\n    }\n    \n    public boolean startsWith(String prefix) {\n        // ...\n    }\n}`
+    },
+    testCases: [
+      { input: { operations: ["Trie", "insert", "search", "search", "startsWith", "insert", "search"], args: [[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]] }, expectedOutput: [null, null, true, false, true, null, true] }
+    ]
+  },
+  {
+    srNo: 120,
+    id: 'kth-smallest-element-in-a-bst',
+    title: 'Kth Smallest Element in a BST',
+    description: 'Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Tree', 'Depth-First Search', 'Binary Search Tree', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var kthSmallest = function(root, k) {\n  // Write your code here\n};`,
+        python: `class Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        # Write your code here\n`,
+        cpp: `class Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        // Write your code here\n    }\n};`,
+        java: `class Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { root: {val: 3, left: {val: 1, right: {val: 2}}, right: {val: 4}}, k: 1 }, expectedOutput: 1 },
+        { input: { root: {val: 5, left: {val: 3, left: {val: 2, left: {val: 1}}, right: {val: 4}}, right: {val: 6}}, k: 3 }, expectedOutput: 3 }
+    ]
+  },
+  {
+    srNo: 121,
+    id: 'find-median-from-data-stream',
+    title: 'Find Median from Data Stream',
+    description: 'The median is the middle value in an ordered integer list. Implement the MedianFinder class.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Design', 'Two Pointers', 'Data Stream', 'Sorting', 'Heap (Priority Queue)'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var MedianFinder = function() {\n  // ...\n};\nMedianFinder.prototype.addNum = function(num) {\n  // ...\n};\nMedianFinder.prototype.findMedian = function() {\n  // ...\n};`,
+        python: `class MedianFinder:\n    def __init__(self):\n        # ...\n\n    def addNum(self, num: int) -> None:\n        # ...\n\n    def findMedian(self) -> float:\n        # ...`,
+        cpp: `class MedianFinder {\npublic:\n    MedianFinder() {\n        // ...\n    }\n    \n    void addNum(int num) {\n        // ...\n    }\n    \n    double findMedian() {\n        // ...\n    }\n};`,
+        java: `class MedianFinder {\n    public MedianFinder() {\n        // ...\n    }\n    \n    public void addNum(int num) {\n        // ...\n    }\n    \n    public double findMedian() {\n        // ...\n    }\n}`
+    },
+    testCases: [
+      { input: { operations: ["MedianFinder", "addNum", "addNum", "findMedian", "addNum", "findMedian"], args: [[], [1], [2], [], [3], []] }, expectedOutput: [null, null, null, 1.5, null, 2.0] }
+    ]
+  },
+  {
+    srNo: 122,
+    id: 'serialize-and-deserialize-binary-tree',
+    title: 'Serialize and Deserialize Binary Tree',
+    description: 'Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer. Design an algorithm to serialize and deserialize a binary tree.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['String', 'Tree', 'Depth-First Search', 'Breadth-First Search', 'Design', 'Binary Tree'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var serialize = function(root) {\n  // ...\n};\nvar deserialize = function(data) {\n  // ...\n};`,
+        python: `class Codec:\n    def serialize(self, root):\n        # ...\n\n    def deserialize(self, data):\n        # ...`,
+        cpp: `class Codec {\npublic:\n    string serialize(TreeNode* root) {\n        // ...\n    }\n\n    TreeNode* deserialize(string data) {\n        // ...\n    }\n};`,
+        java: `public class Codec {\n    public String serialize(TreeNode root) {\n        // ...\n    }\n\n    public TreeNode deserialize(String data) {\n        // ...\n    }\n}`
+    },
+    testCases: [
+      { input: { root: {val: 1, left: {val: 2}, right: {val: 3, left: {val: 4}, right: {val: 5}}} }, expectedOutput: "Same tree structure" }
+    ]
+  },
+  {
+    srNo: 123,
+    id: 'top-k-frequent-elements',
+    title: 'Top K Frequent Elements',
+    description: 'Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Divide and Conquer', 'Sorting', 'Heap (Priority Queue)', 'Bucket Sort', 'Counting', 'Quickselect'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var topKFrequent = function(nums, k) {\n  // Write your code here\n};`,
+        python: `class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        # Write your code here\n`,
+        cpp: `class Solution {\npublic:\n    vector<int> topKFrequent(vector<int>& nums, int k) {\n        // Write your code here\n    }\n};`,
+        java: `class Solution {\n    public int[] topKFrequent(int[] nums, int k) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { nums: [1,1,1,2,2,3], k: 2 }, expectedOutput: [1,2] },
+        { input: { nums: [1], k: 1 }, expectedOutput: [1] }
+    ]
+  },
+  {
+    srNo: 124,
+    id: 'course-schedule',
+    title: 'Course Schedule',
+    description: 'There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. Return true if you can finish all courses. Otherwise, return false.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Depth-First Search', 'Breadth-First Search', 'Graph', 'Topological Sort'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var canFinish = function(numCourses, prerequisites) {\n  // Write your code here\n};`,
+        python: `class Solution:\n    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n        # Write your code here\n`,
+        cpp: `class Solution {\npublic:\n    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {\n        // Write your code here\n    }\n};`,
+        java: `class Solution {\n    public boolean canFinish(int numCourses, int[][] prerequisites) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { numCourses: 2, prerequisites: [[1,0]] }, expectedOutput: true },
+        { input: { numCourses: 2, prerequisites: [[1,0],[0,1]] }, expectedOutput: false }
+    ]
+  },
+  {
+    srNo: 125,
+    id: 'number-of-islands',
+    title: 'Number of Islands',
+    description: 'Given an m x n 2D binary grid grid which represents a map of \'1\'s (land) and \'0\'s (water), return the number of islands.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Depth-First Search', 'Breadth-First Search', 'Union Find', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var numIslands = function(grid) {\n  // Write your code here\n};`,
+        python: `class Solution:\n    def numIslands(self, grid: List[List[str]]) -> int:\n        # Write your code here\n`,
+        cpp: `class Solution {\npublic:\n    int numIslands(vector<vector<char>>& grid) {\n        // Write your code here\n    }\n};`,
+        java: `class Solution {\n    public int numIslands(char[][] grid) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { grid: [["1","1","1","1","0"],["1","1","0","1","0"],["1","1","0","0","0"],["0","0","0","0","0"]] }, expectedOutput: 1 },
+        { input: { grid: [["1","1","0","0","0"],["1","1","0","0","0"],["0","0","1","0","0"],["0","0","0","1","1"]] }, expectedOutput: 3 }
+    ]
+  },
+  {
+    srNo: 126,
+    id: 'clone-graph',
+    title: 'Clone Graph',
+    description: 'Given a reference of a node in a connected undirected graph. Return a deep copy (clone) of the graph.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Hash Table', 'Depth-First Search', 'Breadth-First Search', 'Graph'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var cloneGraph = function(node) {\n  // Write your code here\n};`,
+        python: `class Solution:\n    def cloneGraph(self, node: 'Node') -> 'Node':\n        # Write your code here\n`,
+        cpp: `class Solution {\npublic:\n    Node* cloneGraph(Node* node) {\n        // Write your code here\n    }\n};`,
+        java: `class Solution {\n    public Node cloneGraph(Node node) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { adjList: [[2,4],[1,3],[2,4],[1,3]] }, expectedOutput: "cloned graph" },
+        { input: { adjList: [[]] }, expectedOutput: "cloned graph" }
+    ]
+  },
+  {
+    srNo: 127,
+    id: 'pacific-atlantic-water-flow',
+    title: 'Pacific Atlantic Water Flow',
+    description: 'There is an m x n rectangular island that borders both the Pacific Ocean and the Atlantic Ocean. The Pacific Ocean touches the island\'s left and top edges, and the Atlantic Ocean touches the island\'s right and bottom edges. Return a 2D list of grid coordinates result where result[i] = [ri, ci] denotes that rain water can flow from cell (ri, ci) to both the Pacific and Atlantic oceans.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Depth-First Search', 'Breadth-First Search', 'Matrix'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var pacificAtlantic = function(heights) {\n  // Write your code here\n};`,
+        python: `class Solution:\n    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:\n        # Write your code here\n`,
+        cpp: `class Solution {\npublic:\n    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {\n        // Write your code here\n    }\n};`,
+        java: `class Solution {\n    public List<List<Integer>> pacificAtlantic(int[][] heights) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { heights: [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]] }, expectedOutput: [[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]] }
+    ]
+  },
+  {
+    srNo: 128,
+    id: 'minimum-window-substring',
+    title: 'Minimum Window Substring',
+    description: 'Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Hash Table', 'String', 'Sliding Window'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var minWindow = function(s, t) {\n  // Write your code here\n};`,
+        python: `class Solution:\n    def minWindow(self, s: str, t: str) -> str:\n        # Write your code here\n`,
+        cpp: `class Solution {\npublic:\n    string minWindow(string s, string t) {\n        // Write your code here\n    }\n};`,
+        java: `class Solution {\n    public String minWindow(String s, String t) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { s: "ADOBECODEBANC", t: "ABC" }, expectedOutput: "BANC" },
+        { input: { s: "a", t: "a" }, expectedOutput: "a" },
+        { input: { s: "a", t: "aa" }, expectedOutput: "" }
+    ]
+  },
+  {
+    srNo: 129,
+    id: 'trapping-rain-water',
+    title: 'Trapping Rain Water',
+    description: 'Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.',
+    difficulty: 'Hard',
+    domain: 'DSA',
+    tags: ['Array', 'Two Pointers', 'Dynamic Programming', 'Stack', 'Monotonic Stack'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var trap = function(height) {\n  // Write your code here\n};`,
+        python: `class Solution:\n    def trap(self, height: List[int]) -> int:\n        # Write your code here\n`,
+        cpp: `class Solution {\npublic:\n    int trap(vector<int>& height) {\n        // Write your code here\n    }\n};`,
+        java: `class Solution {\n    public int trap(int[] height) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { height: [0,1,0,2,1,0,1,3,2,1,2,1] }, expectedOutput: 6 },
+        { input: { height: [4,2,0,3,2,5] }, expectedOutput: 9 }
+    ]
+  },
+  {
+    srNo: 130,
+    id: 'longest-consecutive-sequence',
+    title: 'Longest Consecutive Sequence',
+    description: 'Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence. You must write an algorithm that runs in O(n) time.',
+    difficulty: 'Medium',
+    domain: 'DSA',
+    tags: ['Array', 'Hash Table', 'Union Find'],
+    languages: ['javascript', 'python', 'cpp', 'java'],
+    templates: {
+        javascript: `var longestConsecutive = function(nums) {\n  // Write your code here\n};`,
+        python: `class Solution:\n    def longestConsecutive(self, nums: List[int]) -> int:\n        # Write your code here\n`,
+        cpp: `class Solution {\npublic:\n    int longestConsecutive(vector<int>& nums) {\n        // Write your code here\n    }\n};`,
+        java: `class Solution {\n    public int longestConsecutive(int[] nums) {\n        // Write your code here\n    }\n}`
+    },
+    testCases: [
+        { input: { nums: [100,4,200,1,3,2] }, expectedOutput: 4 },
+        { input: { nums: [0,3,7,2,5,8,4,6,0,1] }, expectedOutput: 9 }
+    ]
   }
 ];
 
@@ -2078,7 +2556,7 @@ export function getChallenge(id: string): Challenge | undefined {
 export function getNextChallengeId(currentId: string): string | null {
   const currentIndex = challenges.findIndex(c => c.id === currentId);
   if (currentIndex === -1 || currentIndex === challenges.length - 1) {
-    return null; // Not found or it's the last challenge
+    return null;
   }
   return challenges[currentIndex + 1].id;
 }
@@ -2086,7 +2564,7 @@ export function getNextChallengeId(currentId: string): string | null {
 export function getPreviousChallengeId(currentId: string): string | null {
   const currentIndex = challenges.findIndex(c => c.id === currentId);
   if (currentIndex <= 0) {
-    return null; // Not found or it's the first challenge
+    return null;
   }
   return challenges[currentIndex - 1].id;
 }
@@ -2094,7 +2572,5 @@ export function getPreviousChallengeId(currentId: string): string | null {
 
 export function getChallengeReferenceSolution(id: string): string | undefined {
     const challenge = challenges.find(c => c.id === id);
-    // For now, we will always use the javascript solution as the reference for the AI.
     return challenge?.templates?.javascript;
 }
-
