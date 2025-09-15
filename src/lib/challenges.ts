@@ -469,6 +469,11 @@ Output: [1,2,4]
 Explanation: The array represents the integer 123. Incrementing by one gives 123 + 1 = 124. Thus, the result should be [1,2,4].
 
 Example 2:
+Input: digits = [4,3,2,1]
+Output: [4,3,2,2]
+Explanation: The array represents the integer 4321. Incrementing by one gives 4321 + 1 = 4322.
+
+Example 3:
 Input: digits = [9]
 Output: [1,0]
 Explanation: The array represents the integer 9. Incrementing by one gives 9 + 1 = 10. Thus, the result should be [1,0].`,
@@ -595,7 +600,15 @@ Explanation: There are three ways to climb to the top.
     srNo: 16,
     id: 'remove-duplicates-from-sorted-list',
     title: 'Remove Duplicates from Sorted List',
-    description: 'Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.',
+    description: `Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.
+
+Example 1:
+Input: head = [1,1,2]
+Output: [1,2]
+
+Example 2:
+Input: head = [1,1,2,3,3]
+Output: [1,2,3]`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Linked List'],
@@ -643,7 +656,21 @@ Explanation: The arrays we are merging are [1,2,3] and [2,5,6]. The result of th
     srNo: 18,
     id: 'binary-tree-inorder-traversal',
     title: 'Binary Tree Inorder Traversal',
-    description: 'Given the root of a binary tree, return the inorder traversal of its nodes\' values.',
+    description: `Given the root of a binary tree, return the inorder traversal of its nodes' values.
+
+In an inorder traversal, we traverse the left subtree, visit the root, and then traverse the right subtree.
+
+Example 1:
+Input: root = [1,null,2,3]
+Output: [1,3,2]
+
+Example 2:
+Input: root = []
+Output: []
+
+Example 3:
+Input: root = [1]
+Output: [1]`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Stack', 'Tree', 'Depth-First Search', 'Binary Tree'],
@@ -662,7 +689,15 @@ Explanation: The arrays we are merging are [1,2,3] and [2,5,6]. The result of th
     srNo: 19,
     id: 'symmetric-tree',
     title: 'Symmetric Tree',
-    description: 'Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).',
+    description: `Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+Example 1:
+Input: root = [1,2,2,3,4,4,3]
+Output: true
+
+Example 2:
+Input: root = [1,2,2,null,3,null,3]
+Output: false`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Binary Tree'],
