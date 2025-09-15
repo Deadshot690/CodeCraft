@@ -218,7 +218,7 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                         </TabsList>
                     </div>
                     <TabsContent value="test-results" className="mt-0 p-2">
-                       <ScrollArea className="h-80">
+                       <ScrollArea className="h-48">
                          <div className="space-y-2 p-1">
                             {!runState.results && <p className="text-sm text-muted-foreground text-center py-8">Click "Test" to run your code against test cases.</p>}
                             {runState.results?.map((result, index) => (
@@ -227,7 +227,7 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                          </div>
                        </ScrollArea>
                     </TabsContent>
-                    <TabsContent value="submit-output" className="h-[360px] p-0">
+                    <TabsContent value="submit-output" className="h-80 p-0">
                         {!submitState.results && <p className="text-sm text-muted-foreground text-center py-20">Submission results will appear here.</p>}
                         {submitState.results && <SubmissionResult results={submitState.results} challenge={challenge} onCompletion={onSubmitCompletion} />}
                     </TabsContent>
