@@ -37,7 +37,7 @@ const runInitialState = {
 function RunButton() {
   const { pending } = useFormStatus();
   return (
-    <Button size="sm" type="submit" disabled={pending} variant="outline" form="run-form">
+    <Button size="sm" type="submit" disabled={pending} variant="outline">
       {pending ? <><Loader2 className="mr-2 animate-spin" /> Testing...</> : <><Zap className="mr-2"/> Test</>}
     </Button>
   );
@@ -46,7 +46,7 @@ function RunButton() {
 function SubmitButton() {
     const { pending } = useFormStatus();
     return (
-        <Button size="sm" type="submit" disabled={pending} form="submit-form">
+        <Button size="sm" type="submit" disabled={pending}>
            {pending ? <><Loader2 className="mr-2 animate-spin" /> Submitting...</> : <><PlayCircle className="mr-2"/> Submit</>}
         </Button>
     )
@@ -179,26 +179,25 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                         </SelectContent>
                     </Select>
                 </div>
-                <div className="flex gap-2">
-                    <RunButton />
-                    <SubmitButton />
+                 <div className="flex gap-2">
+                    <form action={runAction} id="run-form">
+                         <input type="hidden" name="code" value={code} />
+                         <input type="hidden" name="language" value={selectedLanguage} />
+                         <input type="hidden" name="challengeTitle" value={challenge.title} />
+                         <input type="hidden" name="challengeId" value={challenge.id} />
+                         <input type="hidden" name="testCases" value={JSON.stringify(activeTestCases)} />
+                        <RunButton />
+                    </form>
+                    <form action={submitActionFn} id="submit-form">
+                         <input type="hidden" name="code" value={code} />
+                         <input type="hidden" name="language" value={selectedLanguage} />
+                         <input type="hidden" name="challengeTitle" value={challenge.title} />
+                         <input type="hidden" name="challengeId" value={challenge.id} />
+                         <input type="hidden" name="testCases" value={JSON.stringify(activeTestCases)} />
+                        <SubmitButton />
+                    </form>
                 </div>
             </div>
-            
-            <form id="run-form" action={runAction}>
-                 <input type="hidden" name="code" value={code} />
-                 <input type="hidden" name="language" value={selectedLanguage} />
-                 <input type="hidden" name="challengeTitle" value={challenge.title} />
-                 <input type="hidden" name="challengeId" value={challenge.id} />
-                 <input type="hidden" name="testCases" value={JSON.stringify(activeTestCases)} />
-            </form>
-             <form id="submit-form" action={submitActionFn}>
-                 <input type="hidden" name="code" value={code} />
-                 <input type="hidden" name="language" value={selectedLanguage} />
-                 <input type="hidden" name="challengeTitle" value={challenge.title} />
-                 <input type="hidden" name="challengeId" value={challenge.id} />
-                 <input type="hidden" name="testCases" value={JSON.stringify(activeTestCases)} />
-            </form>
 
 
             <div className="flex-grow flex flex-col min-h-0">
