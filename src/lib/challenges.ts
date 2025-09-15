@@ -43,6 +43,10 @@ Example 2:
 Input: nums = [3,2,4], target = 6
 Output: [1,2]
 
+Example 3:
+Input: nums = [3,3], target = 6
+Output: [0,1]
+
 Constraints:
 - 2 <= nums.length <= 10^4
 - -10^9 <= nums[i] <= 10^9
@@ -80,6 +84,10 @@ Example 2:
 Input: x = -123
 Output: -321
 
+Example 3:
+Input: x = 120
+Output: 21
+
 Constraints:
 - -2^31 <= x <= 2^31 - 1`,
     difficulty: 'Easy',
@@ -115,7 +123,15 @@ Explanation: 121 reads as 121 from left to right and from right to left.
 Example 2:
 Input: x = -121
 Output: false
-Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.`,
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+
+Example 3:
+Input: x = 10
+Output: false
+Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+
+Constraints:
+- -2^31 <= x <= 2^31 - 1`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Math'],
@@ -145,9 +161,27 @@ L             50
 C             100
 D             500
 M             1000
+
+For example, 2 is written as II in Roman numeral, just two ones added together. 12 is written as XII, which is simply X + II. The number 27 is written as XXVII, which is XX + V + II.
+
+Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
+- I can be placed before V (5) and X (10) to make 4 and 9.
+- X can be placed before L (50) and C (100) to make 40 and 90.
+- C can be placed before D (500) and M (1000) to make 400 and 900.
+
 Given a roman numeral, convert it to an integer.
 
-Example:
+Example 1:
+Input: s = "III"
+Output: 3
+Explanation: III = 3.
+
+Example 2:
+Input: s = "LVIII"
+Output: 58
+Explanation: L = 50, V= 5, III = 3.
+
+Example 3:
 Input: s = "MCMXCIV"
 Output: 1994
 Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.`,
@@ -182,7 +216,12 @@ Output: "fl"
 Example 2:
 Input: strs = ["dog","racecar","car"]
 Output: ""
-Explanation: There is no common prefix among the input strings.`,
+Explanation: There is no common prefix among the input strings.
+
+Constraints:
+- 1 <= strs.length <= 200
+- 0 <= strs[i].length <= 200
+- strs[i] consists of only lower-case English letters.`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String', 'Trie'],
@@ -209,9 +248,17 @@ An input string is valid if:
 2. Open brackets must be closed in the correct order.
 3. Every close bracket has a corresponding open bracket of the same type.
 
-Example:
+Example 1:
+Input: s = "()"
+Output: true
+
+Example 2:
 Input: s = "()[]{}"
-Output: true`,
+Output: true
+
+Example 3:
+Input: s = "(]"
+Output: false`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String', 'Stack'],
@@ -238,9 +285,17 @@ Merge the two lists into one sorted list. The list should be made by splicing to
 
 Return the head of the merged linked list.
 
-Example:
+Example 1:
 Input: list1 = [1,2,4], list2 = [1,3,4]
-Output: [1,1,2,3,4,4]`,
+Output: [1,1,2,3,4,4]
+
+Example 2:
+Input: list1 = [], list2 = []
+Output: []
+
+Example 3:
+Input: list1 = [], list2 = [0]
+Output: [0]`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Linked List', 'Recursion'],
@@ -266,7 +321,14 @@ Since it is impossible to change the length of the array in some languages, you 
 
 Return k after placing the final result in the first k slots of nums.
 
-Example:
+Do not allocate extra space for another array. You must do this by modifying the input array in-place with O(1) extra memory.
+
+Example 1:
+Input: nums = [1,1,2]
+Output: 2, nums = [1,2,_]
+Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively. It does not matter what you leave beyond the returned k.
+
+Example 2:
 Input: nums = [0,0,1,1,1,2,2,3,3,4]
 Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
 Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.`,
@@ -296,10 +358,15 @@ Consider the number of elements in nums which are not equal to val be k, to get 
 - The remaining elements of nums are not important as well as the size of nums.
 - Return k.
 
-Example:
+Example 1:
 Input: nums = [3,2,2,3], val = 3
 Output: 2, nums = [2,2,_,_]
-Explanation: Your function should return k = 2, with the first two elements of nums being 2.`,
+Explanation: Your function should return k = 2, with the first two elements of nums being 2.
+
+Example 2:
+Input: nums = [0,1,2,2,3,0,4,2], val = 2
+Output: 5, nums = [0,1,4,0,3,_,_,_]
+Explanation: Your function should return k = 5, with the first five elements of nums containing 0, 1, 3, 0, and 4. Note that the order of the five elements can be arbitrary.`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Two Pointers'],
@@ -329,7 +396,11 @@ Output: 2
 
 Example 2:
 Input: nums = [1,3,5,6], target = 2
-Output: 1`,
+Output: 1
+
+Example 3:
+Input: nums = [1,3,5,6], target = 7
+Output: 4`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Binary Search'],
@@ -350,7 +421,24 @@ Output: 1`,
     srNo: 11,
     id: 'length-of-last-word',
     title: 'Length of Last Word',
-    description: 'Given a string s consisting of words and spaces, return the length of the last word in the string.',
+    description: `Given a string s consisting of words and spaces, return the length of the last word in the string.
+
+A word is a maximal substring consisting of non-space characters only.
+
+Example 1:
+Input: s = "Hello World"
+Output: 5
+Explanation: The last word is "World" with length 5.
+
+Example 2:
+Input: s = "   fly me   to   the moon  "
+Output: 4
+Explanation: The last word is "moon" with length 4.
+
+Constraints:
+- 1 <= s.length <= 10^4
+- s consists of only English letters and spaces ' '.
+- There will be at least one word in s.`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String'],
@@ -371,7 +459,19 @@ Output: 1`,
     srNo: 12,
     id: 'plus-one',
     title: 'Plus One',
-    description: 'You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0s. Increment the large integer by one and return the resulting array of digits.',
+    description: `You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0s.
+
+Increment the large integer by one and return the resulting array of digits.
+
+Example 1:
+Input: digits = [1,2,3]
+Output: [1,2,4]
+Explanation: The array represents the integer 123. Incrementing by one gives 123 + 1 = 124. Thus, the result should be [1,2,4].
+
+Example 2:
+Input: digits = [9]
+Output: [1,0]
+Explanation: The array represents the integer 9. Incrementing by one gives 9 + 1 = 10. Thus, the result should be [1,0].`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Math'],
@@ -392,7 +492,20 @@ Output: 1`,
     srNo: 13,
     id: 'add-binary',
     title: 'Add Binary',
-    description: 'Given two binary strings a and b, return their sum as a binary string.',
+    description: `Given two binary strings a and b, return their sum as a binary string.
+
+Example 1:
+Input: a = "11", b = "1"
+Output: "100"
+
+Example 2:
+Input: a = "1010", b = "1011"
+Output: "10101"
+
+Constraints:
+- 1 <= a.length, b.length <= 10^4
+- a and b consist only of '0' or '1' characters.
+- Each string does not contain leading zeros except for the zero itself.`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Math', 'String', 'Bit Manipulation', 'Simulation'],
@@ -412,7 +525,20 @@ Output: 1`,
     srNo: 14,
     id: 'sqrtx',
     title: 'Sqrt(x)',
-    description: 'Given a non-negative integer x, compute and return the square root of x. Since the return type is an integer, the decimal part is truncated, and only the integer part of the result is returned.',
+    description: `Given a non-negative integer x, compute and return the square root of x.
+
+Since the return type is an integer, the decimal part is truncated, and only the integer part of the result is returned.
+
+Note: You are not allowed to use any built-in exponent function or operator, such as pow(x, 0.5) or x ** 0.5.
+
+Example 1:
+Input: x = 4
+Output: 2
+
+Example 2:
+Input: x = 8
+Output: 2
+Explanation: The square root of 8 is 2.82842..., and since the decimal part is truncated, 2 is returned.`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Math', 'Binary Search'],
@@ -432,7 +558,24 @@ Output: 1`,
     srNo: 15,
     id: 'climbing-stairs',
     title: 'Climbing Stairs',
-    description: 'You are climbing a staircase. It takes `n` steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?',
+    description: `You are climbing a staircase. It takes n steps to reach the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+Example 1:
+Input: n = 2
+Output: 2
+Explanation: There are two ways to climb to the top.
+1. 1 step + 1 step
+2. 2 steps
+
+Example 2:
+Input: n = 3
+Output: 3
+Explanation: There are three ways to climb to the top.
+1. 1 step + 1 step + 1 step
+2. 1 step + 2 steps
+3. 2 steps + 1 step`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Math', 'Dynamic Programming', 'Memoization'],
@@ -472,7 +615,16 @@ Output: 1`,
     srNo: 17,
     id: 'merge-sorted-array',
     title: 'Merge Sorted Array',
-    description: 'You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively. Merge nums1 and nums2 into a single array sorted in non-decreasing order.',
+    description: `You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
+
+Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+
+The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
+
+Example:
+Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+Output: [1,2,2,3,5,6]
+Explanation: The arrays we are merging are [1,2,3] and [2,5,6]. The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Two Pointers', 'Sorting'],
@@ -529,7 +681,13 @@ Output: 1`,
     srNo: 20,
     id: 'maximum-depth-of-binary-tree',
     title: 'Maximum Depth of Binary Tree',
-    description: 'Given the `root` of a binary tree, return its maximum depth. A binary tree\'s maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.',
+    description: `Given the root of a binary tree, return its maximum depth.
+
+A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+Example:
+Input: root = [3,9,20,null,null,15,7]
+Output: 3`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Tree', 'Depth-First Search', 'Breadth-First Search', 'Binary Tree'],
@@ -1491,7 +1649,7 @@ Output: 1`,
       java: `class Solution {\n    public boolean isPalindrome(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-      { input: { head: {val: 1, next: {val: 2, next: {val: 2, next: {val: 1, next: null}}}}} , expectedOutput: true }
+      { input: { head: {val: 1, next: {val: 2, next: {val: 2, next: {val: 1, next: null}}}} }, expectedOutput: true }
     ]
   },
   {
@@ -2010,7 +2168,7 @@ Output: 1`,
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-      { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}}, n: 2 }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 5, next: null}}}} }
+      { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}} , n: 2 }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 5, next: null}}}} }
     ]
   },
   {
@@ -2067,7 +2225,7 @@ Output: 1`,
       java: `class Solution {\n    public ListNode swapPairs(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-      { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}}} , expectedOutput: {val: 2, next: {val: 1, next: {val: 4, next: {val: 3, next: null}}}} }
+      { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}} }, expectedOutput: {val: 2, next: {val: 1, next: {val: 4, next: {val: 3, next: null}}}} }
     ]
   },
   {
