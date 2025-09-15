@@ -30,7 +30,24 @@ export const challenges: Challenge[] = [
     srNo: 1,
     id: 'two-sum',
     title: 'Two Sum',
-    description: 'Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`. You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order.',
+    description: `Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order.
+
+Example 1:
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+
+Example 2:
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+
+Constraints:
+- 2 <= nums.length <= 10^4
+- -10^9 <= nums[i] <= 10^9
+- -10^9 <= target <= 10^9
+- Only one valid answer exists.`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Hash Table'],
@@ -42,16 +59,29 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [2, 7, 11, 15], target: 9 }, expectedOutput: [0, 1] },
-        { input: { nums: [3, 2, 4], target: 6 }, expectedOutput: [1, 2] },
-        { input: { nums: [3, 3], target: 6 }, expectedOutput: [0, 1] },
+      { input: { nums: [2, 7, 11, 15], target: 9 }, expectedOutput: [0, 1] },
+      { input: { nums: [3, 2, 4], target: 6 }, expectedOutput: [1, 2] },
+      { input: { nums: [3, 3], target: 6 }, expectedOutput: [0, 1] },
     ]
   },
   {
     srNo: 2,
     id: 'reverse-integer',
     title: 'Reverse Integer',
-    description: 'Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-2^31, 2^31 - 1], then return 0.',
+    description: `Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-2^31, 2^31 - 1], then return 0.
+
+Assume the environment does not allow you to store 64-bit integers (signed or unsigned).
+
+Example 1:
+Input: x = 123
+Output: 321
+
+Example 2:
+Input: x = -123
+Output: -321
+
+Constraints:
+- -2^31 <= x <= 2^31 - 1`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Math'],
@@ -73,7 +103,19 @@ export const challenges: Challenge[] = [
     srNo: 3,
     id: 'palindrome-number',
     title: 'Palindrome Number',
-    description: 'Given an integer `x`, return `true` if `x` is a palindrome, and `false` otherwise.',
+    description: `Given an integer x, return true if x is a palindrome, and false otherwise.
+
+An integer is a palindrome when it reads the same backward as forward.
+
+Example 1:
+Input: x = 121
+Output: true
+Explanation: 121 reads as 121 from left to right and from right to left.
+
+Example 2:
+Input: x = -121
+Output: false
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Math'],
@@ -94,7 +136,21 @@ export const challenges: Challenge[] = [
     srNo: 4,
     id: 'roman-to-integer',
     title: 'Roman to Integer',
-    description: 'Given a roman numeral, convert it to an integer.',
+    description: `Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+Symbol       Value
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+Given a roman numeral, convert it to an integer.
+
+Example:
+Input: s = "MCMXCIV"
+Output: 1994
+Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String', 'Hash Table', 'Math'],
@@ -115,7 +171,18 @@ export const challenges: Challenge[] = [
     srNo: 5,
     id: 'longest-common-prefix',
     title: 'Longest Common Prefix',
-    description: 'Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, return an empty string "".',
+    description: `Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string "".
+
+Example 1:
+Input: strs = ["flower","flow","flight"]
+Output: "fl"
+
+Example 2:
+Input: strs = ["dog","racecar","car"]
+Output: ""
+Explanation: There is no common prefix among the input strings.`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String', 'Trie'],
@@ -135,7 +202,16 @@ export const challenges: Challenge[] = [
     srNo: 6,
     id: 'valid-parentheses',
     title: 'Valid Parentheses',
-    description: 'Given a string `s` containing just the characters \'(\', \')\', \'{\', \'}\', \'[\' and \']\', determine if the input string is valid. An input string is valid if: Open brackets must be closed by the same type of brackets. Open brackets must be closed in the correct order. Every close bracket has a corresponding open bracket of the same type.',
+    description: `Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+An input string is valid if:
+1. Open brackets must be closed by the same type of brackets.
+2. Open brackets must be closed in the correct order.
+3. Every close bracket has a corresponding open bracket of the same type.
+
+Example:
+Input: s = "()[]{}"
+Output: true`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['String', 'Stack'],
@@ -156,7 +232,15 @@ export const challenges: Challenge[] = [
     srNo: 7,
     id: 'merge-two-sorted-lists',
     title: 'Merge Two Sorted Lists',
-    description: 'You are given the heads of two sorted linked lists `list1` and `list2`. Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists. Return the head of the merged linked list.',
+    description: `You are given the heads of two sorted linked lists list1 and list2.
+
+Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.
+
+Return the head of the merged linked list.
+
+Example:
+Input: list1 = [1,2,4], list2 = [1,3,4]
+Output: [1,1,2,3,4,4]`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Linked List', 'Recursion'],
@@ -176,7 +260,16 @@ export const challenges: Challenge[] = [
     srNo: 8,
     id: 'remove-duplicates-from-sorted-array',
     title: 'Remove Duplicates from Sorted Array',
-    description: 'Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.',
+    description: `Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same.
+
+Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you leave beyond the first k elements.
+
+Return k after placing the final result in the first k slots of nums.
+
+Example:
+Input: nums = [0,0,1,1,1,2,2,3,3,4]
+Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Two Pointers'],
@@ -196,7 +289,17 @@ export const challenges: Challenge[] = [
     srNo: 9,
     id: 'remove-element',
     title: 'Remove Element',
-    description: 'Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.',
+    description: `Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.
+
+Consider the number of elements in nums which are not equal to val be k, to get accepted, you need to do the following things:
+- Change the array nums such that the first k elements of nums contain the elements which are not equal to val.
+- The remaining elements of nums are not important as well as the size of nums.
+- Return k.
+
+Example:
+Input: nums = [3,2,2,3], val = 3
+Output: 2, nums = [2,2,_,_]
+Explanation: Your function should return k = 2, with the first two elements of nums being 2.`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Two Pointers'],
@@ -216,7 +319,17 @@ export const challenges: Challenge[] = [
     srNo: 10,
     id: 'search-insert-position',
     title: 'Search Insert Position',
-    description: 'Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.',
+    description: `Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+Example 1:
+Input: nums = [1,3,5,6], target = 5
+Output: 2
+
+Example 2:
+Input: nums = [1,3,5,6], target = 2
+Output: 1`,
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Binary Search'],
@@ -371,7 +484,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public void merge(int[] nums1, int m, int[] nums2, int n) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums1: [1,2,3,0,0,0], m: 3, nums2: [2,5,6], n: 3 }, expectedOutput: [1,2,2,3,5,6] }
+      { input: { nums1: [1,2,3,0,0,0], m: 3, nums2: [2,5,6], n: 3 }, expectedOutput: [1,2,2,3,5,6] }
     ]
   },
   {
@@ -390,7 +503,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<Integer> inorderTraversal(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3, left: null, right: null}, right: null}} }, expectedOutput: [1,3,2] }
+      { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3, left: null, right: null}, right: null}} }, expectedOutput: [1,3,2] }
     ]
   },
   {
@@ -409,7 +522,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean isSymmetric(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 1, left: {val:2, left: {val:3}, right: {val:4}}, right: {val:2, left: {val:4}, right: {val:3}}} }, expectedOutput: true }
+      { input: { root: {val: 1, left: {val:2, left: {val:3}, right: {val:4}}, right: {val:2, left: {val:4}, right: {val:3}}} }, expectedOutput: true }
     ]
   },
   {
@@ -428,7 +541,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int maxDepth(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 3, left: {val: 9}, right: {val: 20, left: {val: 15}, right: {val: 7}}} }, expectedOutput: 3 }
+      { input: { root: {val: 3, left: {val: 9}, right: {val: 20, left: {val: 15}, right: {val: 7}}} }, expectedOutput: 3 }
     ]
   },
   {
@@ -447,7 +560,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public TreeNode sortedArrayToBST(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [-10,-3,0,5,9] }, expectedOutput: {val: 0, left: {val: -3, left: {val: -10, left: null, right: null}, right: null}, right: {val: 9, left: {val: 5, left: null, right: null}, right: null}} }
+      { input: { nums: [-10,-3,0,5,9] }, expectedOutput: {val: 0, left: {val: -3, left: {val: -10, left: null, right: null}, right: null}, right: {val: 9, left: {val: 5, left: null, right: null}, right: null}} }
     ]
   },
   {
@@ -466,7 +579,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean isBalanced(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 3, left: {val: 9}, right: {val: 20, left: {val: 15}, right: {val: 7}}} }, expectedOutput: true }
+      { input: { root: {val: 3, left: {val: 9}, right: {val: 20, left: {val: 15}, right: {val: 7}}} }, expectedOutput: true }
     ]
   },
   {
@@ -485,7 +598,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int minDepth(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 3, left: {val: 9}, right: {val: 20, left: {val: 15}, right: {val: 7}}} }, expectedOutput: 2 }
+      { input: { root: {val: 3, left: {val: 9}, right: {val: 20, left: {val: 15}, right: {val: 7}}} }, expectedOutput: 2 }
     ]
   },
   {
@@ -504,7 +617,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean hasPathSum(TreeNode root, int targetSum) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 5, left: {val: 4, left: {val: 11, left: {val: 7}, right: {val: 2}}}, right: {val: 8, left: {val: 13}, right: {val: 4, right: {val: 1}}}}, targetSum: 22 }, expectedOutput: true }
+      { input: { root: {val: 5, left: {val: 4, left: {val: 11, left: {val: 7}, right: {val: 2}}}, right: {val: 8, left: {val: 13}, right: {val: 4, right: {val: 1}}}}, targetSum: 22 }, expectedOutput: true }
     ]
   },
   {
@@ -523,7 +636,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<List<Integer>> generate(int numRows) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { numRows: 5 }, expectedOutput: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]] }
+      { input: { numRows: 5 }, expectedOutput: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]] }
     ]
   },
   {
@@ -542,7 +655,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<Integer> getRow(int rowIndex) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { rowIndex: 3 }, expectedOutput: [1,3,3,1] }
+      { input: { rowIndex: 3 }, expectedOutput: [1,3,3,1] }
     ]
   },
   {
@@ -561,7 +674,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int maxProfit(int[] prices) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { prices: [7,1,5,3,6,4] }, expectedOutput: 5 }
+      { input: { prices: [7,1,5,3,6,4] }, expectedOutput: 5 }
     ]
   },
   {
@@ -580,7 +693,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int maxProfit(int[] prices) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { prices: [7,1,5,3,6,4] }, expectedOutput: 7 }
+      { input: { prices: [7,1,5,3,6,4] }, expectedOutput: 7 }
     ]
   },
   {
@@ -599,7 +712,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean isPalindrome(String s) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { s: "A man, a plan, a canal: Panama" }, expectedOutput: true }
+      { input: { s: "A man, a plan, a canal: Panama" }, expectedOutput: true }
     ]
   },
   {
@@ -618,7 +731,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int singleNumber(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [4,1,2,1,2] }, expectedOutput: 4 }
+      { input: { nums: [4,1,2,1,2] }, expectedOutput: 4 }
     ]
   },
   {
@@ -637,7 +750,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int singleNumber(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [2,2,3,2] }, expectedOutput: 3 }
+      { input: { nums: [2,2,3,2] }, expectedOutput: 3 }
     ]
   },
   {
@@ -656,7 +769,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for singly-linked list.\n * class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public boolean hasCycle(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} }, expectedOutput: true }
+      { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} } , expectedOutput: true }
     ]
   },
   {
@@ -675,7 +788,7 @@ export const challenges: Challenge[] = [
       java: `public class Solution {\n    public ListNode detectCycle(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} }, expectedOutput: "node_at_index_1" }
+      { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} }, expectedOutput: "node_at_index_1" }
     ]
   },
   {
@@ -732,7 +845,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<Integer> postorderTraversal(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3, next: null}}} }, expectedOutput: [3,2,1] }
+      { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3, next: null}}} }, expectedOutput: [3,2,1] }
     ]
   },
   {
@@ -751,7 +864,7 @@ export const challenges: Challenge[] = [
       java: `class LRUCache {\n    public LRUCache(int capacity) {\n        // Write your code here\n    }\n    \n    public int get(int key) {\n        // Write your code here\n    }\n    \n    public void put(int key, int value) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { operations: ["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"], args: [[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]] }, expectedOutput: [null, null, null, 1, null, -1, null, -1, 3, 4] }
+      { input: { operations: ["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"], args: [[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]] }, expectedOutput: [null, null, null, 1, null, -1, null, -1, 3, 4] }
     ]
   },
   {
@@ -808,7 +921,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int maxPoints(int[][] points) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { points: [[1,1],[2,2],[3,3]] }, expectedOutput: 3 }
+      { input: { points: [[1,1],[2,2],[3,3]] }, expectedOutput: 3 }
     ]
   },
   {
@@ -827,7 +940,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int evalRPN(String[] tokens) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { tokens: ["2","1","+","3","*"] }, expectedOutput: 9 }
+      { input: { tokens: ["2","1","+","3","*"] }, expectedOutput: 9 }
     ]
   },
   {
@@ -846,7 +959,7 @@ export const challenges: Challenge[] = [
       java: `class MinStack {\n\n    public MinStack() {\n        // Write your code here\n    }\n    \n    public void push(int val) {\n        // Write your code here\n    }\n    \n    public void pop() {\n        // Write your code here\n    }\n    \n    public int top() {\n        // Write your code here\n    }\n    \n    public int getMin() {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { operations: ["MinStack","push","push","push","getMin","pop","top","getMin"], args: [[],[-2],[0],[-3],[],[],[],[]] }, expectedOutput: [null,null,null,null,-3,null,0,-2] }
+      { input: { operations: ["MinStack","push","push","push","getMin","pop","top","getMin"], args: [[],[-2],[0],[-3],[],[],[],[]] }, expectedOutput: [null,null,null,null,-3,null,0,-2] }
     ]
   },
   {
@@ -865,7 +978,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { intersectVal: 8, listA: [4,1,8,4,5], listB: [5,6,1,8,4,5], skipA: 2, skipB: 3 }, expectedOutput: "Reference to the node with value 8" }
+      { input: { intersectVal: 8, listA: [4,1,8,4,5], listB: [5,6,1,8,4,5], skipA: 2, skipB: 3 }, expectedOutput: "Reference to the node with value 8" }
     ]
   },
   {
@@ -884,7 +997,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int majorityElement(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [2,2,1,1,1,2,2] }, expectedOutput: 2 }
+      { input: { nums: [2,2,1,1,1,2,2] }, expectedOutput: 2 }
     ]
   },
   {
@@ -903,7 +1016,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public String convertToTitle(int columnNumber) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { columnNumber: 701 }, expectedOutput: "ZY" }
+      { input: { columnNumber: 701 }, expectedOutput: "ZY" }
     ]
   },
   {
@@ -922,7 +1035,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int titleToNumber(String columnTitle) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { columnTitle: "ZY" }, expectedOutput: 701 }
+      { input: { columnTitle: "ZY" }, expectedOutput: 701 }
     ]
   },
   {
@@ -941,7 +1054,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int trailingZeroes(int n) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { n: 5 }, expectedOutput: 1 }
+      { input: { n: 5 }, expectedOutput: 1 }
     ]
   },
   {
@@ -960,7 +1073,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public void rotate(int[] nums, int k) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [1,2,3,4,5,6,7], k: 3 }, expectedOutput: [5,6,7,1,2,3,4] }
+      { input: { nums: [1,2,3,4,5,6,7], k: 3 }, expectedOutput: [5,6,7,1,2,3,4] }
     ]
   },
   {
@@ -979,7 +1092,7 @@ export const challenges: Challenge[] = [
       java: `public class Solution {\n    // you need treat n as an unsigned value\n    public int reverseBits(int n) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { n: "00000010100101000001111010011100" }, expectedOutput: "964176192" }
+      { input: { n: "00000010100101000001111010011100" }, expectedOutput: "964176192" }
     ]
   },
   {
@@ -998,7 +1111,7 @@ export const challenges: Challenge[] = [
       java: `public class Solution {\n    // you need to treat n as an unsigned value\n    public int hammingWeight(int n) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { n: "00000000000000000000000000001011" }, expectedOutput: 3 }
+      { input: { n: "00000000000000000000000000001011" }, expectedOutput: 3 }
     ]
   },
   {
@@ -1017,7 +1130,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int rob(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [2,7,9,3,1] }, expectedOutput: 12 }
+      { input: { nums: [2,7,9,3,1] }, expectedOutput: 12 }
     ]
   },
   {
@@ -1055,7 +1168,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean containsDuplicate(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [1,2,3,1] }, expectedOutput: true }
+      { input: { nums: [1,2,3,1] }, expectedOutput: true }
     ]
   },
   {
@@ -1074,7 +1187,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean containsNearbyDuplicate(int[] nums, int k) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [1,2,3,1], k: 3 }, expectedOutput: true }
+      { input: { nums: [1,2,3,1], k: 3 }, expectedOutput: true }
     ]
   },
   {
@@ -1093,7 +1206,7 @@ export const challenges: Challenge[] = [
       java: `class MyStack {\n    public MyStack() {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { operations: ["MyStack", "push", "push", "top", "pop", "empty"], args: [[], [1], [2], [], [], []] }, expectedOutput: [null, null, null, 2, 2, false] }
+      { input: { operations: ["MyStack", "push", "push", "top", "pop", "empty"], args: [[], [1], [2], [], [], []] }, expectedOutput: [null, null, null, 2, 2, false] }
     ]
   },
   {
@@ -1112,7 +1225,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public TreeNode invertTree(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 4, left: {val: 2, left: {val: 1}, right: {val: 3}}, right: {val: 7, left: {val: 6}, right: {val: 9}}} }, expectedOutput: {val: 4, left: {val: 7, left: {val: 9}, right: {val: 6}}, right: {val: 2, left: {val: 3}, right: {val: 1}}} }
+      { input: { root: {val: 4, left: {val: 2, left: {val: 1}, right: {val: 3}}, right: {val: 7, left: {val: 6}, right: {val: 9}}} }, expectedOutput: {val: 4, left: {val: 7, left: {val: 9}, right: {val: 6}}, right: {val: 2, left: {val: 3}, right: {val: 1}}} }
     ]
   },
   {
@@ -1131,7 +1244,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean isAnagram(String s, String t) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { s: "anagram", t: "nagaram" }, expectedOutput: true }
+      { input: { s: "anagram", t: "nagaram" }, expectedOutput: true }
     ]
   },
   {
@@ -1150,7 +1263,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int addDigits(int num) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { num: 38 }, expectedOutput: 2 }
+      { input: { num: 38 }, expectedOutput: 2 }
     ]
   },
   {
@@ -1169,7 +1282,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int missingNumber(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [9,6,4,2,3,5,7,0,1] }, expectedOutput: 8 }
+      { input: { nums: [9,6,4,2,3,5,7,0,1] }, expectedOutput: 8 }
     ]
   },
   {
@@ -1188,7 +1301,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public void moveZeroes(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [0,1,0,3,12] }, expectedOutput: [1,3,12,0,0] }
+      { input: { nums: [0,1,0,3,12] }, expectedOutput: [1,3,12,0,0] }
     ]
   },
   {
@@ -1207,7 +1320,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean wordPattern(String pattern, String s) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { pattern: "abba", s: "dog cat cat dog" }, expectedOutput: true }
+      { input: { pattern: "abba", s: "dog cat cat dog" }, expectedOutput: true }
     ]
   },
   {
@@ -1226,7 +1339,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean isPerfectSquare(int num) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { num: 16 }, expectedOutput: true }
+      { input: { num: 16 }, expectedOutput: true }
     ]
   },
   {
@@ -1245,7 +1358,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean canConstruct(String ransomNote, String magazine) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { ransomNote: "aa", magazine: "aab" }, expectedOutput: true }
+      { input: { ransomNote: "aa", magazine: "aab" }, expectedOutput: true }
     ]
   },
   {
@@ -1264,7 +1377,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int firstUniqChar(String s) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { s: "leetcode" }, expectedOutput: 0 }
+      { input: { s: "leetcode" }, expectedOutput: 0 }
     ]
   },
   {
@@ -1283,7 +1396,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public char findTheDifference(String s, String t) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { s: "abcd", t: "abcde" }, expectedOutput: "e" }
+      { input: { s: "abcd", t: "abcde" }, expectedOutput: "e" }
     ]
   },
   {
@@ -1302,7 +1415,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<String> binaryTreePaths(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 1, left: {val: 2, right: {val: 5}}, right: {val: 3}} }, expectedOutput: ["1->2->5", "1->3"] }
+      { input: { root: {val: 1, left: {val: 2, right: {val: 5}}, right: {val: 3}} }, expectedOutput: ["1->2->5", "1->3"] }
     ]
   },
   {
@@ -1321,7 +1434,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean isUgly(int n) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { n: 6 }, expectedOutput: true }
+      { input: { n: 6 }, expectedOutput: true }
     ]
   },
   {
@@ -1340,7 +1453,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean isPowerOfTwo(int n) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { n: 16 }, expectedOutput: true }
+      { input: { n: 16 }, expectedOutput: true }
     ]
   },
   {
@@ -1359,7 +1472,7 @@ export const challenges: Challenge[] = [
       java: `class MyQueue {\n    public MyQueue() {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { operations: ["MyQueue", "push", "push", "peek", "pop", "empty"], args: [[], [1], [2], [], [], []] }, expectedOutput: [null, null, null, 1, 1, false] }
+      { input: { operations: ["MyQueue", "push", "push", "peek", "pop", "empty"], args: [[], [1], [2], [], [], []] }, expectedOutput: [null, null, null, 1, 1, false] }
     ]
   },
   {
@@ -1397,7 +1510,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\n\nclass Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 6, left: {val: 2, left: {val: 0}, right: {val: 4, left: {val: 3}, right: {val: 5}}}, right: {val: 8, left: {val: 7}, right: {val: 9}}}, p: {val: 2}, q: {val: 8} }, expectedOutput: {val: 6} }
+      { input: { root: {val: 6, left: {val: 2, left: {val: 0}, right: {val: 4, left: {val: 3}, right: {val: 5}}}, right: {val: 8, left: {val: 7}, right: {val: 9}}}, p: {val: 2}, q: {val: 8} }, expectedOutput: {val: 6} }
     ]
   },
   {
@@ -1416,7 +1529,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public void deleteNode(ListNode node) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: [4,5,1,9], node: 5 }, expectedOutput: [4,1,9] }
+      { input: { head: [4,5,1,9], node: 5 }, expectedOutput: [4,1,9] }
     ]
   },
   {
@@ -1435,7 +1548,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int[] productExceptSelf(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [1,2,3,4] }, expectedOutput: [24,12,8,6] }
+      { input: { nums: [1,2,3,4] }, expectedOutput: [24,12,8,6] }
     ]
   },
   {
@@ -1454,7 +1567,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean isAnagram(String s, String t) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { s: "rat", t: "car" }, expectedOutput: false }
+      { input: { s: "rat", t: "car" }, expectedOutput: false }
     ]
   },
   {
@@ -1473,7 +1586,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<Integer> findDisappearedNumbers(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [4,3,2,7,8,2,3,1] }, expectedOutput: [5,6] }
+      { input: { nums: [4,3,2,7,8,2,3,1] }, expectedOutput: [5,6] }
     ]
   },
   {
@@ -1492,7 +1605,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int getSum(int a, int b) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { a: 2, b: 3 }, expectedOutput: 5 }
+      { input: { a: 2, b: 3 }, expectedOutput: 5 }
     ]
   },
   {
@@ -1511,7 +1624,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int longestPalindrome(String s) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { s: "abccccdd" }, expectedOutput: 7 }
+      { input: { s: "abccccdd" }, expectedOutput: 7 }
     ]
   },
   {
@@ -1530,9 +1643,9 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<String> fizzBuzz(int n) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { n: 3 }, expectedOutput: ["1","2","Fizz"] },
-        { input: { n: 5 }, expectedOutput: ["1","2","Fizz","4","Buzz"] },
-        { input: { n: 15 }, expectedOutput: ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"] },
+      { input: { n: 3 }, expectedOutput: ["1","2","Fizz"] },
+      { input: { n: 5 }, expectedOutput: ["1","2","Fizz","4","Buzz"] },
+      { input: { n: 15 }, expectedOutput: ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"] },
     ]
   },
   {
@@ -1551,7 +1664,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public TreeNode convertBST(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 4, left: {val: 1, left: {val: 0}, right: {val: 2, right: {val: 3}}}, right: {val: 6, left: {val: 5}, right: {val: 7, right: {val: 8}}}} }, expectedOutput: {val: 30, left: {val: 36, left: {val: 36}, right: {val: 35, right: {val: 33}}}, right: {val: 21, left: {val: 26}, right: {val: 15, right: {val: 8}}}} }
+      { input: { root: {val: 4, left: {val: 1, left: {val: 0}, right: {val: 2, right: {val: 3}}}, right: {val: 6, left: {val: 5}, right: {val: 7, right: {val: 8}}}} }, expectedOutput: {val: 30, left: {val: 36, left: {val: 36}, right: {val: 35, right: {val: 33}}}, right: {val: 21, left: {val: 26}, right: {val: 15, right: {val: 8}}}} }
     ]
   },
   {
@@ -1570,7 +1683,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int diameterOfBinaryTree(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 1, left: {val: 2, left: {val: 4}, right: {val: 5}}, right: {val: 3}} }, expectedOutput: 3 }
+      { input: { root: {val: 1, left: {val: 2, left: {val: 4}, right: {val: 5}}, right: {val: 3}} }, expectedOutput: 3 }
     ]
   },
   {
@@ -1629,7 +1742,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int[] sortedSquares(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [-4,-1,0,3,10] }, expectedOutput: [0,1,9,16,100] }
+      { input: { nums: [-4,-1,0,3,10] }, expectedOutput: [0,1,9,16,100] }
     ]
   },
   {
@@ -1648,7 +1761,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean backspaceCompare(String s, String t) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { s: "ab#c", t: "ad#c" }, expectedOutput: true }
+      { input: { s: "ab#c", t: "ad#c" }, expectedOutput: true }
     ]
   },
   {
@@ -1667,7 +1780,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int[] countBits(int n) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { n: 5 }, expectedOutput: [0,1,1,2,1,2] }
+      { input: { n: 5 }, expectedOutput: [0,1,1,2,1,2] }
     ]
   },
   {
@@ -1686,7 +1799,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { l1: {val: 2, next: {val: 4, next: {val: 3, next: null}}}, l2: {val: 5, next: {val: 6, next: {val: 4, next: null}}} }, expectedOutput: {val: 7, next: {val: 0, next: {val: 8, next: null}}} }
+      { input: { l1: {val: 2, next: {val: 4, next: {val: 3, next: null}}}, l2: {val: 5, next: {val: 6, next: {val: 4, next: null}}} }, expectedOutput: {val: 7, next: {val: 0, next: {val: 8, next: null}}} }
     ]
   },
   {
@@ -1726,7 +1839,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public String longestPalindrome(String s) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { s: "babad" }, expectedOutput: "bab" }
+      { input: { s: "babad" }, expectedOutput: "bab" }
     ]
   },
   {
@@ -1745,7 +1858,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public String convert(String s, int numRows) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { s: "PAYPALISHIRING", numRows: 3 }, expectedOutput: "PAHNAPLSIIGYIR" }
+      { input: { s: "PAYPALISHIRING", numRows: 3 }, expectedOutput: "PAHNAPLSIIGYIR" }
     ]
   },
   {
@@ -1764,7 +1877,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int myAtoi(String s) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { s: "42" }, expectedOutput: 42 }
+      { input: { s: "42" }, expectedOutput: 42 }
     ]
   },
   {
@@ -1783,7 +1896,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public String intToRoman(int num) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { num: 58 }, expectedOutput: "LVIII" }
+      { input: { num: 58 }, expectedOutput: "LVIII" }
     ]
   },
   {
@@ -1802,7 +1915,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int maxArea(int[] height) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { height: [1,8,6,2,5,4,8,3,7] }, expectedOutput: 49 }
+      { input: { height: [1,8,6,2,5,4,8,3,7] }, expectedOutput: 49 }
     ]
   },
   {
@@ -1821,7 +1934,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<List<Integer>> threeSum(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [-1,0,1,2,-1,-4] }, expectedOutput: [[-1,-1,2],[-1,0,1]] }
+      { input: { nums: [-1,0,1,2,-1,-4] }, expectedOutput: [[-1,-1,2],[-1,0,1]] }
     ]
   },
   {
@@ -1840,7 +1953,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int threeSumClosest(int[] nums, int target) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [-1,2,1,-4], target: 1 }, expectedOutput: 2 }
+      { input: { nums: [-1,2,1,-4], target: 1 }, expectedOutput: 2 }
     ]
   },
   {
@@ -1859,7 +1972,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<String> letterCombinations(String digits) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { digits: "23" }, expectedOutput: ["ad","ae","af","bd","be","bf","cd","ce","cf"] }
+      { input: { digits: "23" }, expectedOutput: ["ad","ae","af","bd","be","bf","cd","ce","cf"] }
     ]
   },
   {
@@ -1878,7 +1991,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<List<Integer>> fourSum(int[] nums, int target) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [1,0,-1,0,-2,2], target: 0 }, expectedOutput: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]] }
+      { input: { nums: [1,0,-1,0,-2,2], target: 0 }, expectedOutput: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]] }
     ]
   },
   {
@@ -1897,7 +2010,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}}, n: 2 }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 5, next: null}}}} }
+      { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}}, n: 2 }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 5, next: null}}}} }
     ]
   },
   {
@@ -1916,7 +2029,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<String> generateParenthesis(int n) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { n: 3 }, expectedOutput: ["((()))","(()())","(())()","()(())","()()()"] }
+      { input: { n: 3 }, expectedOutput: ["((()))","(()())","(())()","()(())","()()()"] }
     ]
   },
   {
@@ -1935,7 +2048,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { lists: [{val: 1, next: {val: 4, next: {val: 5}}}, {val: 1, next: {val: 3, next: {val: 4}}}, {val: 2, next: {val: 6}}] }, expectedOutput: {val: 1, next: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 4, next: {val: 5, next: {val: 6}}}}}}}} }
+      { input: { lists: [{val: 1, next: {val: 4, next: {val: 5}}}, {val: 1, next: {val: 3, next: {val: 4}}}, {val: 2, next: {val: 6}}] }, expectedOutput: {val: 1, next: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 4, next: {val: 5, next: {val: 6}}}}}}}} }
     ]
   },
   {
@@ -1992,7 +2105,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int search(int[] nums, int target) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [4,5,6,7,0,1,2], target: 0 }, expectedOutput: 4 }
+      { input: { nums: [4,5,6,7,0,1,2], target: 0 }, expectedOutput: 4 }
     ]
   },
   {
@@ -2011,7 +2124,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { candidates: [2,3,6,7], target: 7 }, expectedOutput: [[2,2,3],[7]] }
+      { input: { candidates: [2,3,6,7], target: 7 }, expectedOutput: [[2,2,3],[7]] }
     ]
   },
   {
@@ -2030,7 +2143,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [1,2,3] }, expectedOutput: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]] }
+      { input: { nums: [1,2,3] }, expectedOutput: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]] }
     ]
   },
   {
@@ -2049,7 +2162,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public void rotate(int[][] matrix) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { matrix: [[1,2,3],[4,5,6],[7,8,9]] }, expectedOutput: [[7,4,1],[8,5,2],[9,6,3]] }
+      { input: { matrix: [[1,2,3],[4,5,6],[7,8,9]] }, expectedOutput: [[7,4,1],[8,5,2],[9,6,3]] }
     ]
   },
   {
@@ -2068,7 +2181,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { strs: ["eat","tea","tan","ate","nat","bat"] }, expectedOutput: [["bat"],["nat","tan"],["ate","eat","tea"]] }
+      { input: { strs: ["eat","tea","tan","ate","nat","bat"] }, expectedOutput: [["bat"],["nat","tan"],["ate","eat","tea"]] }
     ]
   },
   {
@@ -2087,7 +2200,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean canJump(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [2,3,1,1,4] }, expectedOutput: true }
+      { input: { nums: [2,3,1,1,4] }, expectedOutput: true }
     ]
   },
   {
@@ -2106,7 +2219,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int[][] merge(int[][] intervals) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { intervals: [[1,3],[2,6],[8,10],[15,18]] }, expectedOutput: [[1,6],[8,10],[15,18]] }
+      { input: { intervals: [[1,3],[2,6],[8,10],[15,18]] }, expectedOutput: [[1,6],[8,10],[15,18]] }
     ]
   },
   {
@@ -2125,7 +2238,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int uniquePaths(int m, int n) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { m: 3, n: 7 }, expectedOutput: 28 }
+      { input: { m: 3, n: 7 }, expectedOutput: 28 }
     ]
   },
   {
@@ -2144,7 +2257,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public void setZeroes(int[][] matrix) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { matrix: [[1,1,1],[1,0,1],[1,1,1]] }, expectedOutput: [[1,0,1],[0,0,0],[1,0,1]] }
+      { input: { matrix: [[1,1,1],[1,0,1],[1,1,1]] }, expectedOutput: [[1,0,1],[0,0,0],[1,0,1]] }
     ]
   },
   {
@@ -2163,7 +2276,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public void sortColors(int[] nums) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { nums: [2,0,2,1,1,0] }, expectedOutput: [0,0,1,1,2,2] }
+      { input: { nums: [2,0,2,1,1,0] }, expectedOutput: [0,0,1,1,2,2] }
     ]
   },
   {
@@ -2182,7 +2295,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean exist(char[][] board, String word) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { board: [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word: "ABCCED" }, expectedOutput: true }
+      { input: { board: [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word: "ABCCED" }, expectedOutput: true }
     ]
   },
   {
@@ -2201,7 +2314,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int numDecodings(String s) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { s: "226" }, expectedOutput: 3 }
+      { input: { s: "226" }, expectedOutput: 3 }
     ]
   },
   {
@@ -2220,7 +2333,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean isValidBST(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 5, left: {val: 1}, right: {val: 4, left: {val: 3}, right: {val: 6}}} }, expectedOutput: false }
+      { input: { root: {val: 5, left: {val: 1}, right: {val: 4, left: {val: 3}, right: {val: 6}}} }, expectedOutput: false }
     ]
   },
   {
@@ -2239,7 +2352,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 3, left: {val: 9}, right: {val: 20, left: {val: 15}, right: {val: 7}}} }, expectedOutput: [[3],[9,20],[15,7]] }
+      { input: { root: {val: 3, left: {val: 9}, right: {val: 20, left: {val: 15}, right: {val: 7}}} }, expectedOutput: [[3],[9,20],[15,7]] }
     ]
   },
   {
@@ -2258,7 +2371,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public int coinChange(int[] coins, int amount) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { coins: [1,2,5], amount: 11 }, expectedOutput: 3 }
+      { input: { coins: [1,2,5], amount: 11 }, expectedOutput: 3 }
     ]
   },
   {
