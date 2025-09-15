@@ -510,8 +510,8 @@ export const challenges: Challenge[] = [
   {
     srNo: 25,
     id: 'pascals-triangle',
-    title: 'Pascal\'s Triangle',
-    description: 'Given an integer numRows, return the first numRows of Pascal\'s triangle.',
+    title: "Pascal's Triangle",
+    description: "Given an integer numRows, return the first numRows of Pascal's triangle.",
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Dynamic Programming'],
@@ -529,8 +529,8 @@ export const challenges: Challenge[] = [
   {
     srNo: 26,
     id: 'pascals-triangle-ii',
-    title: 'Pascal\'s Triangle II',
-    description: 'Given an integer rowIndex, return the rowIndex-th (0-indexed) row of the Pascal\'s triangle.',
+    title: "Pascal's Triangle II",
+    description: "Given an integer rowIndex, return the rowIndex-th (0-indexed) row of the Pascal's triangle.",
     difficulty: 'Easy',
     domain: 'DSA',
     tags: ['Array', 'Dynamic Programming'],
@@ -694,7 +694,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public void reorderList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4}}}} }, expectedOutput: {val: 1, next: {val: 4, next: {val: 2, next: {val: 3}}}} }
+        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}}}} , expectedOutput: {val: 1, next: {val: 4, next: {val: 2, next: {val: 3, next: null}}}} }
     ]
   },
   {
@@ -713,7 +713,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<Integer> preorderTraversal(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3}}} }, expectedOutput: [1,2,3] }
+        { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3, next: null}}} }, expectedOutput: [1,2,3] }
     ]
   },
   {
@@ -732,7 +732,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<Integer> postorderTraversal(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3}}} }, expectedOutput: [3,2,1] }
+        { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3, next: null}}} }, expectedOutput: [3,2,1] }
     ]
   },
   {
@@ -770,7 +770,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public ListNode insertionSortList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 4, next: {val: 2, next: {val: 1, next: {val: 3}}}} }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4}}}} }
+        { input: { head: {val: 4, next: {val: 2, next: {val: 1, next: {val: 3, next: null}}}}}} , expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}} }
     ]
   },
   {
@@ -789,7 +789,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public ListNode sortList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 4, next: {val: 2, next: {val: 1, next: {val: 3}}}} }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4}}}} }
+        { input: { head: {val: 4, next: {val: 2, next: {val: 1, next: {val: 3, next: null}}}}}} , expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}} }
     ]
   },
   {
@@ -1036,7 +1036,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode reverseList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}} }, expectedOutput: {val: 5, next: {val: 4, next: {val: 3, next: {val: 2, next: {val: 1, next: null}}}}} }
+        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}}} }, expectedOutput: {val: 5, next: {val: 4, next: {val: 3, next: {val: 2, next: {val: 1, next: null}}}}} }
     ]
   },
   {
@@ -1686,7 +1686,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { l1: {val: 2, next: {val: 4, next: {val: 3}}}, l2: {val: 5, next: {val: 6, next: {val: 4}}} }, expectedOutput: {val: 7, next: {val: 0, next: {val: 8}}} }
+        { input: { l1: {val: 2, next: {val: 4, next: {val: 3, next: null}}}, l2: {val: 5, next: {val: 6, next: {val: 4, next: null}}} }, expectedOutput: {val: 7, next: {val: 0, next: {val: 8, next: null}}} }
     ]
   },
   {
@@ -1954,7 +1954,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public ListNode swapPairs(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4}}}} }, expectedOutput: {val: 2, next: {val: 1, next: {val: 4, next: {val: 3}}}} }
+        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}}}} , expectedOutput: {val: 2, next: {val: 1, next: {val: 4, next: {val: 3, next: null}}}} }
     ]
   },
   {
@@ -1973,7 +1973,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public ListNode reverseKGroup(ListNode head, int k) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5}}}}}, k: 2 }, expectedOutput: {val: 2, next: {val: 1, next: {val: 4, next: {val: 3, next: {val: 5}}}}} }
+        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}}}, k: 2 }, expectedOutput: {val: 2, next: {val: 1, next: {val: 4, next: {val: 3, next: {val: 5, next: null}}}}} }
     ]
   },
   {
