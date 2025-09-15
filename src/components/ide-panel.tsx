@@ -37,7 +37,7 @@ const runInitialState = {
 function RunButton() {
   const { pending } = useFormStatus();
   return (
-    <Button size="sm" type="submit" disabled={pending} variant="outline">
+    <Button size="sm" type="submit" disabled={pending} variant="outline" form="run-form">
       {pending ? <><Loader2 className="mr-2 animate-spin" /> Testing...</> : <><Zap className="mr-2"/> Test</>}
     </Button>
   );
@@ -46,7 +46,7 @@ function RunButton() {
 function SubmitButton() {
     const { pending } = useFormStatus();
     return (
-        <Button size="sm" type="submit" disabled={pending}>
+        <Button size="sm" type="submit" disabled={pending} form="submit-form">
            {pending ? <><Loader2 className="mr-2 animate-spin" /> Submitting...</> : <><PlayCircle className="mr-2"/> Submit</>}
         </Button>
     )
@@ -108,7 +108,7 @@ function SubmissionResult({ results, challenge, onCompletion }: { results: any[]
                     {allPassed && " Great job! This problem has been marked as solved."}
                 </AlertDescription>
             </Alert>
-             <ScrollArea className="h-40 mt-4">
+             <ScrollArea className="h-64 mt-4">
                  <div className="space-y-2 p-1">
                     {results?.map((result, index) => (
                        <TestCaseResult key={index} result={result} index={index} />
@@ -218,7 +218,7 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                         </TabsList>
                     </div>
                     <TabsContent value="test-results" className="mt-0 p-2">
-                       <ScrollArea className="h-48">
+                       <ScrollArea className="h-80">
                          <div className="space-y-2 p-1">
                             {!runState.results && <p className="text-sm text-muted-foreground text-center py-8">Click "Test" to run your code against test cases.</p>}
                             {runState.results?.map((result, index) => (
@@ -227,7 +227,7 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                          </div>
                        </ScrollArea>
                     </TabsContent>
-                    <TabsContent value="submit-output" className="h-[244px] p-0">
+                    <TabsContent value="submit-output" className="h-[360px] p-0">
                         {!submitState.results && <p className="text-sm text-muted-foreground text-center py-20">Submission results will appear here.</p>}
                         {submitState.results && <SubmissionResult results={submitState.results} challenge={challenge} onCompletion={onSubmitCompletion} />}
                     </TabsContent>
