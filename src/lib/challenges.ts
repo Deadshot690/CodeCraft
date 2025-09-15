@@ -656,7 +656,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for singly-linked list.\n * class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public boolean hasCycle(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} } , expectedOutput: true }
+        { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} }, expectedOutput: true }
     ]
   },
   {
@@ -675,7 +675,7 @@ export const challenges: Challenge[] = [
       java: `public class Solution {\n    public ListNode detectCycle(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} } , expectedOutput: "node_at_index_1" }
+        { input: { head: {val: 3, next: {val: 2, next: {val: 0, next: {val: -4, next: "cycle_to_index_1"}}}} }, expectedOutput: "node_at_index_1" }
     ]
   },
   {
@@ -694,7 +694,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public void reorderList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}}}} , expectedOutput: {val: 1, next: {val: 4, next: {val: 2, next: {val: 3, next: null}}}} }
+      { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}} }, expectedOutput: {val: 1, next: {val: 4, next: {val: 2, next: {val: 3, next: null}}}} }
     ]
   },
   {
@@ -713,7 +713,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public List<Integer> preorderTraversal(TreeNode root) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3, next: null}}} }, expectedOutput: [1,2,3] }
+      { input: { root: {val: 1, left: null, right: {val: 2, left: {val: 3, next: null}}} }, expectedOutput: [1,2,3] }
     ]
   },
   {
@@ -770,7 +770,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public ListNode insertionSortList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 4, next: {val: 2, next: {val: 1, next: {val: 3, next: null}}}}}} , expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}} }
+      { input: { head: {val: 4, next: {val: 2, next: {val: 1, next: {val: 3, next: null}}}} }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}} }
     ]
   },
   {
@@ -789,7 +789,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public ListNode sortList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 4, next: {val: 2, next: {val: 1, next: {val: 3, next: null}}}}}} , expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}} }
+      { input: { head: {val: 4, next: {val: 2, next: {val: 1, next: {val: 3, next: null}}}} }, expectedOutput: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}} }
     ]
   },
   {
@@ -1036,7 +1036,7 @@ export const challenges: Challenge[] = [
       java: `/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode reverseList(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}}} }, expectedOutput: {val: 5, next: {val: 4, next: {val: 3, next: {val: 2, next: {val: 1, next: null}}}}} }
+      { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}} }, expectedOutput: {val: 5, next: {val: 4, next: {val: 3, next: {val: 2, next: {val: 1, next: null}}}}} }
     ]
   },
   {
@@ -1378,7 +1378,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public boolean isPalindrome(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 2, next: {val: 1, next: null}}}}} }, expectedOutput: true }
+      { input: { head: {val: 1, next: {val: 2, next: {val: 2, next: {val: 1, next: null}}}}} , expectedOutput: true }
     ]
   },
   {
@@ -1589,7 +1589,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public ListNode middleNode(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}}} }, expectedOutput: {val: 3, next: {val: 4, next: {val: 5, next: null}}} }
+      { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}} }, expectedOutput: {val: 3, next: {val: 4, next: {val: 5, next: null}}} }
     ]
   },
   {
@@ -1954,7 +1954,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public ListNode swapPairs(ListNode head) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}}}} , expectedOutput: {val: 2, next: {val: 1, next: {val: 4, next: {val: 3, next: null}}}} }
+      { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: null}}}}} , expectedOutput: {val: 2, next: {val: 1, next: {val: 4, next: {val: 3, next: null}}}} }
     ]
   },
   {
@@ -1973,7 +1973,7 @@ export const challenges: Challenge[] = [
       java: `class Solution {\n    public ListNode reverseKGroup(ListNode head, int k) {\n        // Write your code here\n    }\n}`
     },
     testCases: [
-        { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}}}, k: 2 }, expectedOutput: {val: 2, next: {val: 1, next: {val: 4, next: {val: 3, next: {val: 5, next: null}}}}} }
+      { input: { head: {val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}}, k: 2 }, expectedOutput: {val: 2, next: {val: 1, next: {val: 4, next: {val: 3, next: {val: 5, next: null}}}}} }
     ]
   },
   {
@@ -2511,7 +2511,7 @@ export const challenges: Challenge[] = [
     languages: ['javascript', 'python', 'cpp', 'java'],
     templates: {
         javascript: `var trap = function(height) {\n  // Write your code here\n};`,
-        python: `class Solution:\n    def trap(self, height: List[int]) -> int:\n        # Write your code here\n`,
+        python: `class Solution:\n    def trap(self, height: List[int]) -> int:\n        // Write your code here\n`,
         cpp: `class Solution {\npublic:\n    int trap(vector<int>& height) {\n        // Write your code here\n    }\n};`,
         java: `class Solution {\n    public int trap(int[] height) {\n        // Write your code here\n    }\n}`
     },
