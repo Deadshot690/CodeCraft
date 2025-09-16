@@ -85,3 +85,49 @@ The current implementation does **not** include user authentication, persistent 
 ### **1.5. Report Organization**
 
 This report is organized into six chapters. Chapter 2 discusses the existing systems and the feasibility of the proposed project. Chapter 3 details the system design, architecture, and technology stack. Chapter 4 provides an in-depth look at the implementation of the core modules. Chapter 5 covers the testing strategies employed. Finally, Chapter 6 concludes the report with a summary of the project, its limitations, and potential directions for future work.
+
+---
+
+## **Chapter 2: System Analysis & Literature Survey**
+
+### **2.1. Existing Systems**
+
+A survey of the current landscape of online coding education platforms reveals several key players, each with distinct strengths and weaknesses.
+
+*   **LeetCode & HackerRank:** These platforms are the industry standard for competitive programming and technical interview preparation.
+    *   **Strengths:** They offer a vast library of high-quality algorithmic challenges, a robust testing environment, and a competitive community with leaderboards.
+    *   **Weaknesses:** Their user experience can be intimidating and sterile for beginners. The focus is almost exclusively on algorithmic problem-solving, and they offer minimal guidance or pedagogical support when a user is stuck, forcing learners to seek solutions elsewhere.
+
+*   **Codecademy & freeCodeCamp:** These platforms are more focused on structured, curriculum-based learning for beginners.
+    *   **Strengths:** They provide step-by-step tutorials and interactive lessons that guide a user through a specific technology or concept. The learning path is clear and well-defined.
+    *   **Weaknesses:** The coding environment is often constrained and less like a real-world IDE. The problems are typically tied to the lesson and may not offer the same level of open-ended problem-solving as platforms like LeetCode.
+
+*   **Duolingo:** While not a coding platform, its success in language learning provides a valuable case study in gamification.
+    *   **Strengths:** Duolingo excels at user retention through streaks, experience points (XP), leaderboards, and daily goals. It breaks down complex learning into small, manageable "mini-game" like exercises.
+    *   **Weaknesses:** Its model is not directly transferable to the more complex, abstract nature of programming, but the core principles of engagement are highly relevant.
+
+### **2.2. Proposed System**
+
+CodeCraft Quest is designed to synthesize the strengths of these different models while addressing their key weaknesses. It proposes a holistic learning environment that blends rigorous problem-solving with engaging game mechanics and AI-powered pedagogical support.
+
+*   **Bridging the Gap:** The platform provides a full-fledged IDE for solving complex algorithmic challenges similar to LeetCode, making it suitable for serious practice. However, it wraps this experience in a gamified shell with user stats, levels, and a story-driven "Dungeon" mode to maintain motivation for beginners.
+
+*   **Active, Not Passive, Guidance:** Unlike platforms that either give the answer or no help at all, CodeCraft Quest integrates an AI Tutor. This tool provides contextual hints and conceptual explanations, encouraging the user to think through the problem without simply copying a solution. This fosters active learning and deeper understanding.
+
+*   **Diverse Skill Development:** Recognizing that programming is more than just algorithms, the "Mini-Games" suite targets a variety of essential skills:
+    *   **Code Typer:** Improves speed and accuracy with real syntax.
+    *   **Debug Hunt:** Hones the critical skill of finding and fixing errors under pressure.
+    *   **Code Jigsaw:** Builds code comprehension and logical ordering skills.
+    *   **Monster Battle:** Reinforces core concepts through quick-recall questions in an RPG format.
+
+By combining these elements, the proposed system offers a more comprehensive and engaging alternative to existing platforms, catering to a wider range of learners from absolute beginners to intermediate coders looking for a more enjoyable way to practice.
+
+### **2.3. Feasibility Study**
+
+A preliminary study was conducted to assess the feasibility of the project.
+
+*   **2.3.1. Technical Feasibility:** The project is technically feasible. The chosen technology stack is modern, well-documented, and robust. Next.js provides a powerful framework for building server-driven React applications. Genkit offers a streamlined and powerful interface for integrating state-of-the-art generative AI models (Gemini) via simple server actions, handling complex tasks like code evaluation and hint generation. ShadCN UI and Tailwind CSS provide a flexible and efficient system for building a high-quality user interface.
+
+*   **2.3.2. Economic Feasibility:** The current implementation is economically feasible as it runs primarily on the client-side, with AI features executed through serverless functions (Genkit flows). This model incurs minimal costs. Future enhancements like user authentication and a persistent database would introduce cloud hosting costs (e.g., via Firebase), but these services are designed to scale affordably from a free tier.
+
+*   **2.3.3. Operational Feasibility:** The system is designed to be user-friendly and intuitive. The gamified dashboard, clear navigation, and integrated help systems are intended to lower the barrier to entry for new programmers. The application is a standard web app and requires no special software or installation, making it easily accessible to anyone with a modern web browser.
