@@ -199,3 +199,4 @@ In the current version, all application data is hardcoded and managed through Ty
     6.  `runCode` returns structured results to `runTestAction`.
     7.  `runTestAction` updates the state of `IdePanel`.
     8.  `IdePanel` re-renders to display the results.
+```
