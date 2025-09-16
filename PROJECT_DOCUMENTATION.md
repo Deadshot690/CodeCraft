@@ -1,4 +1,5 @@
 
+
 # Project Report: CodeCraft Quest
 
 ---
@@ -257,3 +258,43 @@ To provide a sense of accomplishment and progression, the application tracks use
     *   A breakdown of solved problems by domain (DSA, Web, AI).
     *   A list of the 5 most recently solved problems.
 *   **Dungeon Page (`/dungeon`):** This page also reads from `localStorage` to determine which challenges have been solved, dynamically unlocking new floors based on the user's progress.
+
+---
+
+## **Chapter 5: System Testing**
+
+System testing is a critical phase to ensure the quality, functionality, and reliability of the application. The testing for CodeCraft Quest was approached with a combination of manual and automated strategies, focusing on the core user-facing features.
+
+### **5.1. Unit Testing**
+
+Unit testing involves testing individual components or functions in isolation to ensure they work as expected.
+*   **Strategy:** While a formal unit testing framework like Jest was not implemented within the project's scope, individual helper functions (e.g., in `src/lib/challenges.ts` for getting challenges by ID) were manually tested during development to ensure correctness. React components were developed with a focus on clear, predictable state management, allowing for straightforward manual verification of their different states (e.g., loading, error, success).
+*   **Example:** The `getDailyChallenge()` function was tested to confirm that it consistently returns a valid challenge object based on the current date.
+
+### **5.2. Integration Testing**
+
+Integration testing focuses on verifying that different modules of the application work together correctly. This was the primary focus of the testing effort.
+*   **Strategy:** The most critical integrations involve the frontend components, Next.js Server Actions, and the Genkit AI flows. Manual end-to-end testing was performed for all major user workflows.
+*   **Example (AI Code Execution):**
+    1.  A user writes code in the `IdePanel` component.
+    2.  The "Submit" button is clicked, triggering the `submitAction`.
+    3.  The Server Action is manually monitored to ensure it correctly packages the data and calls the `runCode` Genkit flow.
+    4.  The `runCode` flow's interaction with the Gemini API is verified.
+    5.  The structured JSON response from the AI is checked for correctness.
+    6.  The final state is passed back to the `IdePanel` and the UI is checked to confirm it correctly displays the "Accepted" or "Wrong Answer" status along with the test case results.
+
+### **5.3. Test Cases**
+
+The following table outlines sample test cases for some of the key functionalities of CodeCraft Quest.
+
+| Test Case ID | Feature           | Test Scenario                                                                        | Expected Result                                                                                                | Status |
+|--------------|-------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|--------|
+| TC-IDE-01    | IDE Submission    | Submit a correct solution for the "Two Sum" challenge.                               | The "Submit Output" tab displays an "Accepted!" message. Progress is saved to `localStorage`.                | Pass   |
+| TC-IDE-02    | IDE Submission    | Submit an incorrect solution for the "Two Sum" challenge.                              | The "Submit Output" tab displays a "Wrong Answer" message with details on which test cases failed.             | Pass   |
+| TC-IDE-03    | IDE Submission    | Submit incomplete code (e.g., syntax error).                                         | The test results panel displays an error message from the AI execution engine (e.g., "Syntax Error").            | Pass   |
+| TC-AI-01     | AI Tutor          | Request a hint for a challenge with code that has a logical error.                     | The AI Assistant displays a relevant hint and a conceptual explanation without giving away the direct answer.      | Pass   |
+| TC-AI-02     | AI Tutor          | Submit the AI Tutor form with an empty code field.                                   | A validation error message appears, prompting the user to enter code.                                          | Pass   |
+| TC-GAME-01   | Monster Battle    | Answer a monster's question correctly.                                               | The monster's HP is reduced to 0. A "Victorious" message is displayed.                                         | Pass   |
+| TC-GAME-02   | Monster Battle    | Answer a monster's question incorrectly.                                             | The player's HP is reduced. The monster taunts the player. The battle continues.                               | Pass   |
+| TC-PROFILE-01| Profile Page      | Solve a new challenge and then navigate to the profile page.                         | The "Challenges Solved" count is incremented. The newly solved challenge appears in the "Recent Solutions" list. | Pass   |
+| TC-DUNGEON-01| Code Dungeon      | Solve enough challenges on Floor 1 to meet the unlock criteria for Floor 2.          | Floor 2 transitions from a "Locked" to an "Unlocked" state, and its challenges become clickable.             | Pass   |
