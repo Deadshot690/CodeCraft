@@ -131,3 +131,71 @@ A preliminary study was conducted to assess the feasibility of the project.
 *   **2.3.2. Economic Feasibility:** The current implementation is economically feasible as it runs primarily on the client-side, with AI features executed through serverless functions (Genkit flows). This model incurs minimal costs. Future enhancements like user authentication and a persistent database would introduce cloud hosting costs (e.g., via Firebase), but these services are designed to scale affordably from a free tier.
 
 *   **2.3.3. Operational Feasibility:** The system is designed to be user-friendly and intuitive. The gamified dashboard, clear navigation, and integrated help systems are intended to lower the barrier to entry for new programmers. The application is a standard web app and requires no special software or installation, making it easily accessible to anyone with a modern web browser.
+
+---
+
+## **Chapter 3: System Design & Architecture**
+
+### **3.1. Technology Stack**
+
+The technology stack for CodeCraft Quest was chosen to create a modern, performant, and feature-rich web application. It leverages a server-centric approach with Next.js and integrates powerful AI capabilities seamlessly.
+
+*   **Frontend Framework:** **Next.js (with App Router)** - Used for building the user interface with React. The App Router paradigm with Server Components allows for fast page loads and a robust structure for routing and layouts.
+*   **UI Library:** **React** - The core library for building composable user interface components, used within the Next.js framework.
+*   **AI Integration:** **Genkit for Firebase** - A powerful, open-source framework used to build, deploy, and monitor production-grade AI-powered features. In this project, Genkit is used for:
+    *   **AI-Powered Code Evaluation:** Simulating code execution and judging correctness against test cases.
+    *   **AI Tutor:** Generating contextual hints and explanations for coding problems.
+    *   **Model Integration:** Seamlessly integrating with Google's advanced Gemini family of models.
+*   **Styling:**
+    *   **Tailwind CSS:** A utility-first CSS framework for rapid UI development.
+    *   **ShadCN UI:** A collection of beautifully designed and accessible UI components built on top of Tailwind CSS and Radix UI.
+*   **Client-Side Storage:** **Browser `localStorage`** - Used for persisting basic user progress, such as solved challenges and stats, directly in the user's browser. This provides a simple way to maintain state without requiring a backend database or user authentication in the current scope.
+*   **Language:** **TypeScript** - A typed superset of JavaScript that enhances code quality, readability, and developer productivity by adding static types.
+
+### **3.2. System Architecture**
+
+CodeCraft Quest is built on a modern, server-driven architecture centered around Next.js and its App Router.
+
+*   **Component Model:** The application primarily uses **React Server Components (RSCs)** by default. This means most of the UI rendering and data fetching happens on the server, sending minimal JavaScript to the client. This results in faster initial page loads and a better user experience. Client-side interactivity is added where necessary using `'use client'` directives, such as in the IDE panel or mini-game interfaces.
+*   **Backend and AI Logic:** There is no traditional, always-on backend server. Instead, backend logic is handled through **Next.js Server Actions** and **Genkit Flows**.
+    *   **Server Actions:** These are functions executed on the server that can be called directly from React components, simplifying form submissions and data mutations. For example, submitting code to the IDE triggers a server action.
+    *   **Genkit Flows:** These are specialized server-side functions designed to orchestrate AI-powered workflows. In CodeCraft Quest, flows like `runCodeFlow` and `aiCodeAssistantFlow` are defined with Genkit. They are invoked by Server Actions to interact with the Gemini language models, process the results, and return structured data to the frontend. This architecture encapsulates all AI logic securely on the server.
+*   **Data Flow (IDE Example):**
+    1.  A user writes code in the client-side IDE component.
+    2.  The user clicks "Submit", triggering a Server Action.
+    3.  The Server Action receives the user's code and calls the `runCode` Genkit flow.
+    4.  The `runCode` flow constructs a detailed prompt, including the user's code, the problem's test cases, and a reference solution.
+    5.  Genkit sends this prompt to the Gemini model.
+    6.  The AI model executes the logic and returns a structured JSON object with the pass/fail status for each test case.
+    7.  The flow returns this JSON to the Server Action, which then passes it back as state to the client-side component.
+    8.  The IDE component re-renders to display the results to the user.
+
+### **3.3. Data Design**
+
+In the current version, all application data is hardcoded and managed through TypeScript modules within the `src/lib` directory.
+
+*   **Challenge Data (`src/lib/challenges.ts`):** This module exports a large array of `Challenge` objects. Each object follows a strict interface, containing:
+    *   `id`: A unique identifier.
+    *   `title`, `description`, `difficulty`, `domain`, `tags`: Metadata for display and filtering.
+    *   `templates`: Boilerplate code for various supported languages.
+    *   `testCases`: An array of input/output objects used by the AI to verify solutions.
+*   **Mini-Game Data (`src/lib/*-challenges.ts`):** Each mini-game has its own data module (e.g., `battle-challenges.ts`, `jigsaw-challenges.ts`) defining the content for that specific game.
+*   **User Progress Data (`localStorage`):** The application uses the browser's `localStorage` to provide a simple persistence layer for a single user.
+    *   When a user successfully solves a challenge, the challenge ID and completion timestamp are stored in a JSON array under the key `solvedChallengesInfo`.
+    *   Pages like the Profile and Dungeon page read from `localStorage` on the client-side to display progress, calculate stats, and unlock new content.
+
+### **3.4. System Diagrams**
+
+*(For a formal report, this section would contain actual diagrams created with a tool like Lucidchart, Draw.io, or Mermaid.js. The following are descriptions of the recommended diagrams.)*
+
+*   **Use Case Diagram:** A diagram showing the primary actors (the "User") and their interactions with the system.
+    *   **Use Cases:** "Solve Coding Challenge", "Request AI Hint", "Play Monster Battle", "Play Debug Hunt", "View Profile", "Navigate Dungeon".
+*   **Sequence Diagram for "Run Code" Action:** A diagram illustrating the step-by-step flow of a user submitting code.
+    1.  `User` clicks "Run" in `IdePanel`.
+    2.  `IdePanel` calls the `runTestAction` Server Action.
+    3.  `runTestAction` calls the `runCode` Genkit flow.
+    4.  `runCode` flow calls the Gemini AI Model.
+    5.  Gemini AI Model returns results to `runCode`.
+    6.  `runCode` returns structured results to `runTestAction`.
+    7.  `runTestAction` updates the state of `IdePanel`.
+    8.  `IdePanel` re-renders to display the results.
