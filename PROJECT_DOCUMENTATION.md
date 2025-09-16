@@ -199,4 +199,61 @@ In the current version, all application data is hardcoded and managed through Ty
     6.  `runCode` returns structured results to `runTestAction`.
     7.  `runTestAction` updates the state of `IdePanel`.
     8.  `IdePanel` re-renders to display the results.
-```
+
+---
+
+## **Chapter 4: Implementation & Modules**
+
+This chapter details the implementation of the core components of the CodeCraft Quest application, connecting the architectural design from Chapter 3 to the actual source code.
+
+### **4.1. Core IDE Module**
+
+The Integrated Development Environment (IDE) is the heart of the challenge-solving experience. It is implemented primarily in the `src/app/challenge/[id]/page.tsx` and `src/components/ide-panel.tsx` files.
+
+*   **Structure:** The challenge page uses a resizable panel layout (`ResizablePanelGroup`) from ShadCN UI to create a two-pane view.
+    *   The left panel contains the problem description and the AI Tutor tab.
+    *   The right panel contains the `IdePanel` component, which houses the code editor and the results area.
+*   **Code Editor:** A simple `<textarea>` is used as the code editor for maximum compatibility and simplicity. It is state-managed within the `IdePanel` component. A language selector dropdown allows the user to switch between supported languages, which dynamically updates the boilerplate code in the editor.
+*   **Code Execution Flow:**
+    1.  The user writes code and clicks either the "Test" or "Submit" button.
+    2.  This triggers a client-side form submission that calls a corresponding Next.js Server Action (`runTestAction` or `submitAction`) defined in `src/app/actions.ts`.
+    3.  The Server Action is responsible for security and data preparation. It retrieves the challenge details, including the reference solution, and packages the user's code, language, and test cases into a `RunCodeInput` object.
+    4.  The action then invokes the `runCode` Genkit flow (`src/ai/flows/run-code-flow.ts`).
+    5.  The `runCode` flow constructs a detailed prompt for the Gemini model, instructing it to act as a code judge. It passes the user's code, the test cases, and the reference solution.
+    6.  The AI simulates the code execution and returns a structured JSON object (`RunCodeOutput`) containing the results for each test case (pass/fail status, actual output, etc.).
+    7.  The Server Action receives this JSON and returns it to the `IdePanel` component using the `useActionState` hook.
+    8.  The `IdePanel` component re-renders, displaying the test results in the "Test Results" tab or the final submission status in the "Submit Output" tab.
+
+### **4.2. AI Tutor Module**
+
+The AI Tutor provides learners with assistance without giving away the solution. It is implemented in the `src/components/ai-assistant.tsx` component.
+
+*   **Interface:** The component provides a form with a textarea for the user's current code, a read-only field for the problem description, and a dropdown for the user's self-assessed skill level (Beginner, Intermediate, Advanced).
+*   **Workflow:**
+    1.  When the user submits the form, the `getAIAssistance` Server Action (`src/app/actions.ts`) is called.
+    2.  This action validates the input and invokes the `aiCodeAssistant` Genkit flow (`src/ai/flows/ai-code-assistant.ts`).
+    3.  The flow constructs a prompt for the Gemini model, instructing it to act as a helpful tutor. The prompt includes the problem description, the user's code, and their skill level.
+    4.  The AI model generates a response containing two fields: a `hint` to guide the user and a conceptual `explanation` of the underlying principles.
+    5.  The results are returned to the `AiAssistant` component via the `useActionState` hook and displayed in dedicated alert boxes.
+
+### **4.3. Gamification Modules**
+
+CodeCraft Quest includes several "mini-games" designed to target specific programming skills in an engaging format.
+
+*   **Monster Battle (`/m/battle`):** A turn-based RPG where users answer multiple-choice or short-answer questions to "attack" a monster. Answering correctly defeats the monster, while answering incorrectly results in the player taking damage. This module uses a simple state machine managed with React's `useState` and `useActionState` hooks to track player/monster HP and game state.
+*   **Debug Hunt (`/m/debug-hunt`):** A timed challenge where users are presented with a block of buggy code. They must find and fix the error within a time limit. The game logic compares the user's final code with the correct solution.
+*   **Code Jigsaw (`/m/code-jigsaw`):** This game presents a functional piece of code with its lines scrambled. Users must drag and drop the lines into the correct order. This module is implemented using the `@dnd-kit/core` and `@dnd-kit/sortable` libraries for the drag-and-drop functionality.
+*   **Other Games:** The suite also includes **Code Typer** (for speed and accuracy), **Output Prediction** (for code comprehension), and **Concept Match** (for reinforcing theoretical knowledge). Each game follows a similar pattern of presenting a challenge and evaluating a user's input.
+
+### **4.4. User Profile & Progress Tracking**
+
+To provide a sense of accomplishment and progression, the application tracks user data on the client-side.
+
+*   **Storage:** The browser's `localStorage` is used as a simple key-value store. This avoids the need for a backend database and user authentication in the current project scope.
+*   **Data Structure:** When a user successfully solves a challenge in the IDE, an object containing the `challenge.id`, `challenge.title`, and a `solvedAt` timestamp is added to a JSON array stored under the `solvedChallengesInfo` key in `localStorage`.
+*   **Profile Page (`/profile`):** This page reads the `solvedChallengesInfo` array from `localStorage` on the client side (`useEffect` hook). It then processes this data to calculate and display statistics like:
+    *   Total challenges solved.
+    *   XP and Level (calculated based on the number of solved challenges).
+    *   A breakdown of solved problems by domain (DSA, Web, AI).
+    *   A list of the 5 most recently solved problems.
+*   **Dungeon Page (`/dungeon`):** This page also reads from `localStorage` to determine which challenges have been solved, dynamically unlocking new floors based on the user's progress.
