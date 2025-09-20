@@ -13,6 +13,10 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Loader2, LogIn, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { signInWithEmail, type AuthState } from '@/app/actions';
+import { useAuth } from '@/hooks/use-auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { clientApp } from '@/lib/firebase/client';
+
 
 const initialState: AuthState = {
   message: '',
@@ -33,6 +37,14 @@ export default function LoginPage() {
   const [state, formAction] = useActionState(signInWithEmail, initialState);
   const router = useRouter();
   const { toast } = useToast();
+  const { user } = useAuth();
+  
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, [user, router]);
+
 
   useEffect(() => {
     if (state?.message && state.message !== 'Success') {
@@ -44,17 +56,38 @@ export default function LoginPage() {
     }
   }, [state, toast]);
   
-  useEffect(() => {
-    if (state?.message === 'Success') {
-      router.push('/');
+  const handleClientSignIn = async (formData: FormData) => {
+    const validatedFields = await new Promise<AuthState>((resolve) => {
+        formAction(formData);
+        const interval = setInterval(() => {
+            if(state.message){
+                clearInterval(interval);
+                resolve(state);
+            }
+        }, 100);
+    });
+    
+    if (state.message === 'Success') {
+      try {
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
+        await signInWithEmailAndPassword(getAuth(clientApp), email, password);
+        // The onAuthStateChanged listener in useAuth will handle the redirect
+      } catch (error: any) {
+        toast({
+          variant: 'destructive',
+          title: 'Sign In Failed',
+          description: 'Invalid email or password.',
+        });
+      }
     }
-  }, [state, router]);
+  };
 
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="w-full max-w-sm">
-        <form action={formAction}>
+        <form action={handleClientSignIn}>
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold font-headline">Welcome Back!</CardTitle>
             <CardDescription>Sign in to your CodeCraft Quest account.</CardDescription>
