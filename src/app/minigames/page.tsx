@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Bot, Code, Puzzle, Swords, Bug, BrainCircuit, BookCopy } from 'lucide-react';
+import { ArrowRight, Bot, Code, Puzzle, Swords, Bug, BrainCircuit, BookCopy, Zap, Rocket, TowerControl } from 'lucide-react';
 import Image from 'next/image';
 
 const games = [
@@ -48,6 +48,27 @@ const games = [
         icon: <BookCopy className="w-12 h-12 text-primary" />,
         href: "/m/concept-match",
         status: "Live"
+    },
+    {
+        title: "Code Rush",
+        description: "Type missing keywords and functions in code snippets against the clock. A test of syntax memory and speed.",
+        icon: <Zap className="w-12 h-12 text-primary" />,
+        href: "#",
+        status: "Coming Soon"
+    },
+    {
+        title: "Code Invaders",
+        description: "An arcade shooter where you blast falling bugs by answering multiple-choice coding questions.",
+        icon: <Rocket className="w-12 h-12 text-primary" />,
+        href: "#",
+        status: "Coming Soon"
+    },
+    {
+        title: "Debug Tower",
+        description: "Stabilize a wobbly tower of code by dragging and dropping the correct fixes into buggy blocks.",
+        icon: <TowerControl className="w-12 h-12 text-primary" />,
+        href: "#",
+        status: "Coming Soon"
     }
 ];
 
