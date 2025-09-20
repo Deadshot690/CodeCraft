@@ -233,7 +233,23 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                                if (e.key === "Tab") {
                                   e.preventDefault();
                                   document.execCommand('insertText', false, '  ');
-                              }
+                               } else if (e.key === 'Enter') {
+                                    const editor = e.target as HTMLTextAreaElement;
+                                    const cursorPosition = editor.selectionStart;
+                                    const textBeforeCursor = editor.value.substring(0, cursorPosition);
+                                    const currentLine = textBeforeCursor.split('\n').pop() ?? '';
+                                    if (currentLine.trim().endsWith(':')) {
+                                        e.preventDefault();
+                                        const indentation = currentLine.match(/^\s*/)?.[0] ?? '';
+                                        const newCode = `${editor.value.substring(0, cursorPosition)}\n${indentation}  ${editor.value.substring(cursorPosition)}`;
+                                        setCode(newCode);
+                                        // This is a trick to move the cursor after the inserted text
+                                        setTimeout(() => {
+                                            editor.selectionStart = cursorPosition + indentation.length + 3;
+                                            editor.selectionEnd = cursorPosition + indentation.length + 3;
+                                        }, 0);
+                                    }
+                               }
                           }}
                       />
                     )}
@@ -264,3 +280,5 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
         </div>
     )
 }
+
+    
