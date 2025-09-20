@@ -68,9 +68,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       router.push('/login');
     }
     
-    if (user && isAuthPage) {
-      router.push('/');
-    }
+    // This part is causing the issue on redirect after login/signup
+    // if (user && isAuthPage) {
+    //   router.push('/');
+    // }
   }, [user, loading, pathname, router]);
 
   if (loading) {
@@ -84,6 +85,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   // Do not render layout for auth pages, just the page content.
   if (!user && (pathname === '/login' || pathname === '/signup')) {
       return <>{children}</>;
+  }
+  
+  if (!user) {
+    return (
+        <div className="flex items-center justify-center h-screen">
+            <Loader2 className="w-16 h-16 animate-spin" />
+        </div>
+    );
   }
 
 
