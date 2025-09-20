@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import { useFormStatus } from 'react-dom';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -47,9 +47,11 @@ export default function LoginPage() {
   const [state, formAction] = useActionState(signInWithEmail, initialState);
   const router = useRouter();
 
-  if (state?.message === 'Success') {
-    router.push('/');
-  }
+  useEffect(() => {
+    if (state?.message === 'Success') {
+      router.push('/');
+    }
+  }, [state, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
