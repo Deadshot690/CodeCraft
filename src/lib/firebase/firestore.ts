@@ -6,12 +6,14 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
+  setDoc,
 } from 'firebase/firestore';
 import { getFirestoreDb } from './client';
 
 export interface UserProfile {
   uid: string;
   email?: string | null;
+  username?: string | null;
   displayName?: string | null;
   photoURL?: string | null;
   createdAt: string;
@@ -22,6 +24,14 @@ export interface UserProfile {
   lastLogin: string;
   solvedChallenges: string[];
 }
+
+export const createUserProfile = async (
+  uid: string,
+  data: Omit<UserProfile, 'uid'>
+): Promise<void> => {
+  const db = getFirestoreDb();
+  await setDoc(doc(db, 'users', uid), { uid, ...data });
+};
 
 export const getUserProfile = async (
   uid: string

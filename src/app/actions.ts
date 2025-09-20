@@ -11,8 +11,11 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from 'firebase/auth';
 import { revalidatePath } from 'next/cache';
+import { createUserProfile } from '@/lib/firebase/firestore';
+
 
 // This is not ideal, but it's a quick fix to avoid the "use server" export error.
 // A better long-term solution would be a separate, non-"use server" file for admin/server initializations.
@@ -193,7 +196,8 @@ export async function evaluateAnswerAction(
 }
 
 
-const AuthSchema = z.object({
+const SignUpSchema = z.object({
+  username: z.string().min(3, { message: 'Username must be at least 3 characters.' }),
   email: z.string().email(),
   password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
 });
@@ -206,19 +210,38 @@ export async function signUpWithEmail(
   prevState: AuthState,
   formData: FormData
 ): Promise<AuthState> {
-  const validatedFields = AuthSchema.safeParse(
+  const validatedFields = SignUpSchema.safeParse(
     Object.fromEntries(formData.entries())
   );
 
   if (!validatedFields.success) {
     return {
-      message: validatedFields.error.flatten().fieldErrors.password?.[0] || 'Invalid fields.',
+      message: validatedFields.error.flatten().fieldErrors.password?.[0] || 
+               validatedFields.error.flatten().fieldErrors.username?.[0] || 
+               'Invalid fields.',
     };
   }
-  const { email, password } = validatedFields.data;
+  const { email, password, username } = validatedFields.data;
 
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    
+    await updateProfile(user, { displayName: username });
+
+    await createUserProfile(user.uid, {
+        email: user.email,
+        username: username,
+        displayName: username,
+        createdAt: new Date().toISOString(),
+        level: 1,
+        xp: 0,
+        gold: 0,
+        dailyStreak: 0,
+        lastLogin: new Date().toISOString(),
+        solvedChallenges: [],
+    });
+
     revalidatePath('/');
     return { message: 'Success' };
   } catch (e: any) {
@@ -226,11 +249,16 @@ export async function signUpWithEmail(
   }
 }
 
+const SignInSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1, { message: 'Password cannot be empty.' }),
+});
+
 export async function signInWithEmail(
   prevState: AuthState,
   formData: FormData
 ): Promise<AuthState> {
-  const validatedFields = AuthSchema.safeParse(
+  const validatedFields = SignInSchema.safeParse(
     Object.fromEntries(formData.entries())
   );
 

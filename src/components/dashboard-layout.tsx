@@ -37,6 +37,7 @@ import {
   LogIn,
   LogOut,
   User as UserIcon,
+  Loader2,
 } from 'lucide-react';
 import { ThemeToggle } from './theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -46,14 +47,34 @@ import { signOut } from '@/app/actions';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setLoading(false);
+      
+      const isAuthPage = pathname === '/login' || pathname === '/signup';
+
+      if (!currentUser && !isAuthPage) {
+        router.push('/login');
+      }
+      if (currentUser && isAuthPage) {
+        router.push('/');
+      }
     });
     return () => unsubscribe();
-  }, []);
+  }, [pathname, router]);
+
+  if (loading) {
+    return (
+        <div className="flex items-center justify-center h-screen">
+            <Loader2 className="w-16 h-16 animate-spin" />
+        </div>
+    );
+  }
 
   return (
     <SidebarProvider>
@@ -155,46 +176,46 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
-            {user && (
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === '/profile'}>
-                  <Link href="/profile">
-                    <UserIcon />
-                    Profile
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            )}
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
           <SidebarMenu>
-             {user ? (
-                <form action={signOut} className="w-full">
-                    <SidebarMenuItem>
-                        <SidebarMenuButton className="w-full">
-                                <LogOut />
-                                Sign Out
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                 </form>
-            ) : (
-                <SidebarMenuItem>
-                    <SidebarMenuButton asChild isActive={pathname === '/login'}>
-                        <Link href="/login">
-                            <LogIn />
-                            Sign In
-                        </Link>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-            )}
             <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Link href="#">
+              <SidebarMenuButton>
                   <Settings />
                   Settings
-                </Link>
               </SidebarMenuButton>
+              <SidebarMenuSub>
+                  {user && (
+                     <SidebarMenuItem>
+                        <SidebarMenuSubButton asChild isActive={pathname.startsWith('/profile')}>
+                        <Link href="/profile">
+                            <UserIcon />
+                            <span>Profile</span>
+                        </Link>
+                        </SidebarMenuSubButton>
+                    </SidebarMenuItem>
+                  )}
+                  {user ? (
+                    <SidebarMenuItem>
+                        <form action={signOut} className="w-full">
+                            <SidebarMenuSubButton className="w-full">
+                                    <LogOut />
+                                    <span>Sign Out</span>
+                            </SidebarMenuSubButton>
+                        </form>
+                    </SidebarMenuItem>
+                ) : (
+                    <SidebarMenuItem>
+                        <SidebarMenuSubButton asChild isActive={pathname === '/login'}>
+                            <Link href="/login">
+                                <LogIn />
+                                <span>Sign In</span>
+                            </Link>
+                        </SidebarMenuSubButton>
+                    </SidebarMenuItem>
+                )}
+              </SidebarMenuSub>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>

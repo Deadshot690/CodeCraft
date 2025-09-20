@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { challenges, Challenge } from '@/lib/challenges';
 import { formatDistanceToNow } from 'date-fns';
 import { auth } from '@/lib/firebase/client';
+import { getUserProfile, UserProfile } from '@/lib/firebase/firestore';
 
 interface SolvedChallengeInfo {
   id: string;
@@ -33,6 +34,7 @@ const achievements = [
 export default function ProfilePage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     name: "CodeCrafter",
@@ -45,11 +47,15 @@ export default function ProfilePage() {
   const [recentSolutions, setRecentSolutions] = useState<SolvedChallengeInfo[]>([]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        // In a real app, you would fetch profile data from Firestore here
-        // For now, we'll continue using localStorage for solved challenges
+        
+        const profile = await getUserProfile(currentUser.uid);
+        setUserProfile(profile);
+
+        // For now, we'll continue using localStorage for solved challenges for simplicity
+        // In a real app, this would come from the userProfile (Firestore)
         const storedSolutions: SolvedChallengeInfo[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
         
         const sortedSolutions = storedSolutions.sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
@@ -69,7 +75,7 @@ export default function ProfilePage() {
         const level = Math.floor(xp / 1000) + 1;
 
         setStats({
-            name: currentUser.email?.split('@')[0] || 'CodeCrafter',
+            name: profile?.username || currentUser.email?.split('@')[0] || 'CodeCrafter',
             challengesSolved,
             domains,
             xp,

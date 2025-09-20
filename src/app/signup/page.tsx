@@ -73,6 +73,10 @@ export default function SignupPage() {
         <CardContent>
           <form action={formAction} className="grid gap-4">
             <div className="grid gap-2">
+                <Label htmlFor="username">Username</Label>
+                <Input id="username" name="username" placeholder="Your username" required />
+            </div>
+            <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
