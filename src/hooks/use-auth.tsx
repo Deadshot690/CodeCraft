@@ -5,6 +5,7 @@ import { useState, useEffect, createContext, useContext, ReactNode } from 'react
 import { getAuth, onAuthStateChanged, User, signOut as firebaseSignOut } from 'firebase/auth';
 import { clientApp } from '@/lib/firebase/client';
 import { Loader2 } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 
 const auth = getAuth(clientApp);
 
@@ -19,6 +20,8 @@ const AuthContext = createContext<AuthContextType>({ user: null, loading: true, 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -29,9 +32,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (!loading && !user && pathname !== '/login' && pathname !== '/signup') {
+      router.push('/login');
+    }
+  }, [user, loading, pathname, router]);
+
   const signOut = async () => {
     await firebaseSignOut(auth);
-    // User will be set to null by onAuthStateChanged
+    // After signing out, redirect to login
+    router.push('/login');
   };
 
   const value = { user, loading, signOut };

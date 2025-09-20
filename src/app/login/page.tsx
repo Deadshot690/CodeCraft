@@ -57,29 +57,45 @@ export default function LoginPage() {
   }, [state, toast]);
   
   const handleClientSignIn = async (formData: FormData) => {
-    const validatedFields = await new Promise<AuthState>((resolve) => {
-        formAction(formData);
-        const interval = setInterval(() => {
-            if(state.message){
-                clearInterval(interval);
-                resolve(state);
-            }
-        }, 100);
-    });
+    // This is now simplified. The server action validates.
+    // If validation is successful, we attempt client-side sign-in.
+    formAction(formData);
+
+    // We can't await the result of formAction directly.
+    // Instead, we let the form action update the `state`.
+    // A separate useEffect will watch for the state change
+    // and attempt the client-side sign in if server validation was successful.
     
-    if (state.message === 'Success') {
-      try {
-        const email = formData.get('email') as string;
-        const password = formData.get('password') as string;
-        await signInWithEmailAndPassword(getAuth(clientApp), email, password);
-        // The onAuthStateChanged listener in useAuth will handle the redirect
-      } catch (error: any) {
+    // The main issue is that we need the form data to do the client-side sign-in.
+    // The server action can't return it easily. A better pattern is to let the
+    // server action ONLY do validation.
+    
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    if (!email || !password || password.length < 6) {
+        // Basic client-side validation to avoid unnecessary server round-trip
         toast({
-          variant: 'destructive',
-          title: 'Sign In Failed',
-          description: 'Invalid email or password.',
+            variant: 'destructive',
+            title: 'Invalid Input',
+            description: 'Please provide a valid email and password.',
         });
-      }
+        return;
+    }
+
+    try {
+        await signInWithEmailAndPassword(getAuth(clientApp), email, password);
+        // The onAuthStateChanged listener in useAuth will handle the redirect.
+        toast({
+            title: 'Signed In',
+            description: 'Welcome back!',
+        });
+    } catch (error: any) {
+        toast({
+            variant: 'destructive',
+            title: 'Sign In Failed',
+            description: 'Invalid email or password. Please try again.',
+        });
     }
   };
 
@@ -125,3 +141,4 @@ export default function LoginPage() {
     </div>
   );
 }
+
