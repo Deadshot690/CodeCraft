@@ -62,10 +62,30 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     snippet: 'if (a ___ b)',
     answer: '===',
   },
+  {
+    srNo: 6,
+    id: 'cr-js-easy-06',
+    title: 'Array Length',
+    description: 'Get the number of items in an array.',
+    language: 'javascript',
+    difficulty: 'Easy',
+    snippet: 'const len = myArray.___',
+    answer: 'length',
+  },
+  {
+    srNo: 7,
+    id: 'cr-js-easy-07',
+    title: 'Else Clause',
+    description: 'Provide the alternative for an if statement.',
+    language: 'javascript',
+    difficulty: 'Easy',
+    snippet: 'if (condition) { ... } ___ { ... }',
+    answer: 'else',
+  },
 
   // JavaScript Medium
   {
-    srNo: 6,
+    srNo: 8,
     id: 'cr-js-medium-01',
     title: 'For...of Loop',
     description: 'Iterate over an array.',
@@ -75,7 +95,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'of',
   },
   {
-    srNo: 7,
+    srNo: 9,
     id: 'cr-js-medium-02',
     title: 'Arrow Function',
     description: 'Define a simple arrow function.',
@@ -84,8 +104,8 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     snippet: 'const add = (a, b) ___ a + b;',
     answer: '=>',
   },
-    {
-    srNo: 8,
+  {
+    srNo: 10,
     id: 'cr-js-medium-03',
     title: 'Array Filter',
     description: 'Filter an array for even numbers.',
@@ -95,7 +115,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: '===',
   },
   {
-    srNo: 9,
+    srNo: 11,
     id: 'cr-js-medium-04',
     title: 'Ternary Operator',
     description: 'Use a ternary operator for a simple condition.',
@@ -104,10 +124,20 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     snippet: 'const type = age >= 18 ___ "adult" : "minor";',
     answer: '?',
   },
+  {
+    srNo: 12,
+    id: 'cr-js-medium-05',
+    title: 'Array map',
+    description: 'Create a new array by doubling each element.',
+    language: 'javascript',
+    difficulty: 'Medium',
+    snippet: 'const doubled = numbers.___(n => n * 2);',
+    answer: 'map',
+  },
 
   // JavaScript Hard
   {
-    srNo: 10,
+    srNo: 13,
     id: 'cr-js-hard-01',
     title: 'Async/Await',
     description: 'Wait for a promise to resolve.',
@@ -117,7 +147,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'await',
   },
   {
-    srNo: 11,
+    srNo: 14,
     id: 'cr-js-hard-02',
     title: 'Array Reduce',
     description: 'Complete the reduce function to sum an array.',
@@ -127,7 +157,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: '0',
   },
   {
-    srNo: 12,
+    srNo: 15,
     id: 'cr-js-hard-03',
     title: 'Promise.all',
     description: 'Wait for multiple promises to resolve.',
@@ -136,10 +166,20 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     snippet: '___([promise1, promise2]);',
     answer: 'Promise.all',
   },
+  {
+    srNo: 16,
+    id: 'cr-js-hard-04',
+    title: 'Class Constructor',
+    description: 'Define the constructor method for a class.',
+    language: 'javascript',
+    difficulty: 'Hard',
+    snippet: 'class Player { ___(name) { this.name = name; } }',
+    answer: 'constructor',
+  },
 
   // Python Easy
   {
-    srNo: 13,
+    srNo: 17,
     id: 'cr-py-easy-01',
     title: 'Function Definition',
     description: 'Define a function in Python.',
@@ -149,7 +189,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'def',
   },
   {
-    srNo: 14,
+    srNo: 18,
     id: 'cr-py-easy-02',
     title: 'For Loop Range',
     description: 'Loop from 0 to 9.',
@@ -159,7 +199,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'range',
   },
   {
-    srNo: 15,
+    srNo: 19,
     id: 'cr-py-easy-03',
     title: 'Else Statement',
     description: 'Add the else block to an if statement.',
@@ -169,7 +209,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'else',
   },
   {
-    srNo: 16,
+    srNo: 20,
     id: 'cr-py-easy-04',
     title: 'Check for membership',
     description: 'Check if an item exists in a list.',
@@ -178,10 +218,20 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     snippet: 'if "apple" ___ my_list:',
     answer: 'in',
   },
+    {
+    srNo: 21,
+    id: 'cr-py-easy-05',
+    title: 'Get Length',
+    description: 'Get the length of a list.',
+    language: 'python',
+    difficulty: 'Easy',
+    snippet: '___(my_list)',
+    answer: 'len',
+  },
 
   // Python Medium
   {
-    srNo: 17,
+    srNo: 22,
     id: 'cr-py-medium-01',
     title: 'Import Module',
     description: 'Import the math module.',
@@ -191,7 +241,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'import',
   },
   {
-    srNo: 18,
+    srNo: 23,
     id: 'cr-py-medium-02',
     title: 'List Append',
     description: 'Add an item to a list.',
@@ -201,7 +251,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'append',
   },
   {
-    srNo: 19,
+    srNo: 24,
     id: 'cr-py-medium-03',
     title: 'Lambda Function',
     description: 'Create a simple lambda function.',
@@ -211,7 +261,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'lambda',
   },
   {
-    srNo: 20,
+    srNo: 25,
     id: 'cr-py-medium-04',
     title: 'Class Constructor',
     description: 'Define the constructor for a Python class.',
@@ -220,10 +270,20 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     snippet: 'def ___ (self):\n  pass',
     answer: '__init__',
   },
+    {
+    srNo: 26,
+    id: 'cr-py-medium-05',
+    title: 'Elif Clause',
+    description: 'Use an "else if" condition.',
+    language: 'python',
+    difficulty: 'Medium',
+    snippet: 'if x > 10:\n  ...\n___ x > 5:\n  ...',
+    answer: 'elif',
+  },
 
   // Python Hard
   {
-    srNo: 21,
+    srNo: 27,
     id: 'cr-py-hard-01',
     title: 'List Comprehension',
     description: 'Complete the list comprehension.',
@@ -233,7 +293,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'for',
   },
     {
-    srNo: 22,
+    srNo: 28,
     id: 'cr-py-hard-02',
     title: 'Decorator Syntax',
     description: 'Apply a decorator to a function.',
@@ -243,7 +303,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: '@',
   },
   {
-    srNo: 23,
+    srNo: 29,
     id: 'cr-py-hard-03',
     title: 'Context Manager',
     description: 'Open a file using a context manager.',
@@ -252,10 +312,20 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     snippet: '___ open("file.txt", "r") as f:',
     answer: 'with',
   },
+  {
+    srNo: 30,
+    id: 'cr-py-hard-04',
+    title: 'Generator Yield',
+    description: 'Yield a value from a generator function.',
+    language: 'python',
+    difficulty: 'Hard',
+    snippet: 'def my_gen():\n  ___ 1',
+    answer: 'yield',
+  },
     
   // Java Easy
   {
-    srNo: 24,
+    srNo: 31,
     id: 'cr-java-easy-01',
     title: 'Main Method',
     description: 'Define the main method entry point.',
@@ -265,7 +335,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'static',
   },
   {
-    srNo: 25,
+    srNo: 32,
     id: 'cr-java-easy-02',
     title: 'New Instance',
     description: 'Create a new object instance.',
@@ -275,7 +345,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'new',
   },
   {
-    srNo: 26,
+    srNo: 33,
     id: 'cr-java-easy-03',
     title: 'System Output',
     description: 'Print a line to the console.',
@@ -285,7 +355,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'println',
   },
   {
-    srNo: 27,
+    srNo: 34,
     id: 'cr-java-easy-04',
     title: 'For Loop',
     description: 'Complete the for loop syntax.',
@@ -294,10 +364,20 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     snippet: '___ (int i = 0; i < 5; i++)',
     answer: 'for',
   },
+  {
+    srNo: 35,
+    id: 'cr-java-easy-05',
+    title: 'Final Variable',
+    description: 'Declare a constant variable.',
+    language: 'java',
+    difficulty: 'Easy',
+    snippet: '___ int MY_NUM = 15;',
+    answer: 'final',
+  },
 
   // Java Medium
   {
-    srNo: 28,
+    srNo: 36,
     id: 'cr-java-medium-01',
     title: 'Import Statement',
     description: 'Import the ArrayList class.',
@@ -307,7 +387,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'import',
   },
   {
-    srNo: 29,
+    srNo: 37,
     id: 'cr-java-medium-02',
     title: 'Class Inheritance',
     description: 'Make a class inherit from another.',
@@ -317,7 +397,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'extends',
   },
   {
-    srNo: 30,
+    srNo: 38,
     id: 'cr-java-medium-03',
     title: 'Interface Implementation',
     description: 'Make a class implement an interface.',
@@ -326,10 +406,20 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     snippet: 'class Car ___ Drivable { }',
     answer: 'implements',
   },
+  {
+    srNo: 39,
+    id: 'cr-java-medium-04',
+    title: 'Public Access',
+    description: 'Specify a method as publicly accessible.',
+    language: 'java',
+    difficulty: 'Medium',
+    snippet: '___ void myMethod() {}',
+    answer: 'public',
+  },
 
   // Java Hard
   {
-    srNo: 31,
+    srNo: 40,
     id: 'cr-java-hard-01',
     title: 'Exception Handling',
     description: 'Catch an exception.',
@@ -339,7 +429,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'catch',
   },
   {
-    srNo: 32,
+    srNo: 41,
     id: 'cr-java-hard-02',
     title: 'Override Annotation',
     description: 'Mark a method as an override.',
@@ -349,7 +439,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: '@Override',
   },
   {
-    srNo: 33,
+    srNo: 42,
     id: 'cr-java-hard-03',
     title: 'Thread-safe method',
     description: 'Mark a method as thread-safe.',
@@ -358,10 +448,20 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     snippet: 'public ___ void myMethod() { ... }',
     answer: 'synchronized',
   },
+  {
+    srNo: 43,
+    id: 'cr-java-hard-04',
+    title: 'Generic Type',
+    description: 'Define a generic ArrayList.',
+    language: 'java',
+    difficulty: 'Hard',
+    snippet: 'ArrayList<___> list = new ArrayList<>();',
+    answer: 'String',
+  },
 
   // C++ Easy
   {
-    srNo: 34,
+    srNo: 44,
     id: 'cr-cpp-easy-01',
     title: 'Include Directive',
     description: 'Include the iostream library.',
@@ -371,7 +471,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: '#include',
   },
   {
-    srNo: 35,
+    srNo: 45,
     id: 'cr-cpp-easy-02',
     title: 'Standard Output',
     description: 'Print to the console.',
@@ -381,7 +481,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'cout',
   },
   {
-    srNo: 36,
+    srNo: 46,
     id: 'cr-cpp-easy-03',
     title: 'Using Namespace',
     description: 'Use the standard namespace.',
@@ -391,7 +491,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'using',
   },
   {
-    srNo: 37,
+    srNo: 47,
     id: 'cr-cpp-easy-04',
     title: 'Main function return',
     description: 'End the main function successfully.',
@@ -400,10 +500,20 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     snippet: '___ 0;',
     answer: 'return',
   },
+  {
+    srNo: 48,
+    id: 'cr-cpp-easy-05',
+    title: 'Vector Include',
+    description: 'Include the vector library.',
+    language: 'cpp',
+    difficulty: 'Easy',
+    snippet: '#include <___>',
+    answer: 'vector',
+  },
 
   // C++ Medium
   {
-    srNo: 38,
+    srNo: 49,
     id: 'cr-cpp-medium-01',
     title: 'Pointer Declaration',
     description: 'Declare a pointer to an integer.',
@@ -413,7 +523,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: '*',
   },
   {
-    srNo: 39,
+    srNo: 50,
     id: 'cr-cpp-medium-02',
     title: 'Dynamic Memory Allocation',
     description: 'Allocate an integer on the heap.',
@@ -423,7 +533,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'new',
   },
   {
-    srNo: 40,
+    srNo: 51,
     id: 'cr-cpp-medium-03',
     title: 'Vector push_back',
     description: 'Add an element to a vector.',
@@ -432,10 +542,20 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     snippet: 'my_vector.___ (10);',
     answer: 'push_back',
   },
+    {
+    srNo: 52,
+    id: 'cr-cpp-medium-04',
+    title: 'Class Inheritance',
+    description: 'Inherit from a base class.',
+    language: 'cpp',
+    difficulty: 'Medium',
+    snippet: 'class Derived : ___ Base {};',
+    answer: 'public',
+  },
   
   // C++ Hard
   {
-    srNo: 41,
+    srNo: 53,
     id: 'cr-cpp-hard-01',
     title: 'Virtual Function',
     description: 'Declare a virtual function for polymorphism.',
@@ -445,7 +565,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'virtual',
   },
   {
-    srNo: 42,
+    srNo: 54,
     id: 'cr-cpp-hard-02',
     title: 'Template Declaration',
     description: 'Declare a function template.',
@@ -455,7 +575,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     answer: 'template',
   },
   {
-    srNo: 43,
+    srNo: 55,
     id: 'cr-cpp-hard-03',
     title: 'Deallocate Array',
     description: 'Deallocate an array from the heap.',
@@ -463,6 +583,16 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     difficulty: 'Hard',
     snippet: 'delete___ arr;',
     answer: '[]',
+  },
+  {
+    srNo: 56,
+    id: 'cr-cpp-hard-04',
+    title: 'Header Guard',
+    description: 'Start a header guard to prevent multiple inclusions.',
+    language: 'cpp',
+    difficulty: 'Hard',
+    snippet: '___ MY_HEADER_H',
+    answer: '#ifndef',
   }
 ];
 
