@@ -59,21 +59,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (loading) return; 
-
-    const isAuthPage = pathname === '/login' || pathname === '/signup';
-
-    if (!user && !isAuthPage) {
-      router.push('/login');
-    }
-    
-    // This part is causing the issue on redirect after login/signup
-    // if (user && isAuthPage) {
-    //   router.push('/');
-    // }
-  }, [user, loading, pathname, router]);
-
+  // While Firebase is checking auth state, show a loader
   if (loading) {
     return (
         <div className="flex items-center justify-center h-screen">
@@ -82,17 +68,30 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // Do not render layout for auth pages, just the page content.
-  if (!user && (pathname === '/login' || pathname === '/signup')) {
-      return <>{children}</>;
-  }
-  
-  if (!user) {
-    return (
+  // If there's no user, and we're not on an auth page, redirect to login
+  if (!user && pathname !== '/login' && pathname !== '/signup') {
+      router.push('/login');
+      // Show loader while redirecting
+       return (
         <div className="flex items-center justify-center h-screen">
             <Loader2 className="w-16 h-16 animate-spin" />
         </div>
     );
+  }
+  
+  // If there IS a user but they are trying to access login/signup, redirect to home
+  if (user && (pathname === '/login' || pathname === '/signup')) {
+      router.push('/');
+       return (
+        <div className="flex items-center justify-center h-screen">
+            <Loader2 className="w-16 h-16 animate-spin" />
+        </div>
+    );
+  }
+
+  // If user is not logged in and on an auth page, render the page without the layout
+  if (!user) {
+    return <>{children}</>;
   }
 
 
