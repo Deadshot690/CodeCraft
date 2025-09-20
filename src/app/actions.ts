@@ -6,12 +6,28 @@ import { runCode } from '@/ai/flows/run-code-flow';
 import {z} from 'zod';
 import { getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
+import { getApp, getApps, initializeApp, type FirebaseApp } from 'firebase/app';
 import {
-  auth,
+  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-} from '@/lib/firebase/auth';
+} from 'firebase/auth';
 import { revalidatePath } from 'next/cache';
+
+// This is not ideal, but it's a quick fix to avoid the "use server" export error.
+// A better long-term solution would be a separate, non-"use server" file for admin/server initializations.
+const firebaseConfig = {
+  projectId: 'codecraft-quest-2rdg9',
+  appId: '1:335794390716:web:7dd32e52eebcd70ac9f2b9',
+  storageBucket: 'codecraft-quest-2rdg9.firebasestorage.app',
+  apiKey: 'AIzaSyBteDYnffWafda7KRL3MeS8cAIC8Zapkhk',
+  authDomain: 'codecraft-quest-2rdg9.firebaseapp.com',
+  messagingSenderId: '335794390716',
+};
+
+const app: FirebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
 
 const assistantSchema = z.object({
   code: z.string().min(10, { message: "Please provide a code snippet of at least 10 characters." }),
