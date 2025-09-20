@@ -136,12 +136,13 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
 
     useEffect(() => {
         setIsClient(true);
+        // PrismJS language components need to be loaded in order of dependency.
+        // `clike` is a dependency for many languages like C++, Java, C#.
         import('prismjs/components/prism-clike');
         import('prismjs/components/prism-javascript');
         import('prismjs/components/prism-python');
         import('prismjs/components/prism-java');
         import('prismjs/components/prism-cpp');
-        import('prismjs/themes/prism.css');
     }, []);
 
     useEffect(() => {

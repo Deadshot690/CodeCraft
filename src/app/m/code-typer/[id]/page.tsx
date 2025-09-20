@@ -43,7 +43,6 @@ export default function CodeTyperGamePage() {
         import('prismjs/components/prism-python');
         import('prismjs/components/prism-java');
         import('prismjs/components/prism-cpp');
-        import('prismjs/themes/prism.css');
     }, []);
 
     useEffect(() => {
