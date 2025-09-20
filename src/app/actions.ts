@@ -6,7 +6,81 @@ import { runCode } from '@/ai/flows/run-code-flow';
 import {z} from 'zod';
 import { getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
+import { getAuth } from 'firebase-admin/auth';
+import { serverApp } from '@/lib/firebase/server';
 
+
+// Auth Actions
+const authSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(6, { message: "Password must be at least 6 characters long." }),
+    username: z.string().optional(),
+});
+
+export type AuthState = {
+  formErrors?: {
+    email?: string[];
+    password?: string[];
+    username?: string[];
+  };
+  message?: string;
+};
+
+export async function signUpWithEmail(
+  prevState: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  const validatedFields = authSchema.safeParse(Object.fromEntries(formData.entries()));
+
+  if (!validatedFields.success) {
+    return {
+      formErrors: validatedFields.error.flatten().fieldErrors,
+      message: 'There was an error with your submission.',
+    };
+  }
+
+  const { email, password, username } = validatedFields.data;
+
+  try {
+    await getAuth(serverApp).createUser({
+      email,
+      password,
+      displayName: username,
+    });
+    // This is a server action. The client will handle the actual login state.
+    // We just return success.
+    return { message: 'Success' };
+  } catch (error: any) {
+    if (error.code === 'auth/email-already-exists') {
+        return { message: 'This email is already in use.' };
+    }
+    console.error('Sign Up Error:', error);
+    return { message: 'An unexpected error occurred. Please try again.' };
+  }
+}
+
+export async function signInWithEmail(
+  prevState: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+    // Note: This action doesn't actually sign the user in on the server.
+    // The client-side Firebase SDK handles the session.
+    // This action's primary purpose is to validate the form data via server-side logic
+    // before the client attempts the sign-in.
+    const validatedFields = authSchema.safeParse(Object.fromEntries(formData.entries()));
+
+    if (!validatedFields.success) {
+        return {
+            formErrors: validatedFields.error.flatten().fieldErrors,
+            message: 'Invalid credentials.',
+        };
+    }
+
+    return { message: 'Success' };
+}
+
+
+// AI Assistant Action
 const assistantSchema = z.object({
   code: z.string().min(10, { message: "Please provide a code snippet of at least 10 characters." }),
   problemDescription: z.string().min(20, { message: "Problem description should be at least 20 characters long." }),
@@ -53,12 +127,12 @@ export async function getAIAssistance(
   }
 }
 
-// Extend the schema for server-side validation to include challengeId for fetching the reference solution
+// Code Execution Actions
 const RunCodeActionSchema = z.object({
   code: z.string(),
   language: z.string(),
   challengeTitle: z.string(),
-  challengeId: z.string(), // Added to fetch the challenge details
+  challengeId: z.string(),
   testCases: z.string(),
 });
 
@@ -67,7 +141,6 @@ type RunCodeState = {
     message?: string;
     results?: RunCodeOutput['results'];
 };
-
 
 async function handleCodeExecution(formData: FormData): Promise<RunCodeState> {
     const validatedFields = RunCodeActionSchema.safeParse({
@@ -104,14 +177,12 @@ async function handleCodeExecution(formData: FormData): Promise<RunCodeState> {
     }
 }
 
-
 export async function runTestAction(
     prevState: RunCodeState,
     formData: FormData
 ): Promise<RunCodeState> {
     return handleCodeExecution(formData);
 }
-
 
 export async function submitAction(
     prevState: RunCodeState,
@@ -153,8 +224,6 @@ export async function evaluateAnswerAction(
     }
 
     const { challengeId, answer } = validatedFields.data;
-    // In a real app, you'd fetch this from a DB. For now, we filter the imported array.
-    // This is not ideal for performance if the array is large.
     const { challenges } = await import('@/lib/battle-challenges');
     const challenge = challenges.find(c => c.id === challengeId);
 
