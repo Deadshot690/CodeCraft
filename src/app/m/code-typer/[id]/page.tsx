@@ -201,15 +201,17 @@ export default function CodeTyperGamePage() {
                             </CardContent>
                         </Card>
                          <div className="relative font-code text-lg">
-                            <Editor
-                                ref={editorRef}
-                                value={typedCode}
-                                onValueChange={handleInputChange}
-                                highlight={highlight}
-                                padding={16}
-                                className="bg-background border rounded-md min-h-[200px]"
-                                autoFocus
-                            />
+                            {isClient && (
+                              <Editor
+                                  ref={editorRef}
+                                  value={typedCode}
+                                  onValueChange={handleInputChange}
+                                  highlight={highlight}
+                                  padding={16}
+                                  className="bg-background border rounded-md min-h-[200px]"
+                                  autoFocus
+                              />
+                            )}
                          </div>
                         <div className="grid grid-cols-2 gap-4 text-center">
                             <Card className="p-4 flex items-center justify-center gap-4">

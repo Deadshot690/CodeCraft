@@ -220,20 +220,22 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
 
             <div className="flex-grow flex flex-col min-h-0">
                 <div className="flex-grow relative h-full w-full bg-background font-code text-base">
-                    <Editor
-                        value={code}
-                        onValueChange={setCode}
-                        highlight={highlight}
-                        padding={16}
-                        className="h-full w-full rounded-none border-0 resize-none absolute inset-0"
-                        textareaId="code-editor"
-                        onKeyDown={e => {
-                             if (e.key === "Tab") {
-                                e.preventDefault();
-                                document.execCommand('insertText', false, '  ');
-                            }
-                        }}
-                    />
+                    {isClient && (
+                      <Editor
+                          value={code}
+                          onValueChange={setCode}
+                          highlight={highlight}
+                          padding={16}
+                          className="h-full w-full rounded-none border-0 resize-none absolute inset-0"
+                          textareaId="code-editor"
+                          onKeyDown={e => {
+                               if (e.key === "Tab") {
+                                  e.preventDefault();
+                                  document.execCommand('insertText', false, '  ');
+                              }
+                          }}
+                      />
+                    )}
                 </div>
                  <Tabs defaultValue="test-results" className="flex-shrink-0 border-t">
                     <div className="p-2">

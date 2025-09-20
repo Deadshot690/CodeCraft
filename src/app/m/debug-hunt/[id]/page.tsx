@@ -164,15 +164,17 @@ export default function DebugHuntGamePage() {
                              <CardContent className="flex-grow flex flex-col">
                                 <Label htmlFor="code-editor" className="mb-2">Your Code (find and fix the bug):</Label>
                                  <div className="flex-grow relative h-full w-full bg-background font-code text-base border rounded-md">
-                                     <Editor
-                                        value={userCode}
-                                        onValueChange={setUserCode}
-                                        highlight={highlight}
-                                        padding={10}
-                                        className="h-full w-full absolute inset-0"
-                                        textareaId="code-editor"
-                                        disabled={!isGameActive}
-                                    />
+                                     {isClient && (
+                                       <Editor
+                                          value={userCode}
+                                          onValueChange={setUserCode}
+                                          highlight={highlight}
+                                          padding={10}
+                                          className="h-full w-full absolute inset-0"
+                                          textareaId="code-editor"
+                                          disabled={!isGameActive}
+                                      />
+                                     )}
                                  </div>
                              </CardContent>
                         </Card>
