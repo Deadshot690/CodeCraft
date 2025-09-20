@@ -14,12 +14,6 @@ import { Label } from '@/components/ui/label';
 import { notFound, useParams, useRouter } from 'next/navigation';
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-python';
-import 'prismjs/components/prism-java';
-import 'prismjs/components/prism-cpp';
-import 'prismjs/themes/prism.css';
 
 const TIME_LIMIT = 60; // 60 seconds
 
@@ -32,9 +26,20 @@ export default function DebugHuntGamePage() {
   const [isGameActive, setIsGameActive] = useState(true);
   const [isGameOver, setIsGameOver] = useState(false);
   const [result, setResult] = useState<'correct' | 'incorrect' | 'timeup' | null>(null);
+  const [isClient, setIsClient] = useState(false);
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
+
+    useEffect(() => {
+        setIsClient(true);
+        import('prismjs/components/prism-clike');
+        import('prismjs/components/prism-javascript');
+        import('prismjs/components/prism-python');
+        import('prismjs/components/prism-java');
+        import('prismjs/components/prism-cpp');
+        import('prismjs/themes/prism.css');
+    }, []);
 
   useEffect(() => {
     if (params.id) {
@@ -124,6 +129,9 @@ export default function DebugHuntGamePage() {
     }
 
   const highlight = (code: string) => {
+    if (!isClient || !challenge || !Prism.languages[challenge.language]) {
+        return code;
+    }
     const lang = challenge.language;
     if (Prism.languages[lang]) {
         return Prism.highlight(code, Prism.languages[lang], lang);
@@ -206,7 +214,7 @@ export default function DebugHuntGamePage() {
                                                 <AlertDescription>The correct code was:</AlertDescription>
                                                  <pre className="mt-2 bg-background p-2 rounded-md font-code text-xs overflow-x-auto">
                                                     <code>{challenge.fixedCode}</code>
-                                                </pre>
+                                                 </pre>
                                             </Alert>
                                         )}
                                         {nextChallengeId ? (

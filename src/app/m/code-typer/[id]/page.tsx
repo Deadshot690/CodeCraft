@@ -12,12 +12,6 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, RefreshCw, BarChart, Timer, Target, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-python';
-import 'prismjs/components/prism-java';
-import 'prismjs/components/prism-cpp';
-import 'prismjs/themes/prism.css';
 
 
 const languageDisplayMap: { [key: string]: string } = {
@@ -37,9 +31,20 @@ export default function CodeTyperGamePage() {
     const [startTime, setStartTime] = useState<number | null>(null);
     const [errors, setErrors] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
+    const [isClient, setIsClient] = useState(false);
     
     const editorRef = useRef<any>(null);
     const isIncorrect = useRef(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        import('prismjs/components/prism-clike');
+        import('prismjs/components/prism-javascript');
+        import('prismjs/components/prism-python');
+        import('prismjs/components/prism-java');
+        import('prismjs/components/prism-cpp');
+        import('prismjs/themes/prism.css');
+    }, []);
 
     useEffect(() => {
         const foundChallenge = getTyperChallengeById(params.id);
@@ -118,6 +123,9 @@ export default function CodeTyperGamePage() {
     const accuracy = Math.max(0, Math.round(((challenge.snippet.length - errors) / challenge.snippet.length) * 100));
     
     const highlight = (code: string) => {
+        if (!isClient || !challenge || !Prism.languages[challenge.language]) {
+            return code;
+        }
         const lang = challenge.language;
         if (Prism.languages[lang]) {
             return Prism.highlight(code, Prism.languages[lang], lang);

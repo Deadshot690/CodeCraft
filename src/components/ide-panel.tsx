@@ -14,12 +14,6 @@ import { ScrollArea } from "./ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-python';
-import 'prismjs/components/prism-java';
-import 'prismjs/components/prism-cpp';
-import 'prismjs/themes/prism.css'; // Example theme
 
 type Language = keyof Challenge['templates'];
 
@@ -138,6 +132,17 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
     const [runState, runAction] = useActionState(runTestAction, runInitialState);
     const [submitState, submitActionFn] = useActionState(submitAction, runInitialState);
     const [activeTestCases, setActiveTestCases] = useState(challenge.testCases);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        import('prismjs/components/prism-clike');
+        import('prismjs/components/prism-javascript');
+        import('prismjs/components/prism-python');
+        import('prismjs/components/prism-java');
+        import('prismjs/components/prism-cpp');
+        import('prismjs/themes/prism.css');
+    }, []);
 
     useEffect(() => {
         // Ensure there's always at least one test case to prevent AI flow errors
@@ -167,11 +172,10 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
     }, [submitState.results]);
 
     const highlight = (code: string) => {
-        const lang = selectedLanguage as string;
-        if (Prism.languages[lang]) {
-            return Prism.highlight(code, Prism.languages[lang], lang);
+        if (!isClient || !Prism.languages[selectedLanguage]) {
+            return code; // No highlighting on server or if language not loaded
         }
-        return code;
+        return Prism.highlight(code, Prism.languages[selectedLanguage], selectedLanguage);
     }
 
     return (
