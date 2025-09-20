@@ -8,12 +8,18 @@ import { runTestAction, submitAction } from '@/app/actions';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlayCircle, Zap, Languages, Loader2, CheckCircle, XCircle } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "./ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-
+import Editor from 'react-simple-code-editor';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-java';
+import 'prismjs/components/prism-cpp';
+import 'prismjs/themes/prism.css'; // Example theme
 
 type Language = keyof Challenge['templates'];
 
@@ -160,6 +166,14 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [submitState.results]);
 
+    const highlight = (code: string) => {
+        const lang = selectedLanguage as string;
+        if (Prism.languages[lang]) {
+            return Prism.highlight(code, Prism.languages[lang], lang);
+        }
+        return code;
+    }
+
     return (
         <div className="h-full flex flex-col">
             
@@ -201,13 +215,20 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
 
 
             <div className="flex-grow flex flex-col min-h-0">
-                <div className="flex-grow relative">
-                    <Textarea
+                <div className="flex-grow relative h-full w-full bg-background font-code text-base">
+                    <Editor
                         value={code}
-                        onChange={(e) => setCode(e.target.value)}
-                        className="h-full w-full bg-background rounded-none border-0 p-4 font-code text-base resize-none absolute inset-0"
-                        name="code"
-                        form="ai-assistant-form"
+                        onValueChange={setCode}
+                        highlight={highlight}
+                        padding={16}
+                        className="h-full w-full rounded-none border-0 resize-none absolute inset-0"
+                        textareaId="code-editor"
+                        onKeyDown={e => {
+                             if (e.key === "Tab") {
+                                e.preventDefault();
+                                document.execCommand('insertText', false, '  ');
+                            }
+                        }}
                     />
                 </div>
                  <Tabs defaultValue="test-results" className="flex-shrink-0 border-t">

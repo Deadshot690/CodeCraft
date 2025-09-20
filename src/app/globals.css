@@ -86,3 +86,20 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* For react-simple-code-editor */
+.editor-container {
+    position: relative;
+    font-family: 'Source Code Pro', monospace;
+}
+
+.editor-container textarea,
+.editor-container pre {
+    margin: 0;
+    padding: 10px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+}

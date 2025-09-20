@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from 'react';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Timer, CheckCircle, XCircle, Bug, Sparkles, ChevronLeft, Loader2, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -13,6 +12,14 @@ import { getChallengeById, DebugChallenge, debugChallenges } from '@/lib/debug-c
 import Link from 'next/link';
 import { Label } from '@/components/ui/label';
 import { notFound, useParams, useRouter } from 'next/navigation';
+import Editor from 'react-simple-code-editor';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-java';
+import 'prismjs/components/prism-cpp';
+import 'prismjs/themes/prism.css';
 
 const TIME_LIMIT = 60; // 60 seconds
 
@@ -116,6 +123,14 @@ export default function DebugHuntGamePage() {
         )
     }
 
+  const highlight = (code: string) => {
+    const lang = challenge.language;
+    if (Prism.languages[lang]) {
+        return Prism.highlight(code, Prism.languages[lang], lang);
+    }
+    return code;
+  }
+
   return (
     <DashboardLayout>
         <div className="flex flex-col h-full">
@@ -140,13 +155,17 @@ export default function DebugHuntGamePage() {
                              </CardHeader>
                              <CardContent className="flex-grow flex flex-col">
                                 <Label htmlFor="code-editor" className="mb-2">Your Code (find and fix the bug):</Label>
-                                 <Textarea 
-                                    id="code-editor"
-                                    value={userCode}
-                                    onChange={(e) => setUserCode(e.target.value)}
-                                    readOnly={!isGameActive}
-                                    className="font-code text-sm flex-grow w-full h-full resize-none"
-                                />
+                                 <div className="flex-grow relative h-full w-full bg-background font-code text-base border rounded-md">
+                                     <Editor
+                                        value={userCode}
+                                        onValueChange={setUserCode}
+                                        highlight={highlight}
+                                        padding={10}
+                                        className="h-full w-full absolute inset-0"
+                                        textareaId="code-editor"
+                                        disabled={!isGameActive}
+                                    />
+                                 </div>
                              </CardContent>
                         </Card>
                         {/* Right Panel: Game state and actions */}

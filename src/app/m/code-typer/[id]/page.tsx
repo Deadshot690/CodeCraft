@@ -10,6 +10,15 @@ import { cn } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, RefreshCw, BarChart, Timer, Target, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
+import Editor from 'react-simple-code-editor';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-java';
+import 'prismjs/components/prism-cpp';
+import 'prismjs/themes/prism.css';
+
 
 const languageDisplayMap: { [key: string]: string } = {
     'javascript': 'JavaScript',
@@ -29,7 +38,7 @@ export default function CodeTyperGamePage() {
     const [errors, setErrors] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
     
-    const inputRef = useRef<HTMLTextAreaElement>(null);
+    const editorRef = useRef<any>(null);
     const isIncorrect = useRef(false);
 
     useEffect(() => {
@@ -60,16 +69,12 @@ export default function CodeTyperGamePage() {
         setErrors(0);
         setIsFinished(false);
         isIncorrect.current = false;
-        if(inputRef.current) {
-             inputRef.current.value = '';
-             inputRef.current.focus();
-        }
+        editorRef.current?.focus();
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleInputChange = (currentTyped: string) => {
         if (isFinished || !challenge) return;
         
-        const currentTyped = e.target.value;
         const sourceSnippet = challenge.snippet;
 
         // Check for new errors only on character addition
@@ -111,6 +116,14 @@ export default function CodeTyperGamePage() {
     const words = challenge.snippet.split(/\s+/).length;
     const wpm = timeTaken ? Math.round((words / timeTaken) * 60) : 0;
     const accuracy = Math.max(0, Math.round(((challenge.snippet.length - errors) / challenge.snippet.length) * 100));
+    
+    const highlight = (code: string) => {
+        const lang = challenge.language;
+        if (Prism.languages[lang]) {
+            return Prism.highlight(code, Prism.languages[lang], lang);
+        }
+        return code;
+    }
 
     return (
         <DashboardLayout>
@@ -172,26 +185,24 @@ export default function CodeTyperGamePage() {
                        </Card>
                    ) : (
                     <div className="w-full max-w-4xl space-y-6">
-                        <div className="font-code text-xl bg-muted p-6 rounded-md relative select-none" onClick={() => inputRef.current?.focus()}>
-                            <div className="whitespace-pre-wrap">
-                                <span className="text-primary">{typedCode}</span>
-                                <span className={cn("relative", isIncorrect.current ? "bg-destructive/20" : "bg-primary/20", "animate-caret-blink")}>
-                                    {challenge.snippet[typedCode.length] === '\n' ? '↵' : challenge.snippet[typedCode.length]}
-                                </span>
-                                <span className="text-muted-foreground/60">{challenge.snippet.substring(typedCode.length + 1)}</span>
-                            </div>
-                            <textarea
-                                ref={inputRef}
+                        <Card>
+                            <CardContent className="p-4">
+                                <div className="font-code text-lg bg-muted p-4 rounded-md whitespace-pre-wrap text-muted-foreground/60 select-none">
+                                    {challenge.snippet}
+                                </div>
+                            </CardContent>
+                        </Card>
+                         <div className="relative font-code text-lg">
+                            <Editor
+                                ref={editorRef}
                                 value={typedCode}
-                                onChange={handleInputChange}
-                                className="absolute inset-0 w-full h-full p-6 bg-transparent border-none outline-none resize-none font-code text-lg text-transparent caret-transparent"
+                                onValueChange={handleInputChange}
+                                highlight={highlight}
+                                padding={16}
+                                className="bg-background border rounded-md min-h-[200px]"
                                 autoFocus
-                                spellCheck="false"
-                                autoComplete="off"
-                                autoCorrect="off"
-                                autoCapitalize="off"
                             />
-                        </div>
+                         </div>
                         <div className="grid grid-cols-2 gap-4 text-center">
                             <Card className="p-4 flex items-center justify-center gap-4">
                                 <Timer className="w-8 h-8 text-primary" />
