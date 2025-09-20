@@ -101,6 +101,9 @@ export default function CodeCatcherGamePage() {
         window.addEventListener('keydown', handleKeyDown);
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
+            // Cleanup game loop and interval on component unmount
+            if (gameLoopRef.current) cancelAnimationFrame(gameLoopRef.current);
+            if (itemIntervalRef.current) clearInterval(itemIntervalRef.current);
         };
     }, [handleKeyDown]);
     
@@ -160,6 +163,7 @@ export default function CodeCatcherGamePage() {
         });
 
         gameLoopRef.current = requestAnimationFrame(gameTick);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameState, basketX, lives, score, toast, challenge]);
 
 
