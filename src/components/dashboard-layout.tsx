@@ -39,7 +39,7 @@ import {
   User as UserIcon,
 } from 'lucide-react';
 import { ThemeToggle } from './theme-toggle';
-import { Button } from './ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { auth } from '@/lib/firebase/client';
 import { signOut } from '@/app/actions';
 

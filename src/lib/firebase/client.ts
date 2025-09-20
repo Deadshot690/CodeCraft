@@ -3,6 +3,7 @@
 
 import {initializeApp, getApps, getApp, type FirebaseApp} from 'firebase/app';
 import {getFirestore, type Firestore} from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   projectId: 'codecraft-quest-2rdg9',
@@ -22,10 +23,11 @@ if (getApps().length === 0) {
 }
 
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 function getFirestoreDb(): Firestore {
     return db;
 }
 
 
-export { app, getFirestoreDb };
+export { app, auth, getFirestoreDb };
