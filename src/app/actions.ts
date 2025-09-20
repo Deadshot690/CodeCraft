@@ -6,6 +6,12 @@ import { runCode } from '@/ai/flows/run-code-flow';
 import {z} from 'zod';
 import { getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
+import {
+  auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from '@/lib/firebase/auth';
+import { revalidatePath } from 'next/cache';
 
 const assistantSchema = z.object({
   code: z.string().min(10, { message: "Please provide a code snippet of at least 10 characters." }),
@@ -168,4 +174,68 @@ export async function evaluateAnswerAction(
         isCorrect: isCorrect,
         correctAnswer: challenge.answer,
     };
+}
+
+
+const AuthSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
+});
+
+type AuthState = {
+  message: string;
+};
+
+export async function signUpWithEmail(
+  prevState: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  const validatedFields = AuthSchema.safeParse(
+    Object.fromEntries(formData.entries())
+  );
+
+  if (!validatedFields.success) {
+    return {
+      message: validatedFields.error.flatten().fieldErrors.password?.[0] || 'Invalid fields.',
+    };
+  }
+  const { email, password } = validatedFields.data;
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    revalidatePath('/');
+    return { message: 'Success' };
+  } catch (e: any) {
+    return { message: e.message };
+  }
+}
+
+export async function signInWithEmail(
+  prevState: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  const validatedFields = AuthSchema.safeParse(
+    Object.fromEntries(formData.entries())
+  );
+
+   if (!validatedFields.success) {
+    return {
+      message: 'Invalid email or password.',
+    };
+  }
+
+  const { email, password } = validatedFields.data;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    revalidatePath('/');
+    return { message: 'Success' };
+  } catch (e: any) {
+    return { message: 'Invalid email or password.' };
+  }
+}
+
+export async function signOut() {
+  await auth.signOut();
+  revalidatePath('/');
 }

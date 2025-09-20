@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { onAuthStateChanged, User } from 'firebase/auth';
 import {
   SidebarProvider,
   Sidebar,
@@ -33,12 +34,26 @@ import {
   Puzzle,
   BrainCircuit,
   BookCopy,
+  LogIn,
+  LogOut,
+  User as UserIcon,
 } from 'lucide-react';
 import { ThemeToggle } from './theme-toggle';
+import { Button } from './ui/button';
+import { auth } from '@/lib/firebase/client';
+import { signOut } from '@/app/actions';
 
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <SidebarProvider>
@@ -140,18 +155,39 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Link href="/profile">
-                  <Trophy />
-                  Profile & Progress
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            {user && (
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === '/profile'}>
+                  <Link href="/profile">
+                    <UserIcon />
+                    Profile
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )}
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
           <SidebarMenu>
+             {user ? (
+                <form action={signOut} className="w-full">
+                    <SidebarMenuItem>
+                        <SidebarMenuButton className="w-full">
+                                <LogOut />
+                                Sign Out
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                 </form>
+            ) : (
+                <SidebarMenuItem>
+                    <SidebarMenuButton asChild isActive={pathname === '/login'}>
+                        <Link href="/login">
+                            <LogIn />
+                            Sign In
+                        </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            )}
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <Link href="#">
@@ -170,7 +206,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 {/* Can add search bar here if needed */}
             </div>
             <ThemeToggle />
-            {/* UserNav would go here if auth was enabled */}
+             {user && (
+              <Avatar>
+                <AvatarImage src={user.photoURL ?? ''} />
+                <AvatarFallback>
+                  {user.email?.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+            )}
         </header>
         <main className="flex-1 overflow-auto">{children}</main>
       </SidebarInset>

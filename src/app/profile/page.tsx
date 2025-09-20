@@ -2,15 +2,18 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Check, Shield, Star, Swords, BrainCircuit, Bot } from "lucide-react";
+import { Check, Shield, Star, Swords, BrainCircuit, Bot, Loader2 } from "lucide-react";
 import Link from 'next/link';
 import { challenges, Challenge } from '@/lib/challenges';
 import { formatDistanceToNow } from 'date-fns';
+import { auth } from '@/lib/firebase/client';
 
 interface SolvedChallengeInfo {
   id: string;
@@ -28,9 +31,11 @@ const achievements = [
 ];
 
 export default function ProfilePage() {
-  const [user, setUser] = useState({
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
     name: "CodeCrafter",
-    email: "crafter@example.com",
     level: 1,
     xp: 0,
     rank: 0,
@@ -38,41 +43,57 @@ export default function ProfilePage() {
     domains: { DSA: 0, Web: 0, AI: 0 }
   });
   const [recentSolutions, setRecentSolutions] = useState<SolvedChallengeInfo[]>([]);
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
-    const storedSolutions: SolvedChallengeInfo[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
-    
-    const sortedSolutions = storedSolutions.sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
-    setRecentSolutions(sortedSolutions.slice(0, 5));
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        // In a real app, you would fetch profile data from Firestore here
+        // For now, we'll continue using localStorage for solved challenges
+        const storedSolutions: SolvedChallengeInfo[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
+        
+        const sortedSolutions = storedSolutions.sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
+        setRecentSolutions(sortedSolutions.slice(0, 5));
 
-    const challengesSolved = storedSolutions.length;
-    const solvedIds = new Set(storedSolutions.map(s => s.id));
-    const allSolvedChallenges = challenges.filter(c => solvedIds.has(c.id));
+        const challengesSolved = storedSolutions.length;
+        const solvedIds = new Set(storedSolutions.map(s => s.id));
+        const allSolvedChallenges = challenges.filter(c => solvedIds.has(c.id));
 
-    const domains = allSolvedChallenges.reduce((acc, c) => {
-        const domainKey = c.domain as keyof typeof acc;
-        acc[domainKey] = (acc[domainKey] || 0) + 1;
-        return acc;
-    }, { DSA: 0, Web: 0, AI: 0 });
+        const domains = allSolvedChallenges.reduce((acc, c) => {
+            const domainKey = c.domain as keyof typeof acc;
+            acc[domainKey] = (acc[domainKey] || 0) + 1;
+            return acc;
+        }, { DSA: 0, Web: 0, AI: 0 });
 
-    const xp = challengesSolved * 100;
-    const level = Math.floor(xp / 1000) + 1;
+        const xp = challengesSolved * 100;
+        const level = Math.floor(xp / 1000) + 1;
 
-    setUser(prev => ({
-        ...prev,
-        challengesSolved,
-        domains,
-        xp,
-        level,
-        rank: 500 - (challengesSolved * 10) // dummy rank
-    }));
+        setStats({
+            name: currentUser.email?.split('@')[0] || 'CodeCrafter',
+            challengesSolved,
+            domains,
+            xp,
+            level,
+            rank: 500 - (challengesSolved * 10) // dummy rank
+        });
+        
+      } else {
+        router.push('/login');
+      }
+      setLoading(false);
+    });
 
-  }, []);
+    return () => unsubscribe();
+  }, [router]);
 
-  if (!isClient) {
-      return <DashboardLayout><div>Loading profile...</div></DashboardLayout>;
+  if (loading || !user) {
+      return (
+        <DashboardLayout>
+          <div className="flex justify-center items-center h-full">
+            <Loader2 className="w-16 h-16 animate-spin" />
+          </div>
+        </DashboardLayout>
+      );
   }
 
   return (
@@ -85,11 +106,11 @@ export default function ProfilePage() {
           <CardContent className="p-6 pt-0">
             <div className="flex items-end gap-4 -mt-16">
               <Avatar className="h-32 w-32 border-4 border-background">
-                <AvatarImage src="https://picsum.photos/200/200" data-ai-hint="user avatar" />
-                <AvatarFallback className="text-4xl">CC</AvatarFallback>
+                <AvatarImage src={user.photoURL ?? `https://picsum.photos/seed/${user.uid}/200`} data-ai-hint="user avatar" />
+                <AvatarFallback className="text-4xl">{stats.name.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div className="pb-2">
-                <h1 className="text-3xl font-bold tracking-tight font-headline">{user.name}</h1>
+                <h1 className="text-3xl font-bold tracking-tight font-headline">{stats.name}</h1>
                 <p className="text-muted-foreground">{user.email}</p>
               </div>
             </div>
@@ -105,14 +126,14 @@ export default function ProfilePage() {
                 <CardTitle>Stats</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex justify-between"><span>Challenges Solved</span> <span className="font-bold">{user.challengesSolved}</span></div>
-                <div className="flex justify-between"><span>XP Earned</span> <span className="font-bold">{user.xp.toLocaleString()} XP</span></div>
-                <div className="flex justify-between"><span>Leaderboard Rank</span> <span className="font-bold">#{user.rank}</span></div>
+                <div className="flex justify-between"><span>Challenges Solved</span> <span className="font-bold">{stats.challengesSolved}</span></div>
+                <div className="flex justify-between"><span>XP Earned</span> <span className="font-bold">{stats.xp.toLocaleString()} XP</span></div>
+                <div className="flex justify-between"><span>Leaderboard Rank</span> <span className="font-bold">#{stats.rank}</span></div>
                 <Separator />
                 <h3 className="font-semibold text-sm">Solved by Domain</h3>
-                <div className="flex justify-between"><span>Data Structures & Algo</span> <span className="font-bold">{user.domains.DSA}</span></div>
-                <div className="flex justify-between"><span>Web Development</span> <span className="font-bold">{user.domains.Web}</span></div>
-                <div className="flex justify-between"><span>Artificial Intelligence</span> <span className="font-bold">{user.domains.AI}</span></div>
+                <div className="flex justify-between"><span>Data Structures & Algo</span> <span className="font-bold">{stats.domains.DSA}</span></div>
+                <div className="flex justify-between"><span>Web Development</span> <span className="font-bold">{stats.domains.Web}</span></div>
+                <div className="flex justify-between"><span>Artificial Intelligence</span> <span className="font-bold">{stats.domains.AI}</span></div>
               </CardContent>
             </Card>
           </div>
