@@ -2,19 +2,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { useRouter } from 'next/navigation';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Check, Shield, Star, Swords, BrainCircuit, Bot, Loader2 } from "lucide-react";
+import { Check, Shield, Star, Swords, BrainCircuit, Bot } from "lucide-react";
 import Link from 'next/link';
 import { challenges, Challenge } from '@/lib/challenges';
 import { formatDistanceToNow } from 'date-fns';
-import { auth } from '@/lib/firebase/client';
-import { getUserProfile, UserProfile } from '@/lib/firebase/firestore';
 
 interface SolvedChallengeInfo {
   id: string;
@@ -32,10 +28,6 @@ const achievements = [
 ];
 
 export default function ProfilePage() {
-  const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     name: "CodeCrafter",
     level: 1,
@@ -45,59 +37,42 @@ export default function ProfilePage() {
     domains: { DSA: 0, Web: 0, AI: 0 }
   });
   const [recentSolutions, setRecentSolutions] = useState<SolvedChallengeInfo[]>([]);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        
-        const profile = await getUserProfile(currentUser.uid);
-        setUserProfile(profile);
+    setIsClient(true);
+    const storedSolutions: SolvedChallengeInfo[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
+    
+    const sortedSolutions = storedSolutions.sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
+    setRecentSolutions(sortedSolutions.slice(0, 5));
 
-        // For now, we'll continue using localStorage for solved challenges for simplicity
-        // In a real app, this would come from the userProfile (Firestore)
-        const storedSolutions: SolvedChallengeInfo[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
-        
-        const sortedSolutions = storedSolutions.sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
-        setRecentSolutions(sortedSolutions.slice(0, 5));
+    const challengesSolved = storedSolutions.length;
+    const solvedIds = new Set(storedSolutions.map(s => s.id));
+    const allSolvedChallenges = challenges.filter(c => solvedIds.has(c.id));
 
-        const challengesSolved = storedSolutions.length;
-        const solvedIds = new Set(storedSolutions.map(s => s.id));
-        const allSolvedChallenges = challenges.filter(c => solvedIds.has(c.id));
+    const domains = allSolvedChallenges.reduce((acc, c) => {
+        const domainKey = c.domain as keyof typeof acc;
+        acc[domainKey] = (acc[domainKey] || 0) + 1;
+        return acc;
+    }, { DSA: 0, Web: 0, AI: 0 });
 
-        const domains = allSolvedChallenges.reduce((acc, c) => {
-            const domainKey = c.domain as keyof typeof acc;
-            acc[domainKey] = (acc[domainKey] || 0) + 1;
-            return acc;
-        }, { DSA: 0, Web: 0, AI: 0 });
+    const xp = challengesSolved * 100;
+    const level = Math.floor(xp / 1000) + 1;
 
-        const xp = challengesSolved * 100;
-        const level = Math.floor(xp / 1000) + 1;
-
-        setStats({
-            name: profile?.username || currentUser.email?.split('@')[0] || 'CodeCrafter',
-            challengesSolved,
-            domains,
-            xp,
-            level,
-            rank: 500 - (challengesSolved * 10) // dummy rank
-        });
-        
-      } else {
-        router.push('/login');
-      }
-      setLoading(false);
+    setStats({
+        name: 'CodeCrafter',
+        challengesSolved,
+        domains,
+        xp,
+        level,
+        rank: 500 - (challengesSolved * 10) // dummy rank
     });
+  }, []);
 
-    return () => unsubscribe();
-  }, [router]);
-
-  if (loading || !user) {
+  if (!isClient) {
       return (
         <DashboardLayout>
-          <div className="flex justify-center items-center h-full">
-            <Loader2 className="w-16 h-16 animate-spin" />
-          </div>
+          <div>Loading profile...</div>
         </DashboardLayout>
       );
   }
@@ -112,12 +87,12 @@ export default function ProfilePage() {
           <CardContent className="p-6 pt-0">
             <div className="flex items-end gap-4 -mt-16">
               <Avatar className="h-32 w-32 border-4 border-background">
-                <AvatarImage src={user.photoURL ?? `https://picsum.photos/seed/${user.uid}/200`} data-ai-hint="user avatar" />
+                <AvatarImage src={`https://picsum.photos/seed/codecrafter/200`} data-ai-hint="user avatar" />
                 <AvatarFallback className="text-4xl">{stats.name.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div className="pb-2">
                 <h1 className="text-3xl font-bold tracking-tight font-headline">{stats.name}</h1>
-                <p className="text-muted-foreground">{user.email}</p>
+                <p className="text-muted-foreground">Local Adventurer</p>
               </div>
             </div>
           </CardContent>

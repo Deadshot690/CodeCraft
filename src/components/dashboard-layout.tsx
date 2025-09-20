@@ -1,10 +1,9 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { onAuthStateChanged, User } from 'firebase/auth';
+import { usePathname } from 'next/navigation';
 import {
   SidebarProvider,
   Sidebar,
@@ -34,60 +33,14 @@ import {
   Puzzle,
   BrainCircuit,
   BookCopy,
-  LogIn,
-  LogOut,
   User as UserIcon,
-  Loader2,
 } from 'lucide-react';
 import { ThemeToggle } from './theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { auth } from '@/lib/firebase/client';
-import { signOut } from '@/app/actions';
 
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (!loading && !user && pathname !== '/login' && pathname !== '/signup') {
-      router.push('/login');
-    }
-  }, [loading, user, pathname, router]);
-
-  // While Firebase is checking auth state, show a loader
-  if (loading) {
-    return (
-        <div className="flex items-center justify-center h-screen">
-            <Loader2 className="w-16 h-16 animate-spin" />
-        </div>
-    );
-  }
-
-  // If there is no user, we are on the login/signup pages, so render nothing but the children.
-  if (!user) {
-    return <>{children}</>;
-  }
-  
-  // If there IS a user but they are trying to access login/signup, redirect to home
-  if (user && (pathname === '/login' || pathname === '/signup')) {
-      router.push('/');
-       return (
-        <div className="flex items-center justify-center h-screen">
-            <Loader2 className="w-16 h-16 animate-spin" />
-        </div>
-    );
-  }
 
   return (
     <SidebarProvider>
@@ -199,35 +152,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                   Settings
               </SidebarMenuButton>
               <SidebarMenuSub>
-                  {user && (
-                     <SidebarMenuItem>
-                        <SidebarMenuSubButton asChild isActive={pathname.startsWith('/profile')}>
-                        <Link href="/profile">
-                            <UserIcon />
-                            <span>Profile</span>
-                        </Link>
-                        </SidebarMenuSubButton>
-                    </SidebarMenuItem>
-                  )}
-                  {user ? (
-                    <SidebarMenuItem>
-                        <form action={signOut} className="w-full">
-                            <SidebarMenuSubButton className="w-full">
-                                    <LogOut />
-                                    <span>Sign Out</span>
-                            </SidebarMenuSubButton>
-                        </form>
-                    </SidebarMenuItem>
-                ) : (
-                    <SidebarMenuItem>
-                        <SidebarMenuSubButton asChild isActive={pathname === '/login'}>
-                            <Link href="/login">
-                                <LogIn />
-                                <span>Sign In</span>
-                            </Link>
-                        </SidebarMenuSubButton>
-                    </SidebarMenuItem>
-                )}
+                 <SidebarMenuItem>
+                    <SidebarMenuSubButton asChild isActive={pathname.startsWith('/profile')}>
+                    <Link href="/profile">
+                        <UserIcon />
+                        <span>Profile</span>
+                    </Link>
+                    </SidebarMenuSubButton>
+                </SidebarMenuItem>
               </SidebarMenuSub>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -240,14 +172,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 {/* Can add search bar here if needed */}
             </div>
             <ThemeToggle />
-             {user && (
-              <Avatar>
-                <AvatarImage src={user.photoURL ?? ''} />
-                <AvatarFallback>
-                  {user.email?.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-            )}
+            <Avatar>
+              <AvatarImage src="" />
+              <AvatarFallback>
+                CC
+              </AvatarFallback>
+            </Avatar>
         </header>
         <main className="flex-1 overflow-auto">{children}</main>
       </SidebarInset>
