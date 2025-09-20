@@ -55,18 +55,23 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
-      
-      const isAuthPage = pathname === '/login' || pathname === '/signup';
-
-      if (!currentUser && !isAuthPage) {
-        router.push('/login');
-      }
-      if (currentUser && isAuthPage) {
-        router.push('/');
-      }
     });
     return () => unsubscribe();
-  }, [pathname, router]);
+  }, []);
+
+  useEffect(() => {
+    if (loading) return; 
+
+    const isAuthPage = pathname === '/login' || pathname === '/signup';
+
+    if (!user && !isAuthPage) {
+      router.push('/login');
+    }
+    
+    if (user && isAuthPage) {
+      router.push('/');
+    }
+  }, [user, loading, pathname, router]);
 
   if (loading) {
     return (
@@ -75,6 +80,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </div>
     );
   }
+
+  // Do not render layout for auth pages, just the page content.
+  if (!user && (pathname === '/login' || pathname === '/signup')) {
+      return <>{children}</>;
+  }
+
 
   return (
     <SidebarProvider>
