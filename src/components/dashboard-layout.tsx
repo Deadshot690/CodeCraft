@@ -1,9 +1,9 @@
 
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import {
   SidebarProvider,
   Sidebar,
@@ -34,49 +34,13 @@ import {
   BrainCircuit,
   BookCopy,
   User as UserIcon,
-  Loader2,
-  LogIn,
-  LogOut,
 } from 'lucide-react';
 import { ThemeToggle } from './theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { useAuth } from '@/hooks/use-auth';
 import { Button } from './ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { user, loading, signOut } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && !user && pathname !== '/login' && pathname !== '/signup') {
-      router.push('/login');
-    }
-  }, [user, loading, pathname, router]);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader2 className="h-16 w-16 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  // Allow login/signup pages to render without the full layout if there's no user
-  if (!user && (pathname === '/login' || pathname === '/signup')) {
-    return <>{children}</>;
-  }
-  
-  if (!user) {
-    // This case will be handled by the redirect, but as a fallback, show a loader.
-     return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader2 className="h-16 w-16 animate-spin text-primary" />
-      </div>
-    );
-  }
-
 
   return (
     <SidebarProvider>
@@ -200,51 +164,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 {/* Can add search bar here if needed */}
             </div>
             <ThemeToggle />
-             {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                    <Avatar className="h-8 w-8">
-                       <AvatarImage src={user.photoURL ?? `https://picsum.photos/seed/${user.uid}/40/40`} />
-                       <AvatarFallback>{user.displayName?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}</AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
-                    <DropdownMenuLabel className="font-normal">
-                      <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{user.displayName || 'Adventurer'}</p>
-                        <p className="text-xs leading-none text-muted-foreground">
-                          {user.email}
-                        </p>
-                      </div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <Link href="/profile"><UserIcon className="mr-2"/> Profile</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={signOut}>
-                      <LogOut className="mr-2"/>
-                      Sign Out
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-               <div className="flex items-center gap-2">
-                  <Button asChild variant="outline">
-                    <Link href="/login">
-                      <LogIn className="mr-2"/>
-                      Sign In
-                    </Link>
-                  </Button>
-                   <Button asChild>
-                    <Link href="/signup">
-                      Sign Up
-                    </Link>
-                  </Button>
-               </div>
-            )}
+            <Avatar>
+                <AvatarImage src="https://picsum.photos/seed/adventurer/40/40" />
+                <AvatarFallback>A</AvatarFallback>
+            </Avatar>
         </header>
         <main className="flex-1 overflow-auto">{children}</main>
       </SidebarInset>
