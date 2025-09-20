@@ -53,8 +53,8 @@ const games = [
         title: "Code Rush",
         description: "Type missing keywords and functions in code snippets against the clock. A test of syntax memory and speed.",
         icon: <Zap className="w-12 h-12 text-primary" />,
-        href: "#",
-        status: "Coming Soon"
+        href: "/m/code-rush",
+        status: "Live"
     },
     {
         title: "Code Invaders",

@@ -34,6 +34,7 @@ import {
   BrainCircuit,
   BookCopy,
   User as UserIcon,
+  Zap,
 } from 'lucide-react';
 import { ThemeToggle } from './theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -128,6 +129,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                       <Link href="/m/concept-match">
                         <BookCopy />
                         <span>Concept Match</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuSubButton asChild isActive={pathname.startsWith('/m/code-rush')}>
+                      <Link href="/m/code-rush">
+                        <Zap />
+                        <span>Code Rush</span>
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuItem>
