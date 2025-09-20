@@ -27,16 +27,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
+      if (user) {
+        // If user is logged in, and they are on login/signup, redirect them
+        if (pathname === '/login' || pathname === '/signup') {
+          router.push('/');
+        }
+      } else {
+        // if user is not logged in and not on an auth page, redirect
+        if (pathname !== '/login' && pathname !== '/signup') {
+          router.push('/login');
+        }
+      }
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [user, pathname, router]);
 
-  useEffect(() => {
-    if (!loading && !user && pathname !== '/login' && pathname !== '/signup') {
-      router.push('/login');
-    }
-  }, [user, loading, pathname, router]);
 
   const signOut = async () => {
     await firebaseSignOut(auth);
