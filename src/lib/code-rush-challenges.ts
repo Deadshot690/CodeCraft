@@ -345,7 +345,7 @@ export const codeRushChallenges: CodeRushChallenge[] = [
     description: 'Mark a method as an override.',
     language: 'java',
     difficulty: 'Hard',
-    snippet: '___ @Override\npublic String toString() { ... }',
+    snippet: '___ \npublic String toString() { ... }',
     answer: '@Override',
   },
   {
