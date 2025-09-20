@@ -63,8 +63,18 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (!user) {
+  // Allow login/signup pages to render without the full layout if there's no user
+  if (!user && (pathname === '/login' || pathname === '/signup')) {
     return <>{children}</>;
+  }
+  
+  if (!user) {
+    // This case will be handled by the redirect, but as a fallback, show a loader.
+     return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="h-16 w-16 animate-spin text-primary" />
+      </div>
+    );
   }
 
 
