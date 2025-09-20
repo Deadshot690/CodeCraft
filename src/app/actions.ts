@@ -45,7 +45,7 @@ export async function signUpWithEmail(
     await getAuth(serverApp).createUser({
       email,
       password,
-      displayName: username,
+      displayName: username || '',
     });
     // This is a server action. The client will handle the actual login state.
     // We just return success.

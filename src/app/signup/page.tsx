@@ -46,9 +46,13 @@ export default function SignupPage() {
 
   useEffect(() => {
     if (state?.message === 'Success') {
-      router.push('/');
+      toast({
+        title: 'Account Created!',
+        description: 'You have been successfully signed up. Please sign in.',
+      });
+      router.push('/login');
     }
-  }, [state, router]);
+  }, [state, router, toast]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
@@ -60,8 +64,8 @@ export default function SignupPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
-              <Input id="username" name="username" type="text" placeholder="Your heroic name" required />
+              <Label htmlFor="username">Username (Optional)</Label>
+              <Input id="username" name="username" type="text" placeholder="Your heroic name" />
               {state?.formErrors?.username && <p className="text-xs text-destructive mt-1">{state.formErrors.username.join(', ')}</p>}
             </div>
             <div className="space-y-2">
