@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Bot, Code, Puzzle, Swords, Bug, BrainCircuit, BookCopy, Zap, Rocket, TowerControl } from 'lucide-react';
+import { ArrowRight, Bot, Code, Puzzle, Swords, Bug, BrainCircuit, BookCopy, Zap, Grab, TowerControl } from 'lucide-react';
 import Image from 'next/image';
 
 const games = [
@@ -57,11 +57,11 @@ const games = [
         status: "Live"
     },
     {
-        title: "Code Invaders",
-        description: "An arcade shooter where you blast falling bugs by answering multiple-choice coding questions.",
-        icon: <Rocket className="w-12 h-12 text-primary" />,
-        href: "#",
-        status: "Coming Soon"
+        title: "Code Catcher",
+        description: "Catch the correct code snippets and dodge the buggy ones in this fast-paced arcade game.",
+        icon: <Grab className="w-12 h-12 text-primary" />,
+        href: "/m/code-catcher",
+        status: "Live"
     },
     {
         title: "Debug Tower",

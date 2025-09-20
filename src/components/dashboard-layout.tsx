@@ -35,6 +35,7 @@ import {
   BookCopy,
   User as UserIcon,
   Zap,
+  Grab,
 } from 'lucide-react';
 import { ThemeToggle } from './theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -137,6 +138,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                       <Link href="/m/code-rush">
                         <Zap />
                         <span>Code Rush</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuItem>
+                   <SidebarMenuItem>
+                    <SidebarMenuSubButton asChild isActive={pathname.startsWith('/m/code-catcher')}>
+                      <Link href="/m/code-catcher">
+                        <Grab />
+                        <span>Code Catcher</span>
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuItem>
