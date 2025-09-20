@@ -1,280 +1,109 @@
-
-'use client';
-
-import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
-import { notFound, useParams } from 'next/navigation';
 import { DashboardLayout } from "@/components/dashboard-layout";
-import { getCatcherChallengeById, CatcherChallenge } from '@/lib/catcher-challenges';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ChevronLeft, Heart, Star, Play, RefreshCw } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useToast } from '@/hooks/use-toast';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Bot, Code, Puzzle, Swords, Bug, BrainCircuit, BookCopy, Zap, Grab, TowerControl } from 'lucide-react';
+import Image from 'next/image';
 
-const GAME_WIDTH = 800;
-const GAME_HEIGHT = 600;
-const BASKET_WIDTH = 100;
-const ITEM_WIDTH = 150;
-const ITEM_HEIGHT = 40;
-
-interface FallingItem {
-    id: number;
-    text: string;
-    isGood: boolean;
-    x: number;
-    y: number;
-}
-
-export default function CodeCatcherGamePage() {
-    const params = useParams<{ id: string }>();
-    const [challenge, setChallenge] = useState<CatcherChallenge | null>(null);
-    const [gameState, setGameState] = useState<'idle' | 'playing' | 'gameOver'>('idle');
-    const [score, setScore] = useState(0);
-    const [lives, setLives] = useState(3);
-    const [basketX, setBasketX] = useState(GAME_WIDTH / 2 - BASKET_WIDTH / 2);
-    const [fallingItems, setFallingItems] = useState<FallingItem[]>([]);
-    
-    const gameLoopRef = useRef<number>();
-    const itemIntervalRef = useRef<NodeJS.Timeout>();
-    const { toast } = useToast();
-
-    useEffect(() => {
-        const foundChallenge = getCatcherChallengeById(params.id);
-        if (foundChallenge) {
-            setChallenge(foundChallenge);
-        } else {
-            notFound();
-        }
-    }, [params.id]);
-
-    const resetGame = useCallback(() => {
-        setScore(0);
-        setLives(3);
-        setFallingItems([]);
-        setGameState('idle');
-        if (gameLoopRef.current) cancelAnimationFrame(gameLoopRef.current);
-        if (itemIntervalRef.current) clearInterval(itemIntervalRef.current);
-    }, []);
-
-    const startGame = () => {
-        if (!challenge) return;
-        
-        resetGame();
-        setGameState('playing');
-
-        gameLoopRef.current = requestAnimationFrame(gameTick);
-
-        itemIntervalRef.current = setInterval(() => {
-            setFallingItems(prev => {
-                if(prev.length > 10) return prev; // Prevent too many items
-                const isGood = Math.random() > 0.4; 
-                const snippets = isGood ? challenge.goodSnippets : challenge.badSnippets;
-                const text = snippets[Math.floor(Math.random() * snippets.length)];
-                
-                return [
-                    ...prev,
-                    {
-                        id: Date.now() + Math.random(),
-                        text,
-                        isGood,
-                        x: Math.random() * (GAME_WIDTH - ITEM_WIDTH),
-                        y: -ITEM_HEIGHT,
-                    }
-                ];
-            });
-        }, 1200);
-    };
-
-    const handleKeyDown = useCallback((e: KeyboardEvent) => {
-        if (gameState !== 'playing') return;
-        setBasketX(prevX => {
-            if (e.key === 'ArrowLeft') {
-                return Math.max(0, prevX - 25);
-            }
-            if (e.key === 'ArrowRight') {
-                return Math.min(GAME_WIDTH - BASKET_WIDTH, prevX + 25);
-            }
-            return prevX;
-        });
-    }, [gameState]);
-
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-            if (gameLoopRef.current) cancelAnimationFrame(gameLoopRef.current);
-            if (itemIntervalRef.current) clearInterval(itemIntervalRef.current);
-        };
-    }, [handleKeyDown]);
-    
-    const gameTick = useCallback(() => {
-        setFallingItems(prevItems => {
-            let newLives = lives;
-            let newScore = score;
-            const updatedItems: FallingItem[] = [];
-
-            for (const item of prevItems) {
-                const newItem = { ...item, y: item.y + 2 };
-
-                const basketLeft = basketX;
-                const basketRight = basketX + BASKET_WIDTH;
-                const itemLeft = newItem.x;
-                const itemRight = newItem.x + ITEM_WIDTH;
-
-                // Check for collision with basket
-                if (newItem.y + ITEM_HEIGHT >= GAME_HEIGHT - 20 && newItem.y + ITEM_HEIGHT < GAME_HEIGHT) {
-                     if (itemLeft < basketRight && itemRight > basketLeft) {
-                        // Caught
-                        if (item.isGood) {
-                           newScore += 10;
-                           toast({ title: 'Good Catch!', description: '+10 points' });
-                        } else {
-                           newLives -= 1;
-                           toast({ variant: 'destructive', title: 'Bad Code!', description: '-1 life' });
-                        }
-                        continue; // Item is caught, remove from next frame
-                    }
-                }
-
-                // Check if item missed the basket and went off screen
-                if (newItem.y > GAME_HEIGHT) {
-                    if (item.isGood) {
-                        newLives -=1; 
-                        toast({ variant: 'destructive', title: 'Missed!', description: 'A good snippet got away. -1 life' });
-                    }
-                    continue; // Item is off-screen, remove from next frame
-                }
-
-                updatedItems.push(newItem);
-            }
-            
-            if (newLives !== lives) setLives(newLives);
-            if (newScore !== score) setScore(newScore);
-            
-            if (newLives <= 0) {
-                setGameState('gameOver');
-                toast({ variant: 'destructive', title: 'Game Over!', description: `Final Score: ${newScore}` });
-                clearInterval(itemIntervalRef.current!);
-                return [];
-            }
-            
-            return updatedItems;
-        });
-
-        if (gameState === 'playing') {
-            gameLoopRef.current = requestAnimationFrame(gameTick);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [gameState, basketX, lives, score, toast, challenge]);
-
-    useEffect(() => {
-        if (gameState === 'playing') {
-             gameLoopRef.current = requestAnimationFrame(gameTick);
-        }
-        return () => {
-             if (gameLoopRef.current) cancelAnimationFrame(gameLoopRef.current);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [gameState]);
-
-
-    if (!challenge) {
-        return <DashboardLayout><div>Loading...</div></DashboardLayout>;
+const games = [
+    {
+        title: "Monster Battle",
+        description: "Answer coding questions to defeat powerful monsters in a turn-based RPG.",
+        icon: <Swords className="w-12 h-12 text-primary" />,
+        href: "/m/monster-battle",
+        status: "Live"
+    },
+    {
+        title: "Debug Hunt",
+        description: "Find and fix bugs in short code snippets before the timer runs out.",
+        icon: <Bug className="w-12 h-12 text-primary" />,
+        href: "/m/debug-hunt",
+        status: "Live"
+    },
+    {
+        title: "Code Typer",
+        description: "Test your typing speed and accuracy with real programming syntax.",
+        icon: <Code className="w-12 h-12 text-primary" />,
+        href: "/m/code-typer",
+        status: "Live"
+    },
+    {
+        title: "Code Jigsaw",
+        description: "Piece together scrambled code lines to make a functioning program.",
+        icon: <Puzzle className="w-12 h-12 text-primary" />,
+        href: "/m/code-jigsaw",
+        status: "Live"
+    },
+    {
+        title: "Output Prediction",
+        description: "Predict the output of tricky code snippets to test your language mastery.",
+        icon: <BrainCircuit className="w-12 h-12 text-primary" />,
+        href: "/m/output-prediction",
+        status: "Live"
+    },
+    {
+        title: "Concept Match",
+        description: "Match code examples to the programming concepts they demonstrate.",
+        icon: <BookCopy className="w-12 h-12 text-primary" />,
+        href: "/m/concept-match",
+        status: "Live"
+    },
+    {
+        title: "Code Rush",
+        description: "Type missing keywords and functions in code snippets against the clock. A test of syntax memory and speed.",
+        icon: <Zap className="w-12 h-12 text-primary" />,
+        href: "/m/code-rush",
+        status: "Live"
+    },
+    {
+        title: "Debug Tower",
+        description: "Stabilize a wobbly tower of code by dragging and dropping the correct fixes into buggy blocks.",
+        icon: <TowerControl className="w-12 h-12 text-primary" />,
+        href: "/m/debug-tower",
+        status: "Live"
     }
+];
 
+export default function MiniGamesPage() {
     return (
         <DashboardLayout>
-            <div className="flex flex-col h-full bg-gray-900 text-white">
-                <div className="flex-shrink-0 p-4 border-b border-gray-700 flex justify-between items-center bg-gray-800">
-                    <Button variant="outline" asChild>
-                        <Link href="/m/code-catcher">
-                            <ChevronLeft className="mr-2 h-4 w-4" />
-                            Back to Levels
-                        </Link>
-                    </Button>
-                     <h1 className="text-xl font-bold tracking-tight font-headline">{challenge.title}</h1>
-                    <div className="flex items-center gap-6 text-lg">
-                        <div className="flex items-center gap-2">
-                            <Star className="text-yellow-400" />
-                            <span className="font-bold">Score: {score}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <Heart className="text-red-500" />
-                            <span className="font-bold">Lives: {lives}</span>
-                        </div>
+            <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold tracking-tight font-headline">Mini-Games</h1>
+                        <p className="text-muted-foreground">
+                            Fun, interactive games to sharpen your coding skills.
+                        </p>
                     </div>
                 </div>
 
-                <div className="flex-grow flex items-center justify-center p-4">
-                    <div 
-                        className="w-full max-w-4xl bg-black border-4 border-primary rounded-lg flex flex-col items-center justify-center relative overflow-hidden"
-                        style={{ height: `${GAME_HEIGHT}px`, width: `${GAME_WIDTH}px` }}
-                    >
-                         {gameState === 'idle' && (
-                            <Card className="bg-gray-800 border-primary text-center z-10">
-                                <CardHeader>
-                                    <CardTitle className="font-headline text-3xl">{challenge.title}</CardTitle>
-                                    <CardDescription>{challenge.description}</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <Button size="lg" onClick={startGame}>
-                                        <Play className="mr-2" />
-                                        Start Game
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        )}
-                        {gameState === 'gameOver' && (
-                             <Card className="bg-gray-800 border-primary text-center z-10">
-                                <CardHeader>
-                                    <CardTitle className="font-headline text-3xl">Game Over</CardTitle>
-                                    <CardDescription>Your final score is</CardDescription>
-                                    <p className="text-4xl font-bold pt-2">{score}</p>
-                                </CardHeader>
-                                <CardContent>
-                                    <Button size="lg" onClick={startGame}>
-                                        <RefreshCw className="mr-2" />
-                                        Play Again
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        )}
-                         {gameState === 'playing' && (
-                            <>
-                                {/* Falling Items */}
-                                {fallingItems.map(item => (
-                                    <div
-                                        key={item.id}
-                                        className={cn("absolute rounded-md p-2 text-center font-code text-sm border-2",
-                                         item.isGood ? 'bg-blue-600 border-blue-400' : 'bg-red-800 border-red-600'
-                                        )}
-                                        style={{ 
-                                            left: item.x, 
-                                            top: item.y,
-                                            width: `${ITEM_WIDTH}px`,
-                                            height: `${ITEM_HEIGHT}px`
-                                        }}
-                                    >
-                                        <code>{item.text}</code>
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {games.map(game => (
+                        <Card key={game.title} className="flex flex-col">
+                            <CardHeader>
+                                <div className="flex items-center gap-4">
+                                    {game.icon}
+                                    <div>
+                                        <CardTitle className="font-headline text-xl">{game.title}</CardTitle>
+                                        <CardDescription>{game.description}</CardDescription>
                                     </div>
-                                ))}
-
-                                {/* Basket */}
-                                <div 
-                                    className="absolute bottom-0 bg-green-500 rounded-t-lg"
-                                    style={{
-                                        left: basketX,
-                                        width: `${BASKET_WIDTH}px`,
-                                        height: '20px'
-                                    }}
-                                />
-                            </>
-                         )}
-                    </div>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="flex-grow">
+                                {/* Can add more details here in the future */}
+                            </CardContent>
+                            <CardFooter>
+                                <Button asChild className="w-full" disabled={game.status !== 'Live'}>
+                                    <Link href={game.href}>
+                                        {game.status === 'Live' ? 'Play Now' : game.status}
+                                        {game.status === 'Live' && <ArrowRight className="ml-2 h-4 w-4" />}
+                                    </Link>
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    ))}
                 </div>
             </div>
         </DashboardLayout>
     );
 }
-

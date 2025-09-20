@@ -57,18 +57,11 @@ const games = [
         status: "Live"
     },
     {
-        title: "Code Catcher",
-        description: "Catch the correct code snippets and dodge the buggy ones in this fast-paced arcade game.",
-        icon: <Grab className="w-12 h-12 text-primary" />,
-        href: "/m/code-catcher",
-        status: "Live"
-    },
-    {
         title: "Debug Tower",
         description: "Stabilize a wobbly tower of code by dragging and dropping the correct fixes into buggy blocks.",
         icon: <TowerControl className="w-12 h-12 text-primary" />,
-        href: "#",
-        status: "Coming Soon"
+        href: "/m/debug-tower",
+        status: "Live"
     }
 ];
 

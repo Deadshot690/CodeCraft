@@ -36,6 +36,7 @@ import {
   User as UserIcon,
   Zap,
   Grab,
+  TowerControl,
 } from 'lucide-react';
 import { ThemeToggle } from './theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -142,10 +143,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     </SidebarMenuSubButton>
                   </SidebarMenuItem>
                    <SidebarMenuItem>
-                    <SidebarMenuSubButton asChild isActive={pathname.startsWith('/m/code-catcher')}>
-                      <Link href="/m/code-catcher">
-                        <Grab />
-                        <span>Code Catcher</span>
+                    <SidebarMenuSubButton asChild isActive={pathname.startsWith('/m/debug-tower')}>
+                      <Link href="/m/debug-tower">
+                        <TowerControl />
+                        <span>Debug Tower</span>
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuItem>
