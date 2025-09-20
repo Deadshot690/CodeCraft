@@ -59,6 +59,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (!loading && !user && pathname !== '/login' && pathname !== '/signup') {
+      router.push('/login');
+    }
+  }, [loading, user, pathname, router]);
+
   // While Firebase is checking auth state, show a loader
   if (loading) {
     return (
@@ -68,15 +74,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // If there's no user, and we're not on an auth page, redirect to login
-  if (!user && pathname !== '/login' && pathname !== '/signup') {
-      router.push('/login');
-      // Show loader while redirecting
-       return (
-        <div className="flex items-center justify-center h-screen">
-            <Loader2 className="w-16 h-16 animate-spin" />
-        </div>
-    );
+  // If there is no user, we are on the login/signup pages, so render nothing but the children.
+  if (!user) {
+    return <>{children}</>;
   }
   
   // If there IS a user but they are trying to access login/signup, redirect to home
@@ -88,12 +88,6 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </div>
     );
   }
-
-  // If user is not logged in and on an auth page, render the page without the layout
-  if (!user) {
-    return <>{children}</>;
-  }
-
 
   return (
     <SidebarProvider>
