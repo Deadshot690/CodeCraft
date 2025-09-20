@@ -55,13 +55,6 @@ const games = [
         icon: <Zap className="w-12 h-12 text-primary" />,
         href: "/m/code-rush",
         status: "Live"
-    },
-    {
-        title: "Debug Tower",
-        description: "Stabilize a wobbly tower of code by dragging and dropping the correct fixes into buggy blocks.",
-        icon: <TowerControl className="w-12 h-12 text-primary" />,
-        href: "/m/debug-tower",
-        status: "Live"
     }
 ];
 

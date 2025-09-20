@@ -142,14 +142,6 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuItem>
-                   <SidebarMenuItem>
-                    <SidebarMenuSubButton asChild isActive={pathname.startsWith('/m/debug-tower')}>
-                      <Link href="/m/debug-tower">
-                        <TowerControl />
-                        <span>Debug Tower</span>
-                      </Link>
-                    </SidebarMenuSubButton>
-                  </SidebarMenuItem>
                 </SidebarMenuSub>
             </SidebarMenuItem>
             <SidebarMenuItem>
