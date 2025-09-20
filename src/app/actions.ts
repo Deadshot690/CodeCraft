@@ -12,7 +12,7 @@ import { serverApp } from '@/lib/firebase/server';
 
 // Auth Actions
 const authSchema = z.object({
-    email: z.string().email(),
+    email: z.string().email({ message: "Please enter a valid email address." }),
     password: z.string().min(6, { message: "Password must be at least 6 characters long." }),
     username: z.string().optional(),
 });
@@ -30,6 +30,8 @@ export async function signUpWithEmail(
   prevState: AuthState,
   formData: FormData
 ): Promise<AuthState> {
+  // This server action is now ONLY for validation.
+  // The client will handle the actual account creation.
   const validatedFields = authSchema.safeParse(Object.fromEntries(formData.entries()));
 
   if (!validatedFields.success) {
@@ -39,23 +41,20 @@ export async function signUpWithEmail(
     };
   }
 
-  const { email, password, username } = validatedFields.data;
-
+  // We can add a server-side check here to see if the email already exists
+  // This is a good practice to give instant feedback without a client-side Firebase call.
   try {
-    await getAuth(serverApp).createUser({
-      email,
-      password,
-      displayName: username || '',
-    });
-    // This is a server action. The client will handle the actual login state.
-    // We just return success.
-    return { message: 'Success' };
+      await getAuth(serverApp).getUserByEmail(validatedFields.data.email);
+      // If the above line doesn't throw, the user exists.
+      return { message: 'An account with this email already exists.' };
   } catch (error: any) {
-    if (error.code === 'auth/email-already-exists') {
-        return { message: 'This email is already in use.' };
-    }
-    console.error('Sign Up Error:', error);
-    return { message: 'An unexpected error occurred. Please try again.' };
+      if (error.code === 'auth/user-not-found') {
+          // This is the expected case for a new user. We can proceed.
+          return { message: 'Success' };
+      }
+      // Handle other potential Firebase admin errors if necessary
+      console.error('Admin SDK Error:', error);
+      return { message: 'An unexpected server error occurred.' };
   }
 }
 
