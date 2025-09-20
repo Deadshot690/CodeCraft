@@ -48,39 +48,41 @@ export default function CodeCatcherGamePage() {
         }
     }, [params.id]);
 
-    const resetGame = () => {
+    const resetGame = useCallback(() => {
         setScore(0);
         setLives(3);
         setFallingItems([]);
         setGameState('idle');
-        cancelAnimationFrame(gameLoopRef.current!);
-        clearInterval(itemIntervalRef.current!);
-    }
+        if (gameLoopRef.current) cancelAnimationFrame(gameLoopRef.current);
+        if (itemIntervalRef.current) clearInterval(itemIntervalRef.current);
+    }, []);
 
     const startGame = () => {
         if (!challenge) return;
-        setScore(0);
-        setLives(3);
-        setFallingItems([]);
+        
+        resetGame();
         setGameState('playing');
 
         gameLoopRef.current = requestAnimationFrame(gameTick);
 
         itemIntervalRef.current = setInterval(() => {
-            const isGood = Math.random() > 0.4; // 60% chance of good snippet
-            const snippets = isGood ? challenge.goodSnippets : challenge.badSnippets;
-            const text = snippets[Math.floor(Math.random() * snippets.length)];
-            
-            setFallingItems(prev => [
-                ...prev,
-                {
-                    id: Date.now() + Math.random(),
-                    text,
-                    isGood,
-                    x: Math.random() * (GAME_WIDTH - ITEM_WIDTH),
-                    y: -ITEM_HEIGHT,
-                }
-            ]);
+            setFallingItems(prev => {
+                if(prev.length > 10) return prev; // Prevent too many items
+                const isGood = Math.random() > 0.4; 
+                const snippets = isGood ? challenge.goodSnippets : challenge.badSnippets;
+                const text = snippets[Math.floor(Math.random() * snippets.length)];
+                
+                return [
+                    ...prev,
+                    {
+                        id: Date.now() + Math.random(),
+                        text,
+                        isGood,
+                        x: Math.random() * (GAME_WIDTH - ITEM_WIDTH),
+                        y: -ITEM_HEIGHT,
+                    }
+                ];
+            });
         }, 1200);
     };
 
@@ -101,32 +103,29 @@ export default function CodeCatcherGamePage() {
         window.addEventListener('keydown', handleKeyDown);
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
-            // Cleanup game loop and interval on component unmount
             if (gameLoopRef.current) cancelAnimationFrame(gameLoopRef.current);
             if (itemIntervalRef.current) clearInterval(itemIntervalRef.current);
         };
     }, [handleKeyDown]);
     
     const gameTick = useCallback(() => {
-        if (gameState !== 'playing' || !challenge) return;
-
         setFallingItems(prevItems => {
-            const newItems: FallingItem[] = [];
             let newLives = lives;
             let newScore = score;
+            const updatedItems: FallingItem[] = [];
 
             for (const item of prevItems) {
-                const newItem = { ...item, y: item.y + 2 }; // Speed of falling
+                const newItem = { ...item, y: item.y + 2 };
 
-                // Collision detection
                 const basketLeft = basketX;
                 const basketRight = basketX + BASKET_WIDTH;
                 const itemLeft = newItem.x;
                 const itemRight = newItem.x + ITEM_WIDTH;
 
-                if (newItem.y + ITEM_HEIGHT >= GAME_HEIGHT - 30 && newItem.y < GAME_HEIGHT - 20) {
+                // Check for collision with basket
+                if (newItem.y + ITEM_HEIGHT >= GAME_HEIGHT - 20 && newItem.y + ITEM_HEIGHT < GAME_HEIGHT) {
                      if (itemLeft < basketRight && itemRight > basketLeft) {
-                        // Caught!
+                        // Caught
                         if (item.isGood) {
                            newScore += 10;
                            toast({ title: 'Good Catch!', description: '+10 points' });
@@ -134,18 +133,20 @@ export default function CodeCatcherGamePage() {
                            newLives -= 1;
                            toast({ variant: 'destructive', title: 'Bad Code!', description: '-1 life' });
                         }
-                        continue; // Remove item
+                        continue; // Item is caught, remove from next frame
                     }
                 }
 
+                // Check if item missed the basket and went off screen
                 if (newItem.y > GAME_HEIGHT) {
-                    if(item.isGood) {
-                        newLives -=1; // Lose a life if you miss a good one
+                    if (item.isGood) {
+                        newLives -=1; 
                         toast({ variant: 'destructive', title: 'Missed!', description: 'A good snippet got away. -1 life' });
                     }
-                    continue; // Remove item
+                    continue; // Item is off-screen, remove from next frame
                 }
-                newItems.push(newItem);
+
+                updatedItems.push(newItem);
             }
             
             if (newLives !== lives) setLives(newLives);
@@ -154,17 +155,28 @@ export default function CodeCatcherGamePage() {
             if (newLives <= 0) {
                 setGameState('gameOver');
                 toast({ variant: 'destructive', title: 'Game Over!', description: `Final Score: ${newScore}` });
-                cancelAnimationFrame(gameLoopRef.current!);
                 clearInterval(itemIntervalRef.current!);
                 return [];
             }
             
-            return newItems;
+            return updatedItems;
         });
 
-        gameLoopRef.current = requestAnimationFrame(gameTick);
+        if (gameState === 'playing') {
+            gameLoopRef.current = requestAnimationFrame(gameTick);
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameState, basketX, lives, score, toast, challenge]);
+
+    useEffect(() => {
+        if (gameState === 'playing') {
+             gameLoopRef.current = requestAnimationFrame(gameTick);
+        }
+        return () => {
+             if (gameLoopRef.current) cancelAnimationFrame(gameLoopRef.current);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [gameState]);
 
 
     if (!challenge) {
@@ -265,3 +277,4 @@ export default function CodeCatcherGamePage() {
         </DashboardLayout>
     );
 }
+
