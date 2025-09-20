@@ -26,6 +26,7 @@ const languageDisplayMap: { [key: string]: string } = {
 function ChallengeRow({ challenge }: { challenge: ConceptMatchChallenge }) {
     return (
         <TableRow>
+            <TableCell>{challenge.srNo}</TableCell>
             <TableCell className="w-1/2">
                  <p className="font-medium">{challenge.concept}</p>
                  <p className="text-sm text-muted-foreground mt-1">{challenge.description}</p>
@@ -74,6 +75,7 @@ function ChallengeTable({ difficulty, language, search }: { difficulty: string; 
                 <Table>
                     <TableHeader>
                         <TableRow>
+                            <TableHead>Sr. No.</TableHead>
                             <TableHead className="w-1/2">Concept</TableHead>
                             <TableHead>Language</TableHead>
                             <TableHead>Difficulty</TableHead>
@@ -90,7 +92,7 @@ function ChallengeTable({ difficulty, language, search }: { difficulty: string; 
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={4} className="h-24 text-center">
+                                <TableCell colSpan={5} className="h-24 text-center">
                                     No challenges found.
                                 </TableCell>
                             </TableRow>

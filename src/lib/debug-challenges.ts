@@ -1,5 +1,6 @@
 
 export interface DebugChallenge {
+  srNo: number;
   id: string;
   title: string;
   description: string;
@@ -12,6 +13,7 @@ export interface DebugChallenge {
 export const debugChallenges: DebugChallenge[] = [
   // JavaScript - Easy
   {
+    srNo: 1,
     id: 'dc-js-easy-001',
     title: 'Simple Addition',
     description: 'This function should add two numbers, but it\'s returning a string instead.',
@@ -21,6 +23,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 2,
     id: 'dc-js-easy-002',
     title: 'Loop Condition',
     description: 'This loop should print numbers from 0 to 4, but it\'s an infinite loop!',
@@ -30,6 +33,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 3,
     id: 'dc-js-easy-003',
     title: 'Object Property Access',
     description: 'The function should return the name of the user object.',
@@ -39,6 +43,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
     {
+    srNo: 4,
     id: 'dc-js-easy-004',
     title: 'Equality Check',
     description: 'The function should check for strict equality, but it\'s using loose equality.',
@@ -48,6 +53,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 5,
     id: 'dc-js-easy-005',
     title: 'Function Call',
     description: 'This function is defined but never called.',
@@ -57,6 +63,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 6,
     id: 'dc-js-easy-006',
     title: 'Variable Scope',
     description: 'The variable is declared inside the if-block and not accessible outside.',
@@ -66,6 +73,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 7,
     id: 'dc-js-easy-007',
     title: 'Array Push Return',
     description: '`array.push()` returns the new length of the array, not the array itself.',
@@ -75,6 +83,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 8,
     id: 'dc-js-easy-008',
     title: 'String Immutability',
     description: 'Strings are immutable in JavaScript. Methods like `toUpperCase()` return a new string.',
@@ -84,6 +93,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 9,
     id: 'dc-js-easy-009',
     title: 'Incorrect Parameter',
     description: 'The function is called with the wrong variable.',
@@ -93,6 +103,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 10,
     id: 'dc-js-easy-010',
     title: 'Missing return',
     description: 'The function should return a value but has no return statement.',
@@ -102,6 +113,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 11,
     id: 'dc-js-easy-011',
     title: 'Array Length Property',
     description: 'To get the number of elements in an array, use the `.length` property, not the `.length()` method.',
@@ -111,6 +123,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 12,
     id: 'dc-js-easy-012',
     title: 'Case Sensitivity',
     description: 'JavaScript is case-sensitive. `Console.log` is not the same as `console.log`.',
@@ -122,6 +135,7 @@ export const debugChallenges: DebugChallenge[] = [
 
   // JavaScript - Medium
   {
+    srNo: 13,
     id: 'dc-js-medium-001',
     title: 'Array Indexing',
     description: 'This function should return the first element of the array.',
@@ -131,6 +145,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 14,
     id: 'dc-js-medium-002',
     title: 'Async Await',
     description: 'This async function is not correctly waiting for the promise to resolve.',
@@ -140,6 +155,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
    {
+    srNo: 15,
     id: 'dc-js-medium-003',
     title: 'Array Map Usage',
     description: 'The `map` function should return the new value in the callback.',
@@ -149,6 +165,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 16,
     id: 'dc-js-medium-004',
     title: 'Object Reference vs Copy',
     description: 'Modifying the `copy` object is also modifying the `original` object.',
@@ -158,6 +175,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 17,
     id: 'dc-js-medium-005',
     title: 'Array Splice Mutation',
     description: '`splice` mutates the original array, causing the loop to skip elements.',
@@ -167,6 +185,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 18,
     id: 'dc-js-medium-006',
     title: 'Event Listener Removal',
     description: 'To remove an event listener, you must pass the exact same function reference, not a new anonymous function.',
@@ -176,6 +195,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 19,
     id: 'dc-js-medium-007',
     title: 'Date Object Month',
     description: 'The `getMonth()` method in JavaScript is 0-indexed (0=January, 11=December).',
@@ -185,6 +205,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 20,
     id: 'dc-js-medium-008',
     title: 'parseInt Radix',
     description: '`parseInt` can misinterpret numbers with leading zeros if a radix (base) is not specified.',
@@ -194,6 +215,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
     {
+    srNo: 21,
     id: 'dc-js-medium-009',
     title: '`sort()` with Numbers',
     description: 'The default `sort()` method sorts elements as strings. A compare function is needed for numeric sort.',
@@ -203,6 +225,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 22,
     id: 'dc-js-medium-010',
     title: 'Array `filter()` Return',
     description: 'The `filter` callback must return a boolean value indicating whether to keep the element.',
@@ -212,6 +235,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 23,
     id: 'dc-js-medium-011',
     title: '`this` in a Callback',
     description: 'In a regular function callback, `this` loses its original context. An arrow function is needed to preserve it.',
@@ -223,6 +247,7 @@ export const debugChallenges: DebugChallenge[] = [
   
   // JavaScript - Hard
   {
+    srNo: 24,
     id: 'dc-js-hard-001',
     title: 'Shallow Copy Object',
     description: 'This function is supposed to deep clone an object, but modifying the nested object in the clone also modifies the original.',
@@ -232,6 +257,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 25,
     id: 'dc-js-hard-002',
     title: 'The `this` keyword context',
     description: 'The `this` inside the `setTimeout` refers to the global object (window), not the `user` object.',
@@ -241,6 +267,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 26,
     id: 'dc-js-hard-003',
     title: 'Closure Loop Problem',
     description: 'By the time the `setTimeout` callbacks run, the loop has completed and `i` is 5.',
@@ -250,6 +277,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 27,
     id: 'dc-js-hard-004',
     title: 'Promise Chain',
     description: 'The second `.then` receives `undefined` because the first one doesn\'t return a value.',
@@ -259,6 +287,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 28,
     id: 'dc-js-hard-005',
     title: 'Race Condition',
     description: 'Two async functions modify the same variable, leading to a race condition. The final value is unpredictable.',
@@ -268,6 +297,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
     {
+    srNo: 29,
     id: 'dc-js-hard-006',
     title: 'Floating Point Precision',
     description: 'Classic floating point math problem. 0.1 + 0.2 does not equal 0.3.',
@@ -277,6 +307,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 30,
     id: 'dc-js-hard-007',
     title: 'Array `reduce` Initial Value',
     description: '`reduce` on an empty array without an initial value throws a `TypeError`.',
@@ -286,6 +317,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 31,
     id: 'dc-js-hard-008',
     title: 'Promise.all with Non-Promises',
     description: '`Promise.all` still returns a promise even if the array contains non-promise values.',
@@ -295,6 +327,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 32,
     id: 'dc-js-hard-009',
     title: 'Bind `this` Context',
     description: 'When passing a method as a callback, its `this` context is lost. It must be explicitly bound.',
@@ -304,6 +337,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 33,
     id: 'dc-js-hard-010',
     title: 'Incorrect `JSON.stringify` Use',
     description: '`JSON.stringify` can take a replacer function and a space argument. Providing a number as the second argument is incorrect for spacing.',
@@ -315,6 +349,7 @@ export const debugChallenges: DebugChallenge[] = [
 
   // Python - Easy
   {
+    srNo: 34,
     id: 'dc-py-easy-001',
     title: 'Indentation Error',
     description: 'This function has an indentation error.',
@@ -324,6 +359,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 35,
     id: 'dc-py-easy-002',
     title: 'String to Int Conversion',
     description: 'This should add two numbers, but it\'s concatenating strings.',
@@ -333,6 +369,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 36,
     id: 'dc-py-easy-003',
     title: 'Missing Colon',
     description: 'A colon is missing at the end of the `if` statement.',
@@ -342,6 +379,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
     {
+    srNo: 37,
     id: 'dc-py-easy-004',
     title: 'Using = instead of ==',
     description: 'The `if` statement uses the assignment operator `=` instead of the comparison operator `==`.',
@@ -351,6 +389,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 38,
     id: 'dc-py-easy-005',
     title: 'Incorrect Method Name',
     description: 'The method to add an item to a list is `append`, not `add`.',
@@ -360,6 +399,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 39,
     id: 'dc-py-easy-006',
     title: 'Dictionary Key Access',
     description: 'Accessing a dictionary key uses square brackets, not parentheses.',
@@ -369,6 +409,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 40,
     id: 'dc-py-easy-007',
     title: 'len() on Integer',
     description: 'The `len()` function cannot be used on integers.',
@@ -378,6 +419,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 41,
     id: 'dc-py-easy-008',
     title: 'Function Return',
     description: 'The function calculates a value but never returns it.',
@@ -387,6 +429,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 42,
     id: 'dc-py-easy-009',
     title: 'Input as String',
     description: 'The `input()` function returns a string, which needs to be converted to an integer for math.',
@@ -396,6 +439,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 43,
     id: 'dc-py-easy-010',
     title: 'Range Exclusive',
     description: 'The `range(n)` function goes from 0 up to `n-1`. It does not include `n`.',
@@ -405,6 +449,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 44,
     id: 'dc-py-easy-011',
     title: 'Boolean Capitalization',
     description: 'In Python, boolean values are capitalized: `True` and `False`.',
@@ -414,6 +459,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 45,
     id: 'dc-py-easy-012',
     title: 'Elif Syntax',
     description: 'The keyword for "else if" in Python is `elif`, not `elseif`.',
@@ -425,6 +471,7 @@ export const debugChallenges: DebugChallenge[] = [
 
   // Python - Medium
   {
+    srNo: 46,
     id: 'dc-py-medium-001',
     title: 'List Default Argument',
     description: 'Using a mutable default argument can lead to unexpected behavior.',
@@ -434,6 +481,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 47,
     id: 'dc-py-medium-002',
     title: 'Float Division',
     description: 'The `/` operator in Python 3 performs float division. Use `//` for integer division.',
@@ -443,6 +491,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 48,
     id: 'dc-py-medium-003',
     title: 'Accessing Dictionary Key',
     description: 'Accessing a non-existent key will raise a `KeyError`. Use `.get()` for safer access.',
@@ -452,6 +501,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 49,
     id: 'dc-py-medium-004',
     title: 'List Slicing Copy',
     description: 'Assigning a list to a new variable creates a reference, not a copy. Slicing is needed to create a shallow copy.',
@@ -461,6 +511,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 50,
     id: 'dc-py-medium-005',
     title: 'Global Keyword',
     description: 'To modify a global variable inside a function, you must use the `global` keyword.',
@@ -470,6 +521,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 51,
     id: 'dc-py-medium-006',
     title: 'Exception Syntax',
     description: 'The syntax for catching an exception is `except Exception as e`.',
@@ -479,6 +531,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 52,
     id: 'dc-py-medium-007',
     title: 'Iterating and Modifying Dictionary',
     description: 'You cannot add or remove keys from a dictionary while iterating over it.',
@@ -488,6 +541,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 53,
     id: 'dc-py-medium-008',
     title: 'String Concatenation in Loop',
     description: 'Repeatedly concatenating strings in a loop is inefficient. It is better to append to a list and then join.',
@@ -497,6 +551,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 54,
     id: 'dc-py-medium-009',
     title: 'Missing `self`',
     description: 'Methods in a Python class must have `self` as their first parameter.',
@@ -506,6 +561,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 55,
     id: 'dc-py-medium-010',
     title: 'Tuple Immutability',
     description: 'Tuples are immutable and their items cannot be reassigned.',
@@ -515,6 +571,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 56,
     id: 'dc-py-medium-011',
     title: 'Set vs List',
     description: 'Sets do not allow duplicate elements. This code is trying to create a list of duplicates from a set.',
@@ -526,6 +583,7 @@ export const debugChallenges: DebugChallenge[] = [
 
   // Python - Hard
   {
+    srNo: 57,
     id: 'dc-py-hard-001',
     title: 'Looping over list copy',
     description: 'Modifying a list while iterating over it can lead to skipping items.',
@@ -535,6 +593,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 58,
     id: 'dc-py-hard-002',
     title: 'Class Variable vs Instance Variable',
     description: 'The `tags` variable is a class variable, shared by all instances. It should be an instance variable.',
@@ -544,6 +603,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 59,
     id: 'dc-py-hard-003',
     title: 'Generator Exhaustion',
     description: 'A generator can only be iterated over once. Trying to iterate a second time yields nothing.',
@@ -553,6 +613,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 60,
     id: 'dc-py-hard-004',
     title: 'Late Binding Closures',
     description: 'Variables in closures are bound by name. The value of `i` is looked up when the lambda is called, by which time the loop has finished.',
@@ -562,6 +623,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 61,
     id: 'dc-py-hard-005',
     title: 'Deep vs Shallow Copy',
     description: 'A shallow copy of a list of lists will still have references to the inner lists.',
@@ -571,6 +633,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 62,
     id: 'dc-py-hard-006',
     title: '`datetime` Timezone Naivety',
     description: '`datetime.now()` creates a "naive" datetime object without timezone info, which can cause issues.',
@@ -580,6 +643,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 63,
     id: 'dc-py-hard-007',
     title: 'Circular Import',
     description: 'Module `a` imports `b` and module `b` imports `a`. This causes a circular dependency.',
@@ -591,6 +655,7 @@ export const debugChallenges: DebugChallenge[] = [
 
   // Java - Easy
   {
+    srNo: 64,
     id: 'dc-java-easy-001',
     title: 'Missing Semicolon',
     description: 'A semicolon is missing at the end of a statement.',
@@ -600,6 +665,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 65,
     id: 'dc-java-easy-002',
     title: 'String Comparison',
     description: 'Strings should be compared using .equals(), not ==.',
@@ -609,6 +675,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 66,
     id: 'dc-java-easy-003',
     title: 'Incorrect Main Signature',
     description: 'The `main` method has an incorrect signature. It should accept `String[] args`.',
@@ -618,6 +685,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
     {
+    srNo: 67,
     id: 'dc-java-easy-004',
     title: 'Integer Division',
     description: 'Dividing two integers results in an integer. One must be a double for float division.',
@@ -627,6 +695,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 68,
     id: 'dc-java-easy-005',
     title: 'Array Initialization',
     description: 'The syntax for initializing an array is incorrect.',
@@ -636,6 +705,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 69,
     id: 'dc-java-easy-006',
     title: 'Public Class Filename',
     description: 'A public class `MyClass` must be in a file named `MyClass.java`.',
@@ -645,6 +715,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 70,
     id: 'dc-java-easy-007',
     title: 'Unreachable Code',
     description: 'Code after a `return` statement in the same block is unreachable.',
@@ -654,6 +725,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 71,
     id: 'dc-java-easy-008',
     title: 'Array Indexing Loop',
     description: 'The loop condition should be `i < array.length` to avoid an `ArrayIndexOutOfBoundsException`.',
@@ -663,6 +735,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 72,
     id: 'dc-java-easy-009',
     title: 'Abstract Method in Class',
     description: 'A class must be declared `abstract` to contain an abstract method.',
@@ -672,6 +745,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 73,
     id: 'dc-java-easy-010',
     title: 'Character vs String',
     description: 'Single quotes are for `char` literals, while double quotes are for `String` literals.',
@@ -681,6 +755,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 74,
     id: 'dc-java-easy-011',
     title: 'Missing `new` Keyword',
     description: 'The `new` keyword is required to instantiate an object.',
@@ -692,6 +767,7 @@ export const debugChallenges: DebugChallenge[] = [
   
   // Java - Medium
   {
+    srNo: 75,
     id: 'dc-java-medium-001',
     title: 'Array Index Out of Bounds',
     description: 'The loop condition should be `<` instead of `<=`.',
@@ -701,6 +777,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 76,
     id: 'dc-java-medium-002',
     title: 'NullPointerException',
     description: 'Calling a method on a null reference will throw a NullPointerException.',
@@ -710,6 +787,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 77,
     id: 'dc-java-medium-003',
     title: 'Floating Point Inaccuracy',
     description: 'Using `float` or `double` for currency is risky due to precision issues. `BigDecimal` should be used.',
@@ -719,6 +797,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 78,
     id: 'dc-java-medium-004',
     title: 'Integer Caching',
     description: '`Integer` objects are cached for values -128 to 127. Outside this range, `==` compares references, not values.',
@@ -728,6 +807,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
    {
+    srNo: 79,
     id: 'dc-java-medium-005',
     title: 'Default Switch Case',
     description: 'Forgetting `break` statements in a `switch` causes "fall-through" to subsequent cases.',
@@ -737,6 +817,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 80,
     id: 'dc-java-medium-006',
     title: 'SubList is a View',
     description: '`List.subList()` returns a view of the original list, not a new list. Modifying it modifies the original.',
@@ -746,6 +827,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 81,
     id: 'dc-java-medium-007',
     title: 'Static Method Call',
     description: 'Static methods belong to the class and should be called on the class itself, not on an instance.',
@@ -755,6 +837,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 82,
     id: 'dc-java-medium-008',
     title: 'Final Variable Reassignment',
     description: 'A variable marked as `final` cannot be reassigned after it has been initialized.',
@@ -766,6 +849,7 @@ export const debugChallenges: DebugChallenge[] = [
   
   // Java - Hard
   {
+    srNo: 83,
     id: 'dc-java-hard-001',
     title: 'Concurrent Modification',
     description: 'You cannot remove items from a list while iterating with an enhanced for-loop.',
@@ -775,6 +859,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 84,
     id: 'dc-java-hard-002',
     title: 'Static Variable Misuse',
     description: 'The counter is `static`, so it\'s shared by all instances of Counter, not unique to each.',
@@ -784,6 +869,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 85,
     id: 'dc-java-hard-003',
     title: 'Unclosed Resource',
     description: 'File streams and other resources must be closed to prevent leaks. A try-with-resources statement is best.',
@@ -793,6 +879,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 86,
     id: 'dc-java-hard-004',
     title: 'Thread Safety',
     description: 'Multiple threads accessing and modifying `count` can lead to a race condition.',
@@ -802,6 +889,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 87,
     id: 'dc-java-hard-005',
     title: 'Overriding equals without hashCode',
     description: 'If you override `equals()`, you must also override `hashCode()` to maintain the contract for collections like `HashMap`.',
@@ -811,6 +899,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 88,
     id: 'dc-java-hard-006',
     title: 'Date Object Mutability',
     description: '`Date` objects are mutable. Returning a direct reference allows the caller to modify the internal state of the class.',
@@ -820,6 +909,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 89,
     id: 'dc-java-hard-007',
     title: 'Arrays.asList Immutability',
     description: 'The list returned by `Arrays.asList` is fixed-size. You cannot add or remove elements.',
@@ -831,6 +921,7 @@ export const debugChallenges: DebugChallenge[] = [
   
   // C++ - Easy
   {
+    srNo: 90,
     id: 'dc-cpp-easy-001',
     title: 'Missing Header',
     description: 'The `iostream` header is required for `std::cout`.',
@@ -840,6 +931,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 91,
     id: 'dc-cpp-easy-002',
     title: 'Pointer Null Check',
     description: 'The pointer should be checked for null before dereferencing.',
@@ -849,6 +941,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 92,
     id: 'dc-cpp-easy-003',
     title: 'Using namespace',
     description: 'The `std` namespace is not specified for `cout`.',
@@ -858,6 +951,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 93,
     id: 'dc-cpp-easy-004',
     title: 'Vector Access',
     description: 'Accessing a vector element at an index that is out of bounds.',
@@ -867,6 +961,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 94,
     id: 'dc-cpp-easy-005',
     title: 'Assignment in Condition',
     description: 'Using `=` (assignment) instead of `==` (comparison) in an if-statement.',
@@ -876,6 +971,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 95,
     id: 'dc-cpp-easy-006',
     title: 'Missing return statement',
     description: 'A function declared to return a value must have a return statement.',
@@ -885,6 +981,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 96,
     id: 'dc-cpp-easy-007',
     title: '`cin` with spaces',
     description: '`cin` stops reading at the first whitespace character. Use `getline` to read a full line.',
@@ -894,6 +991,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
    {
+    srNo: 97,
     id: 'dc-cpp-easy-008',
     title: 'Semicolon After Function',
     description: 'An extra semicolon after the function definition is a syntax error.',
@@ -903,6 +1001,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 98,
     id: 'dc-cpp-easy-009',
     title: 'Header Guards',
     description: 'A header file is missing include guards, which can cause multiple-definition errors.',
@@ -912,6 +1011,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 99,
     id: 'dc-cpp-easy-010',
     title: 'Character Literal',
     description: 'Double quotes create a string literal, not a character literal.',
@@ -923,6 +1023,7 @@ export const debugChallenges: DebugChallenge[] = [
   
   // C++ - Medium
   {
+    srNo: 100,
     id: 'dc-cpp-medium-001',
     title: 'Buffer Overflow',
     description: '`strcpy` does not check buffer bounds, leading to a potential overflow.',
@@ -932,6 +1033,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 101,
     id: 'dc-cpp-medium-002',
     title: 'Uninitialized Variable',
     description: 'The variable `x` is used without being initialized.',
@@ -941,6 +1043,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 102,
     id: 'dc-cpp-medium-003',
     title: 'Object Slicing',
     description: 'Assigning a derived class object to a base class object slices off the derived part.',
@@ -950,6 +1053,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 103,
     id: 'dc-cpp-medium-004',
     title: 'Delete vs Delete[]',
     description: 'Memory allocated for an array with `new[]` must be freed with `delete[]`.',
@@ -959,6 +1063,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 104,
     id: 'dc-cpp-medium-005',
     title: 'Missing Break in Switch',
     description: 'Forgetting `break` in a `switch` statement causes fall-through.',
@@ -968,6 +1073,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 105,
     id: 'dc-cpp-medium-006',
     title: 'Pass by Value',
     description: 'The vector is passed by value, so modifications inside the function do not affect the original.',
@@ -977,6 +1083,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 106,
     id: 'dc-cpp-medium-007',
     title: 'Const correctness',
     description: 'A method that does not modify the object\'s state should be marked `const`.',
@@ -986,6 +1093,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 107,
     id: 'dc-cpp-medium-008',
     title: 'Comparing Floats',
     description: 'Directly comparing floating-point numbers for equality can fail due to precision issues.',
@@ -997,6 +1105,7 @@ export const debugChallenges: DebugChallenge[] = [
 
   // C++ - Hard
   {
+    srNo: 108,
     id: 'dc-cpp-hard-001',
     title: 'Memory Leak',
     description: 'Memory allocated with `new` must be deallocated with `delete`.',
@@ -1006,6 +1115,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 109,
     id: 'dc-cpp-hard-002',
     title: 'Dangling Pointer',
     description: 'Returning a pointer to a local variable, which is destroyed when the function exits.',
@@ -1015,6 +1125,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 110,
     id: 'dc-cpp-hard-003',
     title: 'Rule of Three Violation',
     description: 'If a class needs a destructor, it almost certainly needs a copy constructor and copy assignment operator.',
@@ -1024,6 +1135,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 111,
     id: 'dc-cpp-hard-004',
     title: 'Virtual Destructor',
     description: 'When deleting a derived object through a base pointer, the base destructor must be virtual to ensure the derived destructor is called.',
@@ -1033,6 +1145,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 112,
     id: 'dc-cpp-hard-005',
     title: 'Iterator Invalidation',
     description: 'Erasing elements from a `std::vector` invalidates iterators, leading to undefined behavior.',
@@ -1042,6 +1155,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 113,
     id: 'dc-cpp-hard-006',
     title: 'Integer Overflow',
     description: 'Adding two large integers can result in an overflow, wrapping around to a negative number.',
@@ -1051,6 +1165,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 114,
     id: 'dc-cpp-hard-007',
     title: 'Static Initialization Fiasco',
     description: 'The order of initialization of static objects in different translation units is not guaranteed.',
@@ -1060,6 +1175,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 115,
     id: 'dc-cpp-hard-008',
     title: 'Template Instantiation Error',
     description: 'The template requires a type that supports the `>` operator, but `MyObject` does not.',
@@ -1069,6 +1185,7 @@ export const debugChallenges: DebugChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 116,
     id: 'dc-cpp-hard-009',
     title: 'Using `std::endl`',
     description: '`std::endl` is often used when `\'\\n\'` is sufficient. `std::endl` also forces a flush of the stream, which can be a performance bottleneck.',

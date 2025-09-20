@@ -1,5 +1,6 @@
 
 export interface JigsawChallenge {
+  srNo: number;
   id: string;
   title: string;
   description: string;
@@ -11,6 +12,7 @@ export interface JigsawChallenge {
 export const jigsawChallenges: JigsawChallenge[] = [
   // JavaScript - Easy
   {
+    srNo: 1,
     id: 'jg-js-easy-01',
     title: 'Simple Greeting',
     description: 'Create a function that returns a greeting string.',
@@ -23,6 +25,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 2,
     id: 'jg-js-easy-02',
     title: 'Variable Declaration',
     description: 'Declare two variables and add them.',
@@ -35,6 +38,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 3,
     id: 'jg-js-easy-03',
     title: 'Simple For Loop',
     description: 'Loop from 0 to 4 and print each number.',
@@ -47,6 +51,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 4,
     id: 'jg-js-easy-04',
     title: 'Simple If Statement',
     description: 'Check if a number is greater than 10.',
@@ -60,6 +65,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 5,
     id: 'jg-js-easy-05',
     title: 'Simple While Loop',
     description: 'Use a while loop to count to 3.',
@@ -74,6 +80,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 6,
     id: 'jg-js-easy-06',
     title: 'Accessing Array Elements',
     description: 'Define an array and access its second element.',
@@ -85,6 +92,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 7,
     id: 'jg-js-easy-07',
     title: 'String Length',
     description: 'Get the length of a string.',
@@ -96,6 +104,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 8,
     id: 'jg-js-easy-08',
     title: 'Function with Parameter',
     description: 'Create a function that takes a name as a parameter.',
@@ -108,6 +117,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 9,
     id: 'jg-js-easy-09',
     title: 'Simple Boolean Logic',
     description: 'Check if two conditions are true.',
@@ -122,6 +132,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 10,
     id: 'jg-js-easy-10',
     title: 'Object Property Access',
     description: 'Access a property from a simple object.',
@@ -135,6 +146,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
 
   // JavaScript - Medium
   {
+    srNo: 11,
     id: 'jg-js-medium-01',
     title: 'Arrow Function',
     description: 'Define a simple arrow function to double a number.',
@@ -147,6 +159,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 12,
     id: 'jg-js-medium-02',
     title: 'Array Map',
     description: 'Use the map function to create a new array with doubled values.',
@@ -160,6 +173,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 13,
     id: 'jg-js-medium-03',
     title: 'Object Literal',
     description: 'Create a simple object representing a person.',
@@ -173,6 +187,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
     {
+    srNo: 14,
     id: 'jg-js-medium-04',
     title: 'Async/Await Fetch',
     description: 'Fetch data from an API using async/await.',
@@ -187,6 +202,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 15,
     id: 'jg-js-medium-05',
     title: 'Array Filter',
     description: 'Filter an array to get only even numbers.',
@@ -200,6 +216,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 16,
     id: 'jg-js-medium-06',
     title: 'Switch Statement',
     description: 'Check the value of a variable using a switch statement.',
@@ -217,6 +234,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 17,
     id: 'jg-js-medium-07',
     title: 'Destructuring Assignment',
     description: 'Use destructuring to extract values from an object.',
@@ -229,6 +247,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 18,
     id: 'jg-js-medium-08',
     title: 'Array Find',
     description: 'Find the first element in an array that satisfies a condition.',
@@ -242,6 +261,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 19,
     id: 'jg-js-medium-09',
     title: 'Template Literals',
     description: 'Create a string using template literals.',
@@ -254,6 +274,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 20,
     id: 'jg-js-medium-10',
     title: 'forEach Loop',
     description: 'Iterate over an array using the forEach method.',
@@ -269,6 +290,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
 
   // JavaScript - Hard
   {
+    srNo: 21,
     id: 'jg-js-hard-01',
     title: 'Simple Class',
     description: 'Define a simple class for a Rectangle.',
@@ -287,6 +309,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 22,
     id: 'jg-js-hard-02',
     title: 'Array Reduce',
     description: 'Use reduce to sum up all numbers in an array.',
@@ -300,6 +323,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 23,
     id: 'jg-js-hard-03',
     title: 'Simple Promise',
     description: 'Create a promise that resolves after a delay.',
@@ -317,6 +341,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 24,
     id: 'jg-js-hard-04',
     title: 'Simple Closure',
     description: 'Create a function that demonstrates closure.',
@@ -334,6 +359,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
     {
+    srNo: 25,
     id: 'jg-js-hard-05',
     title: 'Event Listener',
     description: 'Add a click event listener to a button element.',
@@ -347,6 +373,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 26,
     id: 'jg-js-hard-06',
     title: 'JSON stringify',
     description: 'Convert a JavaScript object to a JSON string.',
@@ -359,6 +386,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 27,
     id: 'jg-js-hard-07',
     title: 'JSON parse',
     description: 'Parse a JSON string into a JavaScript object.',
@@ -371,6 +399,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 28,
     id: 'jg-js-hard-08',
     title: 'Try...Catch Block',
     description: 'Handle a potential runtime error gracefully.',
@@ -385,6 +414,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 29,
     id: 'jg-js-hard-09',
     title: 'Class Inheritance',
     description: 'Create a class that inherits from another class.',
@@ -401,6 +431,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 30,
     id: 'jg-js-hard-10',
     title: 'Spread Operator',
     description: 'Use the spread operator to combine arrays and objects.',
@@ -416,6 +447,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
 
   // Python - Easy
   {
+    srNo: 31,
     id: 'jg-py-easy-01',
     title: 'Simple Function',
     description: 'Define a function that returns the sum of two numbers.',
@@ -427,6 +459,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 32,
     id: 'jg-py-easy-02',
     title: 'Basic For Loop',
     description: 'Print numbers from 0 to 4.',
@@ -438,6 +471,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 33,
     id: 'jg-py-easy-03',
     title: 'List Creation',
     description: 'Create a list of fruits.',
@@ -449,6 +483,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
     {
+    srNo: 34,
     id: 'jg-py-easy-04',
     title: 'If/Else statement',
     description: 'Check if a number is positive or not.',
@@ -463,6 +498,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 35,
     id: 'jg-py-easy-05',
     title: 'User Input',
     description: 'Get a user\'s name and print a greeting.',
@@ -474,6 +510,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 36,
     id: 'jg-py-easy-06',
     title: 'While Loop',
     description: 'Use a while loop to count down from 3.',
@@ -487,6 +524,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 37,
     id: 'jg-py-easy-07',
     title: 'Get string length',
     description: 'Find the length of a given string.',
@@ -499,6 +537,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 38,
     id: 'jg-py-easy-08',
     title: 'List Append',
     description: 'Add an item to the end of a list.',
@@ -511,6 +550,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 39,
     id: 'jg-py-easy-09',
     title: 'String Formatting',
     description: 'Format a string using an f-string.',
@@ -523,6 +563,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 40,
     id: 'jg-py-easy-10',
     title: 'Dictionary Access',
     description: 'Access a value in a dictionary by its key.',
@@ -537,6 +578,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
 
   // Python - Medium
   {
+    srNo: 41,
     id: 'jg-py-medium-01',
     title: 'List Comprehension',
     description: 'Create a list of squares for numbers 0 through 9.',
@@ -548,6 +590,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 42,
     id: 'jg-py-medium-02',
     title: 'Dictionary',
     description: 'Create and access a simple dictionary.',
@@ -562,6 +605,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
     {
+    srNo: 43,
     id: 'jg-py-medium-03',
     title: 'File Reading',
     description: 'Open and read a file line by line.',
@@ -574,6 +618,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 44,
     id: 'jg-py-medium-04',
     title: 'Looping Through Dictionary',
     description: 'Iterate over the keys and values of a dictionary.',
@@ -586,6 +631,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 45,
     id: 'jg-py-medium-05',
     title: 'Lambda Function',
     description: 'Use a lambda function to sort a list of tuples.',
@@ -598,6 +644,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 46,
     id: 'jg-py-medium-06',
     title: 'Exception Handling',
     description: 'Handle a potential ZeroDivisionError.',
@@ -611,6 +658,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 47,
     id: 'jg-py-medium-07',
     title: 'Import Module',
     description: 'Import the `math` module and use a function from it.',
@@ -623,6 +671,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 48,
     id: 'jg-py-medium-08',
     title: 'Slicing a String',
     description: 'Extract a substring using slicing.',
@@ -634,6 +683,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 49,
     id: 'jg-py-medium-09',
     title: 'Check if Item in List',
     description: 'Check if a specific item exists in a list.',
@@ -646,6 +696,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 50,
     id: 'jg-py-medium-10',
     title: 'Default Parameter Value',
     description: 'Define a function with a default parameter value.',
@@ -661,6 +712,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
 
   // Python - Hard
   {
+    srNo: 51,
     id: 'jg-py-hard-01',
     title: 'Simple Class',
     description: 'Define a simple class for a Dog.',
@@ -677,6 +729,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
     {
+    srNo: 52,
     id: 'jg-py-hard-02',
     title: 'Simple Decorator',
     description: 'Create a simple decorator to wrap a function.',
@@ -696,6 +749,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 53,
     id: 'jg-py-hard-03',
     title: 'Generator Function',
     description: 'Create a generator that yields Fibonacci numbers.',
@@ -710,6 +764,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 54,
     id: 'jg-py-hard-04',
     title: 'Class Inheritance',
     description: 'Create a subclass that inherits from a parent class.',
@@ -725,6 +780,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 55,
     id: 'jg-py-hard-05',
     title: 'File Writing',
     description: 'Open a file for writing and add content to it.',
@@ -737,6 +793,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 56,
     id: 'jg-py-hard-06',
     title: 'Set Operations',
     description: 'Find the intersection of two sets.',
@@ -750,6 +807,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 57,
     id: 'jg-py-hard-07',
     title: 'Recursion',
     description: 'Calculate factorial using recursion.',
@@ -764,6 +822,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 58,
     id: 'jg-py-hard-08',
     title: 'Reading JSON file',
     description: 'Load data from a JSON file.',
@@ -777,6 +836,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 59,
     id: 'jg-py-hard-09',
     title: 'Regular Expression',
     description: 'Use the `re` module to find a pattern in a string.',
@@ -791,6 +851,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 60,
     id: 'jg-py-hard-10',
     title: 'Filter Function',
     description: 'Use the filter() function to get only adult ages.',
@@ -809,6 +870,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
 
   // Java - Easy
   {
+    srNo: 61,
     id: 'jg-java-easy-01',
     title: 'Hello World',
     description: 'A standard "Hello, World!" program in Java.',
@@ -823,6 +885,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 62,
     id: 'jg-java-easy-02',
     title: 'Variable Declaration',
     description: 'Declare and print an integer variable.',
@@ -838,6 +901,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 63,
     id: 'jg-java-easy-03',
     title: 'String Variable',
     description: 'Declare and print a String.',
@@ -853,6 +917,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 64,
     id: 'jg-java-easy-04',
     title: 'If-Else Statement',
     description: 'Check a condition using an if-else block.',
@@ -868,6 +933,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 65,
     id: 'jg-java-easy-05',
     title: 'Array of Strings',
     description: 'Create an array of strings and access an element.',
@@ -879,6 +945,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 66,
     id: 'jg-java-easy-06',
     title: 'Method Call',
     description: 'Define and call a simple static method.',
@@ -894,6 +961,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 67,
     id: 'jg-java-easy-07',
     title: 'Boolean Variables',
     description: 'Declare and use boolean variables.',
@@ -906,6 +974,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 68,
     id: 'jg-java-easy-08',
     title: 'String Concatenation',
     description: 'Combine two strings.',
@@ -918,6 +987,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 69,
     id: 'jg-java-easy-09',
     title: 'Math.max()',
     description: 'Find the highest value of two numbers.',
@@ -932,6 +1002,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
   
   // Java - Medium
   {
+    srNo: 70,
     id: 'jg-java-medium-01',
     title: 'Simple Method',
     description: 'Create and call a simple method within a class.',
@@ -949,6 +1020,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 71,
     id: 'jg-java-medium-02',
     title: 'For Loop',
     description: 'Use a for loop to print numbers 0 to 4.',
@@ -965,6 +1037,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 72,
     id: 'jg-java-medium-03',
     title: 'Array Declaration',
     description: 'Declare an array of strings.',
@@ -980,6 +1053,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 73,
     id: 'jg-java-medium-04',
     title: 'Method with Parameters',
     description: 'Create a method that accepts parameters.',
@@ -997,6 +1071,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 74,
     id: 'jg-java-medium-05',
     title: 'Enhanced For Loop',
     description: 'Iterate over an array using the enhanced for loop.',
@@ -1010,6 +1085,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 75,
     id: 'jg-java-medium-06',
     title: 'Switch Statement',
     description: 'Use a switch statement to select a block of code to be executed.',
@@ -1027,6 +1103,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 76,
     id: 'jg-java-medium-07',
     title: 'While loop',
     description: 'Print numbers using a while loop.',
@@ -1041,6 +1118,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 77,
     id: 'jg-java-medium-08',
     title: 'Break Statement',
     description: 'Stop a loop if a certain condition is met.',
@@ -1056,6 +1134,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 78,
     id: 'jg-java-medium-09',
     title: 'String Length',
     description: 'Get the length of a string.',
@@ -1069,6 +1148,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
 
   // Java - Hard
   {
+    srNo: 79,
     id: 'jg-java-hard-01',
     title: 'Simple Class and Object',
     description: 'Create a simple Car class and an object from it.',
@@ -1090,6 +1170,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 80,
     id: 'jg-java-hard-02',
     title: 'ArrayList and Loop',
     description: 'Create an ArrayList and iterate through it.',
@@ -1109,6 +1190,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 81,
     id: 'jg-java-hard-03',
     title: 'HashMap',
     description: 'Use a HashMap to store key-value pairs.',
@@ -1126,6 +1208,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 82,
     id: 'jg-java-hard-04',
     title: 'Method Overloading',
     description: 'Demonstrate method overloading with different parameter types.',
@@ -1141,6 +1224,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 83,
     id: 'jg-java-hard-05',
     title: 'Inheritance',
     description: 'Create a subclass that inherits from a superclass.',
@@ -1154,6 +1238,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 84,
     id: 'jg-java-hard-06',
     title: 'Polymorphism',
     description: 'Demonstrate polymorphism with a base and derived classes.',
@@ -1166,6 +1251,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 85,
     id: 'jg-java-hard-07',
     title: 'Interface Implementation',
     description: 'Implement an interface in a class.',
@@ -1179,6 +1265,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 86,
     id: 'jg-java-hard-08',
     title: 'Exception Handling',
     description: 'Use a try-catch block to handle an error.',
@@ -1194,6 +1281,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 87,
     id: 'jg-java-hard-09',
     title: 'Regular Expression',
     description: 'Use regex to find a pattern in a string.',
@@ -1208,6 +1296,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 88,
     id: 'jg-java-hard-10',
     title: 'Lambda Expression',
     description: 'Use a lambda expression to iterate over an ArrayList.',
@@ -1224,6 +1313,7 @@ export const jigsawChallenges: JigsawChallenge[] = [
 
   // C++ - Easy
   {
+    srNo: 89,
     id: 'jg-cpp-easy-01',
     title: 'Hello World',
     description: 'A standard "Hello, World!" program in C++.',
@@ -1238,474 +1328,215 @@ export const jigsawChallenges: JigsawChallenge[] = [
     ],
   },
   {
+    srNo: 90,
     id: 'jg-cpp-easy-02',
-    title: 'Variable Declaration',
-    description: 'Declare and print an integer variable.',
+    title: 'For Loop',
+    description: 'Use a for loop to print numbers 0 to 4.',
     language: 'cpp',
     difficulty: 'Easy',
     correctOrder: [
       '#include <iostream>',
-      'int main() {',
-      '  int myNum = 15;',
-      '  std::cout << myNum;',
-      '  return 0;',
+      'for (int i = 0; i < 5; ++i) {',
+      '  std::cout << i << std::endl;',
       '}',
     ],
   },
   {
+    srNo: 91,
     id: 'jg-cpp-easy-03',
-    title: 'User Input',
-    description: 'Get an integer from user input.',
+    title: 'Simple Vector',
+    description: 'Create a vector and add elements.',
     language: 'cpp',
     difficulty: 'Easy',
     correctOrder: [
-      '#include <iostream>',
-      'int main() {',
-      '  int x;',
-      '  std::cout << "Type a number: ";',
-      '  std::cin >> x;',
-      '  return 0;',
-      '}',
+      '#include <vector>',
+      'std::vector<int> numbers = {1, 2, 3};',
     ],
   },
   {
+    srNo: 92,
     id: 'jg-cpp-easy-04',
-    title: 'String Variable',
-    description: 'Declare and print a string.',
+    title: 'Simple Function',
+    description: 'Define and call a simple function.',
     language: 'cpp',
     difficulty: 'Easy',
     correctOrder: [
-      '#include <iostream>',
-      '#include <string>',
-      'int main() {',
-      '  std::string greeting = "Hello";',
-      '  std::cout << greeting;',
-      '  return 0;',
+      'int add(int a, int b) {',
+      '    return a + b;',
       '}',
     ],
   },
   {
+    srNo: 93,
     id: 'jg-cpp-easy-05',
-    title: 'Math Operation',
-    description: 'Perform a simple addition and print the result.',
+    title: 'While Loop',
+    description: 'Use a while loop to print numbers.',
     language: 'cpp',
     difficulty: 'Easy',
     correctOrder: [
-      '#include <iostream>',
-      'int main() {',
-      '  int x = 5;',
-      '  int y = 6;',
-      '  int sum = x + y;',
-      '  std::cout << sum;',
-      '  return 0;',
-      '}',
-    ],
-  },
-  {
-    id: 'jg-cpp-easy-06',
-    title: 'Boolean variable',
-    description: 'Work with boolean variables.',
-    language: 'cpp',
-    difficulty: 'Easy',
-    correctOrder: [
-      '#include <iostream>',
-      'int main() {',
-      '  bool isCodingFun = true;',
-      '  std::cout << isCodingFun;',
-      '  return 0;',
-      '}',
-    ],
-  },
-  {
-    id: 'jg-cpp-easy-07',
-    title: 'Simple if statement',
-    description: 'Check if one number is greater than another.',
-    language: 'cpp',
-    difficulty: 'Easy',
-    correctOrder: [
-      'int x = 20;',
-      'int y = 18;',
-      'if (x > y) {',
-      '  std::cout << "x is greater than y";',
-      '}',
-    ],
-  },
-  {
-    id: 'jg-cpp-easy-08',
-    title: 'Function Declaration',
-    description: 'Declare a function that can be called later.',
-    language: 'cpp',
-    difficulty: 'Easy',
-    correctOrder: [
-      'void myFunction();',
-      'int main() {',
-      '  myFunction();',
-      '  return 0;',
-      '}',
-    ],
-  },
-  {
-    id: 'jg-cpp-easy-09',
-    title: 'Switch Statement',
-    description: 'Use a switch statement for control flow.',
-    language: 'cpp',
-    difficulty: 'Easy',
-    correctOrder: [
-      'int day = 4;',
-      'switch (day) {',
-      '  case 4:',
-      '    std::cout << "Thursday";',
-      '    break;',
+      'int i = 0;',
+      'while (i < 5) {',
+      '  std::cout << i;',
+      '  i++;',
       '}',
     ],
   },
 
   // C++ - Medium
   {
+    srNo: 94,
     id: 'jg-cpp-medium-01',
-    title: 'Simple Function',
-    description: 'Create and call a simple function.',
+    title: 'Iterating a Vector',
+    description: 'Iterate over a vector using a range-based for loop.',
     language: 'cpp',
     difficulty: 'Medium',
     correctOrder: [
+      '#include <vector>',
       '#include <iostream>',
-      'void myFunction() {',
-      '  std::cout << "I just got executed!";',
-      '}',
-      'int main() {',
-      '  myFunction();',
-      '  return 0;',
+      'std::vector<int> nums = {10, 20, 30};',
+      'for (int num : nums) {',
+      '    std::cout << num << std::endl;',
       '}',
     ],
   },
   {
+    srNo: 95,
     id: 'jg-cpp-medium-02',
-    title: 'For Loop',
-    description: 'Use a for loop to print numbers 0 to 4.',
+    title: 'Simple Class',
+    description: 'Define a simple class with a method.',
     language: 'cpp',
     difficulty: 'Medium',
     correctOrder: [
-      '#include <iostream>',
-      'int main() {',
-      '  for (int i = 0; i < 5; i++) {',
-      '    std::cout << i << "\\n";',
-      '  }',
-      '  return 0;',
-      '}',
+      'class Rectangle {',
+      '    int width, height;',
+      '  public:',
+      '    void set_values (int,int);',
+      '    int area() {return width*height;}',
+      '};',
     ],
   },
   {
+    srNo: 96,
     id: 'jg-cpp-medium-03',
-    title: 'References',
-    description: 'Use a reference to create an alias for a variable.',
+    title: 'Using Pointers',
+    description: 'Declare a pointer and use it to access a variable\'s value.',
     language: 'cpp',
     difficulty: 'Medium',
     correctOrder: [
-      '#include <iostream>',
-      '#include <string>',
-      'int main() {',
-      '  std::string food = "Pizza";',
-      '  std::string &meal = food;',
-      '  std::cout << meal;',
-      '  return 0;',
-      '}',
+      'int myVar = 10;',
+      'int* myPointer = &myVar;',
+      'std::cout << *myPointer;',
     ],
   },
   {
+    srNo: 97,
     id: 'jg-cpp-medium-04',
-    title: 'Pointers',
-    description: 'Use a pointer to store the memory address of a variable.',
+    title: 'Reference Variable',
+    description: 'Create an alias for a variable using a reference.',
     language: 'cpp',
     difficulty: 'Medium',
     correctOrder: [
-      '#include <iostream>',
-      '#include <string>',
-      'int main() {',
-      '  std::string food = "Pizza";',
-      '  std::string* ptr = &food;',
-      '  std::cout << *ptr;',
-      '  return 0;',
-      '}',
+      'std::string food = "Pizza";',
+      'std::string &meal = food;',
+      'std::cout << meal;',
     ],
   },
   {
+    srNo: 98,
     id: 'jg-cpp-medium-05',
-    title: 'Array of strings',
-    description: 'Declare an array of strings and loop through it.',
+    title: 'Overloading',
+    description: 'Create two functions with the same name but different parameters.',
     language: 'cpp',
     difficulty: 'Medium',
     correctOrder: [
-      '#include <iostream>',
-      '#include <string>',
-      'int main() {',
-      '  std::string cars[4] = {"Volvo", "BMW", "Ford"};',
-      '  for(int i = 0; i < 3; i++) {',
-      '    std::cout << cars[i] << "\\n";',
-      '  }',
-      '  return 0;',
+      'int plusFunc(int x, int y) {',
+      '  return x + y;',
+      '}',
+      'double plusFunc(double x, double y) {',
+      '  return x + y;',
       '}',
     ],
   },
-  {
-    id: 'jg-cpp-medium-06',
-    title: 'Function with Parameters',
-    description: 'Define a function that takes arguments.',
-    language: 'cpp',
-    difficulty: 'Medium',
-    correctOrder: [
-      '#include <iostream>',
-      'void myFunction(std::string fname) {',
-      '  std::cout << fname << " Doe\\n";',
-      '}',
-      'int main() {',
-      '  myFunction("John");',
-      '  return 0;',
-      '}',
-    ],
-  },
-  {
-    id: 'jg-cpp-medium-07',
-    title: 'Function Overloading',
-    description: 'Define two functions with the same name but different parameters.',
-    language: 'cpp',
-    difficulty: 'Medium',
-    correctOrder: [
-      'int plusFunc(int x, int y) { return x + y; }',
-      'double plusFunc(double x, double y) { return x + y; }',
-    ],
-  },
-  {
-    id: 'jg-cpp-medium-08',
-    title: 'Recursion',
-    description: 'Use recursion to calculate a sum.',
-    language: 'cpp',
-    difficulty: 'Medium',
-    correctOrder: [
-      'int sum(int k) {',
-      '  if (k > 0) {',
-      '    return k + sum(k - 1);',
-      '  } else {',
-      '    return 0;',
-      '  }',
-      '}',
-    ],
-  },
-  {
-    id: 'jg-cpp-medium-09',
-    title: 'Range-based for loop',
-    description: 'Iterate over an array using a range-based for loop.',
-    language: 'cpp',
-    difficulty: 'Medium',
-    correctOrder: [
-      'int myNumbers[5] = {10, 20, 30, 40, 50};',
-      'for (int i : myNumbers) {',
-      '  std::cout << i << "\\n";',
-      '}',
-    ],
-  },
-
 
   // C++ - Hard
   {
+    srNo: 99,
     id: 'jg-cpp-hard-01',
-    title: 'Simple Class and Object',
-    description: 'Define a simple class and create an object.',
+    title: 'Simple Template',
+    description: 'Create a generic function template.',
     language: 'cpp',
     difficulty: 'Hard',
     correctOrder: [
-      '#include <iostream>',
-      'class MyClass {',
-      '  public:',
-      '    void myMethod() {',
-      '      std::cout << "Hello World!";',
-      '    }',
-      '};',
-      'int main() {',
-      '  MyClass myObj;',
-      '  myObj.myMethod();',
-      '  return 0;',
+      'template <typename T>',
+      'T GetMax (T a, T b) {',
+      '  return (a>b?a:b);',
       '}',
     ],
   },
   {
+    srNo: 100,
     id: 'jg-cpp-hard-02',
-    title: 'Class with Constructor',
-    description: 'Define a class with a constructor.',
+    title: 'Dynamic Memory',
+    description: 'Allocate and deallocate memory on the heap.',
     language: 'cpp',
     difficulty: 'Hard',
     correctOrder: [
-      '#include <iostream>',
-      'class Car {',
-      '  public:',
-      '    std::string brand;',
-      '    Car(std::string x) {',
-      '      brand = x;',
-      '    }',
-      '};',
-      'int main() {',
-      '  Car carObj("BMW");',
-      '  std::cout << carObj.brand;',
-      '  return 0;',
-      '}',
+      'int *ptr = new int;',
+      '*ptr = 20;',
+      'delete ptr;',
     ],
   },
   {
+    srNo: 101,
     id: 'jg-cpp-hard-03',
-    title: 'Inheritance',
-    description: 'Create a derived class that inherits from a base class.',
-    language: 'cpp',
-    difficulty: 'Hard',
-    correctOrder: [
-      '#include <iostream>',
-      'class Vehicle { public: std::string brand = "Ford"; };',
-      'class Car: public Vehicle { public: std::string model = "Mustang"; };',
-      'int main() {',
-      '  Car myCar;',
-      '  std::cout << myCar.brand;',
-      '  return 0;',
-      '}',
-    ],
-  },
-  {
-    id: 'jg-cpp-hard-04',
-    title: 'Simple Vector',
-    description: 'Create a vector and iterate through it.',
-    language: 'cpp',
-    difficulty: 'Hard',
-    correctOrder: [
-      '#include <iostream>',
-      '#include <vector>',
-      'int main() {',
-      '  std::vector<int> numbers = {1, 2, 3, 4, 5};',
-      '  for (int i : numbers) {',
-      '    std::cout << i << "\\n";',
-      '  }',
-      '  return 0;',
-      '}',
-    ],
-  },
-  {
-    id: 'jg-cpp-hard-05',
-    title: 'Simple File I/O',
-    description: 'Write to and read from a simple text file.',
+    title: 'File I/O',
+    description: 'Write text to a file.',
     language: 'cpp',
     difficulty: 'Hard',
     correctOrder: [
       '#include <iostream>',
       '#include <fstream>',
-      'int main() {',
-      '  std::ofstream MyFile("filename.txt");',
-      '  MyFile << "Some text.";',
-      '  MyFile.close();',
-      '  return 0;',
-      '}',
+      'std::ofstream outfile ("test.txt");',
+      'outfile << "my text here" << std::endl;',
+      'outfile.close();',
     ],
   },
   {
-    id: 'jg-cpp-hard-06',
-    title: 'Polymorphism',
-    description: 'Demonstrate polymorphism using virtual functions.',
+    srNo: 102,
+    id: 'jg-cpp-hard-04',
+    title: 'Inheritance',
+    description: 'Create a derived class from a base class.',
     language: 'cpp',
     difficulty: 'Hard',
     correctOrder: [
-      'class Animal { public: virtual void animalSound() { std::cout << "The animal makes a sound \\n"; } };',
-      'class Pig : public Animal { public: void animalSound() { std::cout << "The pig says: wee wee \\n"; } };',
-      'class Dog : public Animal { public: void animalSound() { std::cout << "The dog says: bow wow \\n"; } };',
+      'class Animal {',
+      ' public:',
+      '    void eat() { std::cout << "I can eat!"; }',
+      '};',
+      'class Dog : public Animal {',
+      ' public:',
+      '    void bark() { std::cout << "I can bark!"; }',
+      '};',
     ],
   },
   {
-    id: 'jg-cpp-hard-07',
+    srNo: 103,
+    id: 'jg-cpp-hard-05',
     title: 'Exception Handling',
-    description: 'Use a try/catch block to handle a potential error.',
+    description: 'Use a try-catch block to handle errors.',
     language: 'cpp',
     difficulty: 'Hard',
     correctOrder: [
       'try {',
       '  int age = 15;',
       '  if (age >= 18) {',
-      '    std::cout << "Access granted.";',
+      '    std::cout << "Access granted";',
       '  } else {',
       '    throw 505;',
       '  }',
+      '} catch (int myNum) {',
+      '  std::cout << "Access denied";',
       '}',
-      'catch (int myNum) {',
-      '  std::cout << "Access denied.";',
-      '}',
-    ],
-  },
-  {
-    id: 'jg-cpp-hard-08',
-    title: 'Structs',
-    description: 'Define and use a simple struct.',
-    language: 'cpp',
-    difficulty: 'Hard',
-    correctOrder: [
-      'struct {',
-      '  int myNum;',
-      '  std::string myString;',
-      '} myStructure;',
-      'myStructure.myNum = 1;',
-      'myStructure.myString = "Hello";',
-    ],
-  },
-  {
-    id: 'jg-cpp-hard-09',
-    title: 'Pass by Reference',
-    description: 'Pass arguments to a function by reference.',
-    language: 'cpp',
-    difficulty: 'Hard',
-    correctOrder: [
-      'void swapNums(int &x, int &y) {',
-      '  int z = x;',
-      '  x = y;',
-      '  y = z;',
-      '}',
-    ],
-  },
-  {
-    id: 'jg-cpp-hard-10',
-    title: 'Read a File',
-    description: 'Read the contents of a text file line by line.',
-    language: 'cpp',
-    difficulty: 'Hard',
-    correctOrder: [
-      '#include <iostream>',
-      '#include <fstream>',
-      '#include <string>',
-      'std::string myText;',
-      'std::ifstream MyReadFile("filename.txt");',
-      'while (getline (MyReadFile, myText)) {',
-      '  std::cout << myText;',
-      '}',
-      'MyReadFile.close();',
-    ],
-  },
-  {
-    id: 'jg-cpp-hard-11',
-    title: 'Encapsulation',
-    description: 'Demonstrate encapsulation by using public and private access specifiers.',
-    language: 'cpp',
-    difficulty: 'Hard',
-    correctOrder: [
-      'class Employee {',
-      '  private:',
-      '    int salary;',
-      '  public:',
-      '    void setSalary(int s) { salary = s; }',
-      '    int getSalary() { return salary; }',
-      '};',
-    ],
-  },
-  {
-    id: 'jg-cpp-hard-12',
-    title: 'Get Array Size',
-    description: 'Calculate the size of an array.',
-    language: 'cpp',
-    difficulty: 'Hard',
-    correctOrder: [
-      'int myNumbers[5] = {10, 20, 30, 40, 50};',
-      'int size = sizeof(myNumbers) / sizeof(int);',
-      'std::cout << size;',
     ],
   },
 ];

@@ -1,5 +1,6 @@
 
 export interface TyperChallenge {
+  srNo: number;
   id: string;
   title: string;
   snippet: string;
@@ -10,6 +11,7 @@ export interface TyperChallenge {
 export const typerChallenges: TyperChallenge[] = [
   // JavaScript - Easy
   {
+    srNo: 1,
     id: 'tc-js-easy-01',
     title: 'Function Declaration',
     snippet: `function greet(name) {\n  return "Hello, " + name + "!";\n}`,
@@ -17,6 +19,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 2,
     id: 'tc-js-easy-02',
     title: 'Simple For Loop',
     snippet: `for (let i = 0; i < 5; i++) {\n  console.log(i);\n}`,
@@ -24,6 +27,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 3,
     id: 'tc-js-easy-03',
     title: 'Arrow Function',
     snippet: `const add = (a, b) => a + b;`,
@@ -31,6 +35,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 4,
     id: 'tc-js-easy-04',
     title: 'Object Literal',
     snippet: `const person = {\n  name: "John Doe",\n  age: 30\n};`,
@@ -38,6 +43,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 5,
     id: 'tc-js-easy-05',
     title: 'If/Else Statement',
     snippet: `let x = 10;\nif (x > 5) {\n  console.log("x is greater than 5");\n} else {\n  console.log("x is not greater than 5");\n}`,
@@ -45,6 +51,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
    {
+    srNo: 6,
     id: 'tc-js-easy-06',
     title: 'Array Literal',
     snippet: `const colors = ["red", "green", "blue"];`,
@@ -52,6 +59,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 7,
     id: 'tc-js-easy-07',
     title: 'Accessing Array Element',
     snippet: `const fruits = ["apple", "banana", "cherry"];\nconst firstFruit = fruits[0];`,
@@ -59,6 +67,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 8,
     id: 'tc-js-easy-08',
     title: 'String Concatenation',
     snippet: `const firstName = "John";\nconst lastName = "Doe";\nconst fullName = firstName + " " + lastName;`,
@@ -68,6 +77,7 @@ export const typerChallenges: TyperChallenge[] = [
 
   // JavaScript - Medium
   {
+    srNo: 9,
     id: 'tc-js-medium-01',
     title: 'Array Map and Filter',
     snippet: `const numbers = [1, 2, 3, 4, 5, 6];\nconst evensSquared = numbers\n  .filter(n => n % 2 === 0)\n  .map(n => n * n);`,
@@ -75,6 +85,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 10,
     id: 'tc-js-medium-02',
     title: 'Async/Await Fetch',
     snippet: `async function fetchData(url) {\n  const response = await fetch(url);\n  if (!response.ok) {\n    throw new Error('Network response was not ok');\n  }\n  return await response.json();\n}`,
@@ -82,6 +93,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 11,
     id: 'tc-js-medium-03',
     title: 'Simple Class',
     snippet: `class Rectangle {\n  constructor(height, width) {\n    this.height = height;\n    this.width = width;\n  }\n  get area() {\n    return this.height * this.width;\n  }\n}`,
@@ -89,6 +101,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 12,
     id: 'tc-js-medium-04',
     title: 'Destructuring Assignment',
     snippet: `const { name, age } = person;\nconst [first, second] = [1, 2, 3];`,
@@ -96,6 +109,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 13,
     id: 'tc-js-medium-05',
     title: 'setTimeout Callback',
     snippet: `console.log("Start");\nsetTimeout(() => {\n  console.log("Delayed message");\n}, 1000);`,
@@ -103,6 +117,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 14,
     id: 'tc-js-medium-06',
     title: 'Array Find',
     snippet: `const users = [{id: 1, name: 'Alice'}, {id: 2, name: 'Bob'}];\nconst user = users.find(u => u.id === 1);`,
@@ -110,6 +125,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 15,
     id: 'tc-js-medium-07',
     title: 'Switch Statement',
     snippet: `switch (fruit) {\n  case "apple":\n    console.log("It is an apple.");\n    break;\n  case "banana":\n    console.log("It is a banana.");\n    break;\n  default:\n    console.log("Some other fruit.");\n}`,
@@ -117,6 +133,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 16,
     id: 'tc-js-medium-08',
     title: 'Spread Operator',
     snippet: `const arr1 = [1, 2, 3];\nconst arr2 = [...arr1, 4, 5];\nconst obj1 = { a: 1, b: 2 };\nconst obj2 = { ...obj1, c: 3 };`,
@@ -124,6 +141,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 17,
     id: 'tc-js-medium-09',
     title: 'Error Handling',
     snippet: `try {\n  riskyOperation();\n} catch (error) {\n  console.error("An error occurred:", error.message);\n}`,
@@ -133,6 +151,7 @@ export const typerChallenges: TyperChallenge[] = [
 
   // JavaScript - Hard
   {
+    srNo: 18,
     id: 'tc-js-hard-01',
     title: 'Reducer Function',
     snippet: `const data = [{v: 5}, {v: 10}, {v: 15}];\nconst total = data.reduce((acc, current) => acc + current.v, 0);`,
@@ -140,6 +159,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 19,
     id: 'tc-js-hard-02',
     title: 'Promise All',
     snippet: `const promise1 = Promise.resolve(3);\nconst promise2 = 42;\nconst promise3 = new Promise((resolve) => {\n  setTimeout(resolve, 100, 'foo');\n});\nPromise.all([promise1, promise2, promise3]).then((values) => {\n  console.log(values);\n});`,
@@ -147,6 +167,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 20,
     id: 'tc-js-hard-03',
     title: 'Closure Example',
     snippet: `function makeCounter() {\n  let count = 0;\n  return function() {\n    count++;\n    return count;\n  };\n}`,
@@ -154,6 +175,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 21,
     id: 'tc-js-hard-04',
     title: 'Generator Function',
     snippet: `function* idGenerator() {\n  let id = 0;\n  while (true) {\n    yield id++;\n  }\n}`,
@@ -161,6 +183,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 22,
     id: 'tc-js-hard-05',
     title: 'Proxy Object',
     snippet: `const target = {};\nconst handler = {\n  get: function(obj, prop) {\n    return prop in obj ? obj[prop] : 42;\n  }\n};\nconst p = new Proxy(target, handler);`,
@@ -168,6 +191,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 23,
     id: 'tc-js-hard-06',
     title: 'Event Listener',
     snippet: `document.getElementById("myBtn").addEventListener("click", function() {\n  alert("Button clicked!");\n});`,
@@ -175,6 +199,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 24,
     id: 'tc-js-hard-07',
     title: 'Canvas Drawing',
     snippet: `const canvas = document.getElementById('myCanvas');\nconst ctx = canvas.getContext('2d');\nctx.fillStyle = 'green';\nctx.fillRect(10, 10, 150, 100);`,
@@ -184,6 +209,7 @@ export const typerChallenges: TyperChallenge[] = [
 
   // Python - Easy
   {
+    srNo: 25,
     id: 'tc-py-easy-01',
     title: 'Function Definition',
     snippet: `def greet(name):\n    return f"Hello, {name}!"`,
@@ -191,6 +217,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 26,
     id: 'tc-py-easy-02',
     title: 'Simple For Loop',
     snippet: `for i in range(5):\n    print(i)`,
@@ -198,6 +225,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 27,
     id: 'tc-py-easy-03',
     title: 'Dictionary Creation',
     snippet: `person = {\n  "name": "John Doe",\n  "age": 30\n}`,
@@ -205,6 +233,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 28,
     id: 'tc-py-easy-04',
     title: 'If/Elif/Else',
     snippet: `x = 10\nif x > 0:\n    print("Positive")\nelif x < 0:\n    print("Negative")\nelse:\n    print("Zero")`,
@@ -212,6 +241,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 29,
     id: 'tc-py-easy-05',
     title: 'List Creation',
     snippet: `fruits = ["apple", "banana", "cherry"]`,
@@ -219,6 +249,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 30,
     id: 'tc-py-easy-06',
     title: 'While Loop',
     snippet: `count = 0\nwhile count < 5:\n    print(count)\n    count += 1`,
@@ -226,6 +257,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 31,
     id: 'tc-py-easy-07',
     title: 'Getting User Input',
     snippet: `name = input("Enter your name: ")\nprint(f"Hello, {name}")`,
@@ -233,6 +265,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 32,
     id: 'tc-py-easy-08',
     title: 'List Append',
     snippet: `numbers = [1, 2, 3]\nnumbers.append(4)`,
@@ -242,6 +275,7 @@ export const typerChallenges: TyperChallenge[] = [
   
   // Python - Medium
   {
+    srNo: 33,
     id: 'tc-py-medium-01',
     title: 'List Comprehension',
     snippet: `numbers = [1, 2, 3, 4, 5, 6]\nevens_squared = [n * n for n in numbers if n % 2 == 0]`,
@@ -249,6 +283,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 34,
     id: 'tc-py-medium-02',
     title: 'Dictionary Manipulation',
     snippet: `user = {"name": "Alice", "age": 25}\nuser["age"] = 26\nuser["city"] = "New York"\ndel user["name"]`,
@@ -256,6 +291,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 35,
     id: 'tc-py-medium-03',
     title: 'File Handling',
     snippet: `with open("myfile.txt", "w") as f:\n    f.write("Hello, World!")`,
@@ -263,6 +299,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 36,
     id: 'tc-py-medium-04',
     title: 'Lambda Function',
     snippet: `multiply = lambda x, y: x * y`,
@@ -270,6 +307,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 37,
     id: 'tc-py-medium-05',
     title: 'Importing a module',
     snippet: `import math\n\nprint(math.sqrt(16))`,
@@ -277,6 +315,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 38,
     id: 'tc-py-medium-06',
     title: 'Slicing a List',
     snippet: `my_list = [10, 20, 30, 40, 50]\nsub_list = my_list[1:4]`,
@@ -284,6 +323,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 39,
     id: 'tc-py-medium-07',
     title: 'Dictionary .get()',
     snippet: `params = {"debug": True, "port": 8080}\nport = params.get("port", 8000)`,
@@ -291,6 +331,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 40,
     id: 'tc-py-medium-08',
     title: 'Exception Handling',
     snippet: `try:\n    result = 10 / 0\nexcept ZeroDivisionError:\n    print("Cannot divide by zero!")`,
@@ -298,6 +339,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 41,
     id: 'tc-py-medium-09',
     title: 'F-String Formatting',
     snippet: `name = "Alice"\nage = 30\nprint(f"{name} is {age} years old.")`,
@@ -307,6 +349,7 @@ export const typerChallenges: TyperChallenge[] = [
 
   // Python - Hard
   {
+    srNo: 42,
     id: 'tc-py-hard-01',
     title: 'Class Definition',
     snippet: `class Dog:\n    def __init__(self, name, breed):\n        self.name = name\n        self.breed = breed\n\n    def bark(self):\n        return "Woof!"`,
@@ -314,6 +357,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 43,
     id: 'tc-py-hard-02',
     title: 'Decorator',
     snippet: `def my_decorator(func):\n    def wrapper():\n        print("Something is happening before the function is called.")\n        func()\n        print("Something is happening after the function is called.")\n    return wrapper`,
@@ -321,6 +365,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 44,
     id: 'tc-py-hard-03',
     title: 'Generator Expression',
     snippet: `my_generator = (i for i in range(10) if i % 2 == 0)`,
@@ -328,6 +373,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 45,
     id: 'tc-py-hard-04',
     title: 'Asyncio Coroutine',
     snippet: `import asyncio\n\nasync def main():\n    print('Hello')\n    await asyncio.sleep(1)\n    print('World')`,
@@ -335,6 +381,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 46,
     id: 'tc-py-hard-05',
     title: 'Reading CSV',
     snippet: `import csv\n\nwith open('eggs.csv', newline='') as csvfile:\n    spamreader = csv.reader(csvfile, delimiter=' ')\n    for row in spamreader:\n        print(', '.join(row))`,
@@ -342,6 +389,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 47,
     id: 'tc-py-hard-06',
     title: 'Context Manager',
     snippet: `from contextlib import contextmanager\n\n@contextmanager\ndef managed_resource(*args, **kwds):\n    resource = acquire_resource(*args, **kwds)\n    try:\n        yield resource\n    finally:\n        release_resource(resource)`,
@@ -349,6 +397,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 48,
     id: 'tc-py-hard-07',
     title: 'Threading',
     snippet: `import threading\n\ndef worker():\n    print("Worker")\n\nthreads = []\nfor i in range(5):\n    t = threading.Thread(target=worker)\n    threads.append(t)\n    t.start()`,
@@ -358,6 +407,7 @@ export const typerChallenges: TyperChallenge[] = [
 
   // HTML - Easy
   {
+    srNo: 49,
     id: 'tc-html-easy-01',
     title: 'Basic HTML Structure',
     snippet: `<!DOCTYPE html>\n<html>\n<head>\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Welcome</h1>\n</body>\n</html>`,
@@ -365,6 +415,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 50,
     id: 'tc-html-easy-02',
     title: 'Image Tag',
     snippet: `<img src="image.jpg" alt="An example image">`,
@@ -372,6 +423,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 51,
     id: 'tc-html-easy-03',
     title: 'Link Tag',
     snippet: `<a href="https://www.example.com">Visit Example.com</a>`,
@@ -379,6 +431,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 52,
     id: 'tc-html-easy-04',
     title: 'Unordered List',
     snippet: `<ul>\n  <li>First item</li>\n  <li>Second item</li>\n</ul>`,
@@ -386,6 +439,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 53,
     id: 'tc-html-easy-05',
     title: 'Paragraph Tag',
     snippet: `<p>This is a paragraph of text.</p>`,
@@ -393,6 +447,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 54,
     id: 'tc-html-easy-06',
     title: 'Line Break',
     snippet: `<p>This is the first line.<br>This is the second line.</p>`,
@@ -402,6 +457,7 @@ export const typerChallenges: TyperChallenge[] = [
 
   // HTML - Medium
   {
+    srNo: 55,
     id: 'tc-html-medium-01',
     title: 'Simple Form',
     snippet: `<form action="/submit" method="post">\n  <label for="username">Username:</label>\n  <input type="text" id="username" name="username">\n  <button type="submit">Submit</button>\n</form>`,
@@ -409,6 +465,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 56,
     id: 'tc-html-medium-02',
     title: 'Simple Table',
     snippet: `<table>\n  <tr>\n    <th>Name</th>\n    <th>Age</th>\n  </tr>\n  <tr>\n    <td>John</td>\n    <td>30</td>\n  </tr>\n</table>`,
@@ -416,6 +473,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 57,
     id: 'tc-html-medium-03',
     title: 'Semantic Tags',
     snippet: `<header>\n  <h1>My Website</h1>\n</header>\n<nav>\n  <a href="/home">Home</a>\n</nav>\n<main>\n  <p>Main content.</p>\n</main>\n<footer>\n  <p>Copyright 2024</p>\n</footer>`,
@@ -423,6 +481,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 58,
     id: 'tc-html-medium-04',
     title: 'Dropdown Select',
     snippet: `<label for="cars">Choose a car:</label>\n<select id="cars" name="cars">\n  <option value="volvo">Volvo</option>\n  <option value="saab">Saab</option>\n</select>`,
@@ -430,6 +489,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 59,
     id: 'tc-html-medium-05',
     title: 'Div with Class and ID',
     snippet: `<div id="main-content" class="container featured">\n  <p>This is a featured section.</p>\n</div>`,
@@ -439,6 +499,7 @@ export const typerChallenges: TyperChallenge[] = [
 
   // HTML - Hard
   {
+    srNo: 60,
     id: 'tc-html-hard-01',
     title: 'Complex Form',
     snippet: `<fieldset>\n  <legend>Personal Information</legend>\n  <input type="radio" id="male" name="gender" value="male">\n  <label for="male">Male</label><br>\n  <input type="checkbox" id="subscribe" name="subscribe" value="yes">\n  <label for="subscribe">Subscribe to newsletter</label>\n</fieldset>`,
@@ -446,6 +507,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 61,
     id: 'tc-html-hard-02',
     title: 'Video with Sources',
     snippet: `<video controls width="250">\n  <source src="flower.webm" type="video/webm">\n  <source src="flower.mp4" type="video/mp4">\n  Sorry, your browser doesn't support embedded videos.\n</video>`,
@@ -453,6 +515,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 62,
     id: 'tc-html-hard-03',
     title: 'Details and Summary',
     snippet: `<details>\n  <summary>Click to see details</summary>\n  <p>More information about the topic.</p>\n</details>`,
@@ -460,6 +523,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 63,
     id: 'tc-html-hard-04',
     title: 'Canvas Element',
     snippet: `<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;"></canvas>`,
@@ -467,6 +531,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 64,
     id: 'tc-html-hard-05',
     title: 'Picture Element',
     snippet: `<picture>\n <source media="(min-width:650px)" srcset="img_food.jpg">\n <source media="(min-width:465px)" srcset="img_car.jpg">\n <img src="img_avatar.png" alt="Avatar" style="width:auto;">\n</picture>`,
@@ -476,6 +541,7 @@ export const typerChallenges: TyperChallenge[] = [
   
   // CSS - Easy
   {
+    srNo: 65,
     id: 'tc-css-easy-01',
     title: 'Simple Body Style',
     snippet: `body {\n  font-family: sans-serif;\n  line-height: 1.5;\n  background-color: #f0f0f0;\n}`,
@@ -483,6 +549,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 66,
     id: 'tc-css-easy-02',
     title: 'Class Selector',
     snippet: `.button {\n  background-color: blue;\n  color: white;\n  padding: 10px 20px;\n}`,
@@ -490,6 +557,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 67,
     id: 'tc-css-easy-03',
     title: 'ID Selector',
     snippet: `#header {\n  font-size: 24px;\n  font-weight: bold;\n}`,
@@ -497,6 +565,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 68,
     id: 'tc-css-easy-04',
     title: 'Hover Pseudo-class',
     snippet: `a:hover {\n  color: red;\n  text-decoration: underline;\n}`,
@@ -504,6 +573,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 69,
     id: 'tc-css-easy-05',
     title: 'Margin and Padding',
     snippet: `.box {\n  margin: 10px;\n  padding: 20px;\n  border: 1px solid black;\n}`,
@@ -513,6 +583,7 @@ export const typerChallenges: TyperChallenge[] = [
 
   // CSS - Medium
   {
+    srNo: 70,
     id: 'tc-css-medium-01',
     title: 'Flexbox Centering',
     snippet: `.container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}`,
@@ -520,6 +591,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 71,
     id: 'tc-css-medium-02',
     title: 'Simple Transition',
     snippet: `button {\n  transition: background-color 0.3s ease;\n}\n\nbutton:hover {\n  background-color: lightblue;\n}`,
@@ -527,6 +599,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 72,
     id: 'tc-css-medium-03',
     title: 'Media Query',
     snippet: `@media (max-width: 600px) {\n  body {\n    background-color: lightblue;\n  }\n}`,
@@ -534,6 +607,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 73,
     id: 'tc-css-medium-04',
     title: 'Attribute Selector',
     snippet: `input[type="text"] {\n  width: 100%;\n  padding: 12px 20px;\n  margin: 8px 0;\n  box-sizing: border-box;\n}`,
@@ -541,6 +615,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 74,
     id: 'tc-css-medium-05',
     title: 'Pseudo-element',
     snippet: `p::first-line {\n  color: #ff0000;\n  font-variant: small-caps;\n}`,
@@ -550,6 +625,7 @@ export const typerChallenges: TyperChallenge[] = [
   
   // CSS - Hard
   {
+    srNo: 75,
     id: 'tc-css-hard-01',
     title: 'Keyframe Animation',
     snippet: `@keyframes slidein {\n  from {\n    transform: translateX(-100%);\n  }\n\n  to {\n    transform: translateX(0);\n  }\n}`,
@@ -557,6 +633,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 76,
     id: 'tc-css-hard-02',
     title: 'CSS Grid Layout',
     snippet: `.wrapper {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 10px;\n  grid-auto-rows: minmax(100px, auto);\n}`,
@@ -564,6 +641,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 77,
     id: 'tc-css-hard-03',
     title: 'CSS Custom Properties',
     snippet: `:root {\n  --main-bg-color: brown;\n}\n\nbody {\n  background-color: var(--main-bg-color);\n}`,
@@ -571,6 +649,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 78,
     id: 'tc-css-hard-04',
     title: 'Complex Selector',
     snippet: `nav > ul > li:nth-child(odd) {\n  background-color: #eee;\n}`,
@@ -578,6 +657,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 79,
     id: 'tc-css-hard-05',
     title: 'Calc Function',
     snippet: `#main {\n  position: absolute;\n  left: 50px;\n  width: calc(100% - 100px);\n  border: 1px solid black;\n  padding: 10px;\n}`,
@@ -587,6 +667,7 @@ export const typerChallenges: TyperChallenge[] = [
   
   // C++ - Easy
   {
+    srNo: 80,
     id: 'tc-cpp-easy-01',
     title: 'Hello World',
     snippet: `#include <iostream>\n\nint main() {\n    std::cout << "Hello, World!";\n    return 0;\n}`,
@@ -594,6 +675,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 81,
     id: 'tc-cpp-easy-02',
     title: 'For Loop',
     snippet: `#include <iostream>\n\nfor (int i = 0; i < 5; ++i) {\n    std::cout << i << std::endl;\n}`,
@@ -601,6 +683,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 82,
     id: 'tc-cpp-easy-03',
     title: 'Simple Vector',
     snippet: `#include <vector>\n\nstd::vector<int> numbers = {1, 2, 3};`,
@@ -608,6 +691,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 83,
     id: 'tc-cpp-easy-04',
     title: 'Simple Function',
     snippet: `int add(int a, int b) {\n    return a + b;\n}`,
@@ -615,6 +699,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 84,
     id: 'tc-cpp-easy-05',
     title: 'While Loop',
     snippet: `int i = 0;\nwhile (i < 5) {\n  std::cout << i;\n  i++;\n}`,
@@ -624,6 +709,7 @@ export const typerChallenges: TyperChallenge[] = [
 
   // C++ - Medium
   {
+    srNo: 85,
     id: 'tc-cpp-medium-01',
     title: 'Iterating a Vector',
     snippet: `#include <vector>\n#include <iostream>\n\nstd::vector<int> nums = {10, 20, 30};\nfor (int num : nums) {\n    std::cout << num << std::endl;\n}`,
@@ -631,6 +717,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 86,
     id: 'tc-cpp-medium-02',
     title: 'Simple Class',
     snippet: `class Rectangle {\n    int width, height;\n  public:\n    void set_values (int,int);\n    int area() {return width*height;}\n};`,
@@ -638,6 +725,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 87,
     id: 'tc-cpp-medium-03',
     title: 'Using Pointers',
     snippet: `int myVar = 10;\nint* myPointer = &myVar;`,
@@ -645,6 +733,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 88,
     id: 'tc-cpp-medium-04',
     title: 'Reference Variable',
     snippet: `std::string food = "Pizza";\nstd::string &meal = food;`,
@@ -652,6 +741,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 89,
     id: 'tc-cpp-medium-05',
     title: 'Overloading',
     snippet: `int plusFunc(int x, int y) {\n  return x + y;\n}\ndouble plusFunc(double x, double y) {\n  return x + y;\n}`,
@@ -661,6 +751,7 @@ export const typerChallenges: TyperChallenge[] = [
 
   // C++ - Hard
   {
+    srNo: 90,
     id: 'tc-cpp-hard-01',
     title: 'Simple Template',
     snippet: `template <typename T>\nT GetMax (T a, T b) {\n  return (a>b?a:b);\n}`,
@@ -668,6 +759,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 91,
     id: 'tc-cpp-hard-02',
     title: 'Dynamic Memory',
     snippet: `int *ptr = new int;\n*ptr = 20;\ndelete ptr;`,
@@ -675,6 +767,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 92,
     id: 'tc-cpp-hard-03',
     title: 'File I/O',
     snippet: `#include <iostream>\n#include <fstream>\n\nstd::ofstream outfile ("test.txt");\noutfile << "my text here" << std::endl;\noutfile.close();`,
@@ -682,6 +775,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 93,
     id: 'tc-cpp-hard-04',
     title: 'Inheritance',
     snippet: `class Animal {\n public:\n    void eat() { std::cout << "I can eat!"; }\n};\nclass Dog : public Animal {\n public:\n    void bark() { std::cout << "I can bark!"; }\n};`,
@@ -689,6 +783,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 94,
     id: 'tc-cpp-hard-05',
     title: 'Exception Handling',
     snippet: `try {\n  int age = 15;\n  if (age >= 18) {\n    std::cout << "Access granted";\n  } else {\n    throw 505;\n  }\n} catch (int myNum) {\n  std::cout << "Access denied";\n}`,
@@ -698,6 +793,7 @@ export const typerChallenges: TyperChallenge[] = [
   
   // Java - Easy
   {
+    srNo: 95,
     id: 'tc-java-easy-01',
     title: 'Main Method',
     snippet: `public class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello World");\n  }\n}`,
@@ -705,6 +801,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 96,
     id: 'tc-java-easy-02',
     title: 'For Loop',
     snippet: `for (int i = 0; i < 5; i++) {\n  System.out.println(i);\n}`,
@@ -712,6 +809,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 97,
     id: 'tc-java-easy-03',
     title: 'ArrayList',
     snippet: `import java.util.ArrayList;\n\nArrayList<String> cars = new ArrayList<String>();`,
@@ -719,6 +817,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 98,
     id: 'tc-java-easy-04',
     title: 'Simple Method',
     snippet: `static int myMethod(int x, int y) {\n  return x + y;\n}`,
@@ -726,6 +825,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Easy',
   },
   {
+    srNo: 99,
     id: 'tc-java-easy-05',
     title: 'Simple If/Else',
     snippet: `int time = 20;\nif (time < 18) {\n  System.out.println("Good day.");\n} else {\n  System.out.println("Good evening.");\n}`,
@@ -735,6 +835,7 @@ export const typerChallenges: TyperChallenge[] = [
 
   // Java - Medium
   {
+    srNo: 100,
     id: 'tc-java-medium-01',
     title: 'Simple Class',
     snippet: `public class Car {\n  String color;\n  int maxSpeed;\n\n  public void fullThrottle() {\n    System.out.println("The car is going as fast as it can!");\n  }\n}`,
@@ -742,6 +843,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 101,
     id: 'tc-java-medium-02',
     title: 'HashMap',
     snippet: `import java.util.HashMap;\n\nHashMap<String, String> capitalCities = new HashMap<String, String>();\ncapitalCities.put("England", "London");`,
@@ -749,6 +851,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 102,
     id: 'tc-java-medium-03',
     title: 'Reading a File',
     snippet: `import java.io.File;\nimport java.util.Scanner;\n\nFile myObj = new File("filename.txt");\nScanner myReader = new Scanner(myObj);`,
@@ -756,6 +859,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 103,
     id: 'tc-java-medium-04',
     title: 'Constructor',
     snippet: `public class MyClass {\n  int x;\n\n  public MyClass(int y) {\n    x = y;\n  }\n}`,
@@ -763,6 +867,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Medium',
   },
   {
+    srNo: 104,
     id: 'tc-java-medium-05',
     title: 'Encapsulation',
     snippet: `public class Person {\n  private String name;\n\n  public String getName() {\n    return name;\n  }\n\n  public void setName(String newName) {\n    this.name = newName;\n  }\n}`,
@@ -772,6 +877,7 @@ export const typerChallenges: TyperChallenge[] = [
 
   // Java - Hard
   {
+    srNo: 105,
     id: 'tc-java-hard-01',
     title: 'Inheritance',
     snippet: `class Vehicle {\n  protected String brand = "Ford";\n}\n\nclass Car extends Vehicle {\n  private String modelName = "Mustang";\n}`,
@@ -779,6 +885,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 106,
     id: 'tc-java-hard-02',
     title: 'Interface',
     snippet: `interface Animal {\n  public void animalSound();\n  public void sleep();\n}`,
@@ -786,6 +893,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 107,
     id: 'tc-java-hard-03',
     title: 'Try/Catch Block',
     snippet: `try {\n  int[] myNumbers = {1, 2, 3};\n  System.out.println(myNumbers[10]);\n} catch (Exception e) {\n  System.out.println("Something went wrong.");\n}`,
@@ -793,6 +901,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 108,
     id: 'tc-java-hard-04',
     title: 'Lambda Expressions',
     snippet: `ArrayList<Integer> numbers = new ArrayList<Integer>();\nnumbers.add(5);\nnumbers.forEach( (n) -> { System.out.println(n); } );`,
@@ -800,6 +909,7 @@ export const typerChallenges: TyperChallenge[] = [
     difficulty: 'Hard',
   },
   {
+    srNo: 109,
     id: 'tc-java-hard-05',
     title: 'Threads',
     snippet: `public class MyThread extends Thread {\n  public void run() {\n    System.out.println("This code is running in a thread");\n  }\n}`,

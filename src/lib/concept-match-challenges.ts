@@ -1,5 +1,6 @@
 
 export interface ConceptMatchChallenge {
+  srNo: number;
   id: string;
   concept: string;
   description: string;
@@ -13,6 +14,7 @@ export interface ConceptMatchChallenge {
 export const conceptMatchChallenges: ConceptMatchChallenge[] = [
   // JavaScript - Easy
   {
+    srNo: 1,
     id: 'cm-js-easy-01',
     concept: 'Variable Declaration (let)',
     description: 'Which snippet correctly declares a variable that can be reassigned?',
@@ -28,6 +30,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In modern JavaScript, `let` is used to declare variables that can be reassigned. `const` is for variables that cannot be reassigned.',
   },
   {
+    srNo: 2,
     id: 'cm-js-easy-02',
     concept: 'Arrow Function',
     description: 'Which snippet shows the correct syntax for a simple arrow function?',
@@ -43,6 +46,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Arrow function syntax uses `=>` to separate the parameters from the function body. For a single return expression, curly braces are not needed.',
   },
   {
+    srNo: 3,
     id: 'cm-js-easy-03',
     concept: 'Strict Equality',
     description: 'Which snippet correctly checks if two values are equal in both value and type?',
@@ -58,6 +62,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The strict equality operator `===` checks for equality without performing type coercion, meaning both the value and the type must be the same.',
   },
   {
+    srNo: 4,
     id: 'cm-js-easy-04',
     concept: 'Array `push` Method',
     description: 'Which snippet correctly adds an element to the end of an array?',
@@ -73,6 +78,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `push()` method is the standard way to add one or more elements to the end of an array in JavaScript.',
   },
   {
+    srNo: 5,
     id: 'cm-js-easy-05',
     concept: 'Object Property Access',
     description: 'Which snippet correctly accesses the `model` property of the `car` object?',
@@ -90,6 +96,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
 
   // JavaScript - Medium
   {
+    srNo: 6,
     id: 'cm-js-medium-01',
     concept: 'Array `map` method',
     description: 'Which snippet correctly creates a new array with the doubled values of the original?',
@@ -105,6 +112,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `map` method creates a new array populated with the results of calling a provided function on every element in the calling array.',
   },
   {
+    srNo: 7,
     id: 'cm-js-medium-02',
     concept: 'Destructuring Assignment',
     description: 'Which snippet correctly extracts the `name` and `age` from the person object?',
@@ -120,6 +128,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Object destructuring provides a concise way to extract properties from objects and bind them to variables.',
   },
   {
+    srNo: 8,
     id: 'cm-js-medium-03',
     concept: 'Ternary Operator',
     description: 'Which snippet correctly assigns a value based on a condition?',
@@ -137,6 +146,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
 
   // JavaScript - Hard
   {
+    srNo: 9,
     id: 'cm-js-hard-01',
     concept: 'Promise',
     description: 'Which snippet correctly creates a promise that resolves after a short delay?',
@@ -152,6 +162,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `Promise` constructor takes a function (an executor) that is passed `resolve` and `reject` functions. Asynchronous operations like `setTimeout` are placed inside the executor.',
   },
   {
+    srNo: 10,
     id: 'cm-js-hard-02',
     concept: 'Closure',
     description: 'Which snippet demonstrates a closure where an inner function has access to the outer function\'s variables?',
@@ -167,6 +178,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment). The inner function "closes over" the variable `a` from the outer function\'s scope.',
   },
   {
+    srNo: 11,
     id: 'cm-js-easy-06',
     concept: 'Template Literals',
     description: 'Which snippet uses template literals to embed a variable in a string?',
@@ -182,6 +194,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Template literals use backticks (``) and allow for embedded expressions using `${...}` syntax for cleaner string formatting.',
   },
   {
+    srNo: 12,
     id: 'cm-js-easy-07',
     concept: 'If-Else Statement',
     description: 'Which snippet correctly checks if a number is positive, negative, or zero?',
@@ -197,6 +210,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The standard `if...else if...else` structure is used for multi-way conditional branching.',
   },
   {
+    srNo: 13,
     id: 'cm-js-easy-08',
     concept: 'For Loop',
     description: 'Which snippet correctly loops from 0 up to (but not including) 5?',
@@ -212,6 +226,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A standard for loop initializes a counter (`let i = 0`), sets a condition to continue (`i < 5`), and defines an increment step (`i++`).',
   },
   {
+    srNo: 14,
     id: 'cm-js-easy-09',
     concept: 'Adding an Event Listener',
     description: 'Which snippet is the correct way to listen for a click event on a button?',
@@ -227,6 +242,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: '`addEventListener` is the modern, standard method for attaching event handlers to elements without overwriting existing handlers.',
   },
   {
+    srNo: 15,
     id: 'cm-js-easy-10',
     concept: 'Creating an Object',
     description: 'Which snippet correctly creates a JavaScript object?',
@@ -242,6 +258,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Object literals, using curly braces `{}`, are the most common and concise way to create objects in JavaScript.',
   },
   {
+    srNo: 16,
     id: 'cm-js-medium-04',
     concept: 'Array `filter` Method',
     description: 'Which snippet correctly creates a new array containing only numbers greater than 10?',
@@ -257,6 +274,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `filter` method creates a new array with all elements that pass the test implemented by the provided function.',
   },
   {
+    srNo: 17,
     id: 'cm-js-medium-05',
     concept: 'Async/Await',
     description: 'Which snippet correctly fetches data from an API using async/await?',
@@ -272,6 +290,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `async` keyword defines an asynchronous function, and `await` is used to pause execution and wait for a Promise to resolve before continuing.',
   },
   {
+    srNo: 18,
     id: 'cm-js-medium-06',
     concept: 'Spread Operator (Arrays)',
     description: 'Which snippet correctly merges two arrays into a new one?',
@@ -287,6 +306,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The spread syntax `...` allows an iterable such as an array to be expanded in places where zero or more arguments or elements are expected.',
   },
   {
+    srNo: 19,
     id: 'cm-js-medium-07',
     concept: '`this` in a Method',
     description: 'Which snippet correctly refers to the object\'s own property inside a method?',
@@ -302,6 +322,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Inside an object method (defined with `function`), `this` refers to the object the method was called on.',
   },
   {
+    srNo: 20,
     id: 'cm-js-medium-08',
     concept: 'Array `reduce` Method',
     description: 'Which snippet correctly calculates the sum of all numbers in an array?',
@@ -317,6 +338,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `reduce` method executes a user-supplied "reducer" callback function on each element of the array, passing in the return value from the calculation on the preceding element.',
   },
   {
+    srNo: 21,
     id: 'cm-js-hard-03',
     concept: 'Class and Inheritance',
     description: 'Which snippet correctly shows a `Dog` class inheriting from an `Animal` class?',
@@ -332,6 +354,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `extends` keyword is used in class declarations to create a class as a child of another class. The `super()` keyword is used to call the constructor of the parent class.',
   },
   {
+    srNo: 22,
     id: 'cm-js-hard-04',
     concept: 'Generator Function',
     description: 'Which snippet defines a function that can pause its execution and yield multiple values?',
@@ -347,6 +370,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Generator functions are declared with `function*` syntax and use the `yield` keyword to produce a sequence of values.',
   },
   {
+    srNo: 23,
     id: 'cm-js-hard-05',
     concept: '`Promise.all`',
     description: 'Which snippet correctly waits for multiple promises to resolve?',
@@ -362,6 +386,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: '`Promise.all()` takes an iterable of promises and returns a single Promise that resolves when all of the promises in the iterable have resolved.',
   },
   {
+    srNo: 24,
     id: 'cm-js-hard-06',
     concept: 'Module Export',
     description: 'Which snippet correctly exports a function as the default export in an ES module?',
@@ -377,6 +402,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `export default` syntax is used in ES modules to export a single value (a function, class, or object) as the default export from that module.',
   },
   {
+    srNo: 25,
     id: 'cm-js-hard-07',
     concept: '`Proxy` Object',
     description: 'Which snippet creates a proxy to intercept property access on an object?',
@@ -392,6 +418,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `Proxy` object enables you to create a proxy for another object, which can intercept and redefine fundamental operations for that object, such as property lookup.',
   },
   {
+    srNo: 26,
     id: 'cm-js-hard-08',
     concept: '`Map` Data Structure',
     description: 'Which snippet correctly creates and uses a Map?',
@@ -407,6 +434,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `Map` object holds key-value pairs and remembers the original insertion order of the keys. Any value (both objects and primitive values) may be used as either a key or a value.',
   },
   {
+    srNo: 27,
     id: 'cm-js-hard-09',
     concept: '`Set` Data Structure',
     description: 'Which snippet correctly creates a Set and adds a value?',
@@ -422,6 +450,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `Set` object lets you store unique values of any type, whether primitive values or object references.',
   },
   {
+    srNo: 28,
     id: 'cm-js-hard-10',
     concept: 'Web Worker Instantiation',
     description: 'Which snippet correctly creates a new web worker?',
@@ -437,6 +466,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `Worker()` constructor creates a `Worker` object that executes the script at the specified URL. This script must obey the same-origin policy.',
   },
   {
+    srNo: 29,
     id: 'cm-js-easy-11',
     concept: 'Array `indexOf`',
     description: 'Which snippet correctly finds the index of "Banana"?',
@@ -452,6 +482,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `indexOf()` method returns the first index at which a given element can be found in the array, or -1 if it is not present.',
   },
   {
+    srNo: 30,
     id: 'cm-js-easy-12',
     concept: 'String `toUpperCase`',
     description: 'Which snippet converts a string to all uppercase letters?',
@@ -467,6 +498,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `toUpperCase()` method returns the calling string value converted to uppercase.',
   },
   {
+    srNo: 31,
     id: 'cm-js-easy-13',
     concept: '`Math.random`',
     description: 'Which snippet generates a random number between 0 and 1?',
@@ -482,6 +514,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `Math.random()` function returns a floating-point, pseudo-random number in the range from 0 inclusive up to but not including 1.',
   },
   {
+    srNo: 32,
     id: 'cm-js-medium-09',
     concept: 'Array `slice`',
     description: 'Which snippet extracts a portion of an array into a new array?',
@@ -497,6 +530,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `slice()` method returns a shallow copy of a portion of an array into a new array object selected from `start` to `end` (`end` not included). The original array will not be modified.',
   },
   {
+    srNo: 33,
     id: 'cm-js-medium-10',
     concept: 'Array `splice`',
     description: 'Which snippet changes the contents of an array by removing or replacing existing elements?',
@@ -512,6 +546,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `splice()` method changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.',
   },
   {
+    srNo: 34,
     id: 'cm-js-medium-11',
     concept: '`JSON.stringify`',
     description: 'Which snippet converts a JavaScript object into a JSON string?',
@@ -527,6 +562,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `JSON.stringify()` method converts a JavaScript object or value to a JSON string.',
   },
   {
+    srNo: 35,
     id: 'cm-js-medium-12',
     concept: '`JSON.parse`',
     description: 'Which snippet parses a JSON string, constructing the JavaScript value or object described by the string?',
@@ -542,6 +578,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `JSON.parse()` method parses a JSON string, constructing the JavaScript value or object described by the string.',
   },
   {
+    srNo: 36,
     id: 'cm-js-hard-11',
     concept: 'Symbol',
     description: 'Which snippet creates a unique and immutable data type, often used as an identifier for object properties?',
@@ -557,6 +594,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A `Symbol` is a primitive data type. The `Symbol()` function returns a new unique symbol value. You do not use `new` with `Symbol()`.',
   },
   {
+    srNo: 37,
     id: 'cm-js-hard-12',
     concept: 'WeakMap',
     description: 'Which snippet creates a collection of key/value pairs in which the keys are weakly referenced?',
@@ -572,6 +610,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The keys of a `WeakMap` must be objects. The references to the keys are held "weakly," meaning they do not prevent garbage collection if there is no other reference to the object.',
   },
   {
+    srNo: 38,
     id: 'cm-js-hard-13',
     concept: 'Promise.race',
     description: 'Which snippet returns a promise that fulfills or rejects as soon as one of the promises in an iterable fulfills or rejects?',
@@ -589,6 +628,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
 
   // Python - Easy
   {
+    srNo: 39,
     id: 'cm-py-easy-01',
     concept: 'F-String Formatting',
     description: 'Which snippet correctly formats a string using an f-string?',
@@ -604,6 +644,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'F-strings (formatted string literals) provide a concise and convenient way to embed Python expressions inside string literals for formatting.',
   },
   {
+    srNo: 40,
     id: 'cm-py-easy-02',
     concept: 'List Append',
     description: 'Which snippet correctly adds an element to a list?',
@@ -619,6 +660,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `append()` method is used to add a single item to the end of a list in Python.',
   },
   {
+    srNo: 41,
     id: 'cm-py-easy-03',
     concept: 'Dictionary Access',
     description: 'Which snippet correctly accesses the value associated with the key "city"?',
@@ -634,6 +676,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In Python, dictionary values are accessed using square bracket notation with the key inside.',
   },
   {
+    srNo: 42,
     id: 'cm-py-easy-04',
     concept: 'Function Definition',
     description: 'Which snippet correctly defines a function named `calculate_sum`?',
@@ -649,6 +692,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `def` keyword is used to define a function in Python, followed by the function name and parentheses for parameters.',
   },
   {
+    srNo: 43,
     id: 'cm-py-easy-05',
     concept: 'Conditional `if` statement',
     description: 'Which snippet shows a correct if statement to check if a is greater than b?',
@@ -664,6 +708,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In Python, an `if` statement ends with a colon, and the code to be executed is indented on the next line.',
   },
   {
+    srNo: 44,
     id: 'cm-py-easy-06',
     concept: 'Get String Length',
     description: 'Which snippet correctly finds the length of a string?',
@@ -679,6 +724,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The built-in `len()` function is used to get the number of items in a sequence, including the number of characters in a string.',
   },
   {
+    srNo: 45,
     id: 'cm-py-easy-07',
     concept: 'For Loop',
     description: 'Which snippet correctly iterates through the items of a list named `fruits`?',
@@ -694,6 +740,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `for...in` syntax is used to iterate over the items of any sequence, such as a list or a string.',
   },
   {
+    srNo: 46,
     id: 'cm-py-easy-11',
     concept: 'User Input',
     description: 'Which snippet correctly gets input from the user?',
@@ -709,6 +756,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `input()` function prompts the user for input and returns it as a string.',
   },
   {
+    srNo: 47,
     id: 'cm-py-easy-12',
     concept: 'While Loop',
     description: 'Which snippet correctly creates a loop that runs as long as `i` is less than 5?',
@@ -724,6 +772,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A `while` loop statement in Python repeatedly executes a target statement as long as a given condition is true.',
   },
   {
+    srNo: 48,
     id: 'cm-py-easy-13',
     concept: 'Tuple Creation',
     description: 'Which snippet correctly creates a tuple?',
@@ -739,6 +788,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Tuples are created using parentheses `()` and are immutable, meaning their contents cannot be changed.',
   },
   {
+    srNo: 49,
     id: 'cm-py-easy-14',
     concept: 'Set Creation',
     description: 'Which snippet correctly creates a set?',
@@ -754,6 +804,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Sets are created using curly braces `{}`. They are unordered collections of unique items.',
   },
   {
+    srNo: 50,
     id: 'cm-py-easy-15',
     concept: 'Importing a Module',
     description: 'Which snippet correctly imports the `math` module?',
@@ -771,6 +822,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
 
   // Python - Medium
   {
+    srNo: 51,
     id: 'cm-py-medium-01',
     concept: 'List Comprehension',
     description: 'Which snippet correctly creates a list of squares for even numbers from 0 to 9?',
@@ -786,6 +838,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'List comprehensions offer a shorter syntax when you want to create a new list based on the values of an existing list, including conditional logic.',
   },
   {
+    srNo: 52,
     id: 'cm-py-medium-02',
     concept: '`with` statement',
     description: 'Which snippet shows the correct and safest way to open and read a file?',
@@ -801,6 +854,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `with` statement ensures that the file is automatically closed even if errors occur, making it the preferred way to handle file I/O.',
   },
   {
+    srNo: 53,
     id: 'cm-py-medium-03',
     concept: 'Lambda Function',
     description: 'Which snippet defines a small, anonymous function that doubles its input?',
@@ -816,6 +870,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A `lambda` function is a small anonymous function that can take any number of arguments, but can only have one expression.',
   },
   {
+    srNo: 54,
     id: 'cm-py-medium-04',
     concept: 'Dictionary `.get()` method',
     description: 'Which snippet safely gets a value from a dictionary, providing a default if the key does not exist?',
@@ -831,6 +886,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `.get()` method is used to access a dictionary value. It returns a default value (the second argument) if the specified key does not exist, avoiding a KeyError.',
   },
   {
+    srNo: 55,
     id: 'cm-py-medium-11',
     concept: 'Slicing with a Step',
     description: 'Which snippet extracts every second element from a list?',
@@ -846,6 +902,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'List slicing syntax `[start:stop:step]` allows for a third argument, `step`, to skip elements.',
   },
   {
+    srNo: 56,
     id: 'cm-py-medium-12',
     concept: '`enumerate` Function',
     description: 'Which snippet correctly gets both the index and value during a loop?',
@@ -861,6 +918,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `enumerate()` function adds a counter to an iterable and returns it in a form of an enumerating object.',
   },
   {
+    srNo: 57,
     id: 'cm-py-medium-13',
     concept: '`*args` in Function',
     description: 'Which snippet defines a function that can accept a variable number of positional arguments?',
@@ -876,6 +934,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The special `*args` syntax in function definitions is used to pass a variable-length, non-keyworded argument list.',
   },
   {
+    srNo: 58,
     id: 'cm-py-medium-14',
     concept: '`**kwargs` in Function',
     description: 'Which snippet defines a function that can accept a variable number of keyword arguments?',
@@ -891,6 +950,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The special `**kwargs` syntax in function definitions is used to pass a keyworded, variable-length argument list as a dictionary.',
   },
   {
+    srNo: 59,
     id: 'cm-py-medium-15',
     concept: '`__init__` Method',
     description: 'Which snippet correctly defines the constructor for a class?',
@@ -908,6 +968,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
 
   // Python - Hard
   {
+    srNo: 60,
     id: 'cm-py-hard-01',
     concept: 'Decorator',
     description: 'Which snippet correctly defines a simple decorator that wraps another function?',
@@ -923,6 +984,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A decorator is a function that takes another function as an argument, adds some functionality, and returns another function, all without altering the source code of the original function.',
   },
   {
+    srNo: 61,
     id: 'cm-py-hard-02',
     concept: 'Generator Function',
     description: 'Which snippet defines a function that can pause and resume, yielding multiple values over time?',
@@ -938,6 +1000,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A generator function uses the `yield` keyword to produce a sequence of values. It pauses execution after each yield and resumes from that point on the next call.',
   },
   {
+    srNo: 62,
     id: 'cm-py-hard-03',
     concept: 'Class Inheritance',
     description: 'Which snippet correctly shows a `Car` class inheriting from a `Vehicle` class?',
@@ -953,6 +1016,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In Python, inheritance is specified by placing the name of the parent class in parentheses after the child class name.',
   },
   {
+    srNo: 63,
     id: 'cm-py-hard-04',
     concept: 'Exception Handling',
     description: 'Which snippet shows the correct way to catch a specific type of error?',
@@ -968,6 +1032,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `try...except` block is used for handling exceptions. A specific exception type, like `ValueError`, can be caught and assigned to a variable using the `as` keyword.',
   },
   {
+    srNo: 64,
     id: 'cm-py-hard-11',
     concept: 'Context Manager (`with` statement)',
     description: 'Which dunder method must a class implement to be used in a `with` statement?',
@@ -983,6 +1048,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'To create a context manager, a class must implement an `__enter__` method (called at the start of the `with` block) and an `__exit__` method (called at the end, handling cleanup).',
   },
   {
+    srNo: 65,
     id: 'cm-py-hard-12',
     concept: 'Asyncio Coroutine',
     description: 'Which snippet correctly defines and runs a simple asynchronous coroutine?',
@@ -998,6 +1064,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Coroutines are defined with `async def`. The `asyncio.run()` function is the main entry point for running an asyncio program.',
   },
   {
+    srNo: 66,
     id: 'cm-py-hard-13',
     concept: '`@staticmethod`',
     description: 'Which snippet defines a method that belongs to the class but does not have access to the instance (`self`)?',
@@ -1013,6 +1080,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A static method does not receive an implicit first argument. It is bound to the class and not the object of the class.',
   },
   {
+    srNo: 67,
     id: 'cm-py-hard-14',
     concept: '`@classmethod`',
     description: 'Which snippet defines a method that receives the class itself as the first argument (`cls`)?',
@@ -1028,6 +1096,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A class method receives the class as the implicit first argument, just like an instance method receives the instance. It is often used for factory methods that create instances of the class.',
   },
   {
+    srNo: 68,
     id: 'cm-py-hard-15',
     concept: 'Metaclass',
     description: 'Which snippet correctly defines a simple metaclass?',
@@ -1043,6 +1112,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Metaclasses are classes whose instances are classes. A metaclass is created by inheriting from `type`.',
   },
   {
+    srNo: 69,
     id: 'cm-py-easy-16',
     concept: '`isinstance` function',
     description: 'Which snippet checks if a variable is an integer?',
@@ -1058,6 +1128,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `isinstance()` function is the recommended way to check an object\'s type, as it also handles inheritance.',
   },
   {
+    srNo: 70,
     id: 'cm-py-easy-17',
     concept: '`in` operator',
     description: 'Which snippet checks if an item exists in a list?',
@@ -1073,6 +1144,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `in` keyword is used to check if a value is present in a sequence (like a list, tuple, or string).',
   },
   {
+    srNo: 71,
     id: 'cm-py-medium-16',
     concept: '`try...except...else`',
     description: 'Which snippet correctly uses the `else` block in exception handling?',
@@ -1088,6 +1160,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `else` block is executed if and only if no exceptions were raised in the `try` block.',
   },
   {
+    srNo: 72,
     id: 'cm-py-medium-17',
     concept: '`try...except...finally`',
     description: 'Which block of code is always executed, regardless of whether an exception occurred?',
@@ -1103,6 +1176,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `finally` block is always executed before leaving the `try...except` statement, whether an exception has occurred or not. It is used for cleanup actions.',
   },
   {
+    srNo: 73,
     id: 'cm-py-medium-18',
     concept: '`zip` function',
     description: 'Which snippet correctly combines two lists into a list of tuples?',
@@ -1118,6 +1192,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `zip()` function returns an iterator of tuples, where the i-th tuple contains the i-th element from each of the argument sequences or iterables.',
   },
   {
+    srNo: 74,
     id: 'cm-py-hard-16',
     concept: '`__str__` vs `__repr__`',
     description: 'Which "dunder" method is called by `print()` and `str()` to get an "informal" string representation of an object?',
@@ -1133,6 +1208,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: '`__str__` is intended to return a user-friendly, readable string representation of an object. `__repr__` is meant to return an unambiguous, official representation, often one that can be used to recreate the object.',
   },
   {
+    srNo: 75,
     id: 'cm-py-hard-17',
     concept: '`*` for unpacking arguments',
     description: 'Which snippet correctly unpacks a list as positional arguments to a function?',
@@ -1148,6 +1224,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `*` operator can be used to unpack an iterable into the arguments of a function call.',
   },
   {
+    srNo: 76,
     id: 'cm-py-hard-18',
     concept: '`@property` decorator',
     description: 'Which decorator allows a method to be accessed like an attribute?',
@@ -1163,6 +1240,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `@property` decorator is used to define "getter" methods for a class, allowing you to run code when an attribute is accessed, but call it without parentheses.',
   },
   {
+    srNo: 77,
     id: 'cm-py-hard-19',
     concept: 'Dataclasses',
     description: 'Which decorator automatically generates special methods like `__init__` and `__repr__` for a class?',
@@ -1178,6 +1256,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `@dataclass` decorator from the `dataclasses` module provides a concise way to create classes that are primarily used for storing data.',
   },
   {
+    srNo: 78,
     id: 'cm-py-hard-20',
     concept: '`asyncio.gather`',
     description: 'Which function is used to run multiple asyncio awaitable objects concurrently?',
@@ -1195,6 +1274,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
 
   // Java - Easy
   {
+    srNo: 79,
     id: 'cm-java-easy-01',
     concept: 'String Comparison',
     description: 'Which snippet is the correct way to compare the content of two strings?',
@@ -1210,6 +1290,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In Java, `==` compares object references. The `.equals()` method must be used to compare the actual character content of strings.',
   },
   {
+    srNo: 80,
     id: 'cm-java-easy-02',
     concept: 'Array Declaration',
     description: 'Which snippet correctly declares and initializes an array of integers?',
@@ -1225,6 +1306,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The correct syntax for declaring and initializing an array in Java uses `type[] name = {values};`.',
   },
   {
+    srNo: 81,
     id: 'cm-java-easy-03',
     concept: 'Main Method Signature',
     description: 'Which is the correct signature for the main method, the entry point of a Java application?',
@@ -1240,6 +1322,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The main method must be `public` (accessible everywhere), `static` (callable without an object), `void` (returns nothing), and take an array of strings as an argument.',
   },
   {
+    srNo: 82,
     id: 'cm-java-easy-04',
     concept: 'For Loop',
     description: 'Which snippet shows the correct syntax for a for loop?',
@@ -1255,6 +1338,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A standard `for` loop in Java has three parts: initialization, condition, and increment/decrement.',
   },
   {
+    srNo: 83,
     id: 'cm-java-easy-05',
     concept: 'String Length',
     description: 'Which snippet correctly gets the number of characters in a string?',
@@ -1270,6 +1354,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In Java, the `length()` method of the String class is used to get the number of characters.',
   },
   {
+    srNo: 84,
     id: 'cm-java-easy-06',
     concept: 'Creating an Object',
     description: 'Which snippet correctly creates an instance of a `Car` class?',
@@ -1285,6 +1370,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'To create an object in Java, you specify the class name, a name for the object, and use the `new` keyword followed by a call to the class constructor.',
   },
   {
+    srNo: 85,
     id: 'cm-java-easy-07',
     concept: 'Method Definition',
     description: 'Which snippet correctly defines a method that returns an integer?',
@@ -1300,6 +1386,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In Java, a method definition starts with the return type, followed by the method name and parentheses for parameters.',
   },
   {
+    srNo: 86,
     id: 'cm-java-easy-10',
     concept: 'Importing a Class',
     description: 'Which snippet correctly imports the `ArrayList` class?',
@@ -1315,6 +1402,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `import` keyword is used in Java to make classes from other packages accessible.',
   },
   {
+    srNo: 87,
     id: 'cm-java-easy-11',
     concept: 'Single-Line Comment',
     description: 'Which snippet shows a single-line comment?',
@@ -1330,6 +1418,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In Java, `//` is used to start a single-line comment, which extends to the end of the line.',
   },
   {
+    srNo: 88,
     id: 'cm-java-easy-12',
     concept: 'Multi-Line Comment',
     description: 'Which snippet shows a multi-line comment?',
@@ -1345,6 +1434,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A multi-line comment in Java starts with `/*` and ends with `*/`, and can span multiple lines.',
   },
   {
+    srNo: 89,
     id: 'cm-java-easy-13',
     concept: 'Switch Statement',
     description: 'Which snippet correctly uses a `switch` statement?',
@@ -1362,6 +1452,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
 
   // Java - Medium
   {
+    srNo: 90,
     id: 'cm-java-medium-01',
     concept: 'Enhanced For-Loop',
     description: 'Which snippet correctly iterates over an ArrayList of Strings?',
@@ -1377,6 +1468,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The enhanced for-loop provides a simpler, more readable way to iterate over elements of a collection or array without needing an index counter.',
   },
   {
+    srNo: 91,
     id: 'cm-java-medium-02',
     concept: 'Method Overloading',
     description: 'Which snippet correctly demonstrates method overloading?',
@@ -1392,6 +1484,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Method overloading allows multiple methods with the same name but different parameters (either number of parameters or their types) in the same class.',
   },
   {
+    srNo: 92,
     id: 'cm-java-medium-03',
     concept: 'Creating an ArrayList',
     description: 'Which snippet correctly creates an ArrayList to hold strings?',
@@ -1407,6 +1500,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'To create an ArrayList, you must import `java.util.ArrayList` and specify the type of objects it will hold in angle brackets `<>`.',
   },
   {
+    srNo: 93,
     id: 'cm-java-medium-04',
     concept: 'HashMap',
     description: 'Which snippet correctly creates a HashMap to store String keys and Integer values?',
@@ -1422,6 +1516,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'When using generic collections like HashMap, you must use wrapper classes (like `Integer`) for primitive types (like `int`).',
   },
   {
+    srNo: 94,
     id: 'cm-java-medium-10',
     concept: 'Constructor',
     description: 'Which snippet correctly defines a constructor for the `Car` class?',
@@ -1437,6 +1532,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A constructor in Java is a special method used to initialize objects. It must have the same name as the class and has no explicit return type.',
   },
   {
+    srNo: 95,
     id: 'cm-java-medium-11',
     concept: '`static` Keyword',
     description: 'Which snippet defines a method that belongs to the class rather than an instance of the class?',
@@ -1452,6 +1548,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `static` keyword means the method can be accessed without creating an object of the class.',
   },
   {
+    srNo: 96,
     id: 'cm-java-medium-12',
     concept: 'Encapsulation (Getters/Setters)',
     description: 'Which snippet demonstrates encapsulation by making a field private and providing public access methods?',
@@ -1467,6 +1564,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Encapsulation is the practice of hiding the internal state of an object and requiring all interaction to be performed through an object\'s methods.',
   },
   {
+    srNo: 97,
     id: 'cm-java-medium-13',
     concept: 'Abstract Class',
     description: 'Which snippet correctly declares a class that cannot be instantiated on its own?',
@@ -1484,6 +1582,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
 
   // Java - Hard
   {
+    srNo: 98,
     id: 'cm-java-hard-01',
     concept: 'Interface Implementation',
     description: 'Which snippet shows a class correctly implementing an interface?',
@@ -1499,6 +1598,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A class uses the `implements` keyword to use an interface. It must then provide an implementation for all the methods defined in that interface.',
   },
   {
+    srNo: 99,
     id: 'cm-java-hard-02',
     concept: 'Exception Handling',
     description: 'Which snippet correctly handles a potential file reading error?',
@@ -1514,6 +1614,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `try...catch` block is the standard way to handle exceptions in Java. Code that might throw an exception is placed in the `try` block, and the code to handle it is in the `catch` block.',
   },
   {
+    srNo: 100,
     id: 'cm-java-hard-03',
     concept: 'Polymorphism',
     description: 'Which snippet demonstrates polymorphism?',
@@ -1529,6 +1630,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Polymorphism means "many forms". It allows us to perform a single action in different ways. Here, a `Dog` object (a subclass) is being referred to by a variable of its superclass type, `Animal`.',
   },
   {
+    srNo: 101,
     id: 'cm-java-hard-04',
     concept: 'Lambda Expression',
     description: 'Which snippet correctly uses a lambda expression to iterate over a list?',
@@ -1544,6 +1646,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Lambda expressions provide a clear and concise way to represent one method interface using an expression. The `->` separates the parameters from the expression body.',
   },
   {
+    srNo: 102,
     id: 'cm-java-hard-11',
     concept: '`@Override` Annotation',
     description: 'Which annotation is used to indicate that a method is intended to override a method in a superclass?',
@@ -1559,6 +1662,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `@Override` annotation informs the compiler that the element is meant to override an element declared in a superclass. It helps prevent errors if the method signature is incorrect.',
   },
   {
+    srNo: 103,
     id: 'cm-java-hard-12',
     concept: 'Generic Class',
     description: 'Which snippet correctly defines a generic class that can hold any type?',
@@ -1574,6 +1678,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Generics are defined using angle brackets `<>`. `T` is a type parameter that will be replaced by a real type when an object of `Box` is created.',
   },
   {
+    srNo: 104,
     id: 'cm-java-hard-13',
     concept: 'Enum',
     description: 'Which snippet correctly defines an enumeration?',
@@ -1589,6 +1694,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'An `enum` is a special "class" that represents a group of constants (unchangeable variables).',
   },
   {
+    srNo: 105,
     id: 'cm-java-hard-14',
     concept: 'Thread Creation',
     description: 'Which snippet correctly creates and starts a new thread?',
@@ -1604,6 +1710,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A new thread is created by passing a `Runnable` object to the `Thread` constructor. The thread is started by calling its `start()` method, which in turn calls the `run()` method of the `Runnable`.',
   },
   {
+    srNo: 106,
     id: 'cm-java-easy-14',
     concept: 'String length vs array length',
     description: 'Which snippet correctly gets the number of elements in an array?',
@@ -1619,6 +1726,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In Java, you get the number of elements in an array using the `length` property (no parentheses), whereas for a String, you use the `length()` method.',
   },
   {
+    srNo: 107,
     id: 'cm-java-easy-15',
     concept: 'Ternary Operator',
     description: 'Which snippet uses the ternary operator to assign a value?',
@@ -1634,6 +1742,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The ternary operator provides a concise way to write a simple if-else statement in a single line.',
   },
   {
+    srNo: 108,
     id: 'cm-java-medium-14',
     concept: '`StringBuilder`',
     description: 'Which snippet is the most efficient way to build a string in a loop?',
@@ -1649,6 +1758,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Since Strings are immutable, using `+=` in a loop creates many new String objects. `StringBuilder` is mutable and much more efficient for this task.',
   },
   {
+    srNo: 109,
     id: 'cm-java-medium-15',
     concept: '`instanceof` operator',
     description: 'Which snippet correctly checks if an object is an instance of a particular class?',
@@ -1664,6 +1774,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `instanceof` operator returns true if the object is an instance of the specified class or an instance of a subclass.',
   },
   {
+    srNo: 110,
     id: 'cm-java-medium-16',
     concept: '`HashSet`',
     description: 'Which snippet correctly creates a collection that stores only unique items?',
@@ -1679,6 +1790,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: '`HashSet` implements the `Set` interface and does not allow duplicate elements.',
   },
   {
+    srNo: 111,
     id: 'cm-java-hard-15',
     concept: 'Stream API - filter',
     description: 'Which snippet uses the Stream API to filter a list?',
@@ -1694,6 +1806,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The Stream API provides a functional approach to processing collections. `.stream()` creates a stream, `.filter()` applies a predicate, and `.collect()` gathers the results.',
   },
   {
+    srNo: 112,
     id: 'cm-java-hard-16',
     concept: 'Stream API - map',
     description: 'Which snippet uses the Stream API to transform each element in a list?',
@@ -1709,6 +1822,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `.map()` operation on a stream applies a function to each element, producing a new stream of the transformed elements.',
   },
   {
+    srNo: 113,
     id: 'cm-java-hard-17',
     concept: '`Optional`',
     description: 'Which snippet is the correct way to create an Optional for a value that might be null?',
@@ -1724,6 +1838,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: '`Optional.ofNullable()` returns an `Optional` describing the specified value, if non-null, otherwise returns an empty `Optional`. `Optional.of()` would throw a NullPointerException if the value is null.',
   },
   {
+    srNo: 114,
     id: 'cm-java-hard-18',
     concept: '`synchronized` keyword',
     description: 'Which keyword is used to mark a method or block of code as thread-safe, allowing only one thread to execute it at a time?',
@@ -1739,6 +1854,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `synchronized` keyword provides a lock on an object to prevent race conditions when multiple threads access shared resources.',
   },
   {
+    srNo: 115,
     id: 'cm-java-hard-19',
     concept: '`volatile` keyword',
     description: 'Which keyword ensures that modifications to a variable are always visible to other threads?',
@@ -1756,6 +1872,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
 
   // C++ - Easy
   {
+    srNo: 116,
     id: 'cm-cpp-easy-01',
     concept: 'Include Directive',
     description: 'Which snippet correctly includes the library for input and output streams?',
@@ -1771,6 +1888,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In C++, the `#include` preprocessor directive is used to include the contents of a header file in the current source file.',
   },
   {
+    srNo: 117,
     id: 'cm-cpp-easy-02',
     concept: 'Pointer Dereference',
     description: 'Which snippet correctly gets the value stored at the memory address held by a pointer?',
@@ -1786,6 +1904,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The dereference operator `*` is used to access the value that a pointer points to.',
   },
   {
+    srNo: 118,
     id: 'cm-cpp-easy-03',
     concept: 'Reference Variable',
     description: 'Which snippet correctly declares a reference to another variable?',
@@ -1801,6 +1920,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In C++, a reference is an alias for an already existing variable. It is declared using the ampersand `&` symbol.',
   },
   {
+    srNo: 119,
     id: 'cm-cpp-easy-04',
     concept: 'Using Namespace',
     description: 'Which snippet allows you to use names for objects and variables from the standard library without the `std::` prefix?',
@@ -1816,6 +1936,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `using namespace std;` statement allows you to use elements from the `std` namespace directly, like `cout` instead of `std::cout`.',
   },
   {
+    srNo: 120,
     id: 'cm-cpp-easy-05',
     concept: 'Array Declaration',
     description: 'Which snippet correctly declares an array of 4 integers?',
@@ -1831,6 +1952,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In C++, a static array is declared with the syntax `type name[size];`.',
   },
   {
+    srNo: 121,
     id: 'cm-cpp-easy-06',
     concept: 'Get String Length',
     description: 'Which snippet correctly gets the length of a `std::string`?',
@@ -1846,6 +1968,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `std::string` class has a `length()` (or `size()`) method that returns the number of characters in the string.',
   },
   {
+    srNo: 122,
     id: 'cm-cpp-easy-10',
     concept: 'Standard Output',
     description: 'Which snippet correctly prints "Hello" to the console?',
@@ -1861,6 +1984,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: '`std::cout`, used with the stream insertion operator `<<`, is the standard way to output text in C++.',
   },
   {
+    srNo: 123,
     id: 'cm-cpp-easy-11',
     concept: 'Main Function',
     description: 'Which is the correct signature for the main function, the entry point of a C++ program?',
@@ -1876,6 +2000,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `main` function is the entry point of every C++ program. It traditionally returns an `int` to indicate the program\'s exit status.',
   },
   {
+    srNo: 124,
     id: 'cm-cpp-easy-12',
     concept: '`std::vector` Declaration',
     description: 'Which snippet correctly declares a vector of integers?',
@@ -1891,6 +2016,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: '`std::vector` is a sequence container representing arrays that can change in size. The type of elements it holds is specified in angle brackets `<>`.',
   },
   {
+    srNo: 125,
     id: 'cm-cpp-easy-13',
     concept: 'Variable Assignment',
     description: 'Which snippet correctly assigns the value 10 to a variable `x`?',
@@ -1908,6 +2034,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
 
   // C++ - Medium
   {
+    srNo: 126,
     id: 'cm-cpp-medium-01',
     concept: 'Range-based For Loop',
     description: 'Which snippet correctly iterates over the elements of a vector?',
@@ -1923,6 +2050,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The range-based for loop (since C++11) provides a more concise and less error-prone way to iterate over the elements of a container.',
   },
   {
+    srNo: 127,
     id: 'cm-cpp-medium-02',
     concept: 'Class Constructor',
     description: 'Which snippet correctly defines a constructor for the `Car` class?',
@@ -1938,6 +2066,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A constructor in C++ is a special member function that has the same name as the class and is called when an object of the class is created. It has no return type.',
   },
   {
+    srNo: 128,
     id: 'cm-cpp-medium-03',
     concept: 'Header Guards',
     description: 'Which snippet represents a standard header guard to prevent multiple inclusions?',
@@ -1953,6 +2082,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Header guards are preprocessor directives that prevent the contents of a header from being included more than once in a single compilation unit, which would cause redefinition errors.',
   },
   {
+    srNo: 129,
     id: 'cm-cpp-medium-04',
     concept: 'Dynamic Memory Allocation',
     description: 'Which snippet correctly allocates an integer on the heap?',
@@ -1968,6 +2098,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `new` operator is used in C++ to allocate memory on the heap. It returns a pointer to the allocated memory.',
   },
   {
+    srNo: 130,
     id: 'cm-cpp-medium-05',
     concept: 'Function Overloading',
     description: 'Which snippet correctly demonstrates function overloading?',
@@ -1983,6 +2114,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Function overloading allows multiple functions to have the same name as long as they have different parameter lists (either different types or a different number of parameters).',
   },
   {
+    srNo: 131,
     id: 'cm-cpp-medium-06',
     concept: 'Passing by Reference',
     description: 'Which function signature correctly takes an integer by reference?',
@@ -1998,6 +2130,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Using `&` after the type in a function parameter list declares that the argument should be passed by reference, allowing the function to modify the original variable.',
   },
   {
+    srNo: 132,
     id: 'cm-cpp-medium-10',
     concept: 'std::map',
     description: 'Which snippet correctly inserts a key-value pair into a map?',
@@ -2013,6 +2146,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The subscript operator `[]` is a convenient way to insert or access elements in a `std::map`.',
   },
   {
+    srNo: 133,
     id: 'cm-cpp-medium-11',
     concept: 'struct vs class',
     description: 'What is the default access specifier for members of a `struct`?',
@@ -2028,6 +2162,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'In C++, members of a `struct` are `public` by default, whereas members of a `class` are `private` by default.',
   },
   {
+    srNo: 134,
     id: 'cm-cpp-medium-12',
     concept: 'Class Member Initialization List',
     description: 'Which snippet shows the preferred way to initialize class members in a constructor?',
@@ -2043,6 +2178,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Using a member initialization list is more efficient as it initializes members directly, whereas assignment in the constructor body first default-initializes and then assigns.',
   },
   {
+    srNo: 135,
     id: 'cm-cpp-medium-13',
     concept: 'Smart Pointer (unique_ptr)',
     description: 'Which snippet correctly creates a unique pointer to manage dynamic memory?',
@@ -2060,6 +2196,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     
   // C++ - Hard
   {
+    srNo: 136,
     id: 'cm-cpp-hard-01',
     concept: 'Virtual Function (Polymorphism)',
     description: 'Which snippet correctly declares a function that can be overridden by a derived class to enable polymorphism?',
@@ -2075,6 +2212,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `virtual` keyword is used to declare a member function in a base class that you expect to be redefined in derived classes. This is fundamental to achieving runtime polymorphism in C++.',
   },
   {
+    srNo: 137,
     id: 'cm-cpp-hard-02',
     concept: 'Template Function',
     description: 'Which snippet defines a generic function that can operate on different data types?',
@@ -2090,6 +2228,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Templates allow you to write generic programs. The `template<typename T>` syntax declares a template where `T` is a placeholder for a data type that will be specified when the function is called.',
   },
   {
+    srNo: 138,
     id: 'cm-cpp-hard-03',
     concept: 'The "Rule of Three/Five"',
     description: 'If a class has a user-defined destructor, which other members should it typically also define?',
@@ -2105,6 +2244,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The Rule of Three (or Five in modern C++) is a rule of thumb stating that if a class defines any of a destructor, copy constructor, or copy assignment operator, it should probably define all three (plus move constructor and move assignment).',
   },
   {
+    srNo: 139,
     id: 'cm-cpp-hard-04',
     concept: 'RAII (Resource Acquisition Is Initialization)',
     description: 'Which snippet best demonstrates the RAII idiom for managing a resource?',
@@ -2120,6 +2260,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'RAII is a core C++ concept where resource lifetime is tied to object lifetime. Smart pointers like `std::shared_ptr` acquire the resource (memory) on construction and automatically release it on destruction, preventing leaks.',
   },
   {
+    srNo: 140,
     id: 'cm-cpp-hard-05',
     concept: 'Lambda Function with Capture',
     description: 'Which snippet shows a lambda that captures an external variable by value?',
@@ -2135,6 +2276,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `[...]` part of a lambda is the capture clause. `[=]` captures all automatic variables used in the lambda by value, making a copy of them.',
   },
   {
+    srNo: 141,
     id: 'cm-cpp-hard-06',
     concept: 'Pure Virtual Function',
     description: 'Which snippet defines an abstract base class that cannot be instantiated?',
@@ -2150,6 +2292,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A pure virtual function is declared by assigning `= 0`. A class containing at least one pure virtual function is an abstract class, and no objects of that class can be created.',
   },
   {
+    srNo: 142,
     id: 'cm-cpp-hard-10',
     concept: 'const correctness',
     description: 'Which snippet correctly declares a member function that does not modify the object\'s state?',
@@ -2165,6 +2308,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Placing `const` after the parameter list of a member function indicates that the function will not modify the state of the `this` object.',
   },
   {
+    srNo: 143,
     id: 'cm-cpp-hard-11',
     concept: '`static_cast`',
     description: 'Which snippet shows a compile-time cast between related pointer types?',
@@ -2180,6 +2324,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: '`static_cast` is used for conversions between related types, like upcasting or downcasting in a class hierarchy, where the safety is known at compile time.',
   },
   {
+    srNo: 144,
     id: 'cm-cpp-hard-12',
     concept: '`dynamic_cast`',
     description: 'Which snippet shows a safe, runtime-checked cast for polymorphic types?',
@@ -2195,6 +2340,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: '`dynamic_cast` is used for downcasting polymorphic types. It performs a runtime check to ensure the cast is valid, returning `nullptr` if it is not.',
   },
   {
+    srNo: 145,
     id: 'cm-cpp-hard-13',
     concept: 'Operator Overloading',
     description: 'Which snippet correctly overloads the `+` operator for a `Vector` class?',
@@ -2210,6 +2356,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `operator` keyword is used to define a function that overloads a specific operator for a class.',
   },
   {
+    srNo: 146,
     id: 'cm-cpp-hard-14',
     concept: 'std::thread',
     description: 'Which snippet correctly creates and starts a new thread?',
@@ -2225,6 +2372,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'An `std::thread` object is created by passing a callable (like a function) to its constructor, which starts the thread. `join()` is then called to wait for the thread to finish.',
   },
   {
+    srNo: 147,
     id: 'cm-cpp-hard-15',
     concept: 'Move Semantics',
     description: 'Which snippet defines a move constructor for a class?',
@@ -2240,6 +2388,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A move constructor takes an rvalue reference (`&&`) to an object of the same class. It is used to efficiently transfer ownership of resources from a temporary object.',
   },
   {
+    srNo: 148,
     id: 'cm-cpp-hard-16',
     concept: '`constexpr` function',
     description: 'Which snippet defines a function that can be evaluated at compile time?',
@@ -2255,6 +2404,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `constexpr` specifier declares that it is possible to evaluate the value of the function or variable at compile time.',
   },
   {
+    srNo: 149,
     id: 'cm-cpp-hard-17',
     concept: 'Namespace alias',
     description: 'Which snippet creates a shorter alias for a long namespace?',
@@ -2270,6 +2420,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A namespace alias definition is a convenient way to create a shorter name for a namespace.',
   },
   {
+    srNo: 150,
     id: 'cm-cpp-easy-14',
     concept: '`const` keyword',
     description: 'Which snippet correctly declares a variable whose value cannot be changed?',
@@ -2285,6 +2436,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `const` keyword specifies that a variable\'s value is constant and tells the compiler to prevent the programmer from modifying it.',
   },
   {
+    srNo: 151,
     id: 'cm-cpp-easy-15',
     concept: '`for` loop',
     description: 'Which snippet correctly loops from 0 to 9?',
@@ -2300,6 +2452,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The standard C++ `for` loop has three parts: initialization, condition, and increment.',
   },
   {
+    srNo: 152,
     id: 'cm-cpp-medium-14',
     concept: '`std::map`',
     description: 'Which snippet declares a map of strings to integers?',
@@ -2315,6 +2468,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: '`std::map` is an associative container that stores elements in a mapped fashion. Each element has a key value and a mapped value. The first template parameter is the key type, the second is the value type.',
   },
   {
+    srNo: 153,
     id: 'cm-cpp-medium-15',
     concept: '`std::vector` `push_back`',
     description: 'Which snippet adds an element to the end of a vector?',
@@ -2330,6 +2484,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'The `push_back()` member function is used to add an element to the end of a `std::vector`, resizing it if necessary.',
   },
   {
+    srNo: 154,
     id: 'cm-cpp-medium-16',
     concept: '`struct`',
     description: 'Which snippet correctly defines a simple structure?',
@@ -2345,6 +2500,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A `struct` in C++ is a user-defined data type that groups together variables of different data types. Its members are public by default.',
   },
   {
+    srNo: 155,
     id: 'cm-cpp-hard-18',
     concept: '`unique_ptr`',
     description: 'Which smart pointer provides exclusive ownership of a dynamically allocated object?',
@@ -2360,6 +2516,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: '`std::unique_ptr` is a smart pointer that owns and manages another object through a pointer and disposes of that object when the `unique_ptr` goes out of scope. It cannot be copied.',
   },
   {
+    srNo: 156,
     id: 'cm-cpp-hard-19',
     concept: '`shared_ptr`',
     description: 'Which smart pointer allows for multiple owners of the same dynamically allocated object?',
@@ -2375,6 +2532,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: '`std::shared_ptr` retains shared ownership of an object through a pointer. Several `shared_ptr` objects may own the same object. The object is destroyed when the last remaining `shared_ptr` is destroyed.',
   },
   {
+    srNo: 157,
     id: 'cm-cpp-hard-20',
     concept: '`static` members',
     description: 'Which keyword declares a class member that belongs to the class itself, rather than to instances of it?',
@@ -2390,6 +2548,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'Static members of a class are not associated with each instance of the class; they are shared among all instances. There is only one copy of a static member for the entire class.',
   },
   {
+    srNo: 158,
     id: 'cm-cpp-hard-21',
     concept: '`const` member functions',
     description: 'Which snippet declares a member function that is not allowed to modify the object\'s member variables?',
@@ -2405,6 +2564,7 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
     explanation: 'A `const` member function, declared with the `const` keyword after the parameter list, promises not to change the state of the object on which it is called.',
   },
   {
+    srNo: 159,
     id: 'cm-cpp-hard-22',
     concept: 'R-value references',
     description: 'Which syntax is used to declare a reference to a temporary object (an r-value)?',

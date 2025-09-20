@@ -20,6 +20,7 @@ const difficultyColorMap: { [key: string]: string } = {
 function QuestionRow({ challenge }: { challenge: BattleChallenge }) {
     return (
         <TableRow>
+            <TableCell>{challenge.srNo}</TableCell>
             <TableCell className="w-2/3">
                  <p className="font-medium">{challenge.question}</p>
                  {challenge.code && (
@@ -67,6 +68,7 @@ export default function MonsterBattleListPage() {
                 <Table>
                     <TableHeader>
                         <TableRow>
+                            <TableHead>Sr. No.</TableHead>
                             <TableHead className="w-2/3">Question</TableHead>
                             <TableHead>Domain</TableHead>
                             <TableHead>Difficulty</TableHead>

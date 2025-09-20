@@ -1,5 +1,6 @@
 
 export interface OutputPredictionChallenge {
+  srNo: number;
   id: string;
   title: string;
   description: string;
@@ -14,6 +15,7 @@ export interface OutputPredictionChallenge {
 export const outputPredictionChallenges: OutputPredictionChallenge[] = [
   // JavaScript - Easy
   {
+    srNo: 1,
     id: 'op-js-easy-01',
     title: 'Variable Scope (var)',
     description: 'What will be logged to the console?',
@@ -25,6 +27,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `var x = 20` inside the function creates a new variable scoped only to that function. It does not affect the global variable `x` which remains 10.',
   },
   {
+    srNo: 2,
     id: 'op-js-easy-02',
     title: 'Type Coercion',
     description: 'What is the result of this expression?',
@@ -36,6 +39,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `+` operator performs string concatenation when one of the operands is a string. The number 5 is coerced into a string "5" and then concatenated.',
   },
   {
+    srNo: 3,
     id: 'op-js-easy-03',
     title: 'Hoisting with var',
     description: 'What will be logged to the console?',
@@ -47,6 +51,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Variable declarations using `var` are "hoisted" to the top of their scope, but their assignments are not. The code is interpreted as `var a; console.log(a); a = 5;`, so `a` is `undefined` when logged.',
   },
   {
+    srNo: 4,
     id: 'op-js-easy-04',
     title: 'Loose vs. Strict Equality',
     description: 'What will be logged to the console?',
@@ -58,6 +63,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The loose equality operator `==` performs type coercion. `false` is coerced to the number `0`, making the comparison `0 == 0`, which is true.',
   },
   {
+    srNo: 5,
     id: 'op-js-easy-05',
     title: 'Array Length',
     description: 'What will be logged to the console?',
@@ -69,6 +75,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `length` property of an array returns the number of elements it contains.',
   },
   {
+    srNo: 6,
     id: 'op-js-easy-06',
     title: 'Boolean Logic (OR)',
     description: 'What is the output of this code?',
@@ -80,6 +87,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The logical OR `||` operator returns `true` if at least one of the operands is true.',
   },
   {
+    srNo: 7,
     id: 'op-js-easy-07',
     title: 'Boolean Logic (AND)',
     description: 'What is the output of this code?',
@@ -91,6 +99,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The logical AND `&&` operator returns `true` only if both operands are true.',
   },
   {
+    srNo: 8,
     id: 'op-js-easy-08',
     title: 'Modulo Operator',
     description: 'What is the result of this expression?',
@@ -102,6 +111,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The modulo operator `%` returns the remainder of a division. 10 divided by 3 is 3 with a remainder of 1.',
   },
   {
+    srNo: 9,
     id: 'op-js-easy-09',
     title: 'Function Call',
     description: 'What is the output?',
@@ -113,6 +123,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The function `double` is called with the argument `4`. It returns `4 * 2`, which is `8`.',
   },
   {
+    srNo: 10,
     id: 'op-js-easy-10',
     title: 'String length',
     description: 'What is the output?',
@@ -124,6 +135,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `.length` property of a string returns the number of characters in it.',
   },
   {
+    srNo: 11,
     id: 'op-js-easy-11',
     title: 'Template Literal',
     description: 'What will be logged to the console?',
@@ -137,6 +149,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
 
   // JavaScript - Medium
   {
+    srNo: 12,
     id: 'op-js-medium-01',
     title: 'Closure and Loops (var)',
     description: 'What will be logged to the console?',
@@ -148,6 +161,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Because `var` is function-scoped, by the time the `setTimeout` callbacks execute, the loop has already completed and the value of `i` is 3. All three callbacks reference the same `i`.',
   },
   {
+    srNo: 13,
     id: 'op-js-medium-02',
     title: '`this` Keyword with Arrow Function',
     description: 'What will the `sayName` method log?',
@@ -159,6 +173,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Arrow functions do not have their own `this` context; they inherit it from the surrounding lexical scope. In this case, `this` correctly refers to the `person` object.',
   },
   {
+    srNo: 14,
     id: 'op-js-medium-03',
     title: 'Promise Microtask Queue',
     description: 'In what order will the values be logged?',
@@ -170,6 +185,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Promises are handled as microtasks which have priority over macrotasks like `setTimeout`. So, synchronous code (A, D) runs first, then microtasks (C), then macrotasks (B).',
   },
   {
+    srNo: 15,
     id: 'op-js-medium-04',
     title: 'Closure and Loops (let)',
     description: 'What will be logged to the console if `var` is replaced with `let`?',
@@ -181,6 +197,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Because `let` is block-scoped, a new binding for `i` is created for each iteration of the loop. Each `setTimeout` callback captures a different `i` with the value from its respective iteration (0, 1, and 2).',
   },
   {
+    srNo: 16,
     id: 'op-js-medium-05',
     title: 'Object Reference',
     description: 'What will be logged for `obj1.a`?',
@@ -192,6 +209,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Objects are reference types. Assigning `obj1` to `obj2` makes both variables point to the same object in memory. Modifying the object through `obj2` also affects `obj1`.',
   },
   {
+    srNo: 17,
     id: 'op-js-medium-06',
     title: 'Hoisting with let',
     description: 'What is the output of this code?',
@@ -203,6 +221,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Variables declared with `let` are hoisted but are not initialized. Accessing them before the declaration results in a Temporal Dead Zone (TDZ) and throws a ReferenceError.',
   },
   {
+    srNo: 18,
     id: 'op-js-medium-07',
     title: 'Array `map` Return',
     description: 'What is the value of `result`?',
@@ -214,6 +233,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `map` method creates a new array by calling the provided function on every element. The arrow function `num => num * 2` returns the doubled value for each element.',
   },
   {
+    srNo: 19,
     id: 'op-js-medium-08',
     title: '`filter` Method',
     description: 'What is the content of the `evens` array?',
@@ -225,6 +245,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `filter` method creates a new array with all elements that pass the test implemented by the provided function. In this case, it keeps only the even numbers.',
   },
   {
+    srNo: 20,
     id: 'op-js-medium-09',
     title: 'Array find',
     description: 'What is the value of `found`?',
@@ -236,6 +257,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `find()` method returns the first element in the provided array that satisfies the provided testing function. `12` is the first element greater than 10.',
   },
   {
+    srNo: 21,
     id: 'op-js-medium-10',
     title: 'Object Destructuring',
     description: 'What is the value of `name`?',
@@ -250,6 +272,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
 
   // JavaScript - Hard
   {
+    srNo: 22,
     id: 'op-js-hard-01',
     title: 'Array Reduce with Initial Value',
     description: 'What will this reduce function return?',
@@ -261,6 +284,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `reduce` method iterates through the array. `acc` (the accumulator) starts at the initial value `0`. In each step, `curr.x` is added to `acc`. The final result is 0 + 1 + 2 + 3 = 6.',
   },
   {
+    srNo: 23,
     id: 'op-js-hard-02',
     title: 'Prototypal Inheritance',
     description: 'What will be logged to the console?',
@@ -272,6 +296,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: '`hasOwnProperty` checks if a property exists directly on the object itself. The `bark` method exists on the `Dog.prototype`, not directly on the `myDog` instance.',
   },
   {
+    srNo: 24,
     id: 'op-js-hard-03',
     title: 'Floating Point Math',
     description: 'What is the result of this comparison?',
@@ -283,6 +308,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Due to floating-point precision issues in binary representation, 0.1 + 0.2 results in a number slightly different from 0.3 (i.e., 0.30000000000000004), so the strict equality check fails.',
   },
   {
+    srNo: 25,
     id: 'op-js-hard-04',
     title: '`this` in Regular Function',
     description: 'What will the `sayName` method log?',
@@ -294,6 +320,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'A regular `function` gets its own `this` context. Inside `setTimeout`, `this` refers to the global object (or `undefined` in strict mode), where `name` does not exist.',
   },
   {
+    srNo: 26,
     id: 'op-js-hard-05',
     title: 'Array `map` side effects',
     description: 'What is the value of `doubled`?',
@@ -305,6 +332,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The arrow function in `map` does not have an explicit `return` statement. When an arrow function with curly braces `{}` has no return, it implicitly returns `undefined`.',
   },
   {
+    srNo: 27,
     id: 'op-js-hard-06',
     title: 'typeof null',
     description: 'What is the output of `typeof null`?',
@@ -316,6 +344,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'This is a well-known historical bug in JavaScript. The data structure for `null` was accidentally tagged as an object type in the original implementation and it has not been fixed to avoid breaking existing code.',
   },
   {
+    srNo: 28,
     id: 'op-js-hard-07',
     title: 'Destructuring and renaming',
     description: 'What will be logged to the console?',
@@ -329,6 +358,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
 
   // Python - Easy
   {
+    srNo: 29,
     id: 'op-py-easy-01',
     title: 'List Mutability',
     description: 'What will be printed?',
@@ -340,6 +370,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'In Python, lists are mutable. When you assign `b = a`, both variables point to the same list in memory. Modifying `b` also modifies `a`.',
   },
   {
+    srNo: 30,
     id: 'op-py-easy-02',
     title: 'Integer Division',
     description: 'What is the output of this expression?',
@@ -351,6 +382,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `//` operator in Python performs integer (floor) division, which discards the fractional part of the result.',
   },
   {
+    srNo: 31,
     id: 'op-py-easy-03',
     title: 'String Multiplication',
     description: 'What is the output of this code?',
@@ -362,6 +394,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `*` operator, when used with a string and an integer, performs repetition. It repeats the string the specified number of times.',
   },
   {
+    srNo: 32,
     id: 'op-py-easy-04',
     title: 'Function Scope',
     description: 'What is printed to the console?',
@@ -373,6 +406,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `x = 5` inside the function creates a new local variable `x`. It does not modify the global variable `x`, which remains 10.',
   },
   {
+    srNo: 33,
     id: 'op-py-easy-05',
     title: 'List Slicing',
     description: 'What does this slice expression produce?',
@@ -384,6 +418,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Negative indexing in Python starts from the end of the list. `-1` refers to the last element.',
   },
   {
+    srNo: 34,
     id: 'op-py-easy-06',
     title: 'Tuple Immutability',
     description: 'What is the result of this code?',
@@ -395,6 +430,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Tuples are immutable data structures in Python, meaning their contents cannot be changed after creation. Attempting to assign a new value to an element will result in a TypeError.',
   },
   {
+    srNo: 35,
     id: 'op-py-easy-07',
     title: 'String Concatenation',
     description: 'What is the output?',
@@ -406,6 +442,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `+` operator concatenates strings. The spaces are included in the final string.',
   },
   {
+    srNo: 36,
     id: 'op-py-easy-08',
     title: 'Float Division',
     description: 'What is the output?',
@@ -417,6 +454,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'In Python 3, the `/` operator performs float division, which results in a floating-point number.',
   },
   {
+    srNo: 37,
     id: 'op-py-easy-09',
     title: 'Boolean Values',
     description: 'What is the output?',
@@ -428,6 +466,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'In a boolean context, the number 0 is considered "falsy" in Python. All other numbers (except 0.0) are "truthy".',
   },
   {
+    srNo: 38,
     id: 'op-py-easy-10',
     title: 'Set Creation',
     description: 'What is the output?',
@@ -439,6 +478,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Sets are unordered collections of unique elements. Duplicates are automatically removed upon creation.',
   },
   {
+    srNo: 39,
     id: 'op-py-easy-11',
     title: 'Dictionary Keys',
     description: 'What is the output of this code?',
@@ -452,6 +492,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
 
   // Python - Medium
   {
+    srNo: 40,
     id: 'op-py-medium-01',
     title: 'Default Mutable Arguments',
     description: 'What will be the output of the second function call?',
@@ -463,6 +504,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Default arguments are evaluated only once when the function is defined. Because a list is mutable, the same list is reused across calls. The first call adds 1, and the second call adds 2 to that same list.',
   },
   {
+    srNo: 41,
     id: 'op-py-medium-02',
     title: 'List Slicing Step',
     description: 'What will be printed?',
@@ -474,6 +516,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The slice `[start:stop:step]` extracts elements starting at index 1, up to (but not including) index 4, with a step of 2. This results in elements at index 1 and 3.',
   },
   {
+    srNo: 42,
     id: 'op-py-medium-03',
     title: 'Set Properties',
     description: 'What is the output of this code?',
@@ -485,6 +528,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Sets in Python are collections of unique elements. Duplicate values, like the second `2`, are automatically removed.',
   },
   {
+    srNo: 43,
     id: 'op-py-medium-04',
     title: 'Dictionary `.get()`',
     description: 'What will be printed?',
@@ -496,6 +540,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `.get()` method attempts to retrieve a key. If the key is not found, it returns the default value provided as the second argument (in this case, 25) instead of raising an error.',
   },
   {
+    srNo: 44,
     id: 'op-py-medium-05',
     title: 'Copy vs. Deepcopy',
     description: 'What is the value of `list1` after `list2` is modified?',
@@ -507,6 +552,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: '`copy.copy()` performs a shallow copy. It creates a new outer list (`list2`), but the inner lists `[1, 2]` and `[3, 4]` are still references to the same objects as in `list1`. Modifying an inner list in `list2` also modifies it for `list1`.',
   },
   {
+    srNo: 45,
     id: 'op-py-medium-06',
     title: 'List Comprehension with Condition',
     description: 'What is the value of `squares`?',
@@ -518,6 +564,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The list comprehension squares numbers from 0 to 4, but the `if` clause filters the numbers, so only even numbers (0, 2, 4) are processed.',
   },
   {
+    srNo: 46,
     id: 'op-py-medium-07',
     title: '`is` vs `==`',
     description: 'What will be printed?',
@@ -529,6 +576,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `==` operator checks for equality of the contents of the objects. Since both lists contain the same elements in the same order, it returns True.',
   },
   {
+    srNo: 47,
     id: 'op-py-medium-08',
     title: '`is` vs `==` (part 2)',
     description: 'What will be printed?',
@@ -540,6 +588,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `is` operator checks for object identity (if they are the same object in memory). `a` and `b` are two separate list objects, even though their contents are identical, so `is` returns False.',
   },
   {
+    srNo: 48,
     id: 'op-py-medium-09',
     title: 'Global Keyword',
     description: 'What is the output?',
@@ -551,6 +600,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `global` keyword indicates that the `count` being assigned to inside the function is the global one, not a new local variable. Therefore, the global `count` is updated to 10.',
   },
   {
+    srNo: 49,
     id: 'op-py-medium-10',
     title: 'String Slicing (Reverse)',
     description: 'What is the output?',
@@ -562,6 +612,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The slice `[::-1]` is a common idiom in Python for reversing a sequence. It creates a new string that is the reverse of the original.',
   },
   {
+    srNo: 50,
     id: 'op-py-medium-11',
     title: 'Exception Handling with Else',
     description: 'What is the output of this code?',
@@ -575,6 +626,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
 
   // Python - Hard
   {
+    srNo: 51,
     id: 'op-py-hard-01',
     title: 'Late Binding Closures',
     description: 'What will be printed when the functions are called?',
@@ -586,6 +638,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'In Python closures, variables are bound by name. The value of `i` is looked up when the lambda functions are actually called. By that time, the loop has completed and `i` has a final value of 2.',
   },
   {
+    srNo: 52,
     id: 'op-py-hard-02',
     title: 'Generator Exhaustion',
     description: 'What will the second `print` statement output?',
@@ -597,6 +650,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'A generator can only be consumed once. After the first `list(my_gen)` call, the generator is exhausted and has no more items to yield. The second call to `list()` on the same generator will produce an empty list.',
   },
   {
+    srNo: 53,
     id: 'op-py-hard-03',
     title: 'Class vs Instance Variables',
     description: 'What will be printed?',
@@ -608,6 +662,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: '`x` is a class variable, meaning it is shared among all instances of the class. Both `t1` and `t2` are appending to the same list, so `t1.x` shows the combined result.',
   },
   {
+    srNo: 54,
     id: 'op-py-hard-04',
     title: 'Exception Handling Order',
     description: 'Which `except` block will be executed?',
@@ -619,6 +674,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Python checks `except` blocks in order. Since `ValueError` is a subclass of `Exception`, the first block `except Exception:` matches and is executed. The more specific `ValueError` block is never reached.',
   },
   {
+    srNo: 55,
     id: 'op-py-hard-05',
     title: 'Inheritance Order (MRO)',
     description: 'Which `greet` method is called?',
@@ -632,6 +688,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
 
   // Java - Easy
   {
+    srNo: 56,
     id: 'op-java-easy-01',
     title: 'Integer Division',
     description: 'What is the value of `result`?',
@@ -643,6 +700,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'When dividing two integers in Java, the result is an integer division (the fractional part is truncated). `5 / 2` results in `2`. This integer `2` is then promoted to a `double` (`2.0`) for the assignment.',
   },
   {
+    srNo: 57,
     id: 'op-java-easy-02',
     title: 'String Comparison',
     description: 'What is the output of this code?',
@@ -654,6 +712,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Because string literals are pooled in Java, `s1` and `s2` point to the exact same object in memory. Therefore, the `==` operator, which checks for reference equality, returns true. Note: this is not the recommended way to compare strings.',
   },
   {
+    srNo: 58,
     id: 'op-java-easy-03',
     title: 'Post-increment Operator',
     description: 'What value is printed?',
@@ -665,6 +724,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The post-increment operator `i++` returns the value of `i` *before* it is incremented. So, `5` is printed, and then the value of `i` becomes `6`.',
   },
   {
+    srNo: 59,
     id: 'op-java-easy-04',
     title: 'Pre-increment Operator',
     description: 'What value is printed?',
@@ -676,6 +736,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The pre-increment operator `++i` increments the value of `i` *before* it is used in the expression. So, `i` becomes 6, and then `6` is printed.',
   },
   {
+    srNo: 60,
     id: 'op-java-easy-05',
     title: 'Char vs String',
     description: 'Will this code compile?',
@@ -687,6 +748,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'In Java, single quotes are for `char` literals and double quotes are for `String` literals. Assigning a string literal to a char variable is a type mismatch and causes a compilation error.',
   },
   {
+    srNo: 61,
     id: 'op-java-easy-06',
     title: 'Array Length',
     description: 'What is the output?',
@@ -698,6 +760,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'In Java, `length` is a property (not a method) of an array that stores the number of elements in it.',
   },
   {
+    srNo: 62,
     id: 'op-java-easy-07',
     title: 'Final Variable',
     description: 'Will this code compile?',
@@ -709,6 +772,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'A variable marked as `final` is a constant. Once initialized, its value cannot be changed. This code will cause a compilation error.',
   },
   {
+    srNo: 63,
     id: 'op-java-easy-08',
     title: 'String Method',
     description: 'What is the output?',
@@ -720,6 +784,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `toUpperCase()` method of the String class returns a new string where all characters are converted to uppercase.',
   },
   {
+    srNo: 64,
     id: 'op-java-easy-09',
     title: 'Logical OR',
     description: 'What is the output?',
@@ -733,6 +798,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
 
   // Java - Medium
   {
+    srNo: 65,
     id: 'op-java-medium-01',
     title: 'String Immutability',
     description: 'What is printed to the console?',
@@ -744,6 +810,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Strings are immutable in Java. Methods like `toUpperCase()` do not change the original string; they return a new modified string. The original `str` remains unchanged.',
   },
   {
+    srNo: 66,
     id: 'op-java-medium-02',
     title: 'Object String Comparison',
     description: 'What is the output of this code?',
@@ -755,6 +822,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Using the `new` keyword creates two separate String objects in memory, even though their content is the same. The `==` operator checks for reference equality (memory location), which is false. `.equals()` should be used for content comparison.',
   },
   {
+    srNo: 67,
     id: 'op-java-medium-03',
     title: 'Static Context',
     description: 'Will this code compile?',
@@ -766,6 +834,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `main` method is static, meaning it belongs to the class, not an instance. It cannot directly access the non-static (instance) variable `x` without an object instance.',
   },
   {
+    srNo: 68,
     id: 'op-java-medium-04',
     title: 'Switch Fall-through',
     description: 'What is the output?',
@@ -777,6 +846,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Without `break` statements, the `switch` block will "fall through". It matches `case 1`, prints "A", and then continues to execute all subsequent case blocks (`case 2` and `default`) until a `break` or the end of the switch is found.',
   },
   {
+    srNo: 69,
     id: 'op-java-medium-05',
     title: 'Final Variable',
     description: 'What happens when this code is compiled?',
@@ -788,6 +858,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'A variable declared with the `final` keyword is a constant and its value cannot be changed after it has been assigned.',
   },
   {
+    srNo: 70,
     id: 'op-java-medium-06',
     title: 'Arrays.asList Fixed Size',
     description: 'What is the result of this code?',
@@ -799,6 +870,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The list returned by `Arrays.asList` is a fixed-size view of the original array. It does not support structural modifications like adding or removing elements.',
   },
   {
+    srNo: 71,
     id: 'op-java-medium-07',
     title: 'Method Overloading',
     description: 'What is the output?',
@@ -810,6 +882,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The compiler chooses the most specific method signature. Since `null` can be applied to any object type, and `String` is considered more specific than the generic `Integer` in some compiler interpretations (or simply due to compiler choice rules), it often resolves to `String`. However, this can be seen as ambiguous.',
   },
   {
+    srNo: 72,
     id: 'op-java-medium-08',
     title: 'Pass by Value (Objects)',
     description: 'What is the output?',
@@ -821,6 +894,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Java is pass-by-value, but for objects, the "value" is the reference to the object. Both `aDog` and `d` point to the same Dog object in memory. Modifying the object through `d` is visible through `aDog`.',
   },
   {
+    srNo: 73,
     id: 'op-java-medium-09',
     title: 'Pass by Value (Reassignment)',
     description: 'What is the output?',
@@ -835,6 +909,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
 
   // Java - Hard
   {
+    srNo: 74,
     id: 'op-java-hard-01',
     title: 'Integer Caching',
     description: 'What is the output of this program?',
@@ -846,6 +921,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Java caches `Integer` objects for values from -128 to 127. Outside this range, `new Integer()` is effectively called, creating two different objects. Therefore, `==` (reference comparison) returns false.',
   },
   {
+    srNo: 75,
     id: 'op-java-hard-02',
     title: 'Exception in `finally`',
     description: 'What is printed to the console?',
@@ -857,6 +933,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `try` block executes first (prints A), an exception is thrown, the `catch` block executes (prints B), and finally, the `finally` block is guaranteed to execute (prints C).',
   },
   {
+    srNo: 76,
     id: 'op-java-hard-03',
     title: 'Method Overriding vs Hiding',
     description: 'What is the output of this code?',
@@ -868,6 +945,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Static methods cannot be overridden in Java; they are hidden. The method call is resolved at compile time based on the reference type (`Parent`), not the object type (`Child`).',
   },
   {
+    srNo: 77,
     id: 'op-java-hard-04',
     title: 'Integer Caching (Part 2)',
     description: 'What is the output of this program?',
@@ -879,6 +957,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Java caches `Integer` objects for values from -128 to 127. Since 100 is within this range, `i1` and `i2` point to the same cached object, so the `==` reference comparison returns true.',
   },
   {
+    srNo: 78,
     id: 'op-java-hard-05',
     title: 'Overridden Method from Constructor',
     description: 'What is the output of this program?',
@@ -890,6 +969,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The constructor of the superclass `P` is called first. Inside it, the `greet()` method is called. Because the object being constructed is of type `C`, the overridden `greet()` method in `C` is invoked due to polymorphism.',
   },
   {
+    srNo: 79,
     id: 'op-java-hard-06',
     title: 'ConcurrentModificationException',
     description: 'What is the result of running this code?',
@@ -903,6 +983,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
 
   // C++ - Easy
   {
+    srNo: 80,
     id: 'op-cpp-easy-01',
     title: 'Post-increment Operator',
     description: 'What is the value of `y`?',
@@ -914,6 +995,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The post-increment operator `x++` assigns the current value of `x` (which is 5) to `y`, and *then* increments `x` to 6.',
   },
   {
+    srNo: 81,
     id: 'op-cpp-easy-02',
     title: 'Integer Division',
     description: 'What is the value of `z`?',
@@ -925,6 +1007,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The division of two integers (`x / y`) results in an integer division, truncating the result to `2`. This integer is then promoted to a float (`2.0f`) for the assignment to `z`.',
   },
   {
+    srNo: 82,
     id: 'op-cpp-easy-03',
     title: 'Pointer Dereference',
     description: 'What will be printed?',
@@ -936,6 +1019,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The pointer `p` holds the memory address of `x`. Dereferencing the pointer `*p = 20` changes the value at that memory address, which is the value of `x`.',
   },
   {
+    srNo: 83,
     id: 'op-cpp-easy-04',
     title: 'Boolean Output',
     description: 'What is the output?',
@@ -947,6 +1031,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'When a boolean `true` value is sent to `std::cout`, it is printed as the integer `1`. `false` is printed as `0`.',
   },
   {
+    srNo: 84,
     id: 'op-cpp-easy-05',
     title: 'Pre-increment Operator',
     description: 'What is the value of `y`?',
@@ -958,6 +1043,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The pre-increment operator `++x` increments `x` to 6 first, and then assigns this new value to `y`.',
   },
   {
+    srNo: 85,
     id: 'op-cpp-easy-06',
     title: 'String Concatenation',
     description: 'What is the output?',
@@ -969,6 +1055,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The `+` operator is overloaded for `std::string` to perform concatenation.',
   },
   {
+    srNo: 86,
     id: 'op-cpp-easy-07',
     title: 'Size of Array',
     description: 'What is the output of this code?',
@@ -980,6 +1067,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: '`sizeof(myNumbers)` gives the total size of the array in bytes. Dividing by the size of one element (`sizeof(int)`) gives the number of elements in the array.',
   },
   {
+    srNo: 87,
     id: 'op-cpp-easy-08',
     title: 'For Loop',
     description: 'How many times will "Hello" be printed?',
@@ -991,6 +1079,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The loop runs for i = 0, 1, 2, 3, and 4. When i becomes 5, the condition `i < 5` is false, and the loop terminates. This results in 5 iterations.',
   },
   {
+    srNo: 88,
     id: 'op-cpp-easy-09',
     title: 'Switch Default',
     description: 'What is the output?',
@@ -1004,6 +1093,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
 
   // C++ - Medium
   {
+    srNo: 89,
     id: 'op-cpp-medium-01',
     title: 'Array as Pointer',
     description: 'What will be printed?',
@@ -1015,6 +1105,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'In C++, an array name can decay into a pointer to its first element. `arr + 1` is pointer arithmetic that points to the second element. Dereferencing it `*(arr + 1)` yields the value of the second element.',
   },
   {
+    srNo: 90,
     id: 'op-cpp-medium-02',
     title: 'Virtual Functions',
     description: 'What is the output?',
@@ -1026,6 +1117,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Because `f()` is a virtual function, the call `p->f()` is resolved at runtime through the vtable. Since `p` points to a `D` object, `D::f()` is called.',
   },
   {
+    srNo: 91,
     id: 'op-cpp-medium-03',
     title: 'Pass by Reference',
     description: 'What will be printed?',
@@ -1037,6 +1129,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The function `f` takes its argument by reference (`int&`). This means it receives an alias to the original variable `i`, not a copy. Modifying `x` inside the function directly modifies `i`.',
   },
   {
+    srNo: 92,
     id: 'op-cpp-medium-04',
     title: 'Pass by Value',
     description: 'What will be printed?',
@@ -1048,6 +1141,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The function `f` takes its argument by value (`int`). This means it receives a copy of `i`. Modifying the copy `x` inside the function does not affect the original variable `i`.',
   },
   {
+    srNo: 93,
     id: 'op-cpp-medium-05',
     title: 'Ternary Operator',
     description: 'What is the output?',
@@ -1059,6 +1153,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The ternary operator `condition ? value_if_true : value_if_false` evaluates the condition. Since `5 > 10` is false, the second value "B" is returned and printed.',
   },
   {
+    srNo: 94,
     id: 'op-cpp-medium-06',
     title: 'Static Variable in Function',
     description: 'What is the output?',
@@ -1070,6 +1165,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'A `static` local variable is initialized only once and retains its value between function calls. The first call prints 0 and increments it to 1. The second call prints 1 and increments it to 2.',
   },
   {
+    srNo: 95,
     id: 'op-cpp-medium-07',
     title: 'Vector Size vs Capacity',
     description: 'What is a possible output?',
@@ -1081,6 +1177,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: '`size()` is the number of elements (1). `capacity()` is the storage space currently allocated. The initial capacity is implementation-defined but is at least 1. So `1` and `1` (or a larger number for capacity) will be printed.',
   },
   {
+    srNo: 96,
     id: 'op-cpp-medium-08',
     title: 'Struct Padding',
     description: 'What is the most likely output for `sizeof(MyStruct)`?',
@@ -1092,6 +1189,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Compilers add padding to structs to align members on memory boundaries for faster access. `b` will be aligned to a 4-byte boundary, adding 3 bytes of padding after `a`. The total size is then padded to be a multiple of the largest member\'s alignment (4), resulting in 12 bytes.',
   },
   {
+    srNo: 97,
     id: 'op-cpp-medium-09',
     title: 'Switch Fall-through',
     description: 'What is the output?',
@@ -1105,6 +1203,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
 
   // C++ - Hard
   {
+    srNo: 98,
     id: 'op-cpp-hard-01',
     title: 'Object Slicing',
     description: 'What will be printed?',
@@ -1116,6 +1215,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'When `d` (a `D` object) is assigned to `b` (a `B` object), object slicing occurs. The `D` part of the object is "sliced off", leaving only a `B` object. The call to `b.f()` is non-polymorphic and calls `B::f()`.',
   },
   {
+    srNo: 99,
     id: 'op-cpp-hard-02',
     title: 'Template Specialization',
     description: 'What is the output?',
@@ -1127,6 +1227,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The first call `f(\'a\')` matches the generic template `f(T)`. The second call `f(1)` matches the explicit template specialization `f(int)`, so the specialized version is called.',
   },
   {
+    srNo: 100,
     id: 'op-cpp-hard-03',
     title: 'Dangling Pointer',
     description: 'What is the likely behavior of this code?',
@@ -1138,6 +1239,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'The function `create_int` returns a pointer to a local variable `x`. When the function exits, `x` is destroyed and the pointer `p` becomes a dangling pointer. Dereferencing it leads to undefined behavior.',
   },
   {
+    srNo: 101,
     id: 'op-cpp-hard-04',
     title: 'Virtual Destructor',
     description: 'What is the output?',
@@ -1149,6 +1251,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Because the base class destructor `~B()` is not virtual, `delete p` only calls the destructor for the base class `B`. The destructor for `D` is never called, leading to a memory leak if `D` managed resources.',
   },
   {
+    srNo: 102,
     id: 'op-cpp-hard-05',
     title: 'Order of Destruction',
     description: 'What is the output?',
@@ -1160,6 +1263,7 @@ export const outputPredictionChallenges: OutputPredictionChallenge[] = [
     explanation: 'Destructors are called in the reverse order of construction. The destructor for the containing class `B` is called first, printing "B". Then, the destructor for its member `A` is called, printing "A".',
   },
   {
+    srNo: 103,
     id: 'op-cpp-hard-06',
     title: 'Short-circuiting (&&)',
     description: 'What is the output?',
