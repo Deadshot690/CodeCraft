@@ -14,6 +14,8 @@ import { ScrollArea } from "./ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Textarea } from './ui/textarea';
 import { useAuth } from '@/hooks/use-auth';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 
 type Language = keyof Challenge['templates'];
@@ -128,6 +130,11 @@ export default function IdePanel({ challenge }: IdePanelProps) {
     const [runState, runAction] = useActionState(runTestAction, runInitialState);
     const [submitState, submitActionFn] = useActionState(submitAction, runInitialState);
     const [activeTestCases, setActiveTestCases] = useState(challenge.testCases);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     useEffect(() => {
         // Ensure there's always at least one test case to prevent AI flow errors
@@ -175,6 +182,14 @@ export default function IdePanel({ challenge }: IdePanelProps) {
             }, 0);
         }
     };
+    
+    if (!isClient) {
+      return (
+        <div className="h-full flex items-center justify-center bg-gray-900">
+          <Loader2 className="animate-spin text-white" />
+        </div>
+      );
+    }
 
     return (
         <div className="h-full flex flex-col">
@@ -202,7 +217,7 @@ export default function IdePanel({ challenge }: IdePanelProps) {
                          <input type="hidden" name="challengeTitle" value={challenge.title} />
                          <input type="hidden" name="challengeId" value={challenge.id} />
                          <input type="hidden" name="testCases" value={JSON.stringify(activeTestCases)} />
-                         {user && <input type="hidden" name="userId" value={user.uid} />}
+                         {user?.uid && <input type="hidden" name="userId" value={user.uid} />}
                         <RunButton />
                     </form>
                     <form action={submitActionFn} id="submit-form">
@@ -211,7 +226,7 @@ export default function IdePanel({ challenge }: IdePanelProps) {
                          <input type="hidden" name="challengeTitle" value={challenge.title} />
                          <input type="hidden" name="challengeId" value={challenge.id} />
                          <input type="hidden" name="testCases" value={JSON.stringify(activeTestCases)} />
-                         {user && <input type="hidden" name="userId" value={user.uid} />}
+                         {user?.uid && <input type="hidden" name="userId" value={user.uid} />}
                         <SubmitButton />
                     </form>
                 </div>
@@ -220,11 +235,31 @@ export default function IdePanel({ challenge }: IdePanelProps) {
 
             <div className="flex-grow flex flex-col min-h-0">
                 <div className="flex-grow relative h-full w-full bg-background font-code text-base">
+                     <SyntaxHighlighter
+                        language={selectedLanguage}
+                        style={atomOneDarkReasonable}
+                        customStyle={{
+                            height: '100%',
+                            width: '100%',
+                            margin: 0,
+                            padding: '1rem',
+                            backgroundColor: 'transparent',
+                            color: 'transparent',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                        }}
+                        codeTagProps={{ style: { fontFamily: 'inherit', fontSize: 'inherit', color: 'transparent' } }}
+                        wrapLines
+                        showLineNumbers
+                    >
+                        {code + '\n'}
+                    </SyntaxHighlighter>
                       <Textarea
                           value={code}
                           onChange={(e) => setCode(e.target.value)}
                           placeholder="Your code here..."
-                          className="h-full w-full rounded-none border-0 resize-none font-code text-base p-4 absolute inset-0 bg-gray-900 text-gray-100"
+                          className="h-full w-full rounded-none border-0 resize-none font-code text-base p-4 absolute inset-0 bg-transparent text-white caret-primary"
                           onKeyDown={handleKeyDown}
                           spellCheck="false"
                           autoComplete="off"

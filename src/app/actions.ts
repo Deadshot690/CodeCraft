@@ -65,7 +65,7 @@ const RunCodeActionSchema = z.object({
   challengeTitle: z.string(),
   challengeId: z.string(),
   testCases: z.string(),
-  userId: z.string().optional(),
+  userId: z.string().optional().nullable(),
 });
 
 type RunCodeState = {
@@ -309,5 +309,3 @@ export async function signupAction(
         return { message };
     }
 }
-
-    
