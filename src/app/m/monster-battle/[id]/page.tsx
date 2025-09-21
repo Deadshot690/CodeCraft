@@ -63,6 +63,19 @@ export default function MonsterBattlePage() {
     const answerInputRef = useRef<HTMLInputElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
 
+    const markAsSolved = () => {
+      if (!challenge) return;
+      try {
+          let solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+          if (!solvedGames.includes(challenge.id)) {
+              solvedGames.push(challenge.id);
+              localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+          }
+      } catch (e) {
+          console.error("Failed to update solved mini-games in localStorage", e);
+      }
+    };
+    
     useEffect(() => {
         const currentChallenge = challenges.find(c => c.id === params.id);
         if (currentChallenge) {
@@ -79,40 +92,33 @@ export default function MonsterBattlePage() {
         }
     }, [params.id]);
     
-    // Effect to handle game logic from form action
     useEffect(() => {
-        if (state.isCorrect === null) {
-            return;
-        }
-
-        if (isBattleOver) {
-             // If battle is already over, and we get another state update, do nothing.
-            return;
-        }
+        if (isBattleOver) return;
 
         if (state.isCorrect === true) {
             setLastAnswerWasCorrect(true);
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
+            
+            markAsSolved();
             setIsBattleOver(true);
             
-            formRef.current?.reset();
-             if (answerInputRef.current) {
-                answerInputRef.current.value = "";
-            }
+            toast({ title: "Direct Hit!", description: `You defeated the ${monster?.name}!` });
+            if (formRef.current) formRef.current.reset();
         } else if (state.isCorrect === false) {
             setLastAnswerWasCorrect(false);
             const damage = Math.floor(Math.random() * 2) + 25;
+            toast({ variant: "destructive", title: "You Missed!", description: `The monster hit you for ~${damage} damage!` });
 
             setPlayerHP(prevHp => {
                 const newPlayerHP = Math.max(0, prevHp - damage);
-
                 playerCardRef.current?.classList.add('animate-wobble');
                 setTimeout(() => playerCardRef.current?.classList.remove('animate-wobble'), 500);
 
                 if (newPlayerHP <= 0) {
                     setDialogue("You have been defeated... Better luck next time.");
                     setIsBattleOver(true);
+                    toast({ variant: "destructive", title: "Defeated!", description: "You have been defeated." });
                 } else {
                     setDialogue(monster?.taunts[Math.floor(Math.random() * monster.taunts.length)] || "The monster strikes back!");
                 }
@@ -122,25 +128,10 @@ export default function MonsterBattlePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state]);
 
-    // Effect to show toasts based on dialogue changes
-    useEffect(() => {
-        if(isBattleOver) {
-            if(playerHP > 0) { // Check playerHP to confirm victory
-                 toast({ title: "Direct Hit!", description: `You defeated the ${monster?.name}!` });
-            } else {
-                 toast({ variant: "destructive", title: "Defeated!", description: "You have been defeated." });
-            }
-        } else if (lastAnswerWasCorrect === false) {
-             const damage = Math.floor(Math.random() * 2) + 25; // This is illustrative, might not match the exact damage
-             toast({ variant: "destructive", title: "You Missed!", description: `The monster hit you for ~25 damage!` });
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isBattleOver, lastAnswerWasCorrect]);
-
     const getNextChallengeId = () => {
         if (!challenge) return null;
         const currentIndex = challenges.findIndex(c => c.id === challenge.id);
-        if (currentIndex < challenges.length - 1) {
+        if (currentIndex < challenges.length - 1 && currentIndex !== -1) {
             return challenges[currentIndex + 1].id;
         }
         return null;
@@ -192,7 +183,7 @@ export default function MonsterBattlePage() {
                         <CardContent className="space-y-4">
                              <div className="flex items-center gap-4">
                                 <div className="bg-muted rounded-lg w-24 h-24 flex items-center justify-center p-2 flex-shrink-0">
-                                    <Image ref={monsterImageRef} src={monster.imageUrl} alt={monster.name} width={80} height={80} className={cn("transition-transform duration-500", monsterHP <= 0 && "opacity-0 scale-75")}/>
+                                    <Image ref={monsterImageRef} src={monster.imageUrl} alt={monster.name} width={80} height={80} className={cn("transition-transform duration-500", lastAnswerWasCorrect === true && "opacity-0 scale-75")}/>
                                 </div>
                                 <div className="w-full space-y-2">
                                     <Label>Health</Label>
@@ -226,14 +217,10 @@ export default function MonsterBattlePage() {
                                      <Button asChild size="lg" className="w-full">
                                         <Link href={`/m/battle/${nextChallengeId}`}>Next Challenge <ArrowRight className="ml-2" /></Link>
                                     </Button>
-                                ) : (
-                                    <Button asChild size="lg" variant="outline" className="w-full">
-                                        <Link href={`/m/monster-battle?status=won&id=${challenge.id}`}>Back to Challenges</Link>
-                                    </Button>
-                                )}
+                                ) : null }
                                 <Button asChild size="lg" variant="outline" className="w-full">
                                     <Link href="/m/monster-battle">
-                                        {playerHP > 0 ? "Back to Challenges" : "Try Another Challenge"}
+                                        Back to Challenges
                                     </Link>
                                 </Button>
                             </CardContent>
