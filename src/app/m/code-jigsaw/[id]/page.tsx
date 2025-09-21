@@ -81,6 +81,19 @@ export default function CodeJigsawGamePage() {
         setIsCorrect(null);
     };
 
+    const markAsSolved = () => {
+        if (!challenge) return;
+        try {
+            const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+            if (!solvedGames.includes(challenge.id)) {
+                solvedGames.push(challenge.id);
+                localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+            }
+        } catch (e) {
+            console.error("Failed to update solved mini-games in localStorage", e);
+        }
+    };
+
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
         if (over && active.id !== over.id) {
@@ -102,6 +115,7 @@ export default function CodeJigsawGamePage() {
                 title: "Correct!",
                 description: "You've assembled the code perfectly.",
             });
+            markAsSolved();
         } else {
             toast({
                 variant: "destructive",

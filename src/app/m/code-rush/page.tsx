@@ -1,14 +1,17 @@
 
+'use client';
+
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { codeRushChallenges, CodeRushChallenge } from "@/lib/code-rush-challenges";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Zap, Languages } from "lucide-react";
+import { Zap, Languages, CheckCircle } from "lucide-react";
 import { Button } from '@/components/ui/button';
-import { Suspense } from 'react';
 import ChallengeFilter from './_components/challenge-filter';
+import { useSearchParams } from 'next/navigation';
 
 const difficultyColorMap: { [key: string]: string } = {
     'Easy': 'text-green-500',
@@ -23,7 +26,7 @@ const languageDisplayMap: { [key: string]: string } = {
     'cpp': 'C++',
 };
 
-function ChallengeRow({ challenge }: { challenge: CodeRushChallenge }) {
+function ChallengeRow({ challenge, isSolved }: { challenge: CodeRushChallenge, isSolved: boolean }) {
     return (
         <TableRow>
             <TableCell>{challenge.srNo}</TableCell>
@@ -41,18 +44,25 @@ function ChallengeRow({ challenge }: { challenge: CodeRushChallenge }) {
                 <span className={difficultyColorMap[challenge.difficulty] || 'text-muted-foreground'}>{challenge.difficulty}</span>
             </TableCell>
             <TableCell className="text-right">
-                <Button asChild size="sm">
-                    <Link href={`/m/code-rush/${challenge.id}`}>
-                        <Zap className="mr-2 h-4 w-4" />
-                        Start Rush
-                    </Link>
-                </Button>
+                {isSolved ? (
+                    <Badge variant="secondary" className="bg-green-500/10 text-green-700 border-green-500/20">
+                        <CheckCircle className="mr-2 h-4 w-4" />
+                        Completed!
+                    </Badge>
+                ) : (
+                    <Button asChild size="sm">
+                        <Link href={`/m/code-rush/${challenge.id}`}>
+                            <Zap className="mr-2 h-4 w-4" />
+                            Start Rush
+                        </Link>
+                    </Button>
+                )}
             </TableCell>
         </TableRow>
     )
 }
 
-function ChallengeTable({ difficulty, language, search }: { difficulty: string; language: string; search: string; }) {
+function ChallengeTable({ difficulty, language, search, solvedGameIds }: { difficulty: string; language: string; search: string; solvedGameIds: Set<string> }) {
     let challenges = codeRushChallenges;
 
     if (difficulty !== 'all') {
@@ -88,6 +98,7 @@ function ChallengeTable({ difficulty, language, search }: { difficulty: string; 
                                <ChallengeRow 
                                     key={challenge.id} 
                                     challenge={challenge} 
+                                    isSolved={solvedGameIds.has(challenge.id)}
                                 />
                             ))
                         ) : (
@@ -104,18 +115,23 @@ function ChallengeTable({ difficulty, language, search }: { difficulty: string; 
     );
 }
 
-export default function CodeRushListPage({
-  searchParams,
-}: {
-  searchParams?: {
-    search?: string;
-    difficulty?: string;
-    language?: string;
-  };
-}) {
-    const search = searchParams?.search || '';
-    const difficulty = searchParams?.difficulty || 'all';
-    const language = searchParams?.language || 'all';
+
+function PageContent() {
+  const searchParams = useSearchParams();
+  const search = searchParams.get('search') || '';
+  const difficulty = searchParams.get('difficulty') || 'all';
+  const language = searchParams.get('language') || 'all';
+
+  const [solvedGameIds, setSolvedGameIds] = useState<Set<string>>(new Set());
+
+    useEffect(() => {
+        try {
+            const storedSolvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+            setSolvedGameIds(new Set(storedSolvedGames));
+        } catch (e) {
+            console.error("Failed to parse solved mini-games from localStorage", e);
+        }
+    }, []);
 
   return (
     <DashboardLayout>
@@ -131,10 +147,16 @@ export default function CodeRushListPage({
 
         <ChallengeFilter />
 
-        <Suspense fallback={<div>Loading challenges...</div>}>
-            <ChallengeTable search={search} difficulty={difficulty} language={language} />
-        </Suspense>
+        <ChallengeTable search={search} difficulty={difficulty} language={language} solvedGameIds={solvedGameIds} />
       </div>
     </DashboardLayout>
   );
+}
+
+export default function CodeRushListPage() {
+  return (
+    <Suspense fallback={<DashboardLayout><div>Loading...</div></DashboardLayout>}>
+      <PageContent />
+    </Suspense>
+  )
 }

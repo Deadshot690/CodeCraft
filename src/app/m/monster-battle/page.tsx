@@ -1,11 +1,14 @@
 
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { challenges as battleChallenges, BattleChallenge } from "@/lib/battle-challenges";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Swords } from "lucide-react";
+import { Swords, Trophy, CheckCircle } from "lucide-react";
 import { Button } from '@/components/ui/button';
 
 const difficultyColorMap: { [key: string]: string } = {
@@ -17,7 +20,7 @@ const difficultyColorMap: { [key: string]: string } = {
     'Extreme': 'text-fuchsia-600',
 }
 
-function QuestionRow({ challenge }: { challenge: BattleChallenge }) {
+function QuestionRow({ challenge, isSolved }: { challenge: BattleChallenge, isSolved: boolean }) {
     return (
         <TableRow>
             <TableCell>{challenge.srNo}</TableCell>
@@ -36,12 +39,19 @@ function QuestionRow({ challenge }: { challenge: BattleChallenge }) {
                 <span className={difficultyColorMap[challenge.difficulty] || 'text-muted-foreground'}>{challenge.difficulty}</span>
             </TableCell>
             <TableCell className="text-right">
-                <Button asChild size="sm">
-                    <Link href={`/m/battle/${challenge.id}`}>
-                        <Swords className="mr-2 h-4 w-4" />
-                        Fight
-                    </Link>
-                </Button>
+                {isSolved ? (
+                    <Badge variant="secondary" className="bg-green-500/10 text-green-700 border-green-500/20">
+                        <Trophy className="mr-2 h-4 w-4" />
+                        Won!
+                    </Badge>
+                ) : (
+                    <Button asChild size="sm">
+                        <Link href={`/m/battle/${challenge.id}`}>
+                            <Swords className="mr-2 h-4 w-4" />
+                            Fight
+                        </Link>
+                    </Button>
+                )}
             </TableCell>
         </TableRow>
     )
@@ -49,6 +59,16 @@ function QuestionRow({ challenge }: { challenge: BattleChallenge }) {
 
 
 export default function MonsterBattleListPage() {
+  const [solvedGames, setSolvedGames] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    try {
+      const storedSolvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+      setSolvedGames(new Set(storedSolvedGames));
+    } catch (e) {
+      console.error("Failed to parse solved mini-games from localStorage", e);
+    }
+  }, []);
 
   return (
     <DashboardLayout>
@@ -80,6 +100,7 @@ export default function MonsterBattleListPage() {
                            <QuestionRow 
                                 key={challenge.id} 
                                 challenge={challenge} 
+                                isSolved={solvedGames.has(challenge.id)}
                             />
                         ))}
                     </TableBody>

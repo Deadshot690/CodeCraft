@@ -46,6 +46,19 @@ export default function CodeTyperGamePage() {
         }
     }, [params.id]);
 
+    const markAsSolved = () => {
+        if (!challenge) return;
+        try {
+            const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+            if (!solvedGames.includes(challenge.id)) {
+                solvedGames.push(challenge.id);
+                localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+            }
+        } catch (e) {
+            console.error("Failed to update solved mini-games in localStorage", e);
+        }
+    };
+    
     useEffect(() => {
         if (challenge && !isFinished) {
             if (typedCode.length === 1 && !startTime) {
@@ -53,8 +66,10 @@ export default function CodeTyperGamePage() {
             }
             if (typedCode === challenge.snippet) {
                 setIsFinished(true);
+                markAsSolved();
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [typedCode, challenge, startTime, isFinished]);
     
     const resetGame = (currentChallenge: TyperChallenge) => {

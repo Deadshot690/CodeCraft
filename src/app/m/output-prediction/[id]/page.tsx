@@ -35,6 +35,19 @@ export default function OutputPredictionGamePage() {
         setSelectedOption(null);
         setIsAnswered(false);
     };
+
+    const markAsSolved = () => {
+        if (!challenge) return;
+        try {
+            const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+            if (!solvedGames.includes(challenge.id)) {
+                solvedGames.push(challenge.id);
+                localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+            }
+        } catch (e) {
+            console.error("Failed to update solved mini-games in localStorage", e);
+        }
+    };
     
     const handleOptionSelect = (option: string) => {
         if (isAnswered) return;
@@ -47,6 +60,7 @@ export default function OutputPredictionGamePage() {
                 title: "Correct!",
                 description: "You predicted the output perfectly.",
             });
+            markAsSolved();
         } else {
             toast({
                 variant: "destructive",

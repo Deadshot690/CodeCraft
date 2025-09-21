@@ -48,6 +48,19 @@ export default function DebugHuntGamePage() {
     }
   }, [params.id]);
   
+  const markAsSolved = () => {
+    if (!challenge) return;
+    try {
+        const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+        if (!solvedGames.includes(challenge.id)) {
+            solvedGames.push(challenge.id);
+            localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+        }
+    } catch (e) {
+        console.error("Failed to update solved mini-games in localStorage", e);
+    }
+  };
+
 
   useEffect(() => {
     if (isGameActive && timeLeft > 0) {
@@ -75,6 +88,7 @@ export default function DebugHuntGamePage() {
 
     if (outcome === 'correct') {
       toast({ title: "Bug Squashed!", description: "Great job! You fixed the code." });
+      markAsSolved();
     } else if (outcome === 'incorrect') {
       toast({ variant: "destructive", title: "Not Quite!", description: "That's not the right fix. Try again!" });
     } else if (outcome === 'timeup') {

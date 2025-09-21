@@ -49,6 +49,19 @@ export default function ConceptMatchGamePage() {
         setSelectedOption(null);
         setIsAnswered(false);
     };
+
+    const markAsSolved = () => {
+        if (!challenge) return;
+        try {
+            const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+            if (!solvedGames.includes(challenge.id)) {
+                solvedGames.push(challenge.id);
+                localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+            }
+        } catch (e) {
+            console.error("Failed to update solved mini-games in localStorage", e);
+        }
+    };
     
     const handleOptionSelect = (option: string) => {
         if (isAnswered) return;
@@ -61,6 +74,7 @@ export default function ConceptMatchGamePage() {
                 title: "Correct!",
                 description: "You've correctly matched the concept.",
             });
+            markAsSolved();
         } else {
             toast({
                 variant: "destructive",
@@ -160,4 +174,3 @@ export default function ConceptMatchGamePage() {
         </DashboardLayout>
     );
 }
-

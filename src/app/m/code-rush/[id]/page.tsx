@@ -77,6 +77,19 @@ export default function CodeRushGamePage() {
         inputRef.current?.focus();
     }
     
+    const markAsSolved = () => {
+        if (!challenge) return;
+        try {
+            const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+            if (!solvedGames.includes(challenge.id)) {
+                solvedGames.push(challenge.id);
+                localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+            }
+        } catch (e) {
+            console.error("Failed to update solved mini-games in localStorage", e);
+        }
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (gameState !== 'playing' || !challenge) return;
@@ -86,6 +99,7 @@ export default function CodeRushGamePage() {
             const points = 50 + timeLeft * 5; // Simple scoring logic
             setScore(score + points);
             toast({ title: "Correct!", description: `+${points} points` });
+            markAsSolved();
             if (timerRef.current) clearTimeout(timerRef.current);
         } else {
             setGameState('incorrect');
