@@ -176,21 +176,28 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                 editor.selectionStart = editor.selectionEnd = start + 2;
             }, 0);
         } else if (e.key === 'Enter') {
+            e.preventDefault();
             const cursorPosition = editor.selectionStart;
             const textBeforeCursor = editor.value.substring(0, cursorPosition);
-            const currentLine = textBeforeCursor.split('\n').pop() ?? '';
-            const indentation = currentLine.match(/^\s*/)?.[0] ?? '';
-
+            const lines = textBeforeCursor.split('\n');
+            const currentLine = lines[lines.length - 1] ?? '';
+            const indentationMatch = currentLine.match(/^\s*/);
+            let indentation = indentationMatch ? indentationMatch[0] : '';
+            
+            // Add extra indentation if the line ends with a colon
             if (currentLine.trim().endsWith(':')) {
-                e.preventDefault();
-                const newCode = `${editor.value.substring(0, cursorPosition)}\n${indentation}  ${editor.value.substring(cursorPosition)}`;
-                setCode(newCode);
-                // move cursor
-                setTimeout(() => {
-                    editor.selectionStart = cursorPosition + indentation.length + 3;
-                    editor.selectionEnd = cursorPosition + indentation.length + 3;
-                }, 0);
+                indentation += '  ';
             }
+
+            const newCode = `${editor.value.substring(0, cursorPosition)}\n${indentation}${editor.value.substring(cursorPosition)}`;
+            setCode(newCode);
+
+            // move cursor
+            setTimeout(() => {
+                const newCursorPosition = cursorPosition + 1 + indentation.length;
+                editor.selectionStart = newCursorPosition;
+                editor.selectionEnd = newCursorPosition;
+            }, 0);
         }
     };
 
