@@ -295,6 +295,7 @@ export async function signupAction(
             xp: 0,
             level: 1,
             solvedChallenges: [],
+            solvedMiniGames: [],
             createdAt: new Date().toISOString(),
         });
 
@@ -314,5 +315,22 @@ export async function signupAction(
             }
         }
         return { message };
+    }
+}
+
+// Mini-game progress action
+export async function markMiniGameAsSolved(userId: string, gameId: string) {
+    if (!userId || !gameId) {
+        return { success: false, message: 'User ID and Game ID are required.' };
+    }
+    const userRef = doc(db, 'users', userId);
+    try {
+        await updateDoc(userRef, {
+            solvedMiniGames: arrayUnion(gameId)
+        });
+        return { success: true };
+    } catch (error) {
+        console.error("Error updating mini-game progress:", error);
+        return { success: false, message: 'Failed to save progress.' };
     }
 }

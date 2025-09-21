@@ -15,6 +15,8 @@ import { notFound, useParams, useRouter } from 'next/navigation';
 import { Textarea } from '@/components/ui/textarea';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { useAuth } from '@/hooks/use-auth';
+import { markMiniGameAsSolved } from '@/app/actions';
 
 
 const TIME_LIMIT = 60; // 60 seconds
@@ -22,6 +24,7 @@ const TIME_LIMIT = 60; // 60 seconds
 export default function DebugHuntGamePage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
+  const { user } = useAuth();
   const [challenge, setChallenge] = useState<DebugChallenge | null>(null);
   const [userCode, setUserCode] = useState('');
   const [timeLeft, setTimeLeft] = useState(TIME_LIMIT);
@@ -50,14 +53,18 @@ export default function DebugHuntGamePage() {
   
   const markAsSolved = () => {
     if (!challenge) return;
-    try {
-        const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-        if (!solvedGames.includes(challenge.id)) {
-            solvedGames.push(challenge.id);
-            localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+    if (user) {
+        markMiniGameAsSolved(user.uid, challenge.id);
+    } else {
+        try {
+            const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+            if (!solvedGames.includes(challenge.id)) {
+                solvedGames.push(challenge.id);
+                localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+            }
+        } catch (e) {
+            console.error("Failed to update solved mini-games in localStorage", e);
         }
-    } catch (e) {
-        console.error("Failed to update solved mini-games in localStorage", e);
     }
   };
 

@@ -12,6 +12,8 @@ import { ChevronLeft, CheckCircle, XCircle, RefreshCw, ArrowRight } from 'lucide
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/hooks/use-auth';
+import { markMiniGameAsSolved } from '@/app/actions';
 
 
 // Function to shuffle an array
@@ -28,6 +30,7 @@ function shuffleArray<T>(array: T[]): T[] {
 export default function ConceptMatchGamePage() {
     const router = useRouter();
     const params = useParams<{ id: string }>();
+    const { user } = useAuth();
     const [challenge, setChallenge] = useState<ConceptMatchChallenge | null>(null);
     const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -52,14 +55,18 @@ export default function ConceptMatchGamePage() {
 
     const markAsSolved = () => {
         if (!challenge) return;
-        try {
-            const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-            if (!solvedGames.includes(challenge.id)) {
-                solvedGames.push(challenge.id);
-                localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+        if (user) {
+            markMiniGameAsSolved(user.uid, challenge.id);
+        } else {
+            try {
+                const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+                if (!solvedGames.includes(challenge.id)) {
+                    solvedGames.push(challenge.id);
+                    localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+                }
+            } catch (e) {
+                console.error("Failed to update solved mini-games in localStorage", e);
             }
-        } catch (e) {
-            console.error("Failed to update solved mini-games in localStorage", e);
         }
     };
     

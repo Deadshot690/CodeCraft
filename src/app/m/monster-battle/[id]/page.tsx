@@ -14,10 +14,11 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Swords, Heart, Shield, HelpCircle, Bot, Loader2, XCircle, MessageCircle, List, ChevronLeft, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { getRandomMonster, BattleMonster, BattleChallenge, challenges } from '@/lib/battle-challenges';
-import { evaluateAnswerAction } from '@/app/actions';
+import { evaluateAnswerAction, markMiniGameAsSolved } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { useAuth } from '@/hooks/use-auth';
 
 const initialState = {
   isCorrect: null,
@@ -48,6 +49,8 @@ function SubmitButton() {
 export default function MonsterBattlePage() {
     const router = useRouter();
     const params = useParams<{ id: string }>();
+    const { user } = useAuth();
+
     const [monster, setMonster] = useState<BattleMonster | null>(null);
     const [challenge, setChallenge] = useState<BattleChallenge | null>(null);
     const [monsterHP, setMonsterHP] = useState(100);
@@ -65,14 +68,18 @@ export default function MonsterBattlePage() {
 
     const markAsSolved = () => {
       if (!challenge) return;
-      try {
-          let solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-          if (!solvedGames.includes(challenge.id)) {
-              solvedGames.push(challenge.id);
-              localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
-          }
-      } catch (e) {
-          console.error("Failed to update solved mini-games in localStorage", e);
+      if (user) {
+        markMiniGameAsSolved(user.uid, challenge.id);
+      } else {
+        try {
+            let solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+            if (!solvedGames.includes(challenge.id)) {
+                solvedGames.push(challenge.id);
+                localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+            }
+        } catch (e) {
+            console.error("Failed to update solved mini-games in localStorage", e);
+        }
       }
     };
     

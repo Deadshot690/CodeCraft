@@ -8,9 +8,12 @@ import { challenges as battleChallenges, BattleChallenge } from "@/lib/battle-ch
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Swords, Trophy, CheckCircle } from "lucide-react";
+import { Swords, Trophy, CheckCircle, Loader2 } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { useSearchParams } from 'next/navigation';
+import { useAuth } from '@/hooks/use-auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 const difficultyColorMap: { [key: string]: string } = {
     'Beginner': 'text-cyan-500',
@@ -59,16 +62,52 @@ function QuestionRow({ challenge, isSolved }: { challenge: BattleChallenge, isSo
 }
 
 function PageContent() {
+  const { user, loading } = useAuth();
   const [solvedGames, setSolvedGames] = useState<Set<string>>(new Set());
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    try {
-        const storedSolvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-        setSolvedGames(new Set(storedSolvedGames));
-    } catch (e) {
-        console.error("Failed to parse solved mini-games from localStorage", e);
-    }
+    setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (!isClient || loading) return;
+
+    const fetchSolvedGames = async () => {
+        if (user) {
+            const userDocRef = doc(db, 'users', user.uid);
+            try {
+                const userDoc = await getDoc(userDocRef);
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    const solvedIds = new Set((userData.solvedMiniGames || []));
+                    setSolvedGames(solvedIds);
+                }
+            } catch (error) {
+                console.error("Error fetching user data from Firestore:", error);
+            }
+        } else {
+            // Fallback for non-logged in users
+            try {
+                const storedSolvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+                setSolvedGames(new Set(storedSolvedGames));
+            } catch (e) {
+                console.error("Failed to parse solved mini-games from localStorage", e);
+            }
+        }
+    };
+    
+    fetchSolvedGames();
+
+  }, [user, loading, isClient]);
+
+  if (!isClient || loading) {
+    return (
+      <DashboardLayout>
+        <div className="flex justify-center items-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
@@ -81,7 +120,6 @@ function PageContent() {
               </p>
             </div>
           </div>
-
 
         <Card>
             <CardContent className="!p-0">

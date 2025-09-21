@@ -13,6 +13,8 @@ import { ChevronLeft, RefreshCw, BarChart, Timer, CheckCircle, XCircle, ArrowRig
 import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/use-auth';
+import { markMiniGameAsSolved } from '@/app/actions';
 
 const TIME_LIMIT_SECONDS = 15;
 
@@ -29,6 +31,7 @@ export default function CodeRushGamePage() {
     const router = useRouter();
     const params = useParams<{ id: string }>();
     const { toast } = useToast();
+    const { user } = useAuth();
 
     const [challenge, setChallenge] = useState<CodeRushChallenge | null>(null);
     const [timeLeft, setTimeLeft] = useState(TIME_LIMIT_SECONDS);
@@ -79,14 +82,18 @@ export default function CodeRushGamePage() {
     
     const markAsSolved = () => {
         if (!challenge) return;
-        try {
-            const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-            if (!solvedGames.includes(challenge.id)) {
-                solvedGames.push(challenge.id);
-                localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+        if (user) {
+            markMiniGameAsSolved(user.uid, challenge.id);
+        } else {
+            try {
+                const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+                if (!solvedGames.includes(challenge.id)) {
+                    solvedGames.push(challenge.id);
+                    localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
+                }
+            } catch (e) {
+                console.error("Failed to update solved mini-games in localStorage", e);
             }
-        } catch (e) {
-            console.error("Failed to update solved mini-games in localStorage", e);
         }
     };
 
