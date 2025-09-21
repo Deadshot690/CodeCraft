@@ -161,9 +161,9 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
     }, [submitState.results]);
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        const editor = e.target as HTMLTextAreaElement;
         if (e.key === 'Tab') {
             e.preventDefault();
+            const editor = e.target as HTMLTextAreaElement;
             const start = editor.selectionStart;
             const end = editor.selectionEnd;
 
@@ -177,6 +177,7 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
             }, 0);
         } else if (e.key === 'Enter') {
             e.preventDefault();
+            const editor = e.target as HTMLTextAreaElement;
             const cursorPosition = editor.selectionStart;
             const textBeforeCursor = editor.value.substring(0, cursorPosition);
             const lines = textBeforeCursor.split('\n');
@@ -184,8 +185,8 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
             const indentationMatch = currentLine.match(/^\s*/);
             let indentation = indentationMatch ? indentationMatch[0] : '';
             
-            // Add extra indentation if the line ends with a colon
-            if (currentLine.trim().endsWith(':')) {
+            // Add extra indentation if the line ends with a colon or an opening brace
+            if (currentLine.trim().endsWith(':') || currentLine.trim().endsWith('{')) {
                 indentation += '  ';
             }
 
