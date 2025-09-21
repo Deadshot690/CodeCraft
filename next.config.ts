@@ -27,4 +27,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withGenkit(nextConfig);
+export default nextConfig;
