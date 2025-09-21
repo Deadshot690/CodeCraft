@@ -4,11 +4,11 @@
 import { aiCodeAssistant, type AICodeAssistantInput } from '@/ai/flows/ai-code-assistant';
 import { runCode } from '@/ai/flows/run-code-flow';
 import {z} from 'zod';
-import { getChallengeReferenceSolution } from '@/lib/challenges';
+import { getChallenge, getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
 import { auth, db } from '@/lib/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 
 
 // AI Assistant Action
@@ -73,7 +73,7 @@ type RunCodeState = {
     results?: RunCodeOutput['results'];
 };
 
-async function handleCodeExecution(formData: FormData): Promise<RunCodeState> {
+async function handleCodeExecution(formData: FormData, isSubmission: boolean): Promise<RunCodeState> {
     const validatedFields = RunCodeActionSchema.safeParse({
         code: formData.get('code'),
         language: formData.get('language'),
@@ -101,7 +101,34 @@ async function handleCodeExecution(formData: FormData): Promise<RunCodeState> {
             ...runCodeInput,
             referenceSolution,
         });
+
+        const allPassed = result.results.length > 0 && result.results.every(r => r.passed);
+
+        if (isSubmission && allPassed && auth.currentUser) {
+            const userRef = doc(db, 'users', auth.currentUser.uid);
+            const challenge = getChallenge(challengeId);
+            const xpGained = challenge?.difficulty === 'Easy' ? 100 : challenge?.difficulty === 'Medium' ? 200 : 300;
+
+            await updateDoc(userRef, {
+                solvedChallenges: arrayUnion({
+                    id: challengeId,
+                    title: validatedFields.data.challengeTitle,
+                    solvedAt: new Date().toISOString(),
+                }),
+                xp: (await (await fetch(`https://firestore.googleapis.com/v1/projects/codecraft-quest-2rdg9/databases/(default)/documents/users/${auth.currentUser.uid}`)).json() as any)?.fields?.xp?.integerValue || 0 + xpGained,
+            });
+        } else if (isSubmission && allPassed) {
+             // Handle localStorage for non-logged-in users
+            const solvedInfo = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
+            const existing = solvedInfo.find((s: any) => s.id === challengeId);
+            if (!existing) {
+                solvedInfo.push({ id: challengeId, title: validatedFields.data.challengeTitle, solvedAt: new Date().toISOString() });
+                localStorage.setItem('solvedChallengesInfo', JSON.stringify(solvedInfo));
+            }
+        }
+        
         return { results: result.results };
+
     } catch (error) {
         console.error('Run Code Error:', error);
         return { message: 'An unexpected error occurred while running the code. Please try again later.' };
@@ -112,14 +139,14 @@ export async function runTestAction(
     prevState: RunCodeState,
     formData: FormData
 ): Promise<RunCodeState> {
-    return handleCodeExecution(formData);
+    return handleCodeExecution(formData, false);
 }
 
 export async function submitAction(
     prevState: RunCodeState,
     formData: FormData
 ): Promise<RunCodeState> {
-    return handleCodeExecution(formData);
+    return handleCodeExecution(formData, true);
 }
 
 // Monster Battle Action
@@ -261,6 +288,7 @@ export async function signupAction(
             email: email,
             xp: 0,
             level: 1,
+            solvedChallenges: [],
             createdAt: new Date().toISOString(),
         });
         

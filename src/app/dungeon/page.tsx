@@ -4,24 +4,45 @@
 import { useState, useEffect } from 'react';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { ArrowRight, Lock, Unlock } from 'lucide-react';
+import { ArrowRight, Lock, Unlock, Loader2 } from 'lucide-react';
 import { dungeon } from '@/lib/dungeon';
 import { challenges } from '@/lib/challenges';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { CheckCircle } from 'lucide-react';
+import { useAuth } from '@/hooks/use-auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 export default function DungeonPage() {
+    const { user, loading } = useAuth();
     const [solvedDungeonChallenges, setSolvedDungeonChallenges] = useState<Set<string>>(new Set());
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
-        const storedSolvedInfo: { id: string }[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
-        const solvedIds = new Set(storedSolvedInfo.map(info => info.id));
-        setSolvedDungeonChallenges(solvedIds);
-    }, []);
+        const fetchSolvedChallenges = async () => {
+            if (user) {
+                const userDocRef = doc(db, 'users', user.uid);
+                const userDoc = await getDoc(userDocRef);
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    const solvedIds = new Set((userData.solvedChallenges || []).map((info: { id: string }) => info.id));
+                    setSolvedDungeonChallenges(solvedIds);
+                }
+            } else {
+                // Fallback to localStorage for non-logged-in users
+                const storedSolvedInfo: { id: string }[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
+                const solvedIds = new Set(storedSolvedInfo.map(info => info.id));
+                setSolvedDungeonChallenges(solvedIds);
+            }
+        };
+
+        if (!loading) {
+            fetchSolvedChallenges();
+        }
+    }, [user, loading]);
 
     const isFloorUnlocked = (floorIndex: number) => {
         if (floorIndex === 0) return true; 
@@ -31,8 +52,8 @@ export default function DungeonPage() {
         return prevFloorSolvedCount >= prevFloor.challenges.length / 2;
     };
     
-    if (!isClient) {
-        return <DashboardLayout><div>Loading...</div></DashboardLayout>;
+    if (!isClient || loading) {
+        return <DashboardLayout><div className="flex justify-center items-center h-full"><Loader2 className="h-8 w-8 animate-spin"/></div></DashboardLayout>;
     }
 
     return (

@@ -7,15 +7,26 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Check, Shield, Star, Swords, BrainCircuit, Bot } from "lucide-react";
+import { Check, Shield, Star, Swords, BrainCircuit, Bot, Loader2 } from "lucide-react";
 import Link from 'next/link';
-import { challenges, Challenge } from '@/lib/challenges';
+import { challenges as allChallenges, Challenge } from '@/lib/challenges';
 import { formatDistanceToNow } from 'date-fns';
+import { useAuth } from '@/hooks/use-auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 interface SolvedChallengeInfo {
   id: string;
   title: string;
   solvedAt: string; // ISO date string
+}
+
+interface UserProfile {
+    username: string;
+    email: string;
+    level: number;
+    xp: number;
+    solvedChallenges: SolvedChallengeInfo[];
 }
 
 const achievements = [
@@ -28,51 +39,62 @@ const achievements = [
 ];
 
 export default function ProfilePage() {
-  const [stats, setStats] = useState({
-    name: "CodeCrafter",
-    level: 1,
-    xp: 0,
-    rank: 0,
-    challengesSolved: 0,
-    domains: { DSA: 0, Web: 0, AI: 0 }
-  });
-  const [recentSolutions, setRecentSolutions] = useState<SolvedChallengeInfo[]>([]);
-  const [isClient, setIsClient] = useState(false);
+    const { user, loading } = useAuth();
+    const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [domainStats, setDomainStats] = useState({ DSA: 0, Web: 0, AI: 0 });
+    const [recentSolutions, setRecentSolutions] = useState<SolvedChallengeInfo[]>([]);
 
-  useEffect(() => {
-    setIsClient(true);
-    const storedSolutions: SolvedChallengeInfo[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
-    
-    const sortedSolutions = storedSolutions.sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
-    setRecentSolutions(sortedSolutions.slice(0, 5));
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            if (user) {
+                const userDocRef = doc(db, 'users', user.uid);
+                const userDoc = await getDoc(userDocRef);
 
-    const challengesSolved = storedSolutions.length;
-    const solvedIds = new Set(storedSolutions.map(s => s.id));
-    const allSolvedChallenges = challenges.filter(c => solvedIds.has(c.id));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data() as UserProfile;
+                    setProfile(userData);
+                    
+                    const sortedSolutions = [...(userData.solvedChallenges || [])].sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
+                    setRecentSolutions(sortedSolutions.slice(0, 5));
 
-    const domains = allSolvedChallenges.reduce((acc, c) => {
-        const domainKey = c.domain as keyof typeof acc;
-        acc[domainKey] = (acc[domainKey] || 0) + 1;
-        return acc;
-    }, { DSA: 0, Web: 0, AI: 0 });
+                    const solvedIds = new Set(userData.solvedChallenges.map(s => s.id));
+                    const allSolvedChallenges = allChallenges.filter(c => solvedIds.has(c.id));
 
-    const xp = challengesSolved * 100;
-    const level = Math.floor(xp / 1000) + 1;
+                    const domains = allSolvedChallenges.reduce((acc, c) => {
+                        const domainKey = c.domain as keyof typeof acc;
+                        acc[domainKey] = (acc[domainKey] || 0) + 1;
+                        return acc;
+                    }, { DSA: 0, Web: 0, AI: 0 });
+                    setDomainStats(domains);
+                }
+            } else {
+                // Handle non-logged in user (fallback to localStorage)
+                const storedSolutions: SolvedChallengeInfo[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
+                 const sortedSolutions = storedSolutions.sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
+                const challengesSolved = storedSolutions.length;
+                const xp = challengesSolved * 100;
 
-    setStats({
-        name: 'CodeCrafter',
-        challengesSolved,
-        domains,
-        xp,
-        level,
-        rank: 500 - (challengesSolved * 10) // dummy rank
-    });
-  }, []);
+                setProfile({
+                    username: 'Local Adventurer',
+                    email: '',
+                    level: Math.floor(xp / 1000) + 1,
+                    xp: xp,
+                    solvedChallenges: storedSolutions,
+                });
+                setRecentSolutions(sortedSolutions.slice(0, 5));
+            }
+        };
+        
+        if (!loading) {
+            fetchProfileData();
+        }
 
-  if (!isClient) {
+    }, [user, loading]);
+
+  if (loading || !profile) {
       return (
         <DashboardLayout>
-          <div>Loading profile...</div>
+          <div className="flex justify-center items-center h-full"><Loader2 className="h-8 w-8 animate-spin"/></div>
         </DashboardLayout>
       );
   }
@@ -81,18 +103,17 @@ export default function ProfilePage() {
     <DashboardLayout>
       <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
         
-        {/* Header */}
         <Card className="overflow-hidden">
           <div className="relative h-32 w-full bg-gradient-to-r from-primary to-accent" />
           <CardContent className="p-6 pt-0">
             <div className="flex items-end gap-4 -mt-16">
               <Avatar className="h-32 w-32 border-4 border-background">
-                <AvatarImage src={`https://picsum.photos/seed/codecrafter/200`} data-ai-hint="user avatar" />
-                <AvatarFallback className="text-4xl">{stats.name.charAt(0).toUpperCase()}</AvatarFallback>
+                <AvatarImage src={`https://picsum.photos/seed/${profile.username}/200`} data-ai-hint="user avatar" />
+                <AvatarFallback className="text-4xl">{profile.username.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div className="pb-2">
-                <h1 className="text-3xl font-bold tracking-tight font-headline">{stats.name}</h1>
-                <p className="text-muted-foreground">Local Adventurer</p>
+                <h1 className="text-3xl font-bold tracking-tight font-headline">{profile.username}</h1>
+                <p className="text-muted-foreground">{profile.email || 'Local Account'}</p>
               </div>
             </div>
           </CardContent>
@@ -100,26 +121,24 @@ export default function ProfilePage() {
 
         <div className="grid md:grid-cols-3 gap-6">
 
-          {/* Left Column */}
           <div className="md:col-span-1 space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle>Stats</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex justify-between"><span>Challenges Solved</span> <span className="font-bold">{stats.challengesSolved}</span></div>
-                <div className="flex justify-between"><span>XP Earned</span> <span className="font-bold">{stats.xp.toLocaleString()} XP</span></div>
-                <div className="flex justify-between"><span>Leaderboard Rank</span> <span className="font-bold">#{stats.rank}</span></div>
+                <div className="flex justify-between"><span>Challenges Solved</span> <span className="font-bold">{profile.solvedChallenges.length}</span></div>
+                <div className="flex justify-between"><span>XP Earned</span> <span className="font-bold">{profile.xp.toLocaleString()} XP</span></div>
+                <div className="flex justify-between"><span>Level</span> <span className="font-bold">{profile.level}</span></div>
                 <Separator />
                 <h3 className="font-semibold text-sm">Solved by Domain</h3>
-                <div className="flex justify-between"><span>Data Structures & Algo</span> <span className="font-bold">{stats.domains.DSA}</span></div>
-                <div className="flex justify-between"><span>Web Development</span> <span className="font-bold">{stats.domains.Web}</span></div>
-                <div className="flex justify-between"><span>Artificial Intelligence</span> <span className="font-bold">{stats.domains.AI}</span></div>
+                <div className="flex justify-between"><span>Data Structures & Algo</span> <span className="font-bold">{domainStats.DSA}</span></div>
+                <div className="flex justify-between"><span>Web Development</span> <span className="font-bold">{domainStats.Web}</span></div>
+                <div className="flex justify-between"><span>Artificial Intelligence</span> <span className="font-bold">{domainStats.AI}</span></div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Right Column */}
           <div className="md:col-span-2 space-y-6">
              <Card>
               <CardHeader>
