@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { challenges as battleChallenges, BattleChallenge } from "@/lib/battle-challenges";
@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Swords, Trophy, CheckCircle } from "lucide-react";
 import { Button } from '@/components/ui/button';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 const difficultyColorMap: { [key: string]: string } = {
     'Beginner': 'text-cyan-500',
@@ -57,18 +58,42 @@ function QuestionRow({ challenge, isSolved }: { challenge: BattleChallenge, isSo
     )
 }
 
-
-export default function MonsterBattleListPage() {
+function PageContent() {
   const [solvedGames, setSolvedGames] = useState<Set<string>>(new Set());
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
-    try {
-      const storedSolvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-      setSolvedGames(new Set(storedSolvedGames));
-    } catch (e) {
-      console.error("Failed to parse solved mini-games from localStorage", e);
+    // Check for win status from URL
+    const status = searchParams.get('status');
+    const challengeId = searchParams.get('id');
+
+    if (status === 'won' && challengeId) {
+      try {
+        const storedSolvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+        if (!storedSolvedGames.includes(challengeId)) {
+          storedSolvedGames.push(challengeId);
+          localStorage.setItem('solvedMiniGames', JSON.stringify(storedSolvedGames));
+        }
+        // Update state to re-render the table
+        setSolvedGames(new Set(storedSolvedGames));
+
+        // Clean the URL
+        const newUrl = window.location.pathname;
+        router.replace(newUrl, { scroll: false });
+      } catch (e) {
+        console.error("Failed to update solved mini-games in localStorage", e);
+      }
+    } else {
+        // Initial load without status
+        try {
+          const storedSolvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
+          setSolvedGames(new Set(storedSolvedGames));
+        } catch (e) {
+          console.error("Failed to parse solved mini-games from localStorage", e);
+        }
     }
-  }, []);
+  }, [searchParams, router]);
 
   return (
     <DashboardLayout>
@@ -110,4 +135,13 @@ export default function MonsterBattleListPage() {
       </div>
     </DashboardLayout>
   );
+}
+
+
+export default function MonsterBattleListPage() {
+  return (
+    <Suspense fallback={<DashboardLayout><div>Loading...</div></DashboardLayout>}>
+      <PageContent />
+    </Suspense>
+  )
 }

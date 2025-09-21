@@ -78,23 +78,15 @@ export default function MonsterBattlePage() {
             notFound();
         }
     }, [params.id]);
-
-    const markAsSolved = () => {
-        if (!challenge) return;
-        try {
-            const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-            if (!solvedGames.includes(challenge.id)) {
-                solvedGames.push(challenge.id);
-                localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
-            }
-        } catch (e) {
-            console.error("Failed to update solved mini-games in localStorage", e);
-        }
-    };
     
     // Effect to handle game logic from form action
     useEffect(() => {
-        if (state.isCorrect === null || isBattleOver) {
+        if (state.isCorrect === null) {
+            return;
+        }
+
+        if (isBattleOver) {
+             // If battle is already over, and we get another state update, do nothing.
             return;
         }
 
@@ -103,7 +95,6 @@ export default function MonsterBattlePage() {
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
             setIsBattleOver(true);
-            markAsSolved();
             
             formRef.current?.reset();
              if (answerInputRef.current) {
@@ -205,7 +196,7 @@ export default function MonsterBattlePage() {
                                 </div>
                                 <div className="w-full space-y-2">
                                     <Label>Health</Label>
-                                    <Progress value={(monsterHP / monster.hp) * 100} variant={monsterHP < monster.hp / 4 ? "destructive" : "default"} className="h-4" />
+                                    <Progress value={lastAnswerWasCorrect === true ? 0 : (monsterHP / monster.hp) * 100} variant={monsterHP < monster.hp / 4 ? "destructive" : "default"} className="h-4" />
                                     <p className="text-right font-bold">{lastAnswerWasCorrect === true ? 0 : monsterHP} / {monster.hp}</p>
                                 </div>
                              </div>
@@ -232,16 +223,18 @@ export default function MonsterBattlePage() {
                                      {playerHP > 0 ? `You defeated the ${monster.name}!` : `The ${monster.name} was too strong.`}
                                 </p>
                                 {playerHP > 0 && nextChallengeId ? (
-                                     <Button onClick={() => router.push(`/m/battle/${nextChallengeId}`)} size="lg" className="w-full">
-                                        Next Challenge <ArrowRight className="ml-2" />
+                                     <Button asChild size="lg" className="w-full">
+                                        <Link href={`/m/battle/${nextChallengeId}`}>Next Challenge <ArrowRight className="ml-2" /></Link>
                                     </Button>
                                 ) : (
-                                    <Button onClick={() => router.push('/m/monster-battle')} size="lg" variant="outline" className="w-full">
-                                        Back to Challenges
+                                    <Button asChild size="lg" variant="outline" className="w-full">
+                                        <Link href={`/m/monster-battle?status=won&id=${challenge.id}`}>Back to Challenges</Link>
                                     </Button>
                                 )}
-                                <Button onClick={() => router.push('/m/monster-battle')} size="lg" variant="outline" className="w-full">
-                                    {playerHP > 0 ? "Back to Challenges" : "Try Another Challenge"}
+                                <Button asChild size="lg" variant="outline" className="w-full">
+                                    <Link href="/m/monster-battle">
+                                        {playerHP > 0 ? "Back to Challenges" : "Try Another Challenge"}
+                                    </Link>
                                 </Button>
                             </CardContent>
                         </Card>
