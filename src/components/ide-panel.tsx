@@ -160,6 +160,40 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [submitState.results]);
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        const editor = e.target as HTMLTextAreaElement;
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+
+            // insert 2 spaces
+            const newCode = code.substring(0, start) + '  ' + code.substring(end);
+            setCode(newCode);
+
+            // move cursor
+            setTimeout(() => {
+                editor.selectionStart = editor.selectionEnd = start + 2;
+            }, 0);
+        } else if (e.key === 'Enter') {
+            const cursorPosition = editor.selectionStart;
+            const textBeforeCursor = editor.value.substring(0, cursorPosition);
+            const currentLine = textBeforeCursor.split('\n').pop() ?? '';
+            const indentation = currentLine.match(/^\s*/)?.[0] ?? '';
+
+            if (currentLine.trim().endsWith(':')) {
+                e.preventDefault();
+                const newCode = `${editor.value.substring(0, cursorPosition)}\n${indentation}  ${editor.value.substring(cursorPosition)}`;
+                setCode(newCode);
+                // move cursor
+                setTimeout(() => {
+                    editor.selectionStart = cursorPosition + indentation.length + 3;
+                    editor.selectionEnd = cursorPosition + indentation.length + 3;
+                }, 0);
+            }
+        }
+    };
+
     return (
         <div className="h-full flex flex-col">
             
@@ -207,28 +241,7 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                           onChange={(e) => setCode(e.target.value)}
                           placeholder="Your code here..."
                           className="h-full w-full rounded-none border-0 resize-none font-code text-base p-4"
-                          onKeyDown={e => {
-                               if (e.key === "Tab") {
-                                  e.preventDefault();
-                                  document.execCommand('insertText', false, '  ');
-                               } else if (e.key === 'Enter') {
-                                    const editor = e.target as HTMLTextAreaElement;
-                                    const cursorPosition = editor.selectionStart;
-                                    const textBeforeCursor = editor.value.substring(0, cursorPosition);
-                                    const currentLine = textBeforeCursor.split('\n').pop() ?? '';
-                                    if (currentLine.trim().endsWith(':')) {
-                                        e.preventDefault();
-                                        const indentation = currentLine.match(/^\s*/)?.[0] ?? '';
-                                        const newCode = `${editor.value.substring(0, cursorPosition)}\n${indentation}  ${editor.value.substring(cursorPosition)}`;
-                                        setCode(newCode);
-                                        // This is a trick to move the cursor after the inserted text
-                                        setTimeout(() => {
-                                            editor.selectionStart = cursorPosition + indentation.length + 3;
-                                            editor.selectionEnd = cursorPosition + indentation.length + 3;
-                                        }, 0);
-                                    }
-                               }
-                          }}
+                          onKeyDown={handleKeyDown}
                       />
                 </div>
                  <Tabs defaultValue="test-results" className="flex-shrink-0 border-t">
