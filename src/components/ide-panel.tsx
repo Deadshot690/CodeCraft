@@ -14,6 +14,7 @@ import { ScrollArea } from "./ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
 
 type Language = keyof Challenge['templates'];
 

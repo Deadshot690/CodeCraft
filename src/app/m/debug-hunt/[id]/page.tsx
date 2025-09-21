@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { notFound, useParams, useRouter } from 'next/navigation';
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
 
 const TIME_LIMIT = 60; // 60 seconds
 

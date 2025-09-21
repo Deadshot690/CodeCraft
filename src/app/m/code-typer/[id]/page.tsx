@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, RefreshCw, BarChart, Timer, Target, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
 
 
 const languageDisplayMap: { [key: string]: string } = {
