@@ -13,6 +13,8 @@ import Link from 'next/link';
 import { Label } from '@/components/ui/label';
 import { notFound, useParams, useRouter } from 'next/navigation';
 import { Textarea } from '@/components/ui/textarea';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 
 const TIME_LIMIT = 60; // 60 seconds
@@ -142,12 +144,30 @@ export default function DebugHuntGamePage() {
                              <CardContent className="flex-grow flex flex-col">
                                 <Label htmlFor="code-editor" className="mb-2">Your Code (find and fix the bug):</Label>
                                  <div className="flex-grow relative h-full w-full bg-background font-code text-base border rounded-md">
+                                     <div className="absolute inset-0">
+                                        <SyntaxHighlighter
+                                            language={challenge.language}
+                                            style={atomOneDarkReasonable}
+                                            customStyle={{
+                                                height: '100%',
+                                                width: '100%',
+                                                margin: 0,
+                                                padding: '1rem',
+                                                backgroundColor: 'hsl(var(--background))',
+                                            }}
+                                            codeTagProps={{ style: { fontFamily: 'inherit', fontSize: 'inherit' } }}
+                                            showLineNumbers
+                                            wrapLines
+                                        >
+                                            {userCode}
+                                        </SyntaxHighlighter>
+                                      </div>
                                      <Textarea
                                           id="code-editor"
                                           value={userCode}
                                           onChange={(e) => setUserCode(e.target.value)}
                                           disabled={!isGameActive}
-                                          className="h-full w-full absolute inset-0 font-code text-sm !p-4 resize-none"
+                                          className="h-full w-full absolute inset-0 font-code text-sm !p-4 resize-none bg-transparent text-transparent caret-white"
                                       />
                                  </div>
                              </CardContent>

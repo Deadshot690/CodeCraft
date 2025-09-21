@@ -11,6 +11,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, RefreshCw, BarChart, Timer, Target, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 
 const languageDisplayMap: { [key: string]: string } = {
@@ -122,7 +124,7 @@ export default function CodeTyperGamePage() {
                         </Link>
                     </Button>
                     <h1 className="text-xl font-bold tracking-tight font-headline text-center">{challenge.title}<br/><span className="text-sm text-muted-foreground font-normal">{languageDisplayMap[challenge.language]} - {challenge.difficulty}</span></h1>
-                    <Button variant="ghost" onClick={() => resetGame(challenge)}>
+                    <Button variant="ghost" onClick={() => challenge && resetGame(challenge)}>
                         <RefreshCw className="mr-2 h-4 w-4" />
                         Restart
                     </Button>
@@ -149,14 +151,14 @@ export default function CodeTyperGamePage() {
                                </Card>
                            </CardContent>
                            <CardFooter className="flex-col gap-4 pt-6">
-                                {nextChallengeId ? (
+                                {nextChallengeId && challenge ? (
                                      <Button asChild className="w-full">
                                         <Link href={`/m/code-typer/${nextChallengeId}`}>
                                             Next Challenge <ArrowRight className="ml-2"/>
                                         </Link>
                                     </Button>
                                 ) : (
-                                     <Button className="w-full" onClick={() => resetGame(challenge)}>
+                                     <Button className="w-full" onClick={() => challenge && resetGame(challenge)}>
                                         <RefreshCw className="mr-2" />
                                         Try Again
                                     </Button>
@@ -179,11 +181,28 @@ export default function CodeTyperGamePage() {
                             </CardContent>
                         </Card>
                          <div className="relative font-code text-lg">
+                              <div className="absolute inset-0">
+                                <SyntaxHighlighter
+                                    language={challenge.language}
+                                    style={atomOneDarkReasonable}
+                                    customStyle={{
+                                        height: '100%',
+                                        width: '100%',
+                                        margin: 0,
+                                        padding: '1rem',
+                                        backgroundColor: 'transparent',
+                                        color: 'transparent'
+                                    }}
+                                    codeTagProps={{ style: { fontFamily: 'inherit', fontSize: 'inherit', color: 'transparent' } }}
+                                >
+                                    {typedCode}
+                                </SyntaxHighlighter>
+                              </div>
                               <Textarea
                                   ref={editorRef}
                                   value={typedCode}
                                   onChange={handleInputChange}
-                                  className="bg-background border rounded-md min-h-[200px] font-code text-lg p-4 resize-none"
+                                  className="bg-transparent border rounded-md min-h-[200px] font-code text-lg p-4 resize-none text-white caret-primary"
                                   autoFocus
                               />
                          </div>

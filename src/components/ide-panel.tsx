@@ -13,6 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "./ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Textarea } from './ui/textarea';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 
 type Language = keyof Challenge['templates'];
@@ -182,11 +184,9 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
             const textBeforeCursor = editor.value.substring(0, cursorPosition);
             const lines = textBeforeCursor.split('\n');
             const currentLine = lines[lines.length - 1] ?? '';
-            const indentationMatch = currentLine.match(/^\s*/);
-            let indentation = indentationMatch ? indentationMatch[0] : '';
+            let indentation = currentLine.match(/^\s*/)?.[0] || '';
             
-            // Add extra indentation if the line ends with a colon or an opening brace
-            if (currentLine.trim().endsWith(':') || currentLine.trim().endsWith('{')) {
+            if (currentLine.trim().endsWith('{') || currentLine.trim().endsWith(':')) {
                 indentation += '  ';
             }
 
@@ -244,11 +244,39 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
 
             <div className="flex-grow flex flex-col min-h-0">
                 <div className="flex-grow relative h-full w-full bg-background font-code text-base">
+                      <div className="absolute inset-0">
+                        <SyntaxHighlighter
+                            language={selectedLanguage}
+                            style={atomOneDarkReasonable}
+                            customStyle={{
+                                height: '100%',
+                                width: '100%',
+                                margin: 0,
+                                padding: '1rem',
+                                backgroundColor: 'hsl(var(--background))',
+                                border: 'none',
+                                resize: 'none',
+                                fontSize: '1rem',
+                                fontFamily: 'var(--font-code)',
+                                lineHeight: '1.5',
+                            }}
+                            codeTagProps={{
+                                style: {
+                                  fontFamily: 'inherit',
+                                  fontSize: 'inherit',
+                                },
+                            }}
+                            showLineNumbers
+                            wrapLines
+                        >
+                            {code}
+                        </SyntaxHighlighter>
+                      </div>
                       <Textarea
                           value={code}
                           onChange={(e) => setCode(e.target.value)}
                           placeholder="Your code here..."
-                          className="h-full w-full rounded-none border-0 resize-none font-code text-base p-4"
+                          className="h-full w-full rounded-none border-0 resize-none font-code text-base p-4 absolute inset-0 bg-transparent text-transparent caret-white"
                           onKeyDown={handleKeyDown}
                       />
                 </div>
