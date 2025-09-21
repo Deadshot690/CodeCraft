@@ -72,6 +72,9 @@ export default function MonsterBattlePage() {
             setMonsterHP(newMonster.hp);
             setPlayerHP(100);
             setDialogue(`A wild ${newMonster.name} challenges you!`);
+            setIsBattleOver(false);
+            setLastAnswerWasCorrect(null);
+            if(formRef.current) formRef.current.reset();
         } else {
             notFound();
         }
@@ -98,7 +101,6 @@ export default function MonsterBattlePage() {
 
         if (state.isCorrect === true) {
             setLastAnswerWasCorrect(true);
-            setMonsterHP(0);
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
             setIsBattleOver(true);
@@ -133,7 +135,7 @@ export default function MonsterBattlePage() {
     // Effect to show toasts based on dialogue changes
     useEffect(() => {
         if(isBattleOver) {
-            if(monsterHP <= 0) {
+            if(playerHP > 0) {
                  toast({ title: "Direct Hit!", description: `You defeated the ${monster?.name}!` });
             } else {
                  toast({ variant: "destructive", title: "Defeated!", description: "You have been defeated." });
@@ -205,7 +207,7 @@ export default function MonsterBattlePage() {
                                 <div className="w-full space-y-2">
                                     <Label>Health</Label>
                                     <Progress value={(monsterHP / monster.hp) * 100} variant={monsterHP < monster.hp / 4 ? "destructive" : "default"} className="h-4" />
-                                    <p className="text-right font-bold">{monsterHP} / {monster.hp}</p>
+                                    <p className="text-right font-bold">{monsterHP > 0 ? monsterHP : 0} / {monster.hp}</p>
                                 </div>
                              </div>
                         </CardContent>
@@ -225,22 +227,22 @@ export default function MonsterBattlePage() {
                         <Card className="flex flex-col items-center justify-center h-full">
                             <CardContent className="p-6 text-center space-y-4">
                                 <h2 className="text-3xl font-bold font-headline mb-4">
-                                    {monsterHP <= 0 ? "You are Victorious!" : "You have been Defeated!"}
+                                    {playerHP > 0 ? "You are Victorious!" : "You have been Defeated!"}
                                 </h2>
                                 <p className="text-muted-foreground mb-6">
-                                     {monsterHP <= 0 ? `You defeated the ${monster.name}!` : `The ${monster.name} was too strong.`}
+                                     {playerHP > 0 ? `You defeated the ${monster.name}!` : `The ${monster.name} was too strong.`}
                                 </p>
-                                {monsterHP <= 0 && nextChallengeId ? (
+                                {playerHP > 0 && nextChallengeId ? (
                                      <Button onClick={() => router.push(`/m/battle/${nextChallengeId}`)} size="lg" className="w-full">
                                         Next Challenge <ArrowRight className="ml-2" />
                                     </Button>
                                 ) : (
-                                    <Button onClick={() => router.push('/m/monster-battle')} size="lg" variant="outline" className="w-full">
+                                     <Button onClick={() => router.push('/m/monster-battle')} size="lg" className="w-full">
                                         Back to Challenges
                                     </Button>
                                 )}
                                 <Button onClick={() => router.push('/m/monster-battle')} size="lg" variant="outline" className="w-full">
-                                    {monsterHP <= 0 ? "Back to Challenges" : "Try Another Challenge"}
+                                    {playerHP > 0 ? "View All Challenges" : "Try Another Challenge"}
                                 </Button>
                             </CardContent>
                         </Card>
@@ -287,3 +289,5 @@ export default function MonsterBattlePage() {
     </DashboardLayout>
   );
 }
+
+    
