@@ -69,16 +69,19 @@ export default function MonsterBattlePage() {
             const newMonster = getRandomMonster(currentChallenge.difficulty);
             setChallenge(currentChallenge);
             setMonster(newMonster);
+            // Reset all game state for the new battle
             setMonsterHP(newMonster.hp);
             setPlayerHP(100);
             setDialogue(`A wild ${newMonster.name} challenges you!`);
             setIsBattleOver(false);
             setLastAnswerWasCorrect(null);
             if(formRef.current) formRef.current.reset();
+            // Reset the action state
+            formAction(initialState);
         } else {
             notFound();
         }
-    }, [params.id]);
+    }, [params.id, formAction]);
 
     const markAsSolved = () => {
         if (!challenge) return;
@@ -233,7 +236,7 @@ export default function MonsterBattlePage() {
                                      {playerHP > 0 ? `You defeated the ${monster.name}!` : `The ${monster.name} was too strong.`}
                                 </p>
                                 {playerHP > 0 && nextChallengeId ? (
-                                     <Button onClick={() => router.push(`/m/battle/${nextChallengeId}`)} size="lg" className="w-full">
+                                     <Button onClick={() => router.push(`/m/monster-battle/${nextChallengeId}`)} size="lg" className="w-full">
                                         Next Challenge <ArrowRight className="ml-2" />
                                     </Button>
                                 ) : (
@@ -289,3 +292,5 @@ export default function MonsterBattlePage() {
     </DashboardLayout>
   );
 }
+
+    
