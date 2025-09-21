@@ -14,7 +14,6 @@ import { ScrollArea } from "./ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
 
 
 type Language = keyof Challenge['templates'];
@@ -138,8 +137,11 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
 
     useEffect(() => {
         setIsClient(true);
-        async function loadPrism() {
+        const loadPrism = async () => {
+          await import('prismjs/themes/prism.css');
+          // Load base grammar first
           await import('prismjs/components/prism-clike');
+          // Then load other languages
           await import('prismjs/components/prism-javascript');
           await import('prismjs/components/prism-python');
           await import('prismjs/components/prism-java');
@@ -283,7 +285,3 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
         </div>
     )
 }
-
-    
-
-    

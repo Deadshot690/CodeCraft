@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, RefreshCw, BarChart, Timer, Target, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
 
 
 const languageDisplayMap: { [key: string]: string } = {
@@ -39,8 +38,11 @@ export default function CodeTyperGamePage() {
 
     useEffect(() => {
         setIsClient(true);
-        async function loadPrism() {
+        const loadPrism = async () => {
+          await import('prismjs/themes/prism.css');
+          // Load base grammar first
           await import('prismjs/components/prism-clike');
+          // Then load other languages
           await import('prismjs/components/prism-javascript');
           await import('prismjs/components/prism-python');
           await import('prismjs/components/prism-java');
@@ -241,5 +243,3 @@ export default function CodeTyperGamePage() {
         </DashboardLayout>
     );
 }
-
-    
