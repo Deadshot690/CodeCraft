@@ -6,6 +6,8 @@ import { runCode } from '@/ai/flows/run-code-flow';
 import {z} from 'zod';
 import { getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
+import { auth } from '@/lib/firebase';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 
 // AI Assistant Action
@@ -165,4 +167,77 @@ export async function evaluateAnswerAction(
         isCorrect: isCorrect,
         correctAnswer: challenge.answer,
     };
+}
+
+
+// Auth Actions
+const authSchema = z.object({
+  email: z.string().email({ message: 'Please enter a valid email.' }),
+  password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
+});
+
+type AuthState = {
+  formErrors?: {
+    email?: string[];
+    password?: string[];
+  };
+  message?: string;
+  success?: boolean;
+};
+
+async function handleAuth(
+  formData: FormData,
+  authFn: (email: string, pass: string) => Promise<any>
+): Promise<AuthState> {
+  const validatedFields = authSchema.safeParse({
+    email: formData.get('email'),
+    password: formData.get('password'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      formErrors: validatedFields.error.flatten().fieldErrors,
+      message: 'Invalid email or password.',
+    };
+  }
+
+  const { email, password } = validatedFields.data;
+
+  try {
+    await authFn(email, password);
+    return { success: true };
+  } catch (error: any) {
+    let message = 'An unexpected error occurred.';
+    if (error.code) {
+        switch (error.code) {
+            case 'auth/user-not-found':
+            case 'auth/wrong-password':
+                message = 'Invalid email or password.';
+                break;
+            case 'auth/email-already-in-use':
+                message = 'This email is already in use.';
+                break;
+            case 'auth/weak-password':
+                message = 'The password is too weak.';
+                break;
+            default:
+                message = error.message;
+        }
+    }
+    return { message };
+  }
+}
+
+export async function loginAction(
+  prevState: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+    return handleAuth(formData, (email, password) => signInWithEmailAndPassword(auth, email, password));
+}
+
+export async function signupAction(
+  prevState: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+    return handleAuth(formData, (email, password) => createUserWithEmailAndPassword(auth, email, password));
 }
