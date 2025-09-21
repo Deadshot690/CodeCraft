@@ -93,7 +93,9 @@ export default function MonsterBattlePage() {
     }, [params.id]);
     
     useEffect(() => {
-        if (isBattleOver) return;
+        if (state.isCorrect === null || isBattleOver) {
+            return;
+        }
 
         if (state.isCorrect === true) {
             setLastAnswerWasCorrect(true);
