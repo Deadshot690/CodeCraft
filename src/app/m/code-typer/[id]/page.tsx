@@ -10,8 +10,7 @@ import { cn } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, RefreshCw, BarChart, Timer, Target, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
-import Editor from 'react-simple-code-editor';
-import Prism from 'prismjs';
+import { Textarea } from '@/components/ui/textarea';
 
 
 const languageDisplayMap: { [key: string]: string } = {
@@ -31,27 +30,9 @@ export default function CodeTyperGamePage() {
     const [startTime, setStartTime] = useState<number | null>(null);
     const [errors, setErrors] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
-    const [isClient, setIsClient] = useState(false);
     
     const editorRef = useRef<any>(null);
     const isIncorrect = useRef(false);
-
-    useEffect(() => {
-        setIsClient(true);
-        const loadPrism = async () => {
-          await import('prismjs/themes/prism.css');
-          // Load base grammar first
-          await import('prismjs/components/prism-clike');
-          // Then load other languages
-          await import('prismjs/components/prism-javascript');
-          await import('prismjs/components/prism-python');
-          await import('prismjs/components/prism-java');
-          await import('prismjs/components/prism-cpp');
-          await import('prismjs/components/prism-css');
-          await import('prismjs/components/prism-markup'); // For HTML
-        }
-        loadPrism();
-    }, []);
 
     useEffect(() => {
         const foundChallenge = getTyperChallengeById(params.id);
@@ -84,7 +65,8 @@ export default function CodeTyperGamePage() {
         editorRef.current?.focus();
     };
 
-    const handleInputChange = (currentTyped: string) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const currentTyped = e.target.value;
         if (isFinished || !challenge) return;
         
         const sourceSnippet = challenge.snippet;
@@ -128,17 +110,6 @@ export default function CodeTyperGamePage() {
     const words = challenge.snippet.split(/\s+/).length;
     const wpm = timeTaken ? Math.round((words / timeTaken) * 60) : 0;
     const accuracy = Math.max(0, Math.round(((challenge.snippet.length - errors) / challenge.snippet.length) * 100));
-    
-    const highlight = (code: string) => {
-        const lang = challenge.language === 'html' ? 'markup' : challenge.language;
-        if (!isClient || !challenge || !Prism.languages[lang]) {
-            return code;
-        }
-        if (Prism.languages[lang]) {
-            return Prism.highlight(code, Prism.languages[lang], lang);
-        }
-        return code;
-    }
 
     return (
         <DashboardLayout>
@@ -208,17 +179,13 @@ export default function CodeTyperGamePage() {
                             </CardContent>
                         </Card>
                          <div className="relative font-code text-lg">
-                            {isClient && (
-                              <Editor
+                              <Textarea
                                   ref={editorRef}
                                   value={typedCode}
-                                  onValueChange={handleInputChange}
-                                  highlight={highlight}
-                                  padding={16}
-                                  className="bg-background border rounded-md min-h-[200px]"
+                                  onChange={handleInputChange}
+                                  className="bg-background border rounded-md min-h-[200px] font-code text-lg p-4 resize-none"
                                   autoFocus
                               />
-                            )}
                          </div>
                         <div className="grid grid-cols-2 gap-4 text-center">
                             <Card className="p-4 flex items-center justify-center gap-4">

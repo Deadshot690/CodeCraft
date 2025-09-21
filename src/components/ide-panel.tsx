@@ -12,8 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "./ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import Editor from 'react-simple-code-editor';
-import Prism from 'prismjs';
+import { Textarea } from './ui/textarea';
 
 
 type Language = keyof Challenge['templates'];
@@ -133,22 +132,6 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
     const [runState, runAction] = useActionState(runTestAction, runInitialState);
     const [submitState, submitActionFn] = useActionState(submitAction, runInitialState);
     const [activeTestCases, setActiveTestCases] = useState(challenge.testCases);
-    const [isClient, setIsClient] = useState(false);
-
-    useEffect(() => {
-        setIsClient(true);
-        const loadPrism = async () => {
-          await import('prismjs/themes/prism.css');
-          // Load base grammar first
-          await import('prismjs/components/prism-clike');
-          // Then load other languages
-          await import('prismjs/components/prism-javascript');
-          await import('prismjs/components/prism-python');
-          await import('prismjs/components/prism-java');
-          await import('prismjs/components/prism-cpp');
-        }
-        loadPrism();
-    }, []);
 
     useEffect(() => {
         // Ensure there's always at least one test case to prevent AI flow errors
@@ -176,13 +159,6 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [submitState.results]);
-
-    const highlight = (code: string) => {
-        if (!isClient || !Prism.languages[selectedLanguage]) {
-            return code; // No highlighting on server or if language not loaded
-        }
-        return Prism.highlight(code, Prism.languages[selectedLanguage], selectedLanguage);
-    }
 
     return (
         <div className="h-full flex flex-col">
@@ -226,14 +202,11 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
 
             <div className="flex-grow flex flex-col min-h-0">
                 <div className="flex-grow relative h-full w-full bg-background font-code text-base">
-                    {isClient && (
-                      <Editor
+                      <Textarea
                           value={code}
-                          onValueChange={setCode}
-                          highlight={highlight}
-                          padding={16}
-                          className="h-full w-full rounded-none border-0 resize-none absolute inset-0"
-                          textareaId="code-editor"
+                          onChange={(e) => setCode(e.target.value)}
+                          placeholder="Your code here..."
+                          className="h-full w-full rounded-none border-0 resize-none font-code text-base p-4"
                           onKeyDown={e => {
                                if (e.key === "Tab") {
                                   e.preventDefault();
@@ -257,7 +230,6 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                                }
                           }}
                       />
-                    )}
                 </div>
                  <Tabs defaultValue="test-results" className="flex-shrink-0 border-t">
                     <div className="p-2">

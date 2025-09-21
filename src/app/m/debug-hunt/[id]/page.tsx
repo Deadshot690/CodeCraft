@@ -12,8 +12,7 @@ import { getChallengeById, DebugChallenge, debugChallenges } from '@/lib/debug-c
 import Link from 'next/link';
 import { Label } from '@/components/ui/label';
 import { notFound, useParams, useRouter } from 'next/navigation';
-import Editor from 'react-simple-code-editor';
-import Prism from 'prismjs';
+import { Textarea } from '@/components/ui/textarea';
 
 
 const TIME_LIMIT = 60; // 60 seconds
@@ -27,25 +26,9 @@ export default function DebugHuntGamePage() {
   const [isGameActive, setIsGameActive] = useState(true);
   const [isGameOver, setIsGameOver] = useState(false);
   const [result, setResult] = useState<'correct' | 'incorrect' | 'timeup' | null>(null);
-  const [isClient, setIsClient] = useState(false);
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
-
-    useEffect(() => {
-        setIsClient(true);
-        const loadPrism = async () => {
-          await import('prismjs/themes/prism.css');
-          // Load base grammar first
-          await import('prismjs/components/prism-clike');
-          // Then load other languages
-          await import('prismjs/components/prism-javascript');
-          await import('prismjs/components/prism-python');
-          await import('prismjs/components/prism-java');
-          await import('prismjs/components/prism-cpp');
-        }
-        loadPrism();
-    }, []);
 
   useEffect(() => {
     if (params.id) {
@@ -134,17 +117,6 @@ export default function DebugHuntGamePage() {
         )
     }
 
-  const highlight = (code: string) => {
-    if (!isClient || !challenge || !Prism.languages[challenge.language]) {
-        return code;
-    }
-    const lang = challenge.language;
-    if (Prism.languages[lang]) {
-        return Prism.highlight(code, Prism.languages[lang], lang);
-    }
-    return code;
-  }
-
   return (
     <DashboardLayout>
         <div className="flex flex-col h-full">
@@ -170,17 +142,13 @@ export default function DebugHuntGamePage() {
                              <CardContent className="flex-grow flex flex-col">
                                 <Label htmlFor="code-editor" className="mb-2">Your Code (find and fix the bug):</Label>
                                  <div className="flex-grow relative h-full w-full bg-background font-code text-base border rounded-md">
-                                     {isClient && (
-                                       <Editor
+                                     <Textarea
+                                          id="code-editor"
                                           value={userCode}
-                                          onValueChange={setUserCode}
-                                          highlight={highlight}
-                                          padding={10}
-                                          className="h-full w-full absolute inset-0"
-                                          textareaId="code-editor"
+                                          onChange={(e) => setUserCode(e.target.value)}
                                           disabled={!isGameActive}
+                                          className="h-full w-full absolute inset-0 font-code text-sm !p-4 resize-none"
                                       />
-                                     )}
                                  </div>
                              </CardContent>
                         </Card>
