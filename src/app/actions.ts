@@ -108,21 +108,33 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
         
         if (isSubmission && allPassed && userId) {
             const userRef = doc(db, 'users', userId);
+            const userDoc = await getDoc(userRef);
             const challenge = getChallenge(challengeId);
             const xpGained = challenge?.difficulty === 'Easy' ? 100 : challenge?.difficulty === 'Medium' ? 200 : 300;
-            
-            // Get current XP before updating
-            const userDoc = await getDoc(userRef);
-            const currentXp = userDoc.exists() ? userDoc.data().xp || 0 : 0;
 
-            await updateDoc(userRef, {
-                solvedChallenges: arrayUnion({
-                    id: challengeId,
-                    title: validatedFields.data.challengeTitle,
-                    solvedAt: new Date().toISOString(),
-                }),
-                xp: currentXp + xpGained,
-            });
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                const currentXp = userData.xp || 0;
+                const solvedChallenges = userData.solvedChallenges || [];
+                const isAlreadySolved = solvedChallenges.some((c: { id: string }) => c.id === challengeId);
+
+                if (isAlreadySolved) {
+                    // If already solved, just update XP
+                    await updateDoc(userRef, {
+                        xp: currentXp + xpGained,
+                    });
+                } else {
+                    // If not solved, add to array and update XP
+                    await updateDoc(userRef, {
+                        solvedChallenges: arrayUnion({
+                            id: challengeId,
+                            title: validatedFields.data.challengeTitle,
+                            solvedAt: new Date().toISOString(),
+                        }),
+                        xp: currentXp + xpGained,
+                    });
+                }
+            }
         }
         
         return { results: result.results };
