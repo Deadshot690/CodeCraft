@@ -14,7 +14,6 @@ import { ScrollArea } from "./ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
 
 type Language = keyof Challenge['templates'];
 
@@ -137,13 +136,16 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
 
     useEffect(() => {
         setIsClient(true);
-        // PrismJS language components need to be loaded in order of dependency.
-        // `clike` is a dependency for many languages like C++, Java, C#.
-        import('prismjs/components/prism-clike');
-        import('prismjs/components/prism-javascript');
-        import('prismjs/components/prism-python');
-        import('prismjs/components/prism-java');
-        import('prismjs/components/prism-cpp');
+        // Dynamically import prismjs components only on the client side
+        async function loadPrism() {
+          await import('prismjs/themes/prism.css');
+          await import('prismjs/components/prism-clike');
+          await import('prismjs/components/prism-javascript');
+          await import('prismjs/components/prism-python');
+          await import('prismjs/components/prism-java');
+          await import('prismjs/components/prism-cpp');
+        }
+        loadPrism();
     }, []);
 
     useEffect(() => {
