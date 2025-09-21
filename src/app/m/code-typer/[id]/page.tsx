@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, RefreshCw, BarChart, Timer, Target, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
 
 
 const languageDisplayMap: { [key: string]: string } = {
@@ -38,14 +39,14 @@ export default function CodeTyperGamePage() {
 
     useEffect(() => {
         setIsClient(true);
-        // Dynamically import prismjs components only on the client side
         async function loadPrism() {
-          await import('prismjs/themes/prism.css');
           await import('prismjs/components/prism-clike');
           await import('prismjs/components/prism-javascript');
           await import('prismjs/components/prism-python');
           await import('prismjs/components/prism-java');
           await import('prismjs/components/prism-cpp');
+          await import('prismjs/components/prism-css');
+          await import('prismjs/components/prism-markup'); // For HTML
         }
         loadPrism();
     }, []);
@@ -127,10 +128,10 @@ export default function CodeTyperGamePage() {
     const accuracy = Math.max(0, Math.round(((challenge.snippet.length - errors) / challenge.snippet.length) * 100));
     
     const highlight = (code: string) => {
-        if (!isClient || !challenge || !Prism.languages[challenge.language]) {
+        const lang = challenge.language === 'html' ? 'markup' : challenge.language;
+        if (!isClient || !challenge || !Prism.languages[lang]) {
             return code;
         }
-        const lang = challenge.language;
         if (Prism.languages[lang]) {
             return Prism.highlight(code, Prism.languages[lang], lang);
         }
@@ -240,3 +241,5 @@ export default function CodeTyperGamePage() {
         </DashboardLayout>
     );
 }
+
+    

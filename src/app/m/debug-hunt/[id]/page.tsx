@@ -14,6 +14,8 @@ import { Label } from '@/components/ui/label';
 import { notFound, useParams, useRouter } from 'next/navigation';
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+
 
 const TIME_LIMIT = 60; // 60 seconds
 
@@ -33,9 +35,7 @@ export default function DebugHuntGamePage() {
 
     useEffect(() => {
         setIsClient(true);
-        // Dynamically import prismjs components only on the client side
         async function loadPrism() {
-          await import('prismjs/themes/prism.css');
           await import('prismjs/components/prism-clike');
           await import('prismjs/components/prism-javascript');
           await import('prismjs/components/prism-python');
@@ -245,3 +245,5 @@ export default function DebugHuntGamePage() {
     </DashboardLayout>
   );
 }
+
+    
