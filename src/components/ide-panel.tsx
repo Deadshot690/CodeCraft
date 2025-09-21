@@ -202,6 +202,7 @@ export default function IdePanel({ challenge }: IdePanelProps) {
                          <input type="hidden" name="challengeTitle" value={challenge.title} />
                          <input type="hidden" name="challengeId" value={challenge.id} />
                          <input type="hidden" name="testCases" value={JSON.stringify(activeTestCases)} />
+                         {user && <input type="hidden" name="userId" value={user.uid} />}
                         <RunButton />
                     </form>
                     <form action={submitActionFn} id="submit-form">
@@ -255,5 +256,3 @@ export default function IdePanel({ challenge }: IdePanelProps) {
         </div>
     )
 }
-
-    
