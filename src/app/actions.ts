@@ -3,12 +3,13 @@
 
 import { aiCodeAssistant, type AICodeAssistantInput } from '@/ai/flows/ai-code-assistant';
 import { runCode } from '@/ai/flows/run-code-flow';
+import { signUpUser } from '@/ai/flows/auth-flow';
 import {z} from 'zod';
 import { getChallenge, getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
 import { auth, db } from '@/lib/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { doc, setDoc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 
 
 // AI Assistant Action
@@ -118,19 +119,17 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
                 const solvedChallenges = userData.solvedChallenges || [];
                 const isAlreadySolved = solvedChallenges.some((c: { id: string }) => c.id === challengeId);
 
-                if (isAlreadySolved) {
-                    // If already solved, just update XP
-                    await updateDoc(userRef, {
-                        xp: currentXp + xpGained,
-                    });
-                } else {
-                    // If not solved, add to array and update XP
+                if (!isAlreadySolved) {
                     await updateDoc(userRef, {
                         solvedChallenges: arrayUnion({
                             id: challengeId,
                             title: validatedFields.data.challengeTitle,
                             solvedAt: new Date().toISOString(),
                         }),
+                        xp: currentXp + xpGained,
+                    });
+                } else {
+                     await updateDoc(userRef, {
                         xp: currentXp + xpGained,
                     });
                 }
@@ -287,37 +286,15 @@ export async function signupAction(
     const { email, password, username } = validatedFields.data;
 
     try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        // Update profile and create user document
-        await updateProfile(user, { displayName: username });
-        await setDoc(doc(db, "users", user.uid), {
-            uid: user.uid,
-            username: username,
-            email: email,
-            xp: 0,
-            level: 1,
-            solvedChallenges: [],
-            createdAt: new Date().toISOString(),
-        });
-        
+        const result = await signUpUser({ email, password, username });
+        if (result.error) {
+            return { message: result.error };
+        }
+        await signInWithEmailAndPassword(auth, email, password);
         return { success: true };
 
     } catch (error: any) {
-        let message = 'An unexpected error occurred.';
-        if (error.code) {
-            switch (error.code) {
-                case 'auth/email-already-in-use':
-                    message = 'This email is already in use.';
-                    break;
-                case 'auth/weak-password':
-                    message = 'The password is too weak.';
-                    break;
-                default:
-                    message = 'An error occurred during sign up. Please try again.';
-            }
-        }
+        let message = 'An unexpected error occurred during sign up.';
         return { message };
     }
 }
