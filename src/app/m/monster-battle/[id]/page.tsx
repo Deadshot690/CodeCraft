@@ -53,7 +53,7 @@ export default function MonsterBattlePage() {
     const [monsterHP, setMonsterHP] = useState(100);
     const [playerHP, setPlayerHP] = useState(100);
     const [state, formAction] = useActionState(evaluateAnswerAction, initialState);
-    const [lastAnswerWasCorrect, setLastAnswerWasCorrect] = useState<boolean | null>(null);
+    const [lastAnswerResult, setLastAnswerResult] = useState<'correct' | 'incorrect' | null>(null);
     const { toast } = useToast();
     const [dialogue, setDialogue] = useState<string>("A wild monster appears!");
     const [isBattleOver, setIsBattleOver] = useState(false);
@@ -74,14 +74,12 @@ export default function MonsterBattlePage() {
             setPlayerHP(100);
             setDialogue(`A wild ${newMonster.name} challenges you!`);
             setIsBattleOver(false);
-            setLastAnswerWasCorrect(null);
+            setLastAnswerResult(null);
             if(formRef.current) formRef.current.reset();
-            // Reset the action state
-            formAction(initialState);
         } else {
             notFound();
         }
-    }, [params.id, formAction]);
+    }, [params.id]);
 
     const markAsSolved = () => {
         if (!challenge) return;
@@ -98,34 +96,29 @@ export default function MonsterBattlePage() {
     
     // Effect to handle game logic from form action
     useEffect(() => {
-        if (state.isCorrect === null || isBattleOver) {
-            return;
-        }
+        if (state.isCorrect === null) return; // Do nothing on initial state
 
         if (state.isCorrect === true) {
-            setLastAnswerWasCorrect(true);
-            setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
-            monsterImageRef.current?.classList.add('animate-fade-out');
             markAsSolved();
             setIsBattleOver(true);
-            
-            formRef.current?.reset();
-             if (answerInputRef.current) {
-                answerInputRef.current.value = "";
-            }
+            setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
+            monsterImageRef.current?.classList.add('animate-fade-out');
+            toast({ title: "Direct Hit!", description: `You defeated the ${monster?.name}!` });
+            if (answerInputRef.current) answerInputRef.current.value = "";
         } else if (state.isCorrect === false) {
-            setLastAnswerWasCorrect(false);
             const damage = Math.floor(Math.random() * 2) + 25;
-
             setPlayerHP(prevHp => {
                 const newPlayerHP = Math.max(0, prevHp - damage);
 
                 playerCardRef.current?.classList.add('animate-wobble');
                 setTimeout(() => playerCardRef.current?.classList.remove('animate-wobble'), 500);
+                
+                toast({ variant: "destructive", title: "You Missed!", description: `The monster hit you for ~${damage} damage!` });
 
                 if (newPlayerHP <= 0) {
-                    setDialogue("You have been defeated... Better luck next time.");
                     setIsBattleOver(true);
+                    setDialogue("You have been defeated... Better luck next time.");
+                    toast({ variant: "destructive", title: "Defeated!", description: "You have been defeated." });
                 } else {
                     setDialogue(monster?.taunts[Math.floor(Math.random() * monster.taunts.length)] || "The monster strikes back!");
                 }
@@ -135,20 +128,6 @@ export default function MonsterBattlePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state]);
 
-    // Effect to show toasts based on dialogue changes
-    useEffect(() => {
-        if(isBattleOver) {
-            if(playerHP > 0) {
-                 toast({ title: "Direct Hit!", description: `You defeated the ${monster?.name}!` });
-            } else {
-                 toast({ variant: "destructive", title: "Defeated!", description: "You have been defeated." });
-            }
-        } else if (lastAnswerWasCorrect === false) {
-             const damage = Math.floor(Math.random() * 2) + 25; // This is illustrative, might not match the exact damage
-             toast({ variant: "destructive", title: "You Missed!", description: `The monster hit you for ~25 damage!` });
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isBattleOver, lastAnswerWasCorrect]);
 
     const getNextChallengeId = () => {
         if (!challenge) return null;
@@ -205,7 +184,7 @@ export default function MonsterBattlePage() {
                         <CardContent className="space-y-4">
                              <div className="flex items-center gap-4">
                                 <div className="bg-muted rounded-lg w-24 h-24 flex items-center justify-center p-2 flex-shrink-0">
-                                    <Image ref={monsterImageRef} src={monster.imageUrl} alt={monster.name} width={80} height={80} className={cn("transition-transform duration-500", monsterHP <= 0 && "opacity-0 scale-75")}/>
+                                    <Image ref={monsterImageRef} src={monster.imageUrl} alt={monster.name} width={80} height={80} className={cn("transition-transform duration-500", (state.isCorrect === true) && "opacity-0 scale-75")}/>
                                 </div>
                                 <div className="w-full space-y-2">
                                     <Label>Health</Label>
@@ -273,13 +252,13 @@ export default function MonsterBattlePage() {
                                <SubmitButton />
                             </CardFooter>
                         </form>
-                         {lastAnswerWasCorrect === false && (
+                         {state.isCorrect === false && (
                             <div className="p-6 pt-0">
                                 <Alert variant="destructive">
                                     <XCircle className="h-4 w-4" />
                                     <AlertTitle>Incorrect!</AlertTitle>
                                     <AlertDescription>
-                                        Your answer was incorrect. Try again!
+                                        Your answer was incorrect. The monster attacks!
                                     </AlertDescription>
                                 </Alert>
                             </div>
