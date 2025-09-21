@@ -3,6 +3,7 @@
 
 import { Suspense, useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { challenges, Challenge } from "@/lib/challenges";
 import { Card, CardContent } from "@/components/ui/card";
@@ -109,15 +110,8 @@ function ChallengeTable({ difficulty, domain, search, solvedChallengeIds }: { di
     );
 }
 
-export default function AllChallengesPage({
-  searchParams,
-}: {
-  searchParams?: {
-    search?: string;
-    difficulty?: string;
-    domain?: string;
-  };
-}) {
+export default function AllChallengesPage() {
+    const searchParams = useSearchParams();
     const { user, loading: authLoading } = useAuth();
     const [solvedChallengeIds, setSolvedChallengeIds] = useState<Set<string>>(new Set());
     const [isClient, setIsClient] = useState(false);
@@ -156,9 +150,9 @@ export default function AllChallengesPage({
         fetchSolvedChallenges();
     }, [user, authLoading, isClient]);
 
-    const search = searchParams?.search || '';
-    const difficulty = searchParams?.difficulty || 'all';
-    const domain = searchParams?.domain || 'all';
+    const search = searchParams.get('search') || '';
+    const difficulty = searchParams.get('difficulty') || 'all';
+    const domain = searchParams.get('domain') || 'all';
 
     if (!isClient || authLoading) {
       return (
