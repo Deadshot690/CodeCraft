@@ -1,7 +1,7 @@
 
 'use client'
 
-import { useState, useActionState, useEffect } from 'react';
+import { useState, useActionState, useEffect, useRef } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Challenge } from "@/lib/challenges";
 import { runTestAction, submitAction } from '@/app/actions';
@@ -15,6 +15,7 @@ import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Textarea } from './ui/textarea';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { useAuth } from '@/hooks/use-auth';
 
 
 type Language = keyof Challenge['templates'];
@@ -73,7 +74,8 @@ function TestCaseResult({ result, index }: { result: any, index: number}) {
     )
 }
 
-function SubmissionResult({ results, challenge, onCompletion }: { results: any[], challenge: Challenge, onCompletion?: (results: any[]) => void }) {
+function SubmissionResult({ results, challenge }: { results: any[], challenge: Challenge }) {
+    const { user } = useAuth();
     const totalCases = results.length;
     const passedCases = results.filter(r => r.passed).length;
     const allPassed = totalCases > 0 && passedCases === totalCases;
@@ -84,12 +86,7 @@ function SubmissionResult({ results, challenge, onCompletion }: { results: any[]
     const variant = allPassed ? "default" : "destructive";
 
     useEffect(() => {
-        if (onCompletion) {
-            onCompletion(results);
-        }
-
-        if (allPassed) {
-             // This is a simplified way to track progress. In a real app, this would be a server call.
+        if (allPassed && !user) {
              const solvedInfo = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
              const existing = solvedInfo.find((s: any) => s.id === challenge.id);
              if (!existing) {
@@ -98,7 +95,7 @@ function SubmissionResult({ results, challenge, onCompletion }: { results: any[]
              }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [results, challenge, onCompletion]);
+    }, [results, challenge, user]);
 
     return (
         <div className="p-4">
@@ -123,12 +120,10 @@ function SubmissionResult({ results, challenge, onCompletion }: { results: any[]
 
 interface IdePanelProps {
     challenge: Challenge;
-    onRunCompletion?: (results: any[]) => void;
-    onSubmitCompletion?: (results: any[]) => void;
 }
 
 
-export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletion }: IdePanelProps) {
+export default function IdePanel({ challenge }: IdePanelProps) {
     const [selectedLanguage, setSelectedLanguage] = useState<Language>(challenge.languages[0]);
     const [code, setCode] = useState(challenge.templates[selectedLanguage]);
     const [runState, runAction] = useActionState(runTestAction, runInitialState);
@@ -148,54 +143,33 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
         setCode(challenge.templates[lang] || '');
     }
 
-    useEffect(() => {
-        if (runState.results && onRunCompletion) {
-            onRunCompletion(runState.results);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [runState.results]);
-
-     useEffect(() => {
-        if (submitState.results && onSubmitCompletion) {
-            onSubmitCompletion(submitState.results);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [submitState.results]);
-
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        const editor = e.currentTarget;
+        const { selectionStart, selectionEnd, value } = editor;
+
         if (e.key === 'Tab') {
             e.preventDefault();
-            const editor = e.target as HTMLTextAreaElement;
-            const start = editor.selectionStart;
-            const end = editor.selectionEnd;
-
-            // insert 2 spaces
-            const newCode = code.substring(0, start) + '  ' + code.substring(end);
+            const newCode = value.substring(0, selectionStart) + '  ' + value.substring(selectionEnd);
             setCode(newCode);
-
-            // move cursor
             setTimeout(() => {
-                editor.selectionStart = editor.selectionEnd = start + 2;
+                editor.selectionStart = editor.selectionEnd = selectionStart + 2;
             }, 0);
         } else if (e.key === 'Enter') {
             e.preventDefault();
-            const editor = e.target as HTMLTextAreaElement;
-            const cursorPosition = editor.selectionStart;
-            const textBeforeCursor = editor.value.substring(0, cursorPosition);
-            const lines = textBeforeCursor.split('\n');
-            const currentLine = lines[lines.length - 1] ?? '';
-            let indentation = currentLine.match(/^\s*/)?.[0] || '';
+            const lines = value.substring(0, selectionStart).split('\n');
+            const currentLine = lines[lines.length - 1];
+            const currentIndentation = currentLine.match(/^\s*/)?.[0] || '';
             
+            let newIndentation = currentIndentation;
             if (currentLine.trim().endsWith('{') || currentLine.trim().endsWith(':')) {
-                indentation += '  ';
+                newIndentation += '  ';
             }
 
-            const newCode = `${editor.value.substring(0, cursorPosition)}\n${indentation}${editor.value.substring(cursorPosition)}`;
+            const newCode = `${value.substring(0, selectionStart)}\n${newIndentation}${value.substring(selectionEnd)}`;
             setCode(newCode);
 
-            // move cursor
             setTimeout(() => {
-                const newCursorPosition = cursorPosition + 1 + indentation.length;
+                const newCursorPosition = selectionStart + 1 + newIndentation.length;
                 editor.selectionStart = newCursorPosition;
                 editor.selectionEnd = newCursorPosition;
             }, 0);
@@ -278,6 +252,8 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                           placeholder="Your code here..."
                           className="h-full w-full rounded-none border-0 resize-none font-code text-base p-4 absolute inset-0 bg-transparent text-transparent caret-white"
                           onKeyDown={handleKeyDown}
+                          spellCheck="false"
+                          autoComplete="off"
                       />
                 </div>
                  <Tabs defaultValue="test-results" className="flex-shrink-0 border-t">
@@ -299,7 +275,7 @@ export default function IdePanel({ challenge, onRunCompletion, onSubmitCompletio
                     </TabsContent>
                     <TabsContent value="submit-output" className="h-80 p-0">
                         {!submitState.results && <p className="text-sm text-muted-foreground text-center py-20">Submission results will appear here.</p>}
-                        {submitState.results && <SubmissionResult results={submitState.results} challenge={challenge} onCompletion={onSubmitCompletion} />}
+                        {submitState.results && <SubmissionResult results={submitState.results} challenge={challenge} />}
                     </TabsContent>
                 </Tabs>
             </div>

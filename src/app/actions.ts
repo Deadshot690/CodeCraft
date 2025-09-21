@@ -8,7 +8,7 @@ import { getChallenge, getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
 import { auth, db } from '@/lib/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { doc, setDoc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { doc, setDoc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 
 
 // AI Assistant Action
@@ -103,11 +103,15 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
         });
 
         const allPassed = result.results.length > 0 && result.results.every(r => r.passed);
-
+        
         if (isSubmission && allPassed && auth.currentUser) {
             const userRef = doc(db, 'users', auth.currentUser.uid);
             const challenge = getChallenge(challengeId);
             const xpGained = challenge?.difficulty === 'Easy' ? 100 : challenge?.difficulty === 'Medium' ? 200 : 300;
+            
+            // Get current XP before updating
+            const userDoc = await getDoc(userRef);
+            const currentXp = userDoc.exists() ? userDoc.data().xp || 0 : 0;
 
             await updateDoc(userRef, {
                 solvedChallenges: arrayUnion({
@@ -115,16 +119,8 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
                     title: validatedFields.data.challengeTitle,
                     solvedAt: new Date().toISOString(),
                 }),
-                xp: (await (await fetch(`https://firestore.googleapis.com/v1/projects/codecraft-quest-2rdg9/databases/(default)/documents/users/${auth.currentUser.uid}`)).json() as any)?.fields?.xp?.integerValue || 0 + xpGained,
+                xp: currentXp + xpGained,
             });
-        } else if (isSubmission && allPassed) {
-             // Handle localStorage for non-logged-in users
-            const solvedInfo = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
-            const existing = solvedInfo.find((s: any) => s.id === challengeId);
-            if (!existing) {
-                solvedInfo.push({ id: challengeId, title: validatedFields.data.challengeTitle, solvedAt: new Date().toISOString() });
-                localStorage.setItem('solvedChallengesInfo', JSON.stringify(solvedInfo));
-            }
         }
         
         return { results: result.results };
