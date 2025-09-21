@@ -65,6 +65,7 @@ const RunCodeActionSchema = z.object({
   challengeTitle: z.string(),
   challengeId: z.string(),
   testCases: z.string(),
+  userId: z.string().optional(),
 });
 
 type RunCodeState = {
@@ -80,6 +81,7 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
         challengeTitle: formData.get('challengeTitle'),
         challengeId: formData.get('challengeId'),
         testCases: formData.get('testCases'),
+        userId: formData.get('userId'),
     });
     
     if (!validatedFields.success) {
@@ -89,7 +91,7 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
         };
     }
     
-    const { challengeId, ...runCodeInput } = validatedFields.data;
+    const { challengeId, userId, ...runCodeInput } = validatedFields.data;
 
     const referenceSolution = getChallengeReferenceSolution(challengeId);
     if (!referenceSolution) {
@@ -104,8 +106,8 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
 
         const allPassed = result.results.length > 0 && result.results.every(r => r.passed);
         
-        if (isSubmission && allPassed && auth.currentUser) {
-            const userRef = doc(db, 'users', auth.currentUser.uid);
+        if (isSubmission && allPassed && userId) {
+            const userRef = doc(db, 'users', userId);
             const challenge = getChallenge(challengeId);
             const xpGained = challenge?.difficulty === 'Easy' ? 100 : challenge?.difficulty === 'Medium' ? 200 : 300;
             
@@ -307,3 +309,5 @@ export async function signupAction(
         return { message };
     }
 }
+
+    

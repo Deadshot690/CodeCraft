@@ -13,8 +13,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "./ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Textarea } from './ui/textarea';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useAuth } from '@/hooks/use-auth';
 
 
@@ -95,7 +93,7 @@ function SubmissionResult({ results, challenge }: { results: any[], challenge: C
              }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [results, challenge, user]);
+    }, [results, challenge.id, challenge.title, user]);
 
     return (
         <div className="p-4">
@@ -124,6 +122,7 @@ interface IdePanelProps {
 
 
 export default function IdePanel({ challenge }: IdePanelProps) {
+    const { user } = useAuth();
     const [selectedLanguage, setSelectedLanguage] = useState<Language>(challenge.languages[0]);
     const [code, setCode] = useState(challenge.templates[selectedLanguage]);
     const [runState, runAction] = useActionState(runTestAction, runInitialState);
@@ -158,10 +157,11 @@ export default function IdePanel({ challenge }: IdePanelProps) {
             e.preventDefault();
             const lines = value.substring(0, selectionStart).split('\n');
             const currentLine = lines[lines.length - 1];
-            const currentIndentation = currentLine.match(/^\s*/)?.[0] || '';
+            const currentIndentationMatch = currentLine.match(/^\s*/);
+            const currentIndentation = currentIndentationMatch ? currentIndentationMatch[0] : '';
             
             let newIndentation = currentIndentation;
-            if (currentLine.trim().endsWith('{') || currentLine.trim().endsWith(':')) {
+             if (currentLine.trim().endsWith('{') || currentLine.trim().endsWith(':')) {
                 newIndentation += '  ';
             }
 
@@ -210,6 +210,7 @@ export default function IdePanel({ challenge }: IdePanelProps) {
                          <input type="hidden" name="challengeTitle" value={challenge.title} />
                          <input type="hidden" name="challengeId" value={challenge.id} />
                          <input type="hidden" name="testCases" value={JSON.stringify(activeTestCases)} />
+                         {user && <input type="hidden" name="userId" value={user.uid} />}
                         <SubmitButton />
                     </form>
                 </div>
@@ -218,39 +219,11 @@ export default function IdePanel({ challenge }: IdePanelProps) {
 
             <div className="flex-grow flex flex-col min-h-0">
                 <div className="flex-grow relative h-full w-full bg-background font-code text-base">
-                      <div className="absolute inset-0">
-                        <SyntaxHighlighter
-                            language={selectedLanguage}
-                            style={atomOneDarkReasonable}
-                            customStyle={{
-                                height: '100%',
-                                width: '100%',
-                                margin: 0,
-                                padding: '1rem',
-                                backgroundColor: 'hsl(var(--background))',
-                                border: 'none',
-                                resize: 'none',
-                                fontSize: '1rem',
-                                fontFamily: 'var(--font-code)',
-                                lineHeight: '1.5',
-                            }}
-                            codeTagProps={{
-                                style: {
-                                  fontFamily: 'inherit',
-                                  fontSize: 'inherit',
-                                },
-                            }}
-                            showLineNumbers
-                            wrapLines
-                        >
-                            {code}
-                        </SyntaxHighlighter>
-                      </div>
                       <Textarea
                           value={code}
                           onChange={(e) => setCode(e.target.value)}
                           placeholder="Your code here..."
-                          className="h-full w-full rounded-none border-0 resize-none font-code text-base p-4 absolute inset-0 bg-transparent text-transparent caret-white"
+                          className="h-full w-full rounded-none border-0 resize-none font-code text-base p-4 absolute inset-0 bg-gray-900 text-gray-100"
                           onKeyDown={handleKeyDown}
                           spellCheck="false"
                           autoComplete="off"
@@ -282,3 +255,5 @@ export default function IdePanel({ challenge }: IdePanelProps) {
         </div>
     )
 }
+
+    
