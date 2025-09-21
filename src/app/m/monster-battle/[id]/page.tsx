@@ -103,8 +103,8 @@ export default function MonsterBattlePage() {
             setLastAnswerWasCorrect(true);
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
-            setIsBattleOver(true);
             markAsSolved();
+            setIsBattleOver(true);
             
             formRef.current?.reset();
              if (answerInputRef.current) {
@@ -289,5 +289,3 @@ export default function MonsterBattlePage() {
     </DashboardLayout>
   );
 }
-
-    
