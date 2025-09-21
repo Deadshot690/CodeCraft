@@ -6,8 +6,9 @@ import { runCode } from '@/ai/flows/run-code-flow';
 import {z} from 'zod';
 import { getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
-import { auth } from '@/lib/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '@/lib/firebase';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 
 // AI Assistant Action
@@ -171,25 +172,31 @@ export async function evaluateAnswerAction(
 
 
 // Auth Actions
-const authSchema = z.object({
+const loginSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email.' }),
   password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
 });
+
+const signupSchema = loginSchema.extend({
+  username: z.string().min(3, { message: 'Username must be at least 3 characters.' }).max(20, { message: 'Username must be 20 characters or less.' }),
+});
+
 
 type AuthState = {
   formErrors?: {
     email?: string[];
     password?: string[];
+    username?: string[];
   };
   message?: string;
   success?: boolean;
 };
 
-async function handleAuth(
-  formData: FormData,
-  authFn: (email: string, pass: string) => Promise<any>
+export async function loginAction(
+  prevState: AuthState,
+  formData: FormData
 ): Promise<AuthState> {
-  const validatedFields = authSchema.safeParse({
+  const validatedFields = loginSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
   });
@@ -204,7 +211,7 @@ async function handleAuth(
   const { email, password } = validatedFields.data;
 
   try {
-    await authFn(email, password);
+    await signInWithEmailAndPassword(auth, email, password);
     return { success: true };
   } catch (error: any) {
     let message = 'An unexpected error occurred.';
@@ -212,32 +219,67 @@ async function handleAuth(
         switch (error.code) {
             case 'auth/user-not-found':
             case 'auth/wrong-password':
+            case 'auth/invalid-credential':
                 message = 'Invalid email or password.';
                 break;
-            case 'auth/email-already-in-use':
-                message = 'This email is already in use.';
-                break;
-            case 'auth/weak-password':
-                message = 'The password is too weak.';
-                break;
             default:
-                message = error.message;
+                message = "An error occurred during login. Please try again.";
         }
     }
     return { message };
   }
 }
 
-export async function loginAction(
-  prevState: AuthState,
-  formData: FormData
-): Promise<AuthState> {
-    return handleAuth(formData, (email, password) => signInWithEmailAndPassword(auth, email, password));
-}
-
 export async function signupAction(
   prevState: AuthState,
   formData: FormData
 ): Promise<AuthState> {
-    return handleAuth(formData, (email, password) => createUserWithEmailAndPassword(auth, email, password));
+    const validatedFields = signupSchema.safeParse({
+      email: formData.get('email'),
+      password: formData.get('password'),
+      username: formData.get('username'),
+    });
+
+    if (!validatedFields.success) {
+      return {
+        formErrors: validatedFields.error.flatten().fieldErrors,
+        message: 'There was an error with your submission.',
+      };
+    }
+    
+    const { email, password, username } = validatedFields.data;
+
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Update profile and create user document
+        await updateProfile(user, { displayName: username });
+        await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            username: username,
+            email: email,
+            xp: 0,
+            level: 1,
+            createdAt: new Date().toISOString(),
+        });
+        
+        return { success: true };
+
+    } catch (error: any) {
+        let message = 'An unexpected error occurred.';
+        if (error.code) {
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    message = 'This email is already in use.';
+                    break;
+                case 'auth/weak-password':
+                    message = 'The password is too weak.';
+                    break;
+                default:
+                    message = 'An error occurred during sign up. Please try again.';
+            }
+        }
+        return { message };
+    }
 }
