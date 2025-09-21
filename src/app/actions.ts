@@ -161,8 +161,6 @@ export async function submitAction(
 const evaluateAnswerSchema = z.object({
   challengeId: z.string(),
   answer: z.string().min(1, { message: "Answer cannot be empty." }),
-  playerHP: z.string(),
-  monsterName: z.string(),
 });
 
 type EvaluateAnswerState = {
@@ -170,10 +168,6 @@ type EvaluateAnswerState = {
     message?: string;
     isCorrect?: boolean | null;
     correctAnswer?: string;
-    playerHP: number;
-    monsterHP: number;
-    dialogue: string;
-    isGameOver: boolean;
 };
 
 export async function evaluateAnswerAction(
@@ -183,8 +177,6 @@ export async function evaluateAnswerAction(
     const validatedFields = evaluateAnswerSchema.safeParse({
         challengeId: formData.get('challengeId'),
         answer: formData.get('answer'),
-        playerHP: formData.get('playerHP'),
-        monsterName: formData.get('monsterName'),
     });
 
     if (!validatedFields.success) {
@@ -196,44 +188,20 @@ export async function evaluateAnswerAction(
         };
     }
 
-    const { challengeId, answer, playerHP: currentPlayerHP, monsterName } = validatedFields.data;
-    const { challenges, monsters } = await import('@/lib/battle-challenges');
-    const challenge = challenges.find(c => c.id === challengeId);
-    const monster = monsters.find(m => m.name === monsterName);
+    const { challenges } = await import('@/lib/battle-challenges');
+    const challenge = challenges.find(c => c.id === validatedFields.data.challengeId);
 
     if (!challenge) {
         return { ...prevState, message: "Challenge not found.", isCorrect: null };
     }
     
-    const isCorrect = answer.trim().toLowerCase() === challenge.answer.toLowerCase();
+    const isCorrect = validatedFields.data.answer.trim().toLowerCase() === challenge.answer.toLowerCase();
 
-    if (isCorrect) {
-        return {
-            ...prevState,
-            isCorrect: true,
-            correctAnswer: challenge.answer,
-            monsterHP: 0,
-            dialogue: `A critical blow! You defeated the ${monsterName}!`,
-            isGameOver: true,
-        };
-    } else {
-        const damage = Math.floor(Math.random() * 2) + 25;
-        const newPlayerHP = Math.max(0, parseInt(currentPlayerHP) - damage);
-        const isGameOver = newPlayerHP <= 0;
-        const taunts = monster?.taunts || ["The monster strikes back!"];
-        const dialogue = isGameOver
-            ? "You have been defeated... Better luck next time."
-            : taunts[Math.floor(Math.random() * taunts.length)];
-
-        return {
-            ...prevState,
-            isCorrect: false,
-            correctAnswer: challenge.answer,
-            playerHP: newPlayerHP,
-            dialogue: dialogue,
-            isGameOver: isGameOver,
-        };
-    }
+    return {
+        ...prevState,
+        isCorrect: isCorrect,
+        correctAnswer: challenge.answer,
+    };
 }
 
 

@@ -24,10 +24,6 @@ const initialState = {
   message: '',
   correctAnswer: '',
   formErrors: {},
-  playerHP: 100,
-  monsterHP: 100,
-  dialogue: "A wild monster appears!",
-  isGameOver: false,
 };
 
 function SubmitButton() {
@@ -54,14 +50,18 @@ export default function MonsterBattlePage() {
     const params = useParams<{ id: string }>();
     const [monster, setMonster] = useState<BattleMonster | null>(null);
     const [challenge, setChallenge] = useState<BattleChallenge | null>(null);
-    
+    const [monsterHP, setMonsterHP] = useState(100);
+    const [playerHP, setPlayerHP] = useState(100);
     const [state, formAction] = useActionState(evaluateAnswerAction, initialState);
-    const { playerHP, monsterHP, dialogue, isGameOver, isCorrect } = state;
-
+    const [lastAnswerWasCorrect, setLastAnswerWasCorrect] = useState<boolean | null>(null);
     const { toast } = useToast();
-    
+    const [dialogue, setDialogue] = useState<string>("A wild monster appears!");
+    const [isBattleOver, setIsBattleOver] = useState(false);
+
     const playerCardRef = useRef<HTMLDivElement>(null);
+    const monsterImageRef = useRef<HTMLImageElement>(null);
     const answerInputRef = useRef<HTMLInputElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     useEffect(() => {
         const currentChallenge = challenges.find(c => c.id === params.id);
@@ -69,7 +69,11 @@ export default function MonsterBattlePage() {
             const newMonster = getRandomMonster(currentChallenge.difficulty);
             setChallenge(currentChallenge);
             setMonster(newMonster);
-            // Reset state for a new battle - this is handled by useActionState's initial state now
+            setMonsterHP(newMonster.hp);
+            setPlayerHP(100);
+            setIsBattleOver(false);
+            setLastAnswerWasCorrect(null);
+            setDialogue(`A wild ${newMonster.name} challenges you!`);
         } else {
             notFound();
         }
@@ -88,19 +92,60 @@ export default function MonsterBattlePage() {
         }
     };
     
+    // Effect to handle game logic from form action
     useEffect(() => {
-        if (isCorrect === true) {
+        if (state.isCorrect === null || isBattleOver) {
+            return;
+        }
+
+        if (state.isCorrect === true) {
+            setLastAnswerWasCorrect(true);
+            setMonsterHP(0);
+            setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
+            monsterImageRef.current?.classList.add('animate-fade-out');
+            setIsBattleOver(true);
             markAsSolved();
-            toast({ title: "Direct Hit!", description: `You defeated the ${monster?.name}!` });
-             if (answerInputRef.current) answerInputRef.current.value = "";
-        } else if (isCorrect === false) {
-             toast({ variant: "destructive", title: "You Missed!", description: `The monster attacks!` });
-             playerCardRef.current?.classList.add('animate-wobble');
-             setTimeout(() => playerCardRef.current?.classList.remove('animate-wobble'), 500);
+            
+            formRef.current?.reset();
+             if (answerInputRef.current) {
+                answerInputRef.current.value = "";
+            }
+        } else if (state.isCorrect === false) {
+            setLastAnswerWasCorrect(false);
+            const damage = Math.floor(Math.random() * 2) + 25;
+
+            setPlayerHP(prevHp => {
+                const newPlayerHP = Math.max(0, prevHp - damage);
+
+                playerCardRef.current?.classList.add('animate-wobble');
+                setTimeout(() => playerCardRef.current?.classList.remove('animate-wobble'), 500);
+
+                if (newPlayerHP <= 0) {
+                    setDialogue("You have been defeated... Better luck next time.");
+                    setIsBattleOver(true);
+                } else {
+                    setDialogue(monster?.taunts[Math.floor(Math.random() * monster.taunts.length)] || "The monster strikes back!");
+                }
+                return newPlayerHP;
+            });
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isCorrect, monster?.name]);
+    }, [state]);
 
+    // Effect to show toasts based on dialogue changes
+    useEffect(() => {
+        if(isBattleOver) {
+            if(monsterHP <= 0) {
+                 toast({ title: "Direct Hit!", description: `You defeated the ${monster?.name}!` });
+            } else {
+                 toast({ variant: "destructive", title: "Defeated!", description: "You have been defeated." });
+            }
+        } else if (lastAnswerWasCorrect === false) {
+             const damage = Math.floor(Math.random() * 2) + 25; // This is illustrative, might not match the exact damage
+             toast({ variant: "destructive", title: "You Missed!", description: `The monster hit you for ~25 damage!` });
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isBattleOver, lastAnswerWasCorrect]);
 
     const getNextChallengeId = () => {
         if (!challenge) return null;
@@ -157,12 +202,12 @@ export default function MonsterBattlePage() {
                         <CardContent className="space-y-4">
                              <div className="flex items-center gap-4">
                                 <div className="bg-muted rounded-lg w-24 h-24 flex items-center justify-center p-2 flex-shrink-0">
-                                    <Image src={monster.imageUrl} alt={monster.name} width={80} height={80} className={cn("transition-transform duration-500", (isCorrect === true) && "opacity-0 scale-75")}/>
+                                    <Image ref={monsterImageRef} src={monster.imageUrl} alt={monster.name} width={80} height={80} className={cn("transition-transform duration-500", monsterHP <= 0 && "opacity-0 scale-75")}/>
                                 </div>
                                 <div className="w-full space-y-2">
                                     <Label>Health</Label>
                                     <Progress value={(monsterHP / monster.hp) * 100} variant={monsterHP < monster.hp / 4 ? "destructive" : "default"} className="h-4" />
-                                    <p className="text-right font-bold">{monsterHP > 0 ? monsterHP : 0} / {monster.hp}</p>
+                                    <p className="text-right font-bold">{monsterHP} / {monster.hp}</p>
                                 </div>
                              </div>
                         </CardContent>
@@ -178,32 +223,32 @@ export default function MonsterBattlePage() {
 
                 {/* Right Panel: Question and Answer */}
                 <div className="w-1/2 p-4 lg:p-6 overflow-y-auto">
-                    {isGameOver ? (
+                    {isBattleOver ? (
                         <Card className="flex flex-col items-center justify-center h-full">
                             <CardContent className="p-6 text-center space-y-4">
                                 <h2 className="text-3xl font-bold font-headline mb-4">
-                                    {playerHP > 0 ? "You are Victorious!" : "You have been Defeated!"}
+                                    {monsterHP <= 0 ? "You are Victorious!" : "You have been Defeated!"}
                                 </h2>
                                 <p className="text-muted-foreground mb-6">
-                                     {playerHP > 0 ? `You defeated the ${monster.name}!` : `The ${monster.name} was too strong.`}
+                                     {monsterHP <= 0 ? `You defeated the ${monster.name}!` : `The ${monster.name} was too strong.`}
                                 </p>
-                                {playerHP > 0 && nextChallengeId ? (
-                                     <Button onClick={() => router.push(`/m/monster-battle/${nextChallengeId}`)} size="lg" className="w-full">
+                                {monsterHP <= 0 && nextChallengeId ? (
+                                     <Button onClick={() => router.push(`/m/battle/${nextChallengeId}`)} size="lg" className="w-full">
                                         Next Challenge <ArrowRight className="ml-2" />
                                     </Button>
                                 ) : (
-                                     <Button onClick={() => router.push('/m/monster-battle')} size="lg" className="w-full">
+                                    <Button onClick={() => router.push('/m/monster-battle')} size="lg" variant="outline" className="w-full">
                                         Back to Challenges
                                     </Button>
                                 )}
                                 <Button onClick={() => router.push('/m/monster-battle')} size="lg" variant="outline" className="w-full">
-                                    {playerHP > 0 ? "View All Challenges" : "Try Another Challenge"}
+                                    {monsterHP <= 0 ? "Back to Challenges" : "Try Another Challenge"}
                                 </Button>
                             </CardContent>
                         </Card>
                     ) : (
                          <Card>
-                        <form action={formAction}>
+                        <form action={formAction} ref={formRef}>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2"><HelpCircle /> The Question</CardTitle>
                                 <CardDescription className="text-base pt-2">{challenge.question}</CardDescription>
@@ -215,8 +260,6 @@ export default function MonsterBattlePage() {
                                     </pre>
                                 )}
                                 <input type="hidden" name="challengeId" value={challenge.id} />
-                                <input type="hidden" name="playerHP" value={playerHP} />
-                                <input type="hidden" name="monsterName" value={monster.name} />
                                 <div className="mt-4">
                                     <Label htmlFor="answer">Your Answer</Label>
                                     <Input ref={answerInputRef} id="answer" name="answer" placeholder="Type your answer here..." autoComplete="off" />
@@ -227,13 +270,13 @@ export default function MonsterBattlePage() {
                                <SubmitButton />
                             </CardFooter>
                         </form>
-                         {isCorrect === false && (
+                         {lastAnswerWasCorrect === false && (
                             <div className="p-6 pt-0">
                                 <Alert variant="destructive">
                                     <XCircle className="h-4 w-4" />
                                     <AlertTitle>Incorrect!</AlertTitle>
                                     <AlertDescription>
-                                        Your answer was incorrect. The monster attacks!
+                                        Your answer was incorrect. Try again!
                                     </AlertDescription>
                                 </Alert>
                             </div>
