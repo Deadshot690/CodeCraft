@@ -11,6 +11,7 @@ import { Bug, Languages, CheckCircle } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { Suspense, useState, useEffect } from 'react';
 import ChallengeFilter from './_components/challenge-filter';
+import { useSearchParams } from 'next/navigation';
 
 const difficultyColorMap: { [key: string]: string } = {
     'Easy': 'text-green-500',
@@ -114,18 +115,11 @@ function ChallengeTable({ difficulty, language, search, solvedGameIds }: { diffi
     );
 }
 
-export default function DebugHuntListPage({
-  searchParams,
-}: {
-  searchParams?: {
-    search?: string;
-    difficulty?: string;
-    language?: string;
-  };
-}) {
-    const search = searchParams?.search || '';
-    const difficulty = searchParams?.difficulty || 'all';
-    const language = searchParams?.language || 'all';
+function PageContent() {
+    const searchParams = useSearchParams();
+    const search = searchParams?.get('search') || '';
+    const difficulty = searchParams?.get('difficulty') || 'all';
+    const language = searchParams?.get('language') || 'all';
 
     const [solvedGameIds, setSolvedGameIds] = useState<Set<string>>(new Set());
 
@@ -152,10 +146,16 @@ export default function DebugHuntListPage({
 
         <ChallengeFilter />
         
-        <Suspense fallback={<div>Loading challenges...</div>}>
-            <ChallengeTable search={search} difficulty={difficulty} language={language} solvedGameIds={solvedGameIds} />
-        </Suspense>
+        <ChallengeTable search={search} difficulty={difficulty} language={language} solvedGameIds={solvedGameIds} />
       </div>
     </DashboardLayout>
   );
+}
+
+export default function DebugHuntListPage() {
+  return (
+    <Suspense fallback={<DashboardLayout><div>Loading...</div></DashboardLayout>}>
+      <PageContent />
+    </Suspense>
+  )
 }
