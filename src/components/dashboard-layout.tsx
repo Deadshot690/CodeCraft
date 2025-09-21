@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   SidebarProvider,
   Sidebar,
@@ -37,13 +37,33 @@ import {
   Zap,
   Grab,
   TowerControl,
+  LogOut,
 } from 'lucide-react';
 import { ThemeToggle } from './theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
+import { useAuth } from '@/hooks/use-auth';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { useToast } from '@/hooks/use-toast';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { user } = useAuth();
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      toast({ title: 'Logged Out', description: 'You have been successfully signed out.' });
+      router.push('/login');
+    } catch (error) {
+      console.error('Logout Error:', error);
+      toast({ variant: 'destructive', title: 'Logout Failed', description: 'An error occurred while signing out.' });
+    }
+  };
+
 
   return (
     <SidebarProvider>
@@ -165,6 +185,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     </Link>
                   </SidebarMenuButton>
               </SidebarMenuItem>
+               {user && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton onClick={handleLogout}>
+                    <LogOut />
+                    <span>Log Out</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
@@ -175,10 +203,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 {/* Can add search bar here if needed */}
             </div>
             <ThemeToggle />
-            <Avatar>
-                <AvatarImage src="https://picsum.photos/seed/adventurer/40/40" />
-                <AvatarFallback>A</AvatarFallback>
-            </Avatar>
+             <Button variant="ghost" size="icon" asChild>
+              <Link href={user ? "/profile" : "/login"}>
+                <Avatar>
+                    <AvatarImage src={`https://picsum.photos/seed/${user?.uid || 'anonymous'}/40/40`} />
+                    <AvatarFallback>{user?.email?.[0].toUpperCase() || 'A'}</AvatarFallback>
+                </Avatar>
+              </Link>
+            </Button>
         </header>
         <main className="flex-1 overflow-auto">{children}</main>
       </SidebarInset>
