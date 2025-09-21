@@ -3,13 +3,12 @@
 
 import { aiCodeAssistant, type AICodeAssistantInput } from '@/ai/flows/ai-code-assistant';
 import { runCode } from '@/ai/flows/run-code-flow';
-import { signUpUser } from '@/ai/flows/auth-flow';
 import {z} from 'zod';
 import { getChallenge, getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
 import { auth, db } from '@/lib/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 
 
 // AI Assistant Action
@@ -286,15 +285,35 @@ export async function signupAction(
     const { email, password, username } = validatedFields.data;
 
     try {
-        const result = await signUpUser({ email, password, username });
-        if (result.error) {
-            return { message: result.error };
-        }
-        await signInWithEmailAndPassword(auth, email, password);
-        return { success: true };
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
+        // Create user document in Firestore
+        await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            username: username,
+            email: email,
+            xp: 0,
+            level: 1,
+            solvedChallenges: [],
+            createdAt: new Date().toISOString(),
+        });
+
+        return { success: true };
     } catch (error: any) {
         let message = 'An unexpected error occurred during sign up.';
+         if (error.code) {
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    message = 'This email is already in use.';
+                    break;
+                case 'auth/weak-password':
+                    message = 'The password is too weak.';
+                    break;
+                default:
+                    message = 'An error occurred during sign up. Please try again.';
+            }
+        }
         return { message };
     }
 }
