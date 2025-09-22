@@ -1,7 +1,5 @@
 # CodeCraft Quest: A Gamified AI-Powered Coding Platform
 
-![CodeCraft Quest Screenshot](https://storage.googleapis.com/studioprototyper-prompts/project_images/codecraft-quest.png)
-
 Welcome to CodeCraft Quest, a modern, web-based platform designed to make learning to code more engaging, interactive, and effective. By blending a full-featured Integrated Development Environment (IDE) with gamification, persistent user accounts, and powerful AI assistance, CodeCraft Quest transforms the learning process into an exciting adventure.
 
 This project was bootstrapped in Firebase Studio.
@@ -45,6 +43,9 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 1.  **Clone the repository**
     Download or clone the project source code to your local machine.
+    ```sh
+    https://github.com/Deadshot690/CodeCraft.git
+    ```
 
 2.  **Navigate to the project directory**
     ```sh
@@ -111,3 +112,6 @@ Here is an overview of the key directories in the project:
 -   `npm run build`: Builds the app for production.
 -   `npm run start`: Starts the production server.
 -   `npm run lint`: Lints the project files.
+
+## Author
+Mohd Juned Md Taufik Bhojani
