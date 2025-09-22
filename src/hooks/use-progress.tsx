@@ -13,14 +13,15 @@ interface ProgressContextType {
     refreshProgress: () => void;
 }
 
-const ProgressContext = createContext<ProgressContextType>({
-    solvedChallengeIds: new Set(),
-    solvedMiniGameIds: new Set(),
-    loading: true,
-    refreshProgress: () => {},
-});
+const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
 
-export const useProgress = () => useContext(ProgressContext);
+export const useProgress = (): ProgressContextType => {
+  const context = useContext(ProgressContext);
+  if (!context) {
+    throw new Error('useProgress must be used within a ProgressProvider');
+  }
+  return context;
+};
 
 export const ProgressProvider = ({ children }: { children: ReactNode }) => {
     const { user, loading: authLoading } = useAuth();
@@ -29,6 +30,7 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
     const [loading, setLoading] = useState(true);
 
     const loadLocalProgress = useCallback(() => {
+        setLoading(true);
         try {
             const solvedChallenges: {id: string}[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
             const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
@@ -38,8 +40,9 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
             console.error("Failed to read progress from localStorage", e);
             setSolvedChallengeIds(new Set());
             setSolvedMiniGameIds(new Set());
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     }, []);
 
     useEffect(() => {
@@ -49,7 +52,7 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
         }
 
         if (user) {
-            // User is logged in, clear local anonymous progress and listen to Firestore
+            // User is logged in, use Firestore
             localStorage.removeItem('solvedChallengesInfo');
             localStorage.removeItem('solvedMiniGames');
             
