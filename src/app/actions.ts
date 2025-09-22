@@ -65,7 +65,6 @@ const RunCodeActionSchema = z.object({
   language: z.string(),
   challengeTitle: z.string(),
   challengeId: z.string(),
-  testCases: z.string(),
   userId: z.string().optional().nullable(),
 });
 
@@ -81,7 +80,6 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
         language: formData.get('language'),
         challengeTitle: formData.get('challengeTitle'),
         challengeId: formData.get('challengeId'),
-        testCases: formData.get('testCases'),
         userId: formData.get('userId'),
     });
     
@@ -114,22 +112,24 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
 
             await runTransaction(db, async (transaction) => {
                 const userDoc = await transaction.get(userRef);
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    const solvedChallenges = userData?.solvedChallenges || [];
-                    const isAlreadySolved = solvedChallenges.some((c: { id: string }) => c.id === challengeId);
+                if (!userDoc.exists()) {
+                    throw "User document does not exist!";
+                }
 
-                    if (!isAlreadySolved) {
-                        const currentXp = userData?.xp || 0;
-                        transaction.update(userRef, {
-                            solvedChallenges: arrayUnion({
-                                id: challengeId,
-                                title: validatedFields.data.challengeTitle,
-                                solvedAt: new Date().toISOString(),
-                            }),
-                            xp: currentXp + xpGained,
-                        });
-                    }
+                const userData = userDoc.data();
+                const solvedChallenges = userData?.solvedChallenges || [];
+                const isAlreadySolved = solvedChallenges.some((c: { id: string }) => c.id === challengeId);
+
+                if (!isAlreadySolved) {
+                    const currentXp = userData?.xp || 0;
+                    transaction.update(userRef, {
+                        solvedChallenges: arrayUnion({
+                            id: challengeId,
+                            title: validatedFields.data.challengeTitle,
+                            solvedAt: new Date().toISOString(),
+                        }),
+                        xp: currentXp + xpGained,
+                    });
                 }
             });
         }
@@ -368,28 +368,30 @@ export async function markMiniGameAsSolved(userId: string, gameId: string) {
     }
 }
 
-
 export async function getLeaderboardRank(userId: string): Promise<number> {
-    if (!userId) return -1;
-    
-    if (!adminDb) {
-        console.error("Admin DB not initialized. Cannot get leaderboard rank.");
-        return -1;
-    }
+  if (!userId) return -1;
+  
+  // This function relies on the Admin SDK, which might not be initialized.
+  // It's better to perform this logic in a dedicated backend environment.
+  // For now, we will use a workaround.
+  if (!adminDb) {
+      console.warn("Admin DB not initialized. Cannot get leaderboard rank from server action.");
+      return -1;
+  }
 
-    try {
-        const usersSnapshot = await adminDb.collection('users').orderBy('xp', 'desc').get();
-        
-        if (usersSnapshot.empty) {
-            return -1;
-        }
+  try {
+      const usersSnapshot = await adminDb.collection('users').orderBy('xp', 'desc').get();
+      
+      if (usersSnapshot.empty) {
+          return -1;
+      }
 
-        const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        const rank = users.findIndex(user => user.id === userId);
-        
-        return rank !== -1 ? rank + 1 : -1;
-    } catch (error) {
-        console.error("Error getting leaderboard rank:", error);
-        return -1;
-    }
+      const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const rank = users.findIndex(user => user.id === userId);
+      
+      return rank !== -1 ? rank + 1 : -1;
+  } catch (error) {
+      console.error("Error getting leaderboard rank:", error);
+      return -1;
+  }
 }
