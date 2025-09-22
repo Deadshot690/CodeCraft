@@ -16,13 +16,13 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 export default function DungeonPage() {
-    const { user, loading } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const [solvedDungeonChallenges, setSolvedDungeonChallenges] = useState<Set<string>>(new Set());
-    const [isClient, setIsClient] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setIsClient(true);
         const fetchSolvedChallenges = async () => {
+            setLoading(true);
             if (user) {
                 const userDocRef = doc(db, 'users', user.uid);
                 const userDoc = await getDoc(userDocRef);
@@ -37,12 +37,13 @@ export default function DungeonPage() {
                 const solvedIds = new Set(storedSolvedInfo.map(info => info.id));
                 setSolvedDungeonChallenges(solvedIds);
             }
+            setLoading(false);
         };
 
-        if (!loading) {
+        if (!authLoading) {
             fetchSolvedChallenges();
         }
-    }, [user, loading]);
+    }, [user, authLoading]);
 
     const isFloorUnlocked = (floorIndex: number) => {
         if (floorIndex === 0) return true; 
@@ -52,7 +53,7 @@ export default function DungeonPage() {
         return prevFloorSolvedCount >= prevFloor.challenges.length / 2;
     };
     
-    if (!isClient || loading) {
+    if (authLoading || loading) {
         return <DashboardLayout><div className="flex justify-center items-center h-full"><Loader2 className="h-8 w-8 animate-spin"/></div></DashboardLayout>;
     }
 

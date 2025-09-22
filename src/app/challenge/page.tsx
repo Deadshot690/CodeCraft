@@ -110,20 +110,15 @@ function ChallengeTable({ difficulty, domain, search, solvedChallengeIds }: { di
     );
 }
 
-export default function AllChallengesPage() {
+function PageContent() {
     const searchParams = useSearchParams();
     const { user, loading: authLoading } = useAuth();
     const [solvedChallengeIds, setSolvedChallengeIds] = useState<Set<string>>(new Set());
-    const [isClient, setIsClient] = useState(false);
+    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
-        setIsClient(true);
-    }, []);
-
-    useEffect(() => {
-        if (!isClient || authLoading) return;
-
         const fetchSolvedChallenges = async () => {
+            setLoading(true);
             if (user) {
                 const userDocRef = doc(db, 'users', user.uid);
                 try {
@@ -135,6 +130,7 @@ export default function AllChallengesPage() {
                     }
                 } catch (error) {
                     console.error("Error fetching user data from Firestore:", error);
+                    setSolvedChallengeIds(new Set());
                 }
             } else {
                 try {
@@ -143,18 +139,22 @@ export default function AllChallengesPage() {
                     setSolvedChallengeIds(solvedIds);
                 } catch (error) {
                     console.error("Error fetching user data from localStorage:", error);
+                    setSolvedChallengeIds(new Set());
                 }
             }
+            setLoading(false);
         };
 
-        fetchSolvedChallenges();
-    }, [user, authLoading, isClient]);
+        if (!authLoading) {
+            fetchSolvedChallenges();
+        }
+    }, [user, authLoading]);
 
     const search = searchParams.get('search') || '';
     const difficulty = searchParams.get('difficulty') || 'all';
     const domain = searchParams.get('domain') || 'all';
 
-    if (!isClient || authLoading) {
+    if (authLoading || loading) {
       return (
         <DashboardLayout>
             <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
@@ -190,10 +190,16 @@ export default function AllChallengesPage() {
 
         <ChallengeFilter />
 
-        <Suspense fallback={<div>Loading challenges...</div>}>
-            <ChallengeTable search={search} difficulty={difficulty} domain={domain} solvedChallengeIds={solvedChallengeIds} />
-        </Suspense>
+        <ChallengeTable search={search} difficulty={difficulty} domain={domain} solvedChallengeIds={solvedChallengeIds} />
       </div>
     </DashboardLayout>
   );
+}
+
+export default function AllChallengesPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <PageContent />
+        </Suspense>
+    )
 }

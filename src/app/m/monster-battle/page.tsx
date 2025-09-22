@@ -10,7 +10,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Swords, Trophy, CheckCircle, Loader2 } from "lucide-react";
 import { Button } from '@/components/ui/button';
-import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -62,18 +61,13 @@ function QuestionRow({ challenge, isSolved }: { challenge: BattleChallenge, isSo
 }
 
 function PageContent() {
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [solvedGames, setSolvedGames] = useState<Set<string>>(new Set());
-  const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isClient || loading) return;
-
     const fetchSolvedGames = async () => {
+        setLoading(true);
         if (user) {
             const userDocRef = doc(db, 'users', user.uid);
             try {
@@ -85,6 +79,7 @@ function PageContent() {
                 }
             } catch (error) {
                 console.error("Error fetching user data from Firestore:", error);
+                setSolvedGames(new Set());
             }
         } else {
             // Fallback for non-logged in users
@@ -93,15 +88,19 @@ function PageContent() {
                 setSolvedGames(new Set(storedSolvedGames));
             } catch (e) {
                 console.error("Failed to parse solved mini-games from localStorage", e);
+                setSolvedGames(new Set());
             }
         }
+        setLoading(false);
     };
     
-    fetchSolvedGames();
+    if (!authLoading) {
+        fetchSolvedGames();
+    }
 
-  }, [user, loading, isClient]);
+  }, [user, authLoading]);
 
-  if (!isClient || loading) {
+  if (authLoading || loading) {
     return (
       <DashboardLayout>
         <div className="flex justify-center items-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>

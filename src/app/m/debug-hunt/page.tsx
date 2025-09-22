@@ -120,22 +120,17 @@ function ChallengeTable({ difficulty, language, search, solvedGameIds }: { diffi
 
 function PageContent() {
     const searchParams = useSearchParams();
-    const { user, loading } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const search = searchParams?.get('search') || '';
     const difficulty = searchParams?.get('difficulty') || 'all';
     const language = searchParams?.get('language') || 'all';
 
     const [solvedGameIds, setSolvedGameIds] = useState<Set<string>>(new Set());
-    const [isClient, setIsClient] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setIsClient(true);
-    }, []);
-
-    useEffect(() => {
-        if (!isClient || loading) return;
-
         const fetchSolvedGames = async () => {
+            setLoading(true);
             if (user) {
                 const userDocRef = doc(db, 'users', user.uid);
                 try {
@@ -147,6 +142,7 @@ function PageContent() {
                     }
                 } catch (error) {
                     console.error("Error fetching user data from Firestore:", error);
+                    setSolvedGameIds(new Set());
                 }
             } else {
                 try {
@@ -154,14 +150,18 @@ function PageContent() {
                     setSolvedGameIds(new Set(storedSolvedGames));
                 } catch (e) {
                     console.error("Failed to parse solved mini-games from localStorage", e);
+                    setSolvedGameIds(new Set());
                 }
             }
+            setLoading(false);
         };
 
-        fetchSolvedGames();
-    }, [user, loading, isClient]);
+        if (!authLoading) {
+            fetchSolvedGames();
+        }
+    }, [user, authLoading]);
 
-    if (!isClient || loading) {
+    if (authLoading || loading) {
         return (
           <DashboardLayout>
             <div className="flex justify-center items-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>
