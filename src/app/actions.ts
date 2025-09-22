@@ -7,10 +7,9 @@ import {z} from 'zod';
 import { getChallenge, getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
 import { auth, db } from '@/lib/firebase';
-import admin from 'firebase-admin';
 import { adminDb } from '@/lib/firebase-admin';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc, updateDoc, arrayUnion, getDoc, collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { doc, setDoc, updateDoc, arrayUnion, getDoc, collection, getDocs, query, orderBy, runTransaction } from 'firebase/firestore';
 
 
 // AI Assistant Action
@@ -108,29 +107,31 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
 
         const allPassed = result.results.length > 0 && result.results.every(r => r.passed);
         
-        if (isSubmission && allPassed && userId && admin.apps.length > 0) {
-            const userRef = admin.firestore().collection('users').doc(userId);
-            const userDoc = await userRef.get();
+        if (isSubmission && allPassed && userId) {
+            const userRef = doc(db, 'users', userId);
             const challenge = getChallenge(challengeId);
             const xpGained = challenge?.difficulty === 'Easy' ? 100 : challenge?.difficulty === 'Medium' ? 200 : 300;
 
-            if (userDoc.exists) {
-                const userData = userDoc.data();
-                const currentXp = userData?.xp || 0;
-                const solvedChallenges = userData?.solvedChallenges || [];
-                const isAlreadySolved = solvedChallenges.some((c: { id: string }) => c.id === challengeId);
+            await runTransaction(db, async (transaction) => {
+                const userDoc = await transaction.get(userRef);
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    const solvedChallenges = userData?.solvedChallenges || [];
+                    const isAlreadySolved = solvedChallenges.some((c: { id: string }) => c.id === challengeId);
 
-                if (!isAlreadySolved) {
-                    await userRef.update({
-                        solvedChallenges: admin.firestore.FieldValue.arrayUnion({
-                            id: challengeId,
-                            title: validatedFields.data.challengeTitle,
-                            solvedAt: new Date().toISOString(),
-                        }),
-                        xp: currentXp + xpGained,
-                    });
+                    if (!isAlreadySolved) {
+                        const currentXp = userData?.xp || 0;
+                        transaction.update(userRef, {
+                            solvedChallenges: arrayUnion({
+                                id: challengeId,
+                                title: validatedFields.data.challengeTitle,
+                                solvedAt: new Date().toISOString(),
+                            }),
+                            xp: currentXp + xpGained,
+                        });
+                    }
                 }
-            }
+            });
         }
         
         return { results: result.results };
@@ -338,49 +339,46 @@ export async function markMiniGameAsSolved(userId: string, gameId: string) {
     if (!userId || !gameId) {
         return { success: false, message: 'User ID and Game ID are required.' };
     }
-    
-    if (admin.apps.length === 0) {
-        console.error("Admin DB not initialized. Cannot save mini-game progress.");
-        return { success: false, message: 'Server error: Cannot connect to database.' };
-    }
-    const userRef = admin.firestore().collection('users').doc(userId);
+
+    const userRef = doc(db, 'users', userId);
     const xpGained = 50; // Standard XP for any mini-game
 
     try {
-        const userDoc = await userRef.get();
-        if (userDoc.exists) {
+        await runTransaction(db, async (transaction) => {
+            const userDoc = await transaction.get(userRef);
+            if (!userDoc.exists()) {
+                throw "User document does not exist!";
+            }
+
             const userData = userDoc.data();
             const solvedMiniGames = userData?.solvedMiniGames || [];
 
             if (!solvedMiniGames.includes(gameId)) {
                 const currentXp = userData?.xp || 0;
-                await userRef.update({
-                    solvedMiniGames: admin.firestore.FieldValue.arrayUnion(gameId),
+                transaction.update(userRef, {
+                    solvedMiniGames: arrayUnion(gameId),
                     xp: currentXp + xpGained,
                 });
-                 return { success: true, message: `Gained ${xpGained} XP!` };
-            } else {
-                return { success: true, message: 'Already solved.' };
             }
-        }
-        return { success: false, message: 'User not found.' };
+        });
+        return { success: true, message: `Gained ${xpGained} XP!` };
     } catch (error) {
         console.error("Error updating mini-game progress:", error);
         return { success: false, message: 'Failed to save progress.' };
     }
 }
 
+
 export async function getLeaderboardRank(userId: string): Promise<number> {
     if (!userId) return -1;
     
-    if (admin.apps.length === 0) {
+    if (!adminDb) {
         console.error("Admin DB not initialized. Cannot get leaderboard rank.");
         return -1;
     }
-    const db = admin.firestore();
 
     try {
-        const usersSnapshot = await db.collection('users').orderBy('xp', 'desc').get();
+        const usersSnapshot = await adminDb.collection('users').orderBy('xp', 'desc').get();
         
         if (usersSnapshot.empty) {
             return -1;
