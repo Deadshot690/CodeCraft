@@ -1,14 +1,20 @@
 
+'use client';
+
+import { useState, useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Flame, CircleDollarSign, Trophy, ArrowRight, Dna } from 'lucide-react';
+import { Flame, CircleDollarSign, Trophy, ArrowRight, Dna, Loader2 } from 'lucide-react';
 import AiAssistant from '@/components/ai-assistant';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getDailyChallenge } from '@/lib/challenges';
+import { getDailyChallenge, Challenge } from '@/lib/challenges';
+import { useAuth } from '@/hooks/use-auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 const dungeonProgress = {
   floor: 'The Syntax Swamp',
@@ -17,8 +23,60 @@ const dungeonProgress = {
   nextBoss: 'The Pythonic Serpent',
 };
 
+// --- Leveling Logic ---
+const XP_FOR_NEXT_LEVEL = 1000;
+const calculateLevel = (xp: number) => Math.floor(xp / XP_FOR_NEXT_LEVEL) + 1;
+const calculateXpForNextLevel = (xp: number) => XP_FOR_NEXT_LEVEL - (xp % XP_FOR_NEXT_LEVEL);
+const calculateProgressToNextLevel = (xp: number) => (xp % XP_FOR_NEXT_LEVEL) / 10;
+// --- End Leveling Logic ---
+
 export default function Home() {
-  const dailyChallenge = getDailyChallenge();
+  const { user, loading } = useAuth();
+  const [dailyChallenge, setDailyChallenge] = useState<Challenge | null>(null);
+  const [userXp, setUserXp] = useState(0);
+  const [level, setLevel] = useState(1);
+  const [xpToNext, setXpToNext] = useState(XP_FOR_NEXT_LEVEL);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    setDailyChallenge(getDailyChallenge());
+
+    const fetchUserData = async () => {
+      let currentXp = 0;
+      if (user) {
+        const userDocRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          currentXp = userDoc.data().xp || 0;
+        }
+      } else {
+        const storedSolutions: { id: string }[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
+        currentXp = storedSolutions.length * 100; // Simple XP for non-logged in users
+      }
+      setUserXp(currentXp);
+      setLevel(calculateLevel(currentXp));
+      setXpToNext(calculateXpForNextLevel(currentXp));
+      setProgress(calculateProgressToNextLevel(currentXp));
+    };
+
+    if (!loading) {
+      fetchUserData();
+    }
+  }, [user, loading]);
+
+  if (loading || !dailyChallenge) {
+    return (
+        <DashboardLayout>
+            <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
+                <div className="flex justify-center items-center h-64">
+                    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    <p className="ml-4 text-muted-foreground">Loading Dashboard...</p>
+                </div>
+            </div>
+        </DashboardLayout>
+    );
+  }
+  
   return (
     <DashboardLayout>
       <div className="flex-1 space-y-8 p-4 pt-6 md:p-8">
@@ -31,13 +89,13 @@ export default function Home() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Level 12</CardTitle>
+              <CardTitle className="text-sm font-medium">Level {level}</CardTitle>
               <Dna className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">12,500 XP</div>
-              <p className="text-xs text-muted-foreground">250 XP to next level</p>
-              <Progress value={80} className="mt-2 h-2" />
+              <div className="text-2xl font-bold">{userXp.toLocaleString()} XP</div>
+              <p className="text-xs text-muted-foreground">{xpToNext.toLocaleString()} XP to next level</p>
+              <Progress value={progress} className="mt-2 h-2" />
             </CardContent>
           </Card>
           <Card>

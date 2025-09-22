@@ -21,13 +21,17 @@ interface SolvedChallengeInfo {
   solvedAt: string; // ISO date string
 }
 
-interface UserProfile {
+interface UserProfileData {
     username: string;
     email: string;
     level: number;
     xp: number;
     solvedChallenges: SolvedChallengeInfo[];
 }
+
+const XP_PER_CHALLENGE = 100;
+const XP_FOR_NEXT_LEVEL = 1000;
+const calculateLevel = (xp: number) => Math.floor(xp / XP_FOR_NEXT_LEVEL) + 1;
 
 const achievements = [
   { icon: <Star className="w-8 h-8 text-yellow-400" />, title: "Century Mark", description: "Solved 100 problems", unlocked: false },
@@ -40,7 +44,7 @@ const achievements = [
 
 export default function ProfilePage() {
     const { user, loading } = useAuth();
-    const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [profile, setProfile] = useState<UserProfileData | null>(null);
     const [domainStats, setDomainStats] = useState({ DSA: 0, Web: 0, AI: 0 });
     const [recentSolutions, setRecentSolutions] = useState<SolvedChallengeInfo[]>([]);
 
@@ -51,8 +55,11 @@ export default function ProfilePage() {
                 const userDoc = await getDoc(userDocRef);
 
                 if (userDoc.exists()) {
-                    const userData = userDoc.data() as UserProfile;
-                    setProfile(userData);
+                    const userData = userDoc.data() as UserProfileData;
+                    setProfile({
+                        ...userData,
+                        level: calculateLevel(userData.xp || 0),
+                    });
                     
                     const sortedSolutions = [...(userData.solvedChallenges || [])].sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
                     setRecentSolutions(sortedSolutions.slice(0, 5));
@@ -70,18 +77,27 @@ export default function ProfilePage() {
             } else {
                 // Handle non-logged in user (fallback to localStorage)
                 const storedSolutions: SolvedChallengeInfo[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
-                 const sortedSolutions = storedSolutions.sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
+                const sortedSolutions = [...storedSolutions].sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
                 const challengesSolved = storedSolutions.length;
-                const xp = challengesSolved * 100;
+                const xp = challengesSolved * XP_PER_CHALLENGE;
 
                 setProfile({
                     username: 'Local Adventurer',
                     email: '',
-                    level: Math.floor(xp / 1000) + 1,
+                    level: calculateLevel(xp),
                     xp: xp,
                     solvedChallenges: storedSolutions,
                 });
                 setRecentSolutions(sortedSolutions.slice(0, 5));
+                 // Logic for domain stats for local user
+                 const solvedIds = new Set(storedSolutions.map(s => s.id));
+                 const localSolvedChallenges = allChallenges.filter(c => solvedIds.has(c.id));
+                 const domains = localSolvedChallenges.reduce((acc, c) => {
+                     const domainKey = c.domain as keyof typeof acc;
+                     acc[domainKey] = (acc[domainKey] || 0) + 1;
+                     return acc;
+                 }, { DSA: 0, Web: 0, AI: 0 });
+                 setDomainStats(domains);
             }
         };
         
