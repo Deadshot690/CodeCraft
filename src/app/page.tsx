@@ -16,6 +16,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { isToday, isYesterday, differenceInCalendarDays } from 'date-fns';
+import { getLeaderboardRank } from '@/app/actions';
 
 const dungeonProgress = {
   floor: 'The Syntax Swamp',
@@ -30,7 +31,7 @@ const calculateLevel = (xp: number) => Math.floor(xp / XP_FOR_NEXT_LEVEL) + 1;
 const calculateXpForNextLevel = (xp: number) => XP_FOR_NEXT_LEVEL - (xp % XP_FOR_NEXT_LEVEL);
 const calculateProgressToNextLevel = (xp: number) => (xp % XP_FOR_NEXT_LEVEL) / 10;
 
-const GOLD_PER_DIFFICULTY = {
+const GOLD_PER_DIFFICULTY: { [key: string]: number } = {
     'Easy': 10,
     'Medium': 25,
     'Hard': 50,
@@ -77,14 +78,6 @@ const calculateStreak = (solved: {solvedAt: string}[]) => {
     }
     return streak;
 };
-
-const calculateRank = (xp: number) => {
-    // Simulated leaderboard rank.
-    // This is a simple non-linear formula for demonstration.
-    if (xp === 0) return 'Unranked';
-    const rank = Math.floor(20000 / (Math.sqrt(xp) + 1));
-    return `#${Math.max(1, rank)}`;
-}
 // --- End Gamification Logic ---
 
 
@@ -99,7 +92,7 @@ export default function Home() {
 
   const [gold, setGold] = useState(0);
   const [streak, setStreak] = useState(0);
-  const [rank, setRank] = useState<string>('Unranked');
+  const [rank, setRank] = useState<string | number>('...');
 
   useEffect(() => {
     setDailyChallenge(getDailyChallenge());
@@ -115,12 +108,16 @@ export default function Home() {
           const userData = userDoc.data();
           currentXp = userData.xp || 0;
           solvedChallenges = userData.solvedChallenges || [];
+          
+          const userRank = await getLeaderboardRank(user.uid);
+          setRank(userRank !== -1 ? `#${userRank}` : 'Unranked');
         }
       } else {
         // Fallback for non-logged in users
         const storedSolutions: { id: string, solvedAt: string }[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
-        currentXp = storedSolutions.length * 100;
+        currentXp = storedSolutions.length * 100; // Simplified XP for local
         solvedChallenges = storedSolutions;
+        setRank('Unranked');
       }
       
       setUserXp(currentXp);
@@ -129,7 +126,6 @@ export default function Home() {
       setProgress(calculateProgressToNextLevel(currentXp));
       setGold(calculateGold(solvedChallenges));
       setStreak(calculateStreak(solvedChallenges));
-      setRank(calculateRank(currentXp));
     };
 
     if (!loading) {
@@ -200,7 +196,7 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{rank}</div>
-              <p className="text-xs text-muted-foreground">Global Ranking (Simulated)</p>
+              <p className="text-xs text-muted-foreground">Global Ranking</p>
             </CardContent>
           </Card>
         </div>

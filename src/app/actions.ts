@@ -6,9 +6,9 @@ import { runCode } from '@/ai/flows/run-code-flow';
 import {z} from 'zod';
 import { getChallenge, getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
-import { auth, db } from '@/lib/firebase';
+import { auth, db, adminDb } from '@/lib/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc, arrayUnion, getDoc, collection, getDocs, query, orderBy } from 'firebase/firestore';
 
 
 // AI Assistant Action
@@ -125,10 +125,6 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
                             title: validatedFields.data.challengeTitle,
                             solvedAt: new Date().toISOString(),
                         }),
-                        xp: currentXp + xpGained,
-                    });
-                } else {
-                     await updateDoc(userRef, {
                         xp: currentXp + xpGained,
                     });
                 }
@@ -350,4 +346,22 @@ export async function markMiniGameAsSolved(userId: string, gameId: string) {
         console.error("Error updating mini-game progress:", error);
         return { success: false, message: 'Failed to save progress.' };
     }
+}
+
+export async function getLeaderboardRank(userId: string): Promise<number> {
+  if (!userId) return -1;
+  try {
+    const usersCollection = collection(adminDb, 'users');
+    const q = query(usersCollection, orderBy('xp', 'desc'));
+    const snapshot = await getDocs(q);
+    
+    const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    
+    const rank = users.findIndex(user => user.id === userId);
+    
+    return rank !== -1 ? rank + 1 : -1;
+  } catch (error) {
+    console.error("Error getting leaderboard rank:", error);
+    return -1;
+  }
 }
