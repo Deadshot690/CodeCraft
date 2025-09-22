@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/use-auth';
 import { markMiniGameAsSolved } from '@/app/actions';
+import { useProgress } from '@/hooks/use-progress';
 
 
 // Function to shuffle an array
@@ -31,6 +32,7 @@ export default function ConceptMatchGamePage() {
     const router = useRouter();
     const params = useParams<{ id: string }>();
     const { user } = useAuth();
+    const { refreshProgress } = useProgress();
     const [challenge, setChallenge] = useState<ConceptMatchChallenge | null>(null);
     const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -53,10 +55,10 @@ export default function ConceptMatchGamePage() {
         setIsAnswered(false);
     };
 
-    const markAsSolved = () => {
+    const markAsSolved = async () => {
         if (!challenge) return;
         if (user) {
-            markMiniGameAsSolved(user.uid, challenge.id);
+            await markMiniGameAsSolved(user.uid, challenge.id);
         } else {
             try {
                 const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
@@ -68,6 +70,7 @@ export default function ConceptMatchGamePage() {
                 console.error("Failed to update solved mini-games in localStorage", e);
             }
         }
+        refreshProgress();
     };
     
     const handleOptionSelect = (option: string) => {
@@ -79,7 +82,7 @@ export default function ConceptMatchGamePage() {
         if (isCorrect) {
             toast({
                 title: "Correct!",
-                description: "You've correctly matched the concept.",
+                description: "You've correctly matched the concept. +50XP",
             });
             markAsSolved();
         } else {

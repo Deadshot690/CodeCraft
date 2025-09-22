@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/use-auth';
 import { markMiniGameAsSolved } from '@/app/actions';
+import { useProgress } from '@/hooks/use-progress';
 
 const TIME_LIMIT_SECONDS = 15;
 
@@ -32,6 +33,7 @@ export default function CodeRushGamePage() {
     const params = useParams<{ id: string }>();
     const { toast } = useToast();
     const { user } = useAuth();
+    const { refreshProgress } = useProgress();
 
     const [challenge, setChallenge] = useState<CodeRushChallenge | null>(null);
     const [timeLeft, setTimeLeft] = useState(TIME_LIMIT_SECONDS);
@@ -80,10 +82,10 @@ export default function CodeRushGamePage() {
         inputRef.current?.focus();
     }
     
-    const markAsSolved = () => {
+    const markAsSolved = async () => {
         if (!challenge) return;
         if (user) {
-            markMiniGameAsSolved(user.uid, challenge.id);
+            await markMiniGameAsSolved(user.uid, challenge.id);
         } else {
             try {
                 const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
@@ -95,6 +97,7 @@ export default function CodeRushGamePage() {
                 console.error("Failed to update solved mini-games in localStorage", e);
             }
         }
+        refreshProgress();
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -105,7 +108,7 @@ export default function CodeRushGamePage() {
             setGameState('correct');
             const points = 50 + timeLeft * 5; // Simple scoring logic
             setScore(score + points);
-            toast({ title: "Correct!", description: `+${points} points` });
+            toast({ title: "Correct!", description: `+${points} points & +50 XP` });
             markAsSolved();
             if (timerRef.current) clearTimeout(timerRef.current);
         } else {

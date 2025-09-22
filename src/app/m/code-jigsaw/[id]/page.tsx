@@ -16,6 +16,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/use-auth';
 import { markMiniGameAsSolved } from '@/app/actions';
+import { useProgress } from '@/hooks/use-progress';
 
 function shuffleArray(array: any[]) {
     const newArray = [...array];
@@ -56,6 +57,7 @@ export default function CodeJigsawGamePage() {
     const router = useRouter();
     const params = useParams<{ id: string }>();
     const { user } = useAuth();
+    const { refreshProgress } = useProgress();
     const [challenge, setChallenge] = useState<JigsawChallenge | null>(null);
     const [scrambledLines, setScrambledLines] = useState<string[]>([]);
     const [solutionLines, setSolutionLines] = useState<string[]>([]);
@@ -84,10 +86,10 @@ export default function CodeJigsawGamePage() {
         setIsCorrect(null);
     };
 
-    const markAsSolved = () => {
+    const markAsSolved = async () => {
         if (!challenge) return;
         if (user) {
-            markMiniGameAsSolved(user.uid, challenge.id);
+            await markMiniGameAsSolved(user.uid, challenge.id);
         } else {
             try {
                 const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
@@ -99,6 +101,7 @@ export default function CodeJigsawGamePage() {
                 console.error("Failed to update solved mini-games in localStorage", e);
             }
         }
+        refreshProgress();
     };
 
     const handleDragEnd = (event: DragEndEvent) => {
@@ -120,7 +123,7 @@ export default function CodeJigsawGamePage() {
         if (correct) {
             toast({
                 title: "Correct!",
-                description: "You've assembled the code perfectly.",
+                description: "You've assembled the code perfectly. +50XP",
             });
             markAsSolved();
         } else {

@@ -14,11 +14,13 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/use-auth';
 import { markMiniGameAsSolved } from '@/app/actions';
+import { useProgress } from '@/hooks/use-progress';
 
 export default function OutputPredictionGamePage() {
     const router = useRouter();
     const params = useParams<{ id: string }>();
     const { user } = useAuth();
+    const { refreshProgress } = useProgress();
     const [challenge, setChallenge] = useState<OutputPredictionChallenge | null>(null);
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [isAnswered, setIsAnswered] = useState(false);
@@ -39,10 +41,10 @@ export default function OutputPredictionGamePage() {
         setIsAnswered(false);
     };
 
-    const markAsSolved = () => {
+    const markAsSolved = async () => {
         if (!challenge) return;
         if (user) {
-            markMiniGameAsSolved(user.uid, challenge.id);
+            await markMiniGameAsSolved(user.uid, challenge.id);
         } else {
             try {
                 const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
@@ -54,6 +56,7 @@ export default function OutputPredictionGamePage() {
                 console.error("Failed to update solved mini-games in localStorage", e);
             }
         }
+        refreshProgress();
     };
     
     const handleOptionSelect = (option: string) => {
@@ -65,7 +68,7 @@ export default function OutputPredictionGamePage() {
         if (isCorrect) {
             toast({
                 title: "Correct!",
-                description: "You predicted the output perfectly.",
+                description: "You predicted the output perfectly. +50XP",
             });
             markAsSolved();
         } else {

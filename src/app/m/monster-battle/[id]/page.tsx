@@ -19,6 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
+import { useProgress } from '@/hooks/use-progress';
 
 const initialState = {
   isCorrect: null,
@@ -50,6 +51,7 @@ export default function MonsterBattlePage() {
     const router = useRouter();
     const params = useParams<{ id: string }>();
     const { user } = useAuth();
+    const { refreshProgress } = useProgress();
 
     const [monster, setMonster] = useState<BattleMonster | null>(null);
     const [challenge, setChallenge] = useState<BattleChallenge | null>(null);
@@ -66,10 +68,10 @@ export default function MonsterBattlePage() {
     const answerInputRef = useRef<HTMLInputElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
 
-    const markAsSolved = () => {
+    const markAsSolved = async () => {
       if (!challenge) return;
       if (user) {
-        markMiniGameAsSolved(user.uid, challenge.id);
+        await markMiniGameAsSolved(user.uid, challenge.id);
       } else {
         try {
             let solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
@@ -81,6 +83,7 @@ export default function MonsterBattlePage() {
             console.error("Failed to update solved mini-games in localStorage", e);
         }
       }
+      refreshProgress();
     };
     
     useEffect(() => {
@@ -112,7 +115,7 @@ export default function MonsterBattlePage() {
             markAsSolved();
             setIsBattleOver(true);
             
-            toast({ title: "Direct Hit!", description: `You defeated the ${monster?.name}!` });
+            toast({ title: "Direct Hit!", description: `You defeated the ${monster?.name}! +50XP` });
             if (formRef.current) formRef.current.reset();
         } else if (state.isCorrect === false) {
             setLastAnswerWasCorrect(false);

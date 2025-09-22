@@ -17,6 +17,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useAuth } from '@/hooks/use-auth';
 import { markMiniGameAsSolved } from '@/app/actions';
+import { useProgress } from '@/hooks/use-progress';
 
 
 const TIME_LIMIT = 60; // 60 seconds
@@ -25,6 +26,7 @@ export default function DebugHuntGamePage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const { user } = useAuth();
+  const { refreshProgress } = useProgress();
   const [challenge, setChallenge] = useState<DebugChallenge | null>(null);
   const [userCode, setUserCode] = useState('');
   const [timeLeft, setTimeLeft] = useState(TIME_LIMIT);
@@ -51,10 +53,10 @@ export default function DebugHuntGamePage() {
     }
   }, [params.id]);
   
-  const markAsSolved = () => {
+  const markAsSolved = async () => {
     if (!challenge) return;
     if (user) {
-        markMiniGameAsSolved(user.uid, challenge.id);
+        await markMiniGameAsSolved(user.uid, challenge.id);
     } else {
         try {
             const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
@@ -66,6 +68,7 @@ export default function DebugHuntGamePage() {
             console.error("Failed to update solved mini-games in localStorage", e);
         }
     }
+    refreshProgress();
   };
 
 
@@ -94,7 +97,7 @@ export default function DebugHuntGamePage() {
       }
 
     if (outcome === 'correct') {
-      toast({ title: "Bug Squashed!", description: "Great job! You fixed the code." });
+      toast({ title: "Bug Squashed!", description: "Great job! You fixed the code. +50XP" });
       markAsSolved();
     } else if (outcome === 'incorrect') {
       toast({ variant: "destructive", title: "Not Quite!", description: "That's not the right fix. Try again!" });

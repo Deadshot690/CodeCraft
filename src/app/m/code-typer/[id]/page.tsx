@@ -15,6 +15,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useAuth } from '@/hooks/use-auth';
 import { markMiniGameAsSolved } from '@/app/actions';
+import { useProgress } from '@/hooks/use-progress';
 
 
 const languageDisplayMap: { [key: string]: string } = {
@@ -30,6 +31,7 @@ export default function CodeTyperGamePage() {
     const router = useRouter();
     const params = useParams<{ id: string }>();
     const { user } = useAuth();
+    const { refreshProgress } = useProgress();
     const [challenge, setChallenge] = useState<TyperChallenge | null>(null);
     const [typedCode, setTypedCode] = useState('');
     const [startTime, setStartTime] = useState<number | null>(null);
@@ -49,10 +51,10 @@ export default function CodeTyperGamePage() {
         }
     }, [params.id]);
 
-    const markAsSolved = () => {
+    const markAsSolved = async () => {
         if (!challenge) return;
         if (user) {
-            markMiniGameAsSolved(user.uid, challenge.id);
+            await markMiniGameAsSolved(user.uid, challenge.id);
         } else {
             try {
                 const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
@@ -64,6 +66,7 @@ export default function CodeTyperGamePage() {
                 console.error("Failed to update solved mini-games in localStorage", e);
             }
         }
+        refreshProgress();
     };
     
     useEffect(() => {
@@ -156,7 +159,7 @@ export default function CodeTyperGamePage() {
                        <Card className="w-full max-w-2xl text-center animate-fade-in">
                            <CardHeader>
                                <CardTitle className="text-3xl font-headline">Challenge Complete!</CardTitle>
-                               <CardDescription>Here are your results.</CardDescription>
+                               <CardDescription>Here are your results. You earned 50 XP!</CardDescription>
                            </CardHeader>
                            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                                <Card className="p-4 bg-muted/50">

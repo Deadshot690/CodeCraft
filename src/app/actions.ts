@@ -107,21 +107,21 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
 
         const allPassed = result.results.length > 0 && result.results.every(r => r.passed);
         
-        if (isSubmission && allPassed && userId) {
-            const userRef = doc(db, 'users', userId);
-            const userDoc = await getDoc(userRef);
+        if (isSubmission && allPassed && userId && adminDb) {
+            const userRef = adminDb.collection('users').doc(userId);
+            const userDoc = await userRef.get();
             const challenge = getChallenge(challengeId);
             const xpGained = challenge?.difficulty === 'Easy' ? 100 : challenge?.difficulty === 'Medium' ? 200 : 300;
 
-            if (userDoc.exists()) {
+            if (userDoc.exists) {
                 const userData = userDoc.data();
-                const currentXp = userData.xp || 0;
-                const solvedChallenges = userData.solvedChallenges || [];
+                const currentXp = userData?.xp || 0;
+                const solvedChallenges = userData?.solvedChallenges || [];
                 const isAlreadySolved = solvedChallenges.some((c: { id: string }) => c.id === challengeId);
 
                 if (!isAlreadySolved) {
-                    await updateDoc(userRef, {
-                        solvedChallenges: arrayUnion({
+                    await userRef.update({
+                        solvedChallenges: admin.firestore.FieldValue.arrayUnion({
                             id: challengeId,
                             title: validatedFields.data.challengeTitle,
                             solvedAt: new Date().toISOString(),
@@ -334,15 +334,30 @@ export async function signupAction(
 
 // Mini-game progress action
 export async function markMiniGameAsSolved(userId: string, gameId: string) {
-    if (!userId || !gameId) {
-        return { success: false, message: 'User ID and Game ID are required.' };
+    if (!userId || !gameId || !adminDb) {
+        return { success: false, message: 'User ID, Game ID, and Admin DB are required.' };
     }
-    const userRef = doc(db, 'users', userId);
+    const userRef = adminDb.collection('users').doc(userId);
+    const xpGained = 50; // Standard XP for any mini-game
+
     try {
-        await updateDoc(userRef, {
-            solvedMiniGames: arrayUnion(gameId)
-        });
-        return { success: true };
+        const userDoc = await userRef.get();
+        if (userDoc.exists) {
+            const userData = userDoc.data();
+            const solvedMiniGames = userData?.solvedMiniGames || [];
+
+            if (!solvedMiniGames.includes(gameId)) {
+                const currentXp = userData?.xp || 0;
+                await userRef.update({
+                    solvedMiniGames: admin.firestore.FieldValue.arrayUnion(gameId),
+                    xp: currentXp + xpGained,
+                });
+                 return { success: true, message: `Gained ${xpGained} XP!` };
+            } else {
+                return { success: true, message: 'Already solved.' };
+            }
+        }
+        return { success: false, message: 'User not found.' };
     } catch (error) {
         console.error("Error updating mini-game progress:", error);
         return { success: false, message: 'Failed to save progress.' };
@@ -350,25 +365,28 @@ export async function markMiniGameAsSolved(userId: string, gameId: string) {
 }
 
 export async function getLeaderboardRank(userId: string): Promise<number> {
-  if (!userId) return -1;
-  if (!adminDb) {
-    console.error("Admin DB not initialized. Cannot get leaderboard rank.");
-    return -1;
-  }
-
-  try {
-    const usersSnapshot = await adminDb.collection('users').orderBy('xp', 'desc').get();
+    if (!userId) return -1;
     
-    if (usersSnapshot.empty) {
+    // Use the memoized admin instance
+    const db = await getFirebaseAdmin();
+    if (!db) {
+        console.error("Admin DB not initialized. Cannot get leaderboard rank.");
         return -1;
     }
 
-    const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    const rank = users.findIndex(user => user.id === userId);
-    
-    return rank !== -1 ? rank + 1 : -1;
-  } catch (error) {
-    console.error("Error getting leaderboard rank:", error);
-    return -1;
-  }
+    try {
+        const usersSnapshot = await db.collection('users').orderBy('xp', 'desc').get();
+        
+        if (usersSnapshot.empty) {
+            return -1;
+        }
+
+        const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const rank = users.findIndex(user => user.id === userId);
+        
+        return rank !== -1 ? rank + 1 : -1;
+    } catch (error) {
+        console.error("Error getting leaderboard rank:", error);
+        return -1;
+    }
 }
