@@ -7,6 +7,7 @@ import {z} from 'zod';
 import { getChallenge, getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
 import { auth, db } from '@/lib/firebase';
+import admin from 'firebase-admin';
 import { adminDb } from '@/lib/firebase-admin';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, updateDoc, arrayUnion, getDoc, collection, getDocs, query, orderBy } from 'firebase/firestore';
@@ -107,8 +108,8 @@ async function handleCodeExecution(formData: FormData, isSubmission: boolean): P
 
         const allPassed = result.results.length > 0 && result.results.every(r => r.passed);
         
-        if (isSubmission && allPassed && userId && adminDb) {
-            const userRef = adminDb.collection('users').doc(userId);
+        if (isSubmission && allPassed && userId && admin.apps.length > 0) {
+            const userRef = admin.firestore().collection('users').doc(userId);
             const userDoc = await userRef.get();
             const challenge = getChallenge(challengeId);
             const xpGained = challenge?.difficulty === 'Easy' ? 100 : challenge?.difficulty === 'Medium' ? 200 : 300;
@@ -334,10 +335,15 @@ export async function signupAction(
 
 // Mini-game progress action
 export async function markMiniGameAsSolved(userId: string, gameId: string) {
-    if (!userId || !gameId || !adminDb) {
-        return { success: false, message: 'User ID, Game ID, and Admin DB are required.' };
+    if (!userId || !gameId) {
+        return { success: false, message: 'User ID and Game ID are required.' };
     }
-    const userRef = adminDb.collection('users').doc(userId);
+    
+    if (admin.apps.length === 0) {
+        console.error("Admin DB not initialized. Cannot save mini-game progress.");
+        return { success: false, message: 'Server error: Cannot connect to database.' };
+    }
+    const userRef = admin.firestore().collection('users').doc(userId);
     const xpGained = 50; // Standard XP for any mini-game
 
     try {
@@ -367,12 +373,11 @@ export async function markMiniGameAsSolved(userId: string, gameId: string) {
 export async function getLeaderboardRank(userId: string): Promise<number> {
     if (!userId) return -1;
     
-    // Use the memoized admin instance
-    const db = await getFirebaseAdmin();
-    if (!db) {
+    if (admin.apps.length === 0) {
         console.error("Admin DB not initialized. Cannot get leaderboard rank.");
         return -1;
     }
+    const db = admin.firestore();
 
     try {
         const usersSnapshot = await db.collection('users').orderBy('xp', 'desc').get();

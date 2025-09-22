@@ -212,7 +212,7 @@ export default function CodeRushGamePage() {
             <CardContent>
                  <p className="text-lg">Fill in the blank before the timer runs out!</p>
                   <pre className="bg-muted p-4 rounded-md font-code text-lg overflow-x-auto my-4 text-left whitespace-pre-wrap">
-                    <code>{challenge.snippet.replace('___', '<span class="font-bold text-primary">___</span>')}</code>
+                    <code dangerouslySetInnerHTML={{ __html: challenge.snippet.replace('___', '<span class="font-bold text-primary">___</span>') }}></code>
                  </pre>
             </CardContent>
             <CardFooter>
