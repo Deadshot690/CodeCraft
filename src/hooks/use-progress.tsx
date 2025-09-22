@@ -3,9 +3,8 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useAuth } from './use-auth';
-import { doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { Challenge } from '@/lib/challenges';
 
 interface ProgressContextType {
     solvedChallengeIds: Set<string>;
@@ -28,6 +27,7 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // Don't do anything until Firebase auth has settled.
         if (authLoading) {
             setLoading(true);
             return;
@@ -35,6 +35,10 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
 
         // --- Handle Logged-In User ---
         if (user) {
+            // Clear any anonymous progress from localStorage to prevent data bleed.
+            localStorage.removeItem('solvedChallengesInfo');
+            localStorage.removeItem('solvedMiniGames');
+
             const userDocRef = doc(db, 'users', user.uid);
             const unsubscribe = onSnapshot(userDocRef, (doc) => {
                 if (doc.exists()) {
@@ -61,7 +65,11 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
         }
         // --- Handle Logged-Out User ---
         else {
-            // Fallback for non-logged in users using localStorage
+            // Clear any authenticated state
+            setSolvedChallengeIds(new Set());
+            setSolvedMiniGameIds(new Set());
+
+            // Load progress for anonymous users from localStorage
             try {
                 const solvedChallenges: {id: string}[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
                 const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
