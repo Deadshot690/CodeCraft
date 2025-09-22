@@ -29,19 +29,10 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
     const [solvedMiniGameIds, setSolvedMiniGameIds] = useState<Set<string>>(new Set());
     const [loading, setLoading] = useState(true);
 
-    const loadLocalProgress = useCallback(() => {
-        try {
-            const solvedChallenges: {id: string}[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
-            const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-            setSolvedChallengeIds(new Set(solvedChallenges.map(c => c.id)));
-            setSolvedMiniGameIds(new Set(solvedGames));
-        } catch (e) {
-            console.error("Failed to read progress from localStorage", e);
-            setSolvedChallengeIds(new Set());
-            setSolvedMiniGameIds(new Set());
-        } finally {
-            setLoading(false);
-        }
+    const refreshProgress = useCallback(() => {
+        // This function is now a placeholder for potential future manual refresh logic,
+        // but Firestore's onSnapshot handles real-time updates automatically.
+        // For non-logged in state, there's nothing to refresh.
     }, []);
 
     useEffect(() => {
@@ -49,19 +40,14 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
             setLoading(true);
             return;
         }
-        
-        // CRITICAL FIX: Immediately reset state on any user change.
-        // This prevents the race condition and data leakage between sessions.
+
+        // Always reset state on user change to prevent data leakage.
         setSolvedChallengeIds(new Set());
         setSolvedMiniGameIds(new Set());
         setLoading(true);
 
         if (user) {
             // User is logged in, use Firestore
-            // Clear any lingering anonymous data
-            localStorage.removeItem('solvedChallengesInfo');
-            localStorage.removeItem('solvedMiniGames');
-            
             const userDocRef = doc(db, 'users', user.uid);
             const unsubscribe = onSnapshot(userDocRef, (docSnap) => {
                 if (docSnap.exists()) {
@@ -85,17 +71,10 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
 
             return () => unsubscribe();
         } else {
-            // User is logged out, load from localStorage
-            loadLocalProgress();
+            // No user is logged in. Do not use localStorage. State is already cleared.
+            setLoading(false);
         }
-    }, [user, authLoading, loadLocalProgress]);
-
-    const refreshProgress = useCallback(() => {
-        if (!user) {
-            loadLocalProgress();
-        }
-        // For logged-in users, Firestore's onSnapshot handles refreshing automatically.
-    }, [user, loadLocalProgress]);
+    }, [user, authLoading]);
 
     const value = { solvedChallengeIds, solvedMiniGameIds, loading, refreshProgress };
 

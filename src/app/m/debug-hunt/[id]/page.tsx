@@ -54,21 +54,8 @@ export default function DebugHuntGamePage() {
   }, [params.id]);
   
   const markAsSolved = async () => {
-    if (!challenge) return;
-    if (user) {
-        await markMiniGameAsSolved(user.uid, challenge.id);
-    } else {
-        try {
-            const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-            if (!solvedGames.includes(challenge.id)) {
-                solvedGames.push(challenge.id);
-                localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
-            }
-        } catch (e) {
-            console.error("Failed to update solved mini-games in localStorage", e);
-        }
-    }
-    refreshProgress();
+    if (!challenge || !user) return;
+    await markMiniGameAsSolved(user.uid, challenge.id);
   };
 
 
@@ -98,7 +85,9 @@ export default function DebugHuntGamePage() {
 
     if (outcome === 'correct') {
       toast({ title: "Bug Squashed!", description: "Great job! You fixed the code. +50XP" });
-      markAsSolved();
+      if (user) {
+        markAsSolved();
+      }
     } else if (outcome === 'incorrect') {
       toast({ variant: "destructive", title: "Not Quite!", description: "That's not the right fix. Try again!" });
     } else if (outcome === 'timeup') {

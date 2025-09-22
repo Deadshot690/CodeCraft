@@ -42,21 +42,8 @@ export default function OutputPredictionGamePage() {
     };
 
     const markAsSolved = async () => {
-        if (!challenge) return;
-        if (user) {
-            await markMiniGameAsSolved(user.uid, challenge.id);
-        } else {
-            try {
-                const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-                if (!solvedGames.includes(challenge.id)) {
-                    solvedGames.push(challenge.id);
-                    localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
-                }
-            } catch (e) {
-                console.error("Failed to update solved mini-games in localStorage", e);
-            }
-        }
-        refreshProgress();
+        if (!challenge || !user) return;
+        await markMiniGameAsSolved(user.uid, challenge.id);
     };
     
     const handleOptionSelect = (option: string) => {
@@ -70,7 +57,9 @@ export default function OutputPredictionGamePage() {
                 title: "Correct!",
                 description: "You predicted the output perfectly. +50XP",
             });
-            markAsSolved();
+            if (user) {
+              markAsSolved();
+            }
         } else {
             toast({
                 variant: "destructive",

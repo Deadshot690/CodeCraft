@@ -69,21 +69,8 @@ export default function MonsterBattlePage() {
     const formRef = useRef<HTMLFormElement>(null);
 
     const markAsSolved = async () => {
-      if (!challenge) return;
-      if (user) {
-        await markMiniGameAsSolved(user.uid, challenge.id);
-      } else {
-        try {
-            let solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-            if (!solvedGames.includes(challenge.id)) {
-                solvedGames.push(challenge.id);
-                localStorage.setItem('solvedMiniGames', JSON.stringify(solvedGames));
-            }
-        } catch (e) {
-            console.error("Failed to update solved mini-games in localStorage", e);
-        }
-      }
-      refreshProgress();
+      if (!challenge || !user) return;
+      await markMiniGameAsSolved(user.uid, challenge.id);
     };
     
     useEffect(() => {
@@ -112,7 +99,10 @@ export default function MonsterBattlePage() {
             setDialogue(`A critical blow! You defeated the ${monster?.name}!`);
             monsterImageRef.current?.classList.add('animate-fade-out');
             
-            markAsSolved();
+            if (user) {
+              markAsSolved();
+            }
+
             setIsBattleOver(true);
             
             toast({ title: "Direct Hit!", description: `You defeated the ${monster?.name}! +50XP` });
@@ -227,7 +217,7 @@ export default function MonsterBattlePage() {
                                 </p>
                                 {playerHP > 0 && nextChallengeId ? (
                                      <Button asChild size="lg" className="w-full">
-                                        <Link href={`/m/battle/${nextChallengeId}`}>Next Challenge <ArrowRight className="ml-2" /></Link>
+                                        <Link href={`/m/monster-battle/${nextChallengeId}`}>Next Challenge <ArrowRight className="ml-2" /></Link>
                                     </Button>
                                 ) : null }
                                 <Button asChild size="lg" variant="outline" className="w-full">
