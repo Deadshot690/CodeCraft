@@ -351,6 +351,10 @@ export async function markMiniGameAsSolved(userId: string, gameId: string) {
 
 export async function getLeaderboardRank(userId: string): Promise<number> {
   if (!userId) return -1;
+  if (!adminDb) {
+    console.error("Admin DB not initialized. Cannot get leaderboard rank.");
+    return -1;
+  }
   try {
     const usersCollection = collection(adminDb, 'users');
     const q = query(usersCollection, orderBy('xp', 'desc'));
