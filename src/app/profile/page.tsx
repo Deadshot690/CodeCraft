@@ -7,7 +7,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Check, Shield, Star, Swords, BrainCircuit, Bot, Loader2 } from "lucide-react";
+import { Check, Shield, Star, Swords, BrainCircuit, Bot, Loader2, Trash2 } from "lucide-react";
 import Link from 'next/link';
 import { challenges as allChallenges, Challenge } from '@/lib/challenges';
 import { formatDistanceToNow } from 'date-fns';
@@ -16,6 +16,19 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useToast } from '@/hooks/use-toast';
 
 interface SolvedChallengeInfo {
   id: string;
@@ -66,6 +79,7 @@ const getAchievements = (solvedChallenges: SolvedChallengeInfo[]): Achievement[]
 
 export default function ProfilePage() {
     const { user, loading } = useAuth();
+    const { toast } = useToast();
     const [profile, setProfile] = useState<UserProfileData | null>(null);
     const [domainStats, setDomainStats] = useState({ DSA: 0, Web: 0, AI: 0 });
     const [recentSolutions, setRecentSolutions] = useState<SolvedChallengeInfo[]>([]);
@@ -75,22 +89,31 @@ export default function ProfilePage() {
     useEffect(() => {
         const fetchProfileData = async () => {
             if (!user) {
-                // Handle non-logged in user immediately
+                const localSolvedChallenges: SolvedChallengeInfo[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
+                const xp = localSolvedChallenges.length * XP_PER_CHALLENGE;
+                
                 setProfile({
                     username: 'Local Adventurer',
                     email: 'Log in to save progress',
-                    level: 1,
-                    xp: 0,
-                    solvedChallenges: [],
+                    level: calculateLevel(xp),
+                    xp: xp,
+                    solvedChallenges: localSolvedChallenges,
                 });
-                setAchievements(getAchievements([]));
-                setRecentSolutions([]);
-                setDomainStats({ DSA: 0, Web: 0, AI: 0 });
+                setAchievements(getAchievements(localSolvedChallenges));
+                const sorted = [...localSolvedChallenges].sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime());
+                setRecentSolutions(sorted.slice(0, 5));
+                 const solvedIds = new Set(localSolvedChallenges.map(s => s.id));
+                const allSolved = allChallenges.filter(c => solvedIds.has(c.id));
+                const domains = allSolved.reduce((acc, c) => {
+                    const domainKey = c.domain as keyof typeof acc;
+                    acc[domainKey] = (acc[domainKey] || 0) + 1;
+                    return acc;
+                }, { DSA: 0, Web: 0, AI: 0 });
+                setDomainStats(domains);
                 setIsFetching(false);
                 return;
             }
 
-            // Handle logged-in user
             const userDocRef = doc(db, 'users', user.uid);
             const userDoc = await getDoc(userDocRef);
 
@@ -140,6 +163,26 @@ export default function ProfilePage() {
 
     }, [user, loading]);
 
+    const handleClearLocalProgress = () => {
+        try {
+            localStorage.removeItem('solvedChallengesInfo');
+            localStorage.removeItem('solvedMiniGames');
+            toast({
+                title: "Success",
+                description: "Your local browser progress has been cleared.",
+            });
+            // A quick timeout to allow the toast to be seen before reload
+            setTimeout(() => window.location.reload(), 1000);
+        } catch (e) {
+            console.error("Failed to clear local storage", e);
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "Could not clear local progress. Please try clearing your browser cache manually.",
+            });
+        }
+    };
+
   if (loading || isFetching) {
       return (
         <DashboardLayout>
@@ -149,7 +192,6 @@ export default function ProfilePage() {
   }
 
   if (!profile) {
-      // This case should ideally not be hit if logic is correct
       return <DashboardLayout><div>Could not load profile.</div></DashboardLayout>
   }
 
@@ -192,6 +234,43 @@ export default function ProfilePage() {
                   <div className="flex justify-between"><span>Artificial Intelligence</span> <span className="font-bold">{domainStats.AI}</span></div>
                 </CardContent>
               </Card>
+
+              {!user && (
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Manage Local Data</CardTitle>
+                        <CardDescription>
+                            Your progress is currently saved in this browser. You can clear it here.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                         <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="destructive" className="w-full">
+                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    Clear Local Progress
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This will permanently delete all your progress saved in this browser.
+                                    This action cannot be undone.
+                                </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleClearLocalProgress}>
+                                    Yes, delete my progress
+                                </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                    </CardContent>
+                 </Card>
+              )}
+
             </div>
 
             <div className="md:col-span-2 space-y-6">
