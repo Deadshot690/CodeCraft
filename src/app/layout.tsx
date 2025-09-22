@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useEffect, useRef } from 'react';
 import type {Metadata} from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -17,6 +18,18 @@ import { useAuth } from '@/hooks/use-auth';
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  const userRef = useRef(user);
+
+  useEffect(() => {
+    // This is the aggressive but guaranteed fix.
+    // If the user's UID has changed since the last render, force a full page reload.
+    // This will wipe all stale React state and ensure a clean session for the new user.
+    if (!loading && user?.uid !== userRef.current?.uid) {
+      window.location.reload();
+    }
+    userRef.current = user;
+  }, [user, loading]);
+  
   const userKey = loading ? 'loading' : user ? user.uid : 'anonymous';
 
   return (
