@@ -30,7 +30,6 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
     const [loading, setLoading] = useState(true);
 
     const loadLocalProgress = useCallback(() => {
-        setLoading(true);
         try {
             const solvedChallenges: {id: string}[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
             const solvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
@@ -50,21 +49,29 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
             setLoading(true);
             return;
         }
+        
+        // CRITICAL FIX: Immediately reset state on any user change.
+        // This prevents the race condition and data leakage between sessions.
+        setSolvedChallengeIds(new Set());
+        setSolvedMiniGameIds(new Set());
+        setLoading(true);
 
         if (user) {
             // User is logged in, use Firestore
+            // Clear any lingering anonymous data
             localStorage.removeItem('solvedChallengesInfo');
             localStorage.removeItem('solvedMiniGames');
             
             const userDocRef = doc(db, 'users', user.uid);
-            const unsubscribe = onSnapshot(userDocRef, (doc) => {
-                if (doc.exists()) {
-                    const userData = doc.data();
+            const unsubscribe = onSnapshot(userDocRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
                     const challengeIds = new Set((userData.solvedChallenges || []).map((c: { id: string }) => c.id));
                     const gameIds = new Set(userData.solvedMiniGames || []);
                     setSolvedChallengeIds(challengeIds);
                     setSolvedMiniGameIds(gameIds);
                 } else {
+                    // This handles the case where a user is newly created and doesn't have a doc yet.
                     setSolvedChallengeIds(new Set());
                     setSolvedMiniGameIds(new Set());
                 }
@@ -79,8 +86,6 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
             return () => unsubscribe();
         } else {
             // User is logged out, load from localStorage
-            setSolvedChallengeIds(new Set());
-            setSolvedMiniGameIds(new Set());
             loadLocalProgress();
         }
     }, [user, authLoading, loadLocalProgress]);
