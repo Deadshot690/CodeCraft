@@ -245,7 +245,24 @@ export async function loginAction(
   const { email, password } = validatedFields.data;
 
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // Check if user document exists, if not, create it
+    const userDocRef = doc(db, 'users', user.uid);
+    const userDoc = await getDoc(userDocRef);
+    if (!userDoc.exists()) {
+        await setDoc(userDocRef, {
+            uid: user.uid,
+            username: user.email?.split('@')[0] || 'adventurer', // Fallback username
+            email: user.email,
+            xp: 0,
+            level: 1,
+            solvedChallenges: [],
+            solvedMiniGames: [],
+            createdAt: new Date().toISOString(),
+        });
+    }
     return { success: true };
   } catch (error: any) {
     let message = 'An unexpected error occurred.';
