@@ -6,7 +6,8 @@ import { runCode } from '@/ai/flows/run-code-flow';
 import {z} from 'zod';
 import { getChallenge, getChallengeReferenceSolution } from '@/lib/challenges';
 import type { RunCodeInput, RunCodeOutput } from '@/lib/code-execution-types';
-import { auth, db, adminDb } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
+import { adminDb } from '@/lib/firebase-admin';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, updateDoc, arrayUnion, getDoc, collection, getDocs, query, orderBy } from 'firebase/firestore';
 
