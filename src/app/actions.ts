@@ -355,13 +355,15 @@ export async function getLeaderboardRank(userId: string): Promise<number> {
     console.error("Admin DB not initialized. Cannot get leaderboard rank.");
     return -1;
   }
+
   try {
-    const usersCollection = collection(adminDb, 'users');
-    const q = query(usersCollection, orderBy('xp', 'desc'));
-    const snapshot = await getDocs(q);
+    const usersSnapshot = await adminDb.collection('users').orderBy('xp', 'desc').get();
     
-    const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    
+    if (usersSnapshot.empty) {
+        return -1;
+    }
+
+    const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     const rank = users.findIndex(user => user.id === userId);
     
     return rank !== -1 ? rank + 1 : -1;
