@@ -70,42 +70,48 @@ export default function ProfilePage() {
     const [domainStats, setDomainStats] = useState({ DSA: 0, Web: 0, AI: 0 });
     const [recentSolutions, setRecentSolutions] = useState<SolvedChallengeInfo[]>([]);
     const [achievements, setAchievements] = useState<Achievement[]>([]);
+    const [isFetching, setIsFetching] = useState(true);
 
     useEffect(() => {
         const fetchProfileData = async () => {
-            let solvedChallengesData: SolvedChallengeInfo[] = [];
-            let profileData: UserProfileData;
-
-            if (user) {
-                const userDocRef = doc(db, 'users', user.uid);
-                const userDoc = await getDoc(userDocRef);
-
-                if (userDoc.exists()) {
-                    const userData = userDoc.data() as Omit<UserProfileData, 'level'>;
-                    profileData = {
-                        ...userData,
-                        level: calculateLevel(userData.xp || 0),
-                    };
-                    solvedChallengesData = userData.solvedChallenges || [];
-                } else {
-                     profileData = {
-                        username: user.email?.split('@')[0] || 'Adventurer',
-                        email: user.email || 'No email',
-                        level: 1,
-                        xp: 0,
-                        solvedChallenges: [],
-                    };
-                }
-            } else {
-                // Handle non-logged in user (fallback to localStorage)
-                solvedChallengesData = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
-                const xp = solvedChallengesData.length * XP_PER_CHALLENGE;
-                profileData = {
+            if (!user) {
+                // Handle non-logged in user immediately
+                setProfile({
                     username: 'Local Adventurer',
-                    email: 'No account',
-                    level: calculateLevel(xp),
-                    xp: xp,
+                    email: 'Log in to save progress',
+                    level: 1,
+                    xp: 0,
+                    solvedChallenges: [],
+                });
+                setAchievements(getAchievements([]));
+                setRecentSolutions([]);
+                setDomainStats({ DSA: 0, Web: 0, AI: 0 });
+                setIsFetching(false);
+                return;
+            }
+
+            // Handle logged-in user
+            const userDocRef = doc(db, 'users', user.uid);
+            const userDoc = await getDoc(userDocRef);
+
+            let profileData: UserProfileData;
+            let solvedChallengesData: SolvedChallengeInfo[] = [];
+
+            if (userDoc.exists()) {
+                const userData = userDoc.data() as Omit<UserProfileData, 'level'>;
+                solvedChallengesData = userData.solvedChallenges || [];
+                profileData = {
+                    ...userData,
+                    level: calculateLevel(userData.xp || 0),
                     solvedChallenges: solvedChallengesData,
+                };
+            } else {
+                 profileData = {
+                    username: user.email?.split('@')[0] || 'Adventurer',
+                    email: user.email || 'No email',
+                    level: 1,
+                    xp: 0,
+                    solvedChallenges: [],
                 };
             }
             
@@ -124,20 +130,27 @@ export default function ProfilePage() {
                 return acc;
             }, { DSA: 0, Web: 0, AI: 0 });
             setDomainStats(domains);
+            setIsFetching(false);
         };
         
         if (!loading) {
+            setIsFetching(true);
             fetchProfileData();
         }
 
     }, [user, loading]);
 
-  if (loading || !profile) {
+  if (loading || isFetching) {
       return (
         <DashboardLayout>
           <div className="flex justify-center items-center h-full"><Loader2 className="h-8 w-8 animate-spin"/></div>
         </DashboardLayout>
       );
+  }
+
+  if (!profile) {
+      // This case should ideally not be hit if logic is correct
+      return <DashboardLayout><div>Could not load profile.</div></DashboardLayout>
   }
 
   return (
@@ -242,5 +255,3 @@ export default function ProfilePage() {
     </DashboardLayout>
   );
 }
-
-  

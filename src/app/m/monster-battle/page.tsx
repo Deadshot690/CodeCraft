@@ -1,18 +1,16 @@
 
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { challenges as battleChallenges, BattleChallenge } from "@/lib/battle-challenges";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Swords, Trophy, CheckCircle, Loader2 } from "lucide-react";
+import { Swords, Trophy, Loader2 } from "lucide-react";
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/hooks/use-auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { useProgress } from '@/hooks/use-progress';
 
 const difficultyColorMap: { [key: string]: string } = {
     'Beginner': 'text-cyan-500',
@@ -61,46 +59,9 @@ function QuestionRow({ challenge, isSolved }: { challenge: BattleChallenge, isSo
 }
 
 function PageContent() {
-  const { user, loading: authLoading } = useAuth();
-  const [solvedGames, setSolvedGames] = useState<Set<string>>(new Set());
-  const [loading, setLoading] = useState(true);
+  const { solvedMiniGameIds, loading } = useProgress();
 
-  useEffect(() => {
-    const fetchSolvedGames = async () => {
-        setLoading(true);
-        if (user) {
-            const userDocRef = doc(db, 'users', user.uid);
-            try {
-                const userDoc = await getDoc(userDocRef);
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    const solvedIds = new Set((userData.solvedMiniGames || []));
-                    setSolvedGames(solvedIds);
-                }
-            } catch (error) {
-                console.error("Error fetching user data from Firestore:", error);
-                setSolvedGames(new Set());
-            }
-        } else {
-            // Fallback for non-logged in users
-            try {
-                const storedSolvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-                setSolvedGames(new Set(storedSolvedGames));
-            } catch (e) {
-                console.error("Failed to parse solved mini-games from localStorage", e);
-                setSolvedGames(new Set());
-            }
-        }
-        setLoading(false);
-    };
-    
-    if (!authLoading) {
-        fetchSolvedGames();
-    }
-
-  }, [user, authLoading]);
-
-  if (authLoading || loading) {
+  if (loading) {
     return (
       <DashboardLayout>
         <div className="flex justify-center items-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>
@@ -137,7 +98,7 @@ function PageContent() {
                            <QuestionRow 
                                 key={challenge.id} 
                                 challenge={challenge} 
-                                isSolved={solvedGames.has(challenge.id)}
+                                isSolved={solvedMiniGameIds.has(challenge.id)}
                             />
                         ))}
                     </TableBody>

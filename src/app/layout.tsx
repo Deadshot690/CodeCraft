@@ -3,6 +3,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/theme-provider';
+import { ProgressProvider } from '@/hooks/use-progress';
 
 export const metadata: Metadata = {
   title: 'CodeCraft Quest',
@@ -28,7 +29,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <ProgressProvider>
+            {children}
+          </ProgressProvider>
           <Toaster />
         </ThemeProvider>
       </body>

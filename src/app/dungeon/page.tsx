@@ -1,7 +1,6 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { ArrowRight, Lock, Unlock, Loader2 } from 'lucide-react';
@@ -11,49 +10,20 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { CheckCircle } from 'lucide-react';
-import { useAuth } from '@/hooks/use-auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { useProgress } from '@/hooks/use-progress';
 
 export default function DungeonPage() {
-    const { user, loading: authLoading } = useAuth();
-    const [solvedDungeonChallenges, setSolvedDungeonChallenges] = useState<Set<string>>(new Set());
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchSolvedChallenges = async () => {
-            setLoading(true);
-            if (user) {
-                const userDocRef = doc(db, 'users', user.uid);
-                const userDoc = await getDoc(userDocRef);
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    const solvedIds = new Set((userData.solvedChallenges || []).map((info: { id: string }) => info.id));
-                    setSolvedDungeonChallenges(solvedIds);
-                }
-            } else {
-                // Fallback to localStorage for non-logged-in users
-                const storedSolvedInfo: { id: string }[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
-                const solvedIds = new Set(storedSolvedInfo.map(info => info.id));
-                setSolvedDungeonChallenges(solvedIds);
-            }
-            setLoading(false);
-        };
-
-        if (!authLoading) {
-            fetchSolvedChallenges();
-        }
-    }, [user, authLoading]);
+    const { solvedChallengeIds, loading } = useProgress();
 
     const isFloorUnlocked = (floorIndex: number) => {
         if (floorIndex === 0) return true; 
         const prevFloor = dungeon[floorIndex - 1];
         if (!prevFloor) return false;
-        const prevFloorSolvedCount = prevFloor.challenges.filter(id => solvedDungeonChallenges.has(id)).length;
+        const prevFloorSolvedCount = prevFloor.challenges.filter(id => solvedChallengeIds.has(id)).length;
         return prevFloorSolvedCount >= prevFloor.challenges.length / 2;
     };
     
-    if (authLoading || loading) {
+    if (loading) {
         return <DashboardLayout><div className="flex justify-center items-center h-full"><Loader2 className="h-8 w-8 animate-spin"/></div></DashboardLayout>;
     }
 
@@ -73,7 +43,7 @@ export default function DungeonPage() {
                     {dungeon.map((floor, index) => {
                         const unlocked = isFloorUnlocked(index);
                         const floorChallenges = floor.challenges.map(id => challenges.find(c => c.id === id)).filter(Boolean);
-                        const solvedCount = floorChallenges.filter(c => solvedDungeonChallenges.has(c!.id)).length;
+                        const solvedCount = floorChallenges.filter(c => solvedChallengeIds.has(c!.id)).length;
                         const progress = floorChallenges.length > 0 ? (solvedCount / floorChallenges.length) * 100 : 0;
 
                         return (
@@ -96,7 +66,7 @@ export default function DungeonPage() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                         {floorChallenges.map(challenge => {
                                             if (!challenge) return null;
-                                            const isSolved = solvedDungeonChallenges.has(challenge.id);
+                                            const isSolved = solvedChallengeIds.has(challenge.id);
                                             return (
                                                 <Link key={challenge.id} href={`/challenge/${challenge.id}`} className={`group ${!unlocked ? 'pointer-events-none' : ''}`}>
                                                     <Card className="h-full transition-all hover:border-primary">

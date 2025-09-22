@@ -9,12 +9,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Bug, Languages, CheckCircle, Loader2 } from "lucide-react";
 import { Button } from '@/components/ui/button';
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense } from 'react';
 import ChallengeFilter from './_components/challenge-filter';
 import { useSearchParams } from 'next/navigation';
-import { useAuth } from '@/hooks/use-auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { useProgress } from '@/hooks/use-progress';
 
 const difficultyColorMap: { [key: string]: string } = {
     'Easy': 'text-green-500',
@@ -65,7 +63,13 @@ function ChallengeRow({ challenge, isSolved }: { challenge: DebugChallenge, isSo
     )
 }
 
-function ChallengeTable({ difficulty, language, search, solvedGameIds }: { difficulty: string; language: string; search: string; solvedGameIds: Set<string> }) {
+function ChallengeTable({ difficulty, language, search }: { difficulty: string; language: string; search: string; }) {
+    const { solvedMiniGameIds, loading } = useProgress();
+
+    if (loading) {
+        return <div className="flex justify-center items-center h-64"><Loader2 className="h-8 w-8 animate-spin" /></div>;
+    }
+
     let challenges = debugChallenges;
 
     if (difficulty !== 'all') {
@@ -101,7 +105,7 @@ function ChallengeTable({ difficulty, language, search, solvedGameIds }: { diffi
                                <ChallengeRow 
                                     key={challenge.id} 
                                     challenge={challenge} 
-                                    isSolved={solvedGameIds.has(challenge.id)}
+                                    isSolved={solvedMiniGameIds.has(challenge.id)}
                                 />
                             ))
                         ) : (
@@ -120,54 +124,9 @@ function ChallengeTable({ difficulty, language, search, solvedGameIds }: { diffi
 
 function PageContent() {
     const searchParams = useSearchParams();
-    const { user, loading: authLoading } = useAuth();
     const search = searchParams?.get('search') || '';
     const difficulty = searchParams?.get('difficulty') || 'all';
     const language = searchParams?.get('language') || 'all';
-
-    const [solvedGameIds, setSolvedGameIds] = useState<Set<string>>(new Set());
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchSolvedGames = async () => {
-            setLoading(true);
-            if (user) {
-                const userDocRef = doc(db, 'users', user.uid);
-                try {
-                    const userDoc = await getDoc(userDocRef);
-                    if (userDoc.exists()) {
-                        const userData = userDoc.data();
-                        const solvedIds = new Set((userData.solvedMiniGames || []));
-                        setSolvedGameIds(solvedIds);
-                    }
-                } catch (error) {
-                    console.error("Error fetching user data from Firestore:", error);
-                    setSolvedGameIds(new Set());
-                }
-            } else {
-                try {
-                    const storedSolvedGames: string[] = JSON.parse(localStorage.getItem('solvedMiniGames') || '[]');
-                    setSolvedGameIds(new Set(storedSolvedGames));
-                } catch (e) {
-                    console.error("Failed to parse solved mini-games from localStorage", e);
-                    setSolvedGameIds(new Set());
-                }
-            }
-            setLoading(false);
-        };
-
-        if (!authLoading) {
-            fetchSolvedGames();
-        }
-    }, [user, authLoading]);
-
-    if (authLoading || loading) {
-        return (
-          <DashboardLayout>
-            <div className="flex justify-center items-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>
-          </DashboardLayout>
-        );
-    }
 
   return (
     <DashboardLayout>
@@ -183,7 +142,7 @@ function PageContent() {
 
         <ChallengeFilter />
         
-        <ChallengeTable search={search} difficulty={difficulty} language={language} solvedGameIds={solvedGameIds} />
+        <ChallengeTable search={search} difficulty={difficulty} language={language} />
       </div>
     </DashboardLayout>
   );
