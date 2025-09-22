@@ -11,10 +11,11 @@ import { Flame, CircleDollarSign, Trophy, ArrowRight, Dna, Loader2 } from 'lucid
 import AiAssistant from '@/components/ai-assistant';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getDailyChallenge, Challenge } from '@/lib/challenges';
+import { getDailyChallenge, Challenge, challenges as allChallenges } from '@/lib/challenges';
 import { useAuth } from '@/hooks/use-auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { isToday, isYesterday, differenceInCalendarDays } from 'date-fns';
 
 const dungeonProgress = {
   floor: 'The Syntax Swamp',
@@ -23,40 +24,112 @@ const dungeonProgress = {
   nextBoss: 'The Pythonic Serpent',
 };
 
-// --- Leveling Logic ---
+// --- Gamification Logic ---
 const XP_FOR_NEXT_LEVEL = 1000;
 const calculateLevel = (xp: number) => Math.floor(xp / XP_FOR_NEXT_LEVEL) + 1;
 const calculateXpForNextLevel = (xp: number) => XP_FOR_NEXT_LEVEL - (xp % XP_FOR_NEXT_LEVEL);
 const calculateProgressToNextLevel = (xp: number) => (xp % XP_FOR_NEXT_LEVEL) / 10;
-// --- End Leveling Logic ---
+
+const GOLD_PER_DIFFICULTY = {
+    'Easy': 10,
+    'Medium': 25,
+    'Hard': 50,
+};
+
+const calculateGold = (solved: {id: string}[]) => {
+    return solved.reduce((total, s) => {
+        const challenge = allChallenges.find(c => c.id === s.id);
+        if (challenge) {
+            return total + (GOLD_PER_DIFFICULTY[challenge.difficulty] || 0);
+        }
+        return total;
+    }, 0);
+};
+
+const calculateStreak = (solved: {solvedAt: string}[]) => {
+    if (solved.length === 0) return 0;
+
+    const solvedDates = solved.map(s => new Date(s.solvedAt))
+        .filter(d => !isNaN(d.getTime()))
+        .sort((a, b) => b.getTime() - a.getTime());
+
+    if (solvedDates.length === 0) return 0;
+    
+    let streak = 0;
+    let lastDate = new Date();
+
+    if (isToday(solvedDates[0]) || isYesterday(solvedDates[0])) {
+      streak = 1;
+      lastDate = solvedDates[0];
+    } else {
+      return 0; // No activity today or yesterday, so streak is 0
+    }
+
+    for (let i = 1; i < solvedDates.length; i++) {
+        const currentDate = solvedDates[i];
+        if (differenceInCalendarDays(lastDate, currentDate) === 1) {
+            streak++;
+            lastDate = currentDate;
+        } else if (differenceInCalendarDays(lastDate, currentDate) > 1) {
+            break; // Gap in days, streak is broken
+        }
+        // If dates are on the same day, continue without incrementing streak
+    }
+    return streak;
+};
+
+const calculateRank = (xp: number) => {
+    // Simulated leaderboard rank.
+    // This is a simple non-linear formula for demonstration.
+    if (xp === 0) return 'Unranked';
+    const rank = Math.floor(20000 / (Math.sqrt(xp) + 1));
+    return `#${Math.max(1, rank)}`;
+}
+// --- End Gamification Logic ---
+
 
 export default function Home() {
   const { user, loading } = useAuth();
   const [dailyChallenge, setDailyChallenge] = useState<Challenge | null>(null);
+  
   const [userXp, setUserXp] = useState(0);
   const [level, setLevel] = useState(1);
   const [xpToNext, setXpToNext] = useState(XP_FOR_NEXT_LEVEL);
   const [progress, setProgress] = useState(0);
 
+  const [gold, setGold] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [rank, setRank] = useState<string>('Unranked');
+
   useEffect(() => {
     setDailyChallenge(getDailyChallenge());
 
     const fetchUserData = async () => {
+      let solvedChallenges: { id: string; solvedAt: string }[] = [];
       let currentXp = 0;
+
       if (user) {
         const userDocRef = doc(db, 'users', user.uid);
         const userDoc = await getDoc(userDocRef);
         if (userDoc.exists()) {
-          currentXp = userDoc.data().xp || 0;
+          const userData = userDoc.data();
+          currentXp = userData.xp || 0;
+          solvedChallenges = userData.solvedChallenges || [];
         }
       } else {
-        const storedSolutions: { id: string }[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
-        currentXp = storedSolutions.length * 100; // Simple XP for non-logged in users
+        // Fallback for non-logged in users
+        const storedSolutions: { id: string, solvedAt: string }[] = JSON.parse(localStorage.getItem('solvedChallengesInfo') || '[]');
+        currentXp = storedSolutions.length * 100;
+        solvedChallenges = storedSolutions;
       }
+      
       setUserXp(currentXp);
       setLevel(calculateLevel(currentXp));
       setXpToNext(calculateXpForNextLevel(currentXp));
       setProgress(calculateProgressToNextLevel(currentXp));
+      setGold(calculateGold(solvedChallenges));
+      setStreak(calculateStreak(solvedChallenges));
+      setRank(calculateRank(currentXp));
     };
 
     if (!loading) {
@@ -104,8 +177,8 @@ export default function Home() {
               <CircleDollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">4,231</div>
-              <p className="text-xs text-muted-foreground">+150 from last challenge</p>
+              <div className="text-2xl font-bold">{gold.toLocaleString()}</div>
+              <p className="text-xs text-muted-foreground">Total earned</p>
             </CardContent>
           </Card>
           <Card>
@@ -115,9 +188,9 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                5 days <span role="img" aria-label="fire">🔥</span>
+                {streak} {streak > 0 && <span role="img" aria-label="fire">🔥</span>}
               </div>
-              <p className="text-xs text-muted-foreground">Keep it up for a reward!</p>
+              <p className="text-xs text-muted-foreground">{streak > 0 ? "Keep it up!" : "Solve a challenge to start!"}</p>
             </CardContent>
           </Card>
           <Card>
@@ -126,8 +199,8 @@ export default function Home() {
               <Trophy className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">#12</div>
-              <p className="text-xs text-muted-foreground">Top 5% of all players</p>
+              <div className="text-2xl font-bold">{rank}</div>
+              <p className="text-xs text-muted-foreground">Global Ranking (Simulated)</p>
             </CardContent>
           </Card>
         </div>
