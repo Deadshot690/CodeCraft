@@ -66,7 +66,7 @@ export const tasks: Task[] = [
     description: 'Using the native `fetch` API in JavaScript, make a GET request to `https://api.example.com/data` and log the response to the console.',
     starterCode: {
       python: '# Python does not run in the browser for this challenge.\n# Please use JavaScript.',
-      javascript: '// Your code here\n// Note: This task requires using fetch() which is asynchronous.\n// The testing environment for this problem is simplified and may not fully support async operations correctly.',
+      javascript: '// Your code here\nfetch(\'https://api.example.com/data\')\n  .then(response => response.json())\n  .then(data => console.log(data));',
       java: '// Java does not run in the browser for this challenge.\n// Please use JavaScript.',
       cpp: '// C++ does not run in the browser for this challenge.\n// Please use JavaScript.',
     },
@@ -81,7 +81,7 @@ export const tasks: Task[] = [
     xp: 150,
     description: 'Refactor the given Python code to prevent SQL injection vulnerabilities. The function should safely query the database for a user by their username.',
     starterCode: {
-      python: 'import sqlite3\n\ndef get_user(username):\n  db = sqlite3.connect(":memory:")\n  cursor = db.cursor()\n  # Vulnerable code below\n  query = "SELECT * FROM users WHERE username = \'" + username + "\'"\n  cursor.execute(query)\n  return cursor.fetchone()\n\n# Your refactored, secure code here\n',
+      python: 'import sqlite3\n\n# Assume db connection is passed or created elsewhere\n# def get_user(db, username):\n#  cursor = db.cursor()\n#  # Vulnerable code below\n#  query = "SELECT * FROM users WHERE username = \'" + username + "\'"\n#  cursor.execute(query)\n#  return cursor.fetchone()\n\ndef get_user_safe(db, username):\n  # Your refactored, secure code here\n  cursor = db.cursor()\n  query = "SELECT * FROM users WHERE username = ?"\n  cursor.execute(query, (username,))\n  return cursor.fetchone()',
       javascript: '# N/A for this challenge.',
       java: '# N/A for this challenge.',
       cpp: '# N/A for this challenge.',
@@ -179,7 +179,7 @@ export const tasks: Task[] = [
     starterCode: {
       python: '# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef max_depth(root):\n  # Your code here\n  pass',
       javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\nfunction maxDepth(root) {\n  // Your code here\n}',
-      java: '/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n  public int maxDepth(TreeNode root) {\n    // Your code here\n  }\n}',
+      java: '/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) { this.val = val; this.right = right; }\n * }\n */\nclass Solution {\n  public int maxDepth(TreeNode root) {\n    // Your code here\n  }\n}',
       cpp: '/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int maxDepth(TreeNode* root) {\n        // Your code here\n    }\n};',
     },
     examples: [
@@ -236,8 +236,8 @@ export const tasks: Task[] = [
     description: 'Given the root of a binary tree, invert the tree, and return its root.',
     starterCode: {
       python: '# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef invert_tree(root):\n  # Your code here\n  pass',
-      javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\nfunction invertTree(root) {\n  // Your code here\n}',
-      java: '/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public TreeNode invertTree(TreeNode root) {\n        // Your code here\n    }\n}',
+      javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = val;\n *     this.left = left;\n *     this.right = right;\n * }\n */\nfunction invertTree(root) {\n  // Your code here\n}',
+      java: '/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) { this.val = val; this.right = right; }\n * }\n */\nclass Solution {\n    public TreeNode invertTree(TreeNode root) {\n        // Your code here\n    }\n}',
       cpp: '/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        // Your code here\n    }\n};',
     },
     examples: [
@@ -314,7 +314,7 @@ export const tasks: Task[] = [
     starterCode: {
       python: '# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef is_valid_bst(root):\n  # Your code here\n  pass',
       javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\nfunction isValidBST(root) {\n  // Your code here\n}',
-      java: '/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n  public boolean isValidBST(TreeNode root) {\n    // Your code here\n  }\n}',
+      java: '/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) { this.val = val; this.right = right; }\n * }\n */\nclass Solution {\n  public boolean isValidBST(TreeNode root) {\n    // Your code here\n  }\n}',
       cpp: '/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        // Your code here\n    }\n};',
     },
     examples: [
@@ -449,7 +449,7 @@ export const tasks: Task[] = [
     xp: 250,
     description: 'Design a data structure that follows the constraints of a Least Recently Used (LRU) cache. Implement the `LRUCache` class: `LRUCache(int capacity)` initializes the LRU cache with positive size capacity. `int get(int key)` returns the value of the key if the key exists, otherwise returns -1. `void put(int key, int value)` updates the value of the key if the key exists. Otherwise, add the key-value pair to the cache. If the number of keys exceeds the capacity from this operation, evict the least recently used key.',
     starterCode: {
-        python: 'class LRUCache:\n\n    def __init__(self, capacity: int):\n        # your code here\n\n    def get(self, key: int) -> int:\n        # your code here\n\n    def put(self, key: int, value: int) -> None:\n        # your code here\n',
+        python: 'class LRUCache:\n\n    def __init__(self, capacity: int):\n        # your code here\n        pass\n\n    def get(self, key: int) -> int:\n        # your code here\n        pass\n\n    def put(self, key: int, value: int) -> None:\n        # your code here\n        pass\n',
         javascript: 'class LRUCache {\n    constructor(capacity) {\n        // your code here\n    }\n\n    get(key) {\n        // your code here\n    }\n\n    put(key, value) {\n        // your code here\n    }\n}',
         java: 'class LRUCache {\n    public LRUCache(int capacity) {\n        // your code here\n    }\n    \n    public int get(int key) {\n        // your code here\n    }\n    \n    public void put(int key, int value) {\n        // your code here\n    }\n}',
         cpp: 'class LRUCache {\npublic:\n    LRUCache(int capacity) {\n        // your code here\n    }\n    \n    int get(int key) {\n        // your code here\n    }\n    \n    void put(int key, int value) {\n        // your code here\n    }\n};',
@@ -465,7 +465,7 @@ export const tasks: Task[] = [
     xp: 200,
     description: 'A trie or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. Implement the Trie class.',
     starterCode: {
-        python: 'class Trie:\n\n    def __init__(self):\n        # your code here\n\n    def insert(self, word: str) -> None:\n        # your code here\n\n    def search(self, word: str) -> bool:\n        # your code here\n\n    def startsWith(self, prefix: str) -> bool:\n        # your code here\n',
+        python: 'class Trie:\n\n    def __init__(self):\n        # your code here\n        pass\n\n    def insert(self, word: str) -> None:\n        # your code here\n        pass\n\n    def search(self, word: str) -> bool:\n        # your code here\n        pass\n\n    def startsWith(self, prefix: str) -> bool:\n        # your code here\n        pass\n',
         javascript: 'class Trie {\n    constructor() {\n        // your code here\n    }\n\n    insert(word) {\n        // your code here\n    }\n\n    search(word) {\n        // your code here\n    }\n\n    startsWith(prefix) {\n        // your code here\n    }\n}',
         java: 'class Trie {\n    public Trie() {\n        // your code here\n    }\n    \n    public void insert(String word) {\n        // your code here\n    }\n    \n    public boolean search(String word) {\n        // your code here\n    }\n    \n    public boolean startsWith(String prefix) {\n        // your code here\n    }\n}',
         cpp: 'class Trie {\npublic:\n    Trie() {\n        // your code here\n    }\n    \n    void insert(string word) {\n        // your code here\n    }\n    \n    bool search(string word) {\n        // your code here\n    }\n    \n    bool startsWith(string prefix) {\n        // your code here\n    }\n};',
@@ -607,6 +607,137 @@ export const tasks: Task[] = [
       { input: 'height = [4,2,0,3,2,5]', output: '9' },
     ],
     constraints: ['n == height.length', '1 <= n <= 2 * 10^4', '0 <= height[i] <= 10^5'],
+  },
+  {
+    id: '32',
+    title: 'Merge Intervals',
+    category: 'Data Structures & Algorithms',
+    difficulty: 'Intermediate',
+    xp: 150,
+    description: 'Given an array of `intervals` where `intervals[i] = [starti, endi]`, merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.',
+    starterCode: {
+      python: 'def merge(intervals):\n  # Your code here\n  pass',
+      javascript: 'function merge(intervals) {\n  // Your code here\n}',
+      java: 'class Solution {\n  public int[][] merge(int[][] intervals) {\n    // Your code here\n  }\n}',
+      cpp: 'class Solution {\npublic:\n    vector<vector<int>> merge(vector<vector<int>>& intervals) {\n        // Your code here\n    }\n};',
+    },
+    examples: [
+      { input: 'intervals = [[1,3],[2,6],[8,10],[15,18]]', output: '[[1,6],[8,10],[15,18]]' },
+      { input: 'intervals = [[1,4],[4,5]]', output: '[[1,5]]' },
+    ],
+    constraints: ['1 <= intervals.length <= 10^4', 'intervals[i].length == 2', '0 <= starti <= endi <= 10^4'],
+  },
+  {
+    id: '33',
+    title: 'Lowest Common Ancestor of a BST',
+    category: 'Data Structures & Algorithms',
+    difficulty: 'Beginner',
+    xp: 100,
+    description: 'Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes in the BST.',
+    starterCode: {
+      python: '# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\ndef lowest_common_ancestor(root, p, q):\n  # Your code here\n  pass',
+      javascript: 'function lowestCommonAncestor(root, p, q) {\n  // Your code here\n}',
+      java: 'class Solution {\n  public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n    // Your code here\n  }\n}',
+      cpp: 'class Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        // Your code here\n    }\n};',
+    },
+    examples: [
+      { input: 'root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8', output: '6' },
+      { input: 'root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4', output: '2' },
+    ],
+    constraints: ['The number of nodes in the tree is in the range [2, 10^5].', '-10^9 <= Node.val <= 10^9', 'All Node.val are unique.', 'p != q', 'p and q will exist in the BST.'],
+  },
+  {
+    id: '34',
+    title: 'Debounced Input Handler',
+    category: 'Web Development',
+    difficulty: 'Intermediate',
+    xp: 175,
+    description: 'Implement a debounce function in JavaScript. The function should take another function and a delay time as arguments. When the debounced function is called, it should not execute the original function until the specified delay has passed without any new calls.',
+    starterCode: {
+      python: '# N/A for this challenge',
+      javascript: 'function debounce(func, delay) {\n  // Your code here\n}\n\n// Example usage:\n// const debouncedLog = debounce(() => console.log("Hello"), 1000);\n// debouncedLog();\n// debouncedLog();',
+      java: '# N/A for this challenge',
+      cpp: '# N/A for this challenge',
+    },
+    examples: [
+      { input: 'Calling debounced function multiple times in quick succession', output: 'The wrapped function is only called once after the delay.', explanation: 'If a debounced function is called every 100ms with a 500ms delay, the inner function will only execute once, 500ms after the last call.'}
+    ],
+    constraints: ['Must be implemented in plain JavaScript.', 'Should handle any number of arguments passed to the original function.'],
+  },
+  {
+    id: '35',
+    title: 'Secure Password Hashing',
+    category: 'Cybersecurity',
+    difficulty: 'Intermediate',
+    xp: 175,
+    description: 'Write a Python function that takes a plain-text password and returns a securely hashed password using a modern, salted hashing algorithm like bcrypt. Also write a function to verify a password against a hash.',
+    starterCode: {
+      python: "import bcrypt\n\ndef hash_password(plain_text_password):\n  # Your code here to generate a salt and hash the password\n  pass\n\ndef check_password(plain_text_password, hashed_password):\n  # Your code here to check the password against the hash\n  pass",
+      javascript: '# N/A for this challenge. Please use Python.',
+      java: '# N/A for this challenge. Please use Python.',
+      cpp: '# N/A for this challenge. Please use Python.',
+    },
+    examples: [
+      { input: 'password = "mySuperSecretPa$$w0rd"', output: 'A valid bcrypt hash string (output will vary)', explanation: 'The hash must be generated with a random salt each time.'}
+    ],
+    constraints: ['Must use the `bcrypt` library.', 'The hash must be properly salted.'],
+  },
+  {
+    id: '36',
+    title: 'Calculate Precision and Recall',
+    category: 'AI/ML',
+    difficulty: 'Beginner',
+    xp: 100,
+    description: 'Implement a Python function that calculates precision and recall for a binary classification model, given the number of true positives (TP), false positives (FP), and false negatives (FN).',
+    starterCode: {
+      python: 'def calculate_metrics(tp, fp, fn):\n  """\n  Calculates precision and recall.\n  Returns a tuple of (precision, recall).\n  Handle the case where the denominator is zero.\n  """\n  # Your code here\n  pass',
+      javascript: '# N/A for this challenge.',
+      java: '# N/A for this challenge.',
+      cpp: '# N/A for this challenge.',
+    },
+    examples: [
+      { input: 'tp=50, fp=10, fn=20', output: '(0.833, 0.714)', explanation: 'Precision = TP / (TP + FP) = 50/60. Recall = TP / (TP + FN) = 50/70.' },
+      { input: 'tp=0, fp=0, fn=0', output: '(0.0, 0.0)', explanation: 'If there are no predictions or actual positives, metrics are 0.'}
+    ],
+    constraints: ['Return precision and recall rounded to 3 decimal places.', 'If a denominator is zero, the corresponding metric should be 0.0.'],
+  },
+  {
+    id: '37',
+    title: 'Longest Consecutive Sequence',
+    category: 'Data Structures & Algorithms',
+    difficulty: 'Advanced',
+    xp: 200,
+    description: 'Given an unsorted array of integers `nums`, return the length of the longest consecutive elements sequence. You must write an algorithm that runs in O(n) time.',
+    starterCode: {
+      python: 'def longest_consecutive(nums):\n  # Your code here\n  pass',
+      javascript: 'function longestConsecutive(nums) {\n  // Your code here\n}',
+      java: 'class Solution {\n  public int longestConsecutive(int[] nums) {\n    // Your code here\n  }\n}',
+      cpp: 'class Solution {\npublic:\n    int longestConsecutive(vector<int>& nums) {\n        // Your code here\n    }\n};',
+    },
+    examples: [
+      { input: 'nums = [100,4,200,1,3,2]', output: '4', explanation: 'The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.' },
+      { input: 'nums = [0,3,7,2,5,8,4,6,0,1]', output: '9' },
+    ],
+    constraints: ['0 <= nums.length <= 10^5', '-10^9 <= nums[i] <= 10^9'],
+  },
+  {
+    id: '38',
+    title: 'XSS Prevention in React',
+    category: 'Cybersecurity',
+    difficulty: 'Intermediate',
+    xp: 150,
+    description: 'You are given a React component that dangerously renders HTML from an untrusted source. Refactor it to prevent Cross-Site Scripting (XSS) attacks while still displaying the content safely.',
+    starterCode: {
+      python: '# N/A for this challenge',
+      javascript: "import React from 'react';\n\n// Unsafe component\n// const UnsafeComponent = ({ content }) => {\n//   return <div dangerouslySetInnerHTML={{ __html: content }} />;\n// };\n\n// Your safe component here\nconst SafeComponent = ({ content }) => {\n  // Your code here to render content safely\n  // For this challenge, simply rendering it as text is the safe approach.\n  return <div>{content}</div>\n};\n\n// Example untrusted content:\n// const maliciousContent = 'Hello, world! <img src=x onerror=alert(\"XSS_ATTACK\") />';",
+      java: '# N/A for this challenge',
+      cpp: '# N/A for this challenge',
+    },
+    examples: [
+      { input: "content = '<b>Hello</b>'", output: "Renders the text '<b>Hello</b>' literally, not as bold text." },
+      { input: "content = '<script>alert(1)</script>'", output: "Renders the script tag as plain text, preventing its execution." }
+    ],
+    constraints: ['Do not use `dangerouslySetInnerHTML`.', 'The solution should prevent any script execution from the `content` prop.'],
   }
 ];
 
@@ -617,5 +748,3 @@ export const games: Game[] = [
     { id: '4', title: 'Monster Battle', description: 'RPG fight with coding questions.', icon: Shield, href: '#' },
     { id: '5', title: 'Code Dungeon', description: 'Dungeon crawler with coding puzzles.', icon: Castle, href: '#' },
 ];
-
-    
