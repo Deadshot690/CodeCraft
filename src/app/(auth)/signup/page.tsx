@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -71,9 +72,17 @@ export default function SignupPage() {
       // If everything is successful, the AuthLayout will handle the redirect.
     } catch (error: any) {
       console.error("Signup Error:", error);
+      
+      let description = "An unexpected error occurred. Please try again.";
+      if (error.code === 'auth/email-already-in-use') {
+          description = "This email is already registered. Please try logging in instead.";
+      } else if (error.message) {
+          description = error.message;
+      }
+      
       toast({
         title: "Signup Failed",
-        description: error.message || "An unexpected error occurred.",
+        description: description,
         variant: "destructive",
       });
     }
