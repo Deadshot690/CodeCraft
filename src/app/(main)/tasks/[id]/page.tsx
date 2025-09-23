@@ -3,7 +3,7 @@
 import { tasks } from "@/lib/data";
 import Link from "next/link";
 import { notFound, useRouter } from "next/navigation";
-import { useState, use, useTransition } from "react";
+import { useState, use, useTransition, useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -31,12 +31,21 @@ type Language = 'javascript' | 'python' | 'java' | 'cpp';
 export default function TaskPage({ params }: { params: { id: string } }) {
   const resolvedParams = use(params);
   const router = useRouter();
-  const task = tasks.find((t) => t.id === resolvedParams.id);
-  
+
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('javascript');
-  const [code, setCode] = useState(task?.starterCode.javascript || "");
   const [isPending, startTransition] = useTransition();
   const [runResult, setRunResult] = useState<RunCodeOutput | null>(null);
+
+  const { task, currentTaskIndex } = useMemo(() => {
+    const foundTask = tasks.find((t) => t.id === resolvedParams.id);
+    if (!foundTask) {
+      return { task: null, currentTaskIndex: -1 };
+    }
+    const index = tasks.findIndex(t => t.id === foundTask.id);
+    return { task: foundTask, currentTaskIndex: index };
+  }, [resolvedParams.id]);
+
+  const [code, setCode] = useState(task?.starterCode.javascript || "");
 
   if (!task) {
     notFound();
@@ -55,7 +64,7 @@ export default function TaskPage({ params }: { params: { id: string } }) {
     });
   }
 
-  const currentTaskIndex = tasks.findIndex(t => t.id === task.id);
+  const prevTask = tasks[currentTaskIndex - 1];
   const nextTask = tasks[currentTaskIndex + 1];
   
   const allTestsPassed = runResult?.testResults.every(r => r.success);
@@ -69,10 +78,15 @@ export default function TaskPage({ params }: { params: { id: string } }) {
           <h1 className="font-headline text-xl font-bold tracking-tight md:text-2xl truncate">
             {task.title}
           </h1>
-          <div className="ml-auto">
-            {nextTask && allTestsPassed && (
+          <div className="ml-auto flex items-center gap-2">
+            {prevTask && (
+              <Button variant="outline" onClick={() => router.push(`/tasks/${prevTask.id}`)}>
+                <ChevronLeft className="mr-2 h-4 w-4" /> Previous
+              </Button>
+            )}
+            {nextTask && (
                <Button onClick={() => router.push(`/tasks/${nextTask.id}`)}>
-                Next Task <ChevronRight className="ml-2 h-4 w-4" />
+                Next <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             )}
           </div>
@@ -104,7 +118,7 @@ export default function TaskPage({ params }: { params: { id: string } }) {
               {task.examples.map((example, index) => (
                 <div key={index}>
                   <p className="font-semibold">Example {index + 1}:</p>
-                  <pre className="mt-2 rounded-md bg-muted p-4 font-code text-sm">
+                  <pre className="mt-2 rounded-md bg-muted p-4 font-code text-sm whitespace-pre-wrap">
                     <code>
                       <strong>Input:</strong> {example.input}
                       <br />
