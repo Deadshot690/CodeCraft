@@ -50,7 +50,8 @@ export default function LoginPage() {
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
       // On successful sign-in, redirect to the dashboard.
-      router.push("/dashboard");
+      // Using replace to prevent user from going back to login page.
+      router.replace("/dashboard");
     } catch (error: any) {
       console.error("Login Error:", error);
       toast({
