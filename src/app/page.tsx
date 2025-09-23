@@ -1,30 +1,33 @@
-"use client"
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Code } from "lucide-react";
+
+"use client";
+
+import { useAuth } from "@/components/auth-provider";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { Loader2 } from "lucide-react";
 
 export default function LandingPage() {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    // If the auth state is not loading, decide where to route the user.
+    if (!loading) {
+      if (user) {
+        // If the user is logged in, redirect them to the dashboard.
+        router.replace("/dashboard");
+      } else {
+        // If the user is not logged in, redirect them to the login page.
+        router.replace("/login");
+      }
+    }
+  }, [user, loading, router]);
+
+  // While the auth state is loading, show a full-screen loader.
+  // This prevents a "flash" of the wrong page.
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground">
-      <div className="flex flex-col items-center justify-center space-y-8 text-center">
-        <div className="flex items-center gap-4">
-          <Code className="h-16 w-16 text-primary" />
-          <h1 className="font-headline text-6xl font-bold">
-            CodeCraft
-          </h1>
-        </div>
-        <p className="max-w-2xl text-lg text-muted-foreground">
-          The ultimate gamified learning platform for coders. Sharpen your skills, complete challenges, and level up your career.
-        </p>
-        <div className="flex gap-4">
-          <Button asChild size="lg" className="text-lg">
-            <Link href="/dashboard">Start Coding</Link>
-          </Button>
-          <Button asChild variant="outline" size="lg" className="text-lg">
-            <Link href="/tasks">Browse Tasks</Link>
-          </Button>
-        </div>
-      </div>
+    <div className="flex h-screen items-center justify-center">
+      <Loader2 className="h-12 w-12 animate-spin text-primary" />
     </div>
   );
 }
