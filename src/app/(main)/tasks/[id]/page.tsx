@@ -171,7 +171,7 @@ export default function TaskPage({ params }: { params: { id: string } }) {
                 {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Run Code
               </Button>
-               <Button 
+              <Button 
                 onClick={handleRunCode} 
                 disabled={isPending}
                 className={allTestsPassed ? "bg-green-600 hover:bg-green-700" : ""}
