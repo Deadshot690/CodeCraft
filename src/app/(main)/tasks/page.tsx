@@ -106,20 +106,20 @@ export default function TasksPage() {
         </div>
 
         <div className="border rounded-lg">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[50px]">Sr.No.</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead className="hidden md:table-cell">Category</TableHead>
-                <TableHead>Difficulty</TableHead>
-                <TableHead className="hidden md:table-cell">XP</TableHead>
-                <TableHead className="text-right">Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredTasks.length > 0 ? (
-                filteredTasks.map((task, index) => (
+          {filteredTasks.length > 0 ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[50px]">Sr.No.</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead className="hidden md:table-cell">Category</TableHead>
+                  <TableHead>Difficulty</TableHead>
+                  <TableHead className="hidden md:table-cell">XP</TableHead>
+                  <TableHead className="text-right">Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredTasks.map((task, index) => (
                   <TableRow key={task.id}>
                     <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell className="font-medium">{task.title}</TableCell>
@@ -139,16 +139,14 @@ export default function TasksPage() {
                       </Button>
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={6} className="text-center p-8 text-muted-foreground">
-                    No tasks found matching your criteria.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <div className="text-center p-8 text-muted-foreground">
+              No tasks found matching your criteria.
+            </div>
+          )}
         </div>
       </div>
     </div>
