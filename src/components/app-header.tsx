@@ -3,14 +3,18 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { user } from '@/lib/data';
 import { Flame, Star, Zap } from 'lucide-react';
+import { useAuth } from './auth-provider';
 
 type AppHeaderProps = {
   title: string;
 };
 
 export function AppHeader({ title }: AppHeaderProps) {
+  const { user } = useAuth();
+  
+  if (!user) return null;
+
   const xpPercentage = (user.xp / user.xpToNextLevel) * 100;
 
   return (

@@ -1,13 +1,16 @@
 import type { LucideIcon } from "lucide-react";
 
 export type User = {
+  uid: string;
   name: string;
+  email: string | null;
   avatarUrl: string;
   xp: number;
   level: number;
   xpToNextLevel: number;
   streak: number;
   badges: Badge[];
+  completedTasks: string[];
 };
 
 export type Badge = {

@@ -3,7 +3,9 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Swords, Gamepad2, Puzzle, Shield, BrainCircuit, Castle } from 'lucide-react';
 
 export const user: User = {
+  uid: '123',
   name: 'Alex',
+  email: 'alex@example.com',
   avatarUrl: 'https://picsum.photos/seed/avatar/100/100',
   xp: 750,
   level: 5,
@@ -15,6 +17,7 @@ export const user: User = {
     { id: '3', name: '5-Day Streak', icon: PlaceHolderImages[2].imageUrl, description: 'On Fire!' },
     { id: '4', name: 'First Challenge', icon: PlaceHolderImages[3].imageUrl, description: 'The Journey Begins' },
   ],
+  completedTasks: [],
 };
 
 export const tasks: Task[] = [
@@ -2265,7 +2268,7 @@ export const tasks: Task[] = [
       { input: 'board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], words = ["oath","pea","eat","rain"]', output: '["eat","oath"]' },
       { input: 'board = [["a","b"],["c","d"]], words = ["abcb"]', output: '[]' },
     ],
-    constraints: ['m == board.length', 'n = board[i].length', '1 <= m, n <= 12', 'board[i][j] is a lowercase English letter.', '1 <= words.length <= 3 * 10^4', '1 <= words[i].length <= 10', 'words[i] consists of lowercase English letters.', 'All the strings of `words` are unique.'],
+    constraints: ['m == board.length', 'n == board[i].length', '1 <= m, n <= 12', 'board[i][j] is a lowercase English letter.', '1 <= words.length <= 3 * 10^4', '1 <= words[i].length <= 10', 'words[i] consists of lowercase English letters.', 'All the strings of `words` are unique.'],
   },
   {
     id: '125',
@@ -2548,7 +2551,7 @@ export const tasks: Task[] = [
       { input: 'text1 = "abc", text2 = "abc"', output: '3' },
       { input: 'text1 = "abc", text2 = "def"', output: '0' },
     ],
-    constraints: ['1 <= text1.length, text2.length <= 1000', 'text1 and text2 consist of only lowercase English characters.'],
+    constraints: ['1 <= text1.length, text2.length <= 1000', 'text1 and text2 consist of only lowercase English letters.'],
   },
   {
     id: '140',
@@ -3704,5 +3707,3 @@ export const games: Game[] = [
     { id: '4', title: 'Monster Battle', description: 'RPG fight with coding questions.', icon: Shield, href: '#' },
     { id: '5', title: 'Code Dungeon', description: 'Dungeon crawler with coding puzzles.', icon: Castle, href: '#' },
 ];
-
-    

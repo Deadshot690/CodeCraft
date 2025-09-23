@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Code, Gamepad, Home, User as UserIcon } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Code, Gamepad, Home, LogOut } from "lucide-react";
+import { useAuth } from "./auth-provider";
+import { auth } from "@/lib/firebase";
+import { signOut } from "firebase/auth";
 
 import {
   Sidebar,
@@ -12,13 +15,10 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { user } from "@/lib/data";
+import { Button } from "./ui/button";
 
 const CodeCraftLogo = () => (
     <div className="flex items-center gap-2 font-headline font-bold text-lg">
@@ -30,7 +30,18 @@ const CodeCraftLogo = () => (
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, loading } = useAuth();
   const isActive = (path: string) => pathname === path || (path !== '/dashboard' && pathname.startsWith(path));
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    router.push('/login');
+  };
+
+  if (loading || !user) {
+    return null; // Or a loading skeleton
+  }
 
   return (
     <Sidebar>
@@ -78,7 +89,7 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarContent>
       <SidebarSeparator />
-      <SidebarFooter>
+      <SidebarFooter className="p-2 flex flex-col gap-2">
         <Link href="/profile" className="w-full">
             <div className="flex items-center gap-3 rounded-md p-2 hover:bg-accent">
                  <Avatar className="h-9 w-9">
@@ -91,6 +102,10 @@ export function AppSidebar() {
                 </div>
             </div>
         </Link>
+        <Button variant="outline" size="sm" onClick={handleLogout}>
+            <LogOut className="mr-2"/>
+            Logout
+        </Button>
       </SidebarFooter>
     </Sidebar>
   );
