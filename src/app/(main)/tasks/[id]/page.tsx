@@ -1,5 +1,8 @@
+"use client";
+
 import { tasks } from "@/lib/data";
 import { notFound } from "next/navigation";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -9,7 +12,6 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -19,22 +21,35 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertCircle, Terminal } from "lucide-react";
+import { CodeEditor } from "@/components/code-editor";
+
+type Language = 'javascript' | 'python' | 'java' | 'cpp';
 
 export default function TaskPage({ params }: { params: { id: string } }) {
   const task = tasks.find((t) => t.id === params.id);
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>('javascript');
+  const [code, setCode] = useState(task?.starterCode.javascript || "");
 
   if (!task) {
     notFound();
   }
 
+  const handleLanguageChange = (lang: Language) => {
+    setSelectedLanguage(lang);
+    setCode(task.starterCode[lang]);
+  }
+
+  const starterCode = task.starterCode[selectedLanguage];
+
+
   return (
-    <div className="flex flex-col">
-       <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
+    <div className="flex flex-col h-screen">
+       <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6 shrink-0">
         <h1 className="font-headline text-xl font-bold tracking-tight md:text-2xl truncate">
           {task.title}
         </h1>
       </header>
-    <div className="flex-1 p-4 md:p-6 grid gap-6 lg:grid-cols-2">
+    <div className="flex-1 p-4 md:p-6 grid gap-6 lg:grid-cols-2 overflow-auto">
       <div className="flex flex-col gap-6">
         <Card>
           <CardHeader>
@@ -100,7 +115,10 @@ export default function TaskPage({ params }: { params: { id: string } }) {
         <Card className="flex-grow flex flex-col">
           <CardHeader className="flex-row items-center justify-between">
             <CardTitle className="font-headline text-lg">Solution</CardTitle>
-            <Select defaultValue="javascript">
+            <Select 
+              defaultValue={selectedLanguage}
+              onValueChange={(value) => handleLanguageChange(value as Language)}
+            >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select language" />
               </SelectTrigger>
@@ -113,13 +131,14 @@ export default function TaskPage({ params }: { params: { id: string } }) {
             </Select>
           </CardHeader>
           <CardContent className="flex-grow flex flex-col">
-            <Textarea
-              defaultValue={task.starterCode.javascript}
-              className="flex-grow font-code text-base bg-muted/50 resize-none"
-              placeholder="Write your code here..."
+            <CodeEditor 
+                key={selectedLanguage}
+                initialCode={starterCode} 
+                language={selectedLanguage} 
+                onCodeChange={setCode}
             />
             <div className="mt-4 flex justify-end gap-2">
-              <Button variant="outline">Reset</Button>
+              <Button variant="outline" onClick={() => handleLanguageChange(selectedLanguage)}>Reset</Button>
               <Button>Run Code</Button>
             </div>
           </CardContent>
