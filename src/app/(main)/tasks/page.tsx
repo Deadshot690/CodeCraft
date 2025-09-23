@@ -117,9 +117,9 @@ export default function TasksPage() {
                 <TableHead className="text-right">Action</TableHead>
               </TableRow>
             </TableHeader>
-            {filteredTasks.length > 0 && (
-              <TableBody>
-                {filteredTasks.map((task, index) => (
+            <TableBody>
+              {filteredTasks.length > 0 ? (
+                filteredTasks.map((task, index) => (
                   <TableRow key={task.id}>
                     <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell className="font-medium">{task.title}</TableCell>
@@ -139,15 +139,16 @@ export default function TasksPage() {
                       </Button>
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            )}
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center p-8 text-muted-foreground">
+                    No tasks found matching your criteria.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
           </Table>
-           {filteredTasks.length === 0 && (
-              <div className="text-center p-8 text-muted-foreground">
-                No tasks found matching your criteria.
-              </div>
-            )}
         </div>
       </div>
     </div>
