@@ -109,6 +109,7 @@ export default function TasksPage() {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-[50px]">Sr.No.</TableHead>
                 <TableHead>Title</TableHead>
                 <TableHead className="hidden md:table-cell">Category</TableHead>
                 <TableHead>Difficulty</TableHead>
@@ -117,8 +118,9 @@ export default function TasksPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredTasks.map((task) => (
+              {filteredTasks.map((task, index) => (
                 <TableRow key={task.id}>
+                   <TableCell className="font-medium">{index + 1}</TableCell>
                   <TableCell className="font-medium">{task.title}</TableCell>
                   <TableCell className="hidden md:table-cell text-muted-foreground">{task.category}</TableCell>
                   <TableCell>
