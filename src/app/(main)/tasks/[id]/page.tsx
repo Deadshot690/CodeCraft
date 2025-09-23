@@ -204,7 +204,7 @@ export default function TaskPage({ params }: { params: { id: string } }) {
              <Card>
                  <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2"><AlertCircle/> Test Results</CardTitle>
-              </Header>
+              </CardHeader>
               <CardContent>
                 <div className="p-4 bg-muted rounded-md h-32 text-sm text-muted-foreground overflow-auto">
                     {isPending ? "Running tests..." : !runResult ? "Run your code to see test results." : (
