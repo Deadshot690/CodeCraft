@@ -45,7 +45,16 @@ export default function TaskPage({ params }: { params: { id: string } }) {
     return { task: foundTask, currentTaskIndex: index };
   }, [resolvedParams.id]);
 
+  // Use a state for code that is derived from the task and language
   const [code, setCode] = useState(task?.starterCode[selectedLanguage] || "");
+
+  // Effect to update code when task or language changes
+  useMemo(() => {
+    if (task) {
+      setCode(task.starterCode[selectedLanguage]);
+      setRunResult(null); // Reset results when language or task changes
+    }
+  }, [task, selectedLanguage]);
   
   if (!task) {
     notFound();
@@ -53,12 +62,13 @@ export default function TaskPage({ params }: { params: { id: string } }) {
   
   const handleLanguageChange = (lang: Language) => {
     setSelectedLanguage(lang);
-    setCode(task.starterCode[lang]);
-    setRunResult(null);
   }
   
   const handleRunCode = () => {
     startTransition(async () => {
+      // The function name in starter code might not match the title.
+      // A more robust solution would be to standardize the function name.
+      // For now, let's assume the function to call is derived from the title.
       const result = await runCode({ code, language: selectedLanguage, task: task as Task });
       setRunResult(result);
     });
@@ -71,26 +81,26 @@ export default function TaskPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="flex flex-col h-screen">
-      <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6 shrink-0">
-        <Button variant="outline" size="icon" className="h-8 w-8" asChild>
-          <Link href="/tasks"><ChevronLeft className="h-4 w-4" /></Link>
-        </Button>
-        <h1 className="font-headline text-xl font-bold tracking-tight md:text-2xl truncate">
-          {task.title}
-        </h1>
-        <div className="ml-auto flex items-center gap-2">
-          {prevTask && (
-            <Button variant="outline" onClick={() => router.push(`/tasks/${prevTask.id}`)}>
-              <ChevronLeft className="mr-2 h-4 w-4" /> Previous
-            </Button>
-          )}
-          {nextTask && (
-             <Button onClick={() => router.push(`/tasks/${nextTask.id}`)}>
-              Next <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
-          )}
-        </div>
-      </header>
+       <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6 shrink-0">
+          <Button variant="outline" size="icon" className="h-8 w-8" asChild>
+            <Link href="/tasks"><ChevronLeft className="h-4 w-4" /></Link>
+          </Button>
+          <h1 className="font-headline text-xl font-bold tracking-tight md:text-2xl truncate">
+            {task.title}
+          </h1>
+          <div className="ml-auto flex items-center gap-2">
+            {prevTask && (
+              <Button variant="outline" onClick={() => router.push(`/tasks/${prevTask.id}`)}>
+                <ChevronLeft className="mr-2 h-4 w-4" /> Previous
+              </Button>
+            )}
+            {nextTask && (
+              <Button onClick={() => router.push(`/tasks/${nextTask.id}`)}>
+                Next <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
+            )}
+          </div>
+        </header>
       <div className="flex-1 p-4 md:p-6 grid gap-6 lg:grid-cols-2 overflow-auto">
         <div className="flex flex-col gap-6">
           <Card>
@@ -182,16 +192,16 @@ export default function TaskPage({ params }: { params: { id: string } }) {
               <div className="mt-4 flex justify-end gap-2">
                 <Button variant="outline" onClick={() => handleLanguageChange(selectedLanguage)}>Reset</Button>
                 <Button onClick={handleRunCode} disabled={isPending}>
-                  {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                   Run Code
                 </Button>
-                <Button 
+                 <Button 
                   onClick={handleRunCode} 
-                  disabled={isPending}
+                  disabled={isPending || !runResult || runResult.testResults.length === 0}
                   className={allTestsPassed ? "bg-green-600 hover:bg-green-700" : ""}
                  >
-                  {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {allTestsPassed ? "Passed" : "Submit"}
+                  {isPending && runResult ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                  {allTestsPassed ? "Passed!" : "Submit"}
                 </Button>
               </div>
             </CardContent>
@@ -223,6 +233,7 @@ export default function TaskPage({ params }: { params: { id: string } }) {
                   <div className="p-4 bg-muted rounded-md h-32 text-sm text-muted-foreground overflow-auto">
                       {isPending ? "Running tests..." : !runResult ? "Run your code to see test results." : (
                         <div className="space-y-4">
+                          {runResult.testResults.length === 0 && <p>No test cases ran. Check your code for errors.</p>}
                           {runResult.testResults.map((result, index) => (
                              <Alert key={index} variant={result.success ? "default" : "destructive"} className={result.success ? "bg-green-500/10 border-green-500/50" : ""}>
                               <AlertTitle className="flex items-center gap-2">
