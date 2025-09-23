@@ -1,8 +1,9 @@
 "use client";
 
 import { tasks } from "@/lib/data";
-import { notFound } from "next/navigation";
-import { useState, use } from "react";
+import Link from "next/link";
+import { notFound, useRouter } from "next/navigation";
+import { useState, use, useTransition } from "react";
 import {
   Card,
   CardContent,
@@ -20,16 +21,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AlertCircle, Terminal } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle, CheckCircle, ChevronLeft, ChevronRight, Loader2, Terminal } from "lucide-react";
 import { CodeEditor } from "@/components/code-editor";
+import { runCode, RunCodeOutput } from "@/ai/flows/run-code-flow";
+import type { Task } from "@/lib/types";
 
 type Language = 'javascript' | 'python' | 'java' | 'cpp';
 
 export default function TaskPage({ params }: { params: { id: string } }) {
   const resolvedParams = use(params);
+  const router = useRouter();
   const task = tasks.find((t) => t.id === resolvedParams.id);
+  
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('javascript');
   const [code, setCode] = useState(task?.starterCode.javascript || "");
+  const [isPending, startTransition] = useTransition();
+  const [runResult, setRunResult] = useState<RunCodeOutput | null>(null);
 
   if (!task) {
     notFound();
@@ -38,18 +46,38 @@ export default function TaskPage({ params }: { params: { id: string } }) {
   const handleLanguageChange = (lang: Language) => {
     setSelectedLanguage(lang);
     setCode(task.starterCode[lang]);
+    setRunResult(null);
+  }
+  
+  const handleRunCode = () => {
+    startTransition(async () => {
+      const result = await runCode({ code, language: selectedLanguage, task: task as Task });
+      setRunResult(result);
+    });
   }
 
-  const starterCode = task.starterCode[selectedLanguage];
-
+  const currentTaskIndex = tasks.findIndex(t => t.id === task.id);
+  const nextTask = tasks[currentTaskIndex + 1];
+  
+  const allTestsPassed = runResult?.testResults.every(r => r.success);
 
   return (
     <div className="flex flex-col h-screen">
        <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6 shrink-0">
-        <h1 className="font-headline text-xl font-bold tracking-tight md:text-2xl truncate">
-          {task.title}
-        </h1>
-      </header>
+          <Button variant="outline" size="icon" className="h-8 w-8" asChild>
+            <Link href="/tasks"><ChevronLeft className="h-4 w-4" /></Link>
+          </Button>
+          <h1 className="font-headline text-xl font-bold tracking-tight md:text-2xl truncate">
+            {task.title}
+          </h1>
+          <div className="ml-auto">
+            {nextTask && allTestsPassed && (
+               <Button onClick={() => router.push(`/tasks/${nextTask.id}`)}>
+                Next Task <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
+            )}
+          </div>
+        </header>
     <div className="flex-1 p-4 md:p-6 grid gap-6 lg:grid-cols-2 overflow-auto">
       <div className="flex flex-col gap-6">
         <Card>
@@ -134,13 +162,24 @@ export default function TaskPage({ params }: { params: { id: string } }) {
           <CardContent className="flex-grow flex flex-col">
             <CodeEditor 
                 key={selectedLanguage}
-                initialCode={starterCode} 
+                initialCode={task.starterCode[selectedLanguage]}
                 language={selectedLanguage} 
                 onCodeChange={setCode}
             />
             <div className="mt-4 flex justify-end gap-2">
               <Button variant="outline" onClick={() => handleLanguageChange(selectedLanguage)}>Reset</Button>
-              <Button>Run Code</Button>
+              <Button onClick={handleRunCode} disabled={isPending}>
+                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Run Code
+              </Button>
+               <Button 
+                onClick={handleRunCode} 
+                disabled={isPending}
+                className={allTestsPassed ? "bg-green-600 hover:bg-green-700" : ""}
+               >
+                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {allTestsPassed ? "Passed" : "Submit"}
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -156,9 +195,9 @@ export default function TaskPage({ params }: { params: { id: string } }) {
                   <CardTitle className="text-lg flex items-center gap-2"><Terminal /> Console</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="p-4 bg-muted rounded-md h-32 text-sm text-muted-foreground">
-                    Click "Run Code" to see the output.
-                </div>
+                <pre className="p-4 bg-muted rounded-md h-32 text-sm text-foreground overflow-auto font-code">
+                    {isPending ? "Running code..." : runResult?.output || 'Click "Run Code" to see the output.'}
+                </pre>
               </CardContent>
             </Card>
           </TabsContent>
@@ -166,10 +205,26 @@ export default function TaskPage({ params }: { params: { id: string } }) {
              <Card>
                  <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2"><AlertCircle/> Test Results</CardTitle>
-              </CardHeader>
+              </Header>
               <CardContent>
-                <div className="p-4 bg-muted rounded-md h-32 text-sm text-muted-foreground">
-                    Run your code to see test results.
+                <div className="p-4 bg-muted rounded-md h-32 text-sm text-muted-foreground overflow-auto">
+                    {isPending ? "Running tests..." : !runResult ? "Run your code to see test results." : (
+                      <div className="space-y-4">
+                        {runResult.testResults.map((result, index) => (
+                           <Alert key={index} variant={result.success ? "default" : "destructive"} className={result.success ? "bg-green-500/10 border-green-500/50" : ""}>
+                            <AlertTitle className="flex items-center gap-2">
+                              {result.success ? <CheckCircle className="h-4 w-4 text-green-500"/> : <AlertCircle className="h-4 w-4"/>}
+                              Test Case #{index + 1}: {result.success ? 'Passed' : 'Failed'}
+                            </AlertTitle>
+                            <AlertDescription className="font-code text-xs pl-6">
+                              Input: {result.testCase} <br/>
+                              Expected: {result.expected} <br/>
+                              Got: {result.actual}
+                            </AlertDescription>
+                          </Alert>
+                        ))}
+                      </div>
+                    )}
                 </div>
               </CardContent>
             </Card>
