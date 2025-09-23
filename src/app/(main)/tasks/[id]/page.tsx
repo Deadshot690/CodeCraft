@@ -2,7 +2,7 @@
 
 import { tasks } from "@/lib/data";
 import { notFound } from "next/navigation";
-import { useState } from "react";
+import { useState, use } from "react";
 import {
   Card,
   CardContent,
@@ -26,7 +26,8 @@ import { CodeEditor } from "@/components/code-editor";
 type Language = 'javascript' | 'python' | 'java' | 'cpp';
 
 export default function TaskPage({ params }: { params: { id: string } }) {
-  const task = tasks.find((t) => t.id === params.id);
+  const resolvedParams = use(params);
+  const task = tasks.find((t) => t.id === resolvedParams.id);
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('javascript');
   const [code, setCode] = useState(task?.starterCode.javascript || "");
 
