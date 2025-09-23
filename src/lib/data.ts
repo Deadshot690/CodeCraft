@@ -57,22 +57,6 @@ export const tasks: Task[] = [
     ],
     constraints: ['2 <= nums.length <= 10^4', '-10^9 <= nums[i] <= 10^9', '-10^9 <= target <= 10^9', 'Only one valid answer exists.'],
   },
-  {
-    id: '3',
-    title: 'Simple API Fetch',
-    category: 'Web Development',
-    difficulty: 'Beginner',
-    xp: 75,
-    description: 'Using the native `fetch` API in JavaScript, make a GET request to `https://api.example.com/data` and log the response to the console.',
-    starterCode: {
-      python: '# Python does not run in the browser for this challenge.\n# Please use JavaScript.',
-      javascript: '// Your code here\nfetch(\'https://api.example.com/data\')\n  .then(response => response.json())\n  .then(data => console.log(data));',
-      java: '// Java does not run in the browser for this challenge.\n// Please use JavaScript.',
-      cpp: '// C++ does not run in the browser for this challenge.\n// Please use JavaScript.',
-    },
-    examples: [],
-    constraints: ['Use the Fetch API.', 'Do not use any external libraries like Axios.'],
-  },
     {
     id: '4',
     title: 'SQL Injection Prevention',
@@ -81,10 +65,10 @@ export const tasks: Task[] = [
     xp: 150,
     description: 'Refactor the given Python code to prevent SQL injection vulnerabilities. The function should safely query the database for a user by their username.',
     starterCode: {
-      python: 'import sqlite3\n\n# Assume db connection is passed or created elsewhere\n# def get_user(db, username):\n#  cursor = db.cursor()\n#  # Vulnerable code below\n#  query = "SELECT * FROM users WHERE username = \'" + username + "\'"\n#  cursor.execute(query)\n#  return cursor.fetchone()\n\ndef get_user_safe(db, username):\n  # Your refactored, secure code here\n  cursor = db.cursor()\n  query = "SELECT * FROM users WHERE username = ?"\n  cursor.execute(query, (username,))\n  return cursor.fetchone()',
-      javascript: '# N/A for this challenge.',
-      java: '# N/A for this challenge.',
-      cpp: '# N/A for this challenge.',
+      python: 'import sqlite3\n\n# Assume db connection is passed or created elsewhere\n# def get_user(db, username):\n#  cursor = db.cursor()\n#  # Vulnerable code below\n#  query = "SELECT * FROM users WHERE username = \'" + username + "\'"\n#  cursor.execute(query)\n#  return cursor.fetchone()\n\ndef get_user_safe(db, username):\n  # Your refactored, secure code here\n  pass',
+      javascript: '// N/A for this challenge.',
+      java: '// N/A for this challenge.',
+      cpp: '// N/A for this challenge.',
     },
     examples: [],
     constraints: ['Use parameterized queries or prepared statements.'],
@@ -654,10 +638,10 @@ export const tasks: Task[] = [
     xp: 175,
     description: 'Implement a debounce function in JavaScript. The function should take another function and a delay time as arguments. When the debounced function is called, it should not execute the original function until the specified delay has passed without any new calls.',
     starterCode: {
-      python: '# N/A for this challenge',
+      python: '// N/A for this challenge',
       javascript: 'function debounce(func, delay) {\n  // Your code here\n}\n\n// Example usage:\n// const debouncedLog = debounce(() => console.log("Hello"), 1000);\n// debouncedLog();\n// debouncedLog();',
-      java: '# N/A for this challenge',
-      cpp: '# N/A for this challenge',
+      java: '// N/A for this challenge',
+      cpp: '// N/A for this challenge',
     },
     examples: [
       { input: 'Calling debounced function multiple times in quick succession', output: 'The wrapped function is only called once after the delay.', explanation: 'If a debounced function is called every 100ms with a 500ms delay, the inner function will only execute once, 500ms after the last call.'}
@@ -673,9 +657,9 @@ export const tasks: Task[] = [
     description: 'Write a Python function that takes a plain-text password and returns a securely hashed password using a modern, salted hashing algorithm like bcrypt. Also write a function to verify a password against a hash.',
     starterCode: {
       python: "import bcrypt\n\ndef hash_password(plain_text_password):\n  # Your code here to generate a salt and hash the password\n  pass\n\ndef check_password(plain_text_password, hashed_password):\n  # Your code here to check the password against the hash\n  pass",
-      javascript: '# N/A for this challenge. Please use Python.',
-      java: '# N/A for this challenge. Please use Python.',
-      cpp: '# N/A for this challenge. Please use Python.',
+      javascript: '// N/A for this challenge. Please use Python.',
+      java: '// N/A for this challenge. Please use Python.',
+      cpp: '// N/A for this challenge. Please use Python.',
     },
     examples: [
       { input: 'password = "mySuperSecretPa$$w0rd"', output: 'A valid bcrypt hash string (output will vary)', explanation: 'The hash must be generated with a random salt each time.'}
@@ -691,9 +675,9 @@ export const tasks: Task[] = [
     description: 'Implement a Python function that calculates precision and recall for a binary classification model, given the number of true positives (TP), false positives (FP), and false negatives (FN).',
     starterCode: {
       python: 'def calculate_metrics(tp, fp, fn):\n  """\n  Calculates precision and recall.\n  Returns a tuple of (precision, recall).\n  Handle the case where the denominator is zero.\n  """\n  # Your code here\n  pass',
-      javascript: '# N/A for this challenge.',
-      java: '# N/A for this challenge.',
-      cpp: '# N/A for this challenge.',
+      javascript: '// N/A for this challenge.',
+      java: '// N/A for this challenge.',
+      cpp: '// N/A for this challenge.',
     },
     examples: [
       { input: 'tp=50, fp=10, fn=20', output: '(0.833, 0.714)', explanation: 'Precision = TP / (TP + FP) = 50/60. Recall = TP / (TP + FN) = 50/70.' },
@@ -728,10 +712,10 @@ export const tasks: Task[] = [
     xp: 150,
     description: 'You are given a React component that dangerously renders HTML from an untrusted source. Refactor it to prevent Cross-Site Scripting (XSS) attacks while still displaying the content safely.',
     starterCode: {
-      python: '# N/A for this challenge',
-      javascript: "import React from 'react';\n\n// Unsafe component\n// const UnsafeComponent = ({ content }) => {\n//   return <div dangerouslySetInnerHTML={{ __html: content }} />;\n// };\n\n// Your safe component here\nconst SafeComponent = ({ content }) => {\n  // Your code here to render content safely\n  // For this challenge, simply rendering it as text is the safe approach.\n  return <div>{content}</div>\n};\n\n// Example untrusted content:\n// const maliciousContent = 'Hello, world! <img src=x onerror=alert(\"XSS_ATTACK\") />';",
-      java: '# N/A for this challenge',
-      cpp: '# N/A for this challenge',
+      python: '// N/A for this challenge',
+      javascript: "import React from 'react';\n\n// Unsafe component\n// const UnsafeComponent = ({ content }) => {\n//   return <div dangerouslySetInnerHTML={{ __html: content }} />;\n// };\n\n// Your safe component here\nconst SafeComponent = ({ content }) => {\n  // Your code here to render content safely\n  return <div />;\n};\n\n// Example untrusted content:\n// const maliciousContent = 'Hello, world! <img src=x onerror=alert(\"XSS_ATTACK\") />';",
+      java: '// N/A for this challenge',
+      cpp: '// N/A for this challenge',
     },
     examples: [
       { input: "content = '<b>Hello</b>'", output: "Renders the text '<b>Hello</b>' literally, not as bold text." },
@@ -959,10 +943,10 @@ export const tasks: Task[] = [
     xp: 200,
     description: 'Create a custom React hook `useFetch` that takes a URL as an argument and returns the fetched data, a loading state, and an error state. This hook should handle the entire lifecycle of a fetch request.',
     starterCode: {
-      python: '# N/A for this challenge',
+      python: '// N/A for this challenge',
       javascript: "import { useState, useEffect } from 'react';\n\nfunction useFetch(url) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  // Your code here\n\n  return { data, loading, error };\n}\n\n// Example Usage:\n// function MyComponent() {\n//   const { data, loading, error } = useFetch('https://api.example.com/data');\n//   if (loading) return <p>Loading...</p>;\n//   if (error) return <p>Error!</p>;\n//   return <pre>{JSON.stringify(data)}</pre>;\n// }",
-      java: '# N/A for this challenge',
-      cpp: '# N/A for this challenge',
+      java: '// N/A for this challenge',
+      cpp: '// N/A for this challenge',
     },
     examples: [],
     constraints: ['The hook must manage loading and error states.', 'It should re-fetch data if the URL changes.', 'Use the `useEffect` and `useState` hooks.'],
@@ -975,10 +959,10 @@ export const tasks: Task[] = [
     xp: 125,
     description: 'Create a reusable `Tabs` component in React. The component should take an array of tab items (each with a label and content) and display them correctly. Only the content of the active tab should be visible.',
     starterCode: {
-      python: '# N/A for this challenge',
+      python: '// N/A for this challenge',
       javascript: "import React, { useState } from 'react';\n\n// items is an array of objects: [{ label: 'Tab 1', content: 'Content 1' }, ...]\nfunction Tabs({ items }) {\n  // Your code here\n  \n  return (\n    <div>\n      {/* Render tab buttons here */}\n      <div>\n        {/* Render active tab content here */}\n      </div>\n    </div>\n  );\n}",
-      java: '# N/A for this challenge',
-      cpp: '# N/A for this challenge',
+      java: '// N/A for this challenge',
+      cpp: '// N/A for this challenge',
     },
     examples: [],
     constraints: ['Clicking a tab label should switch the visible content.', 'The component should have a clear state for the active tab index.'],
@@ -992,9 +976,9 @@ export const tasks: Task[] = [
     description: 'Implement a simple in-memory rate limiter in Python. The function should limit the number of requests from a single IP address to a certain number per minute.',
     starterCode: {
       python: "import time\n\nclass RateLimiter:\n    def __init__(self, requests_per_minute):\n        self.requests_per_minute = requests_per_minute\n        self.timestamps = {}\n\n    def is_allowed(self, ip_address):\n        # Your code here to check if the request is allowed\n        pass\n",
-      javascript: '# N/A for this challenge',
-      java: '# N/A for this challenge',
-      cpp: '# N/A for this challenge',
+      javascript: '// N/A for this challenge',
+      java: '// N/A for this challenge',
+      cpp: '// N/A for this challenge',
     },
     examples: [
       { input: 'limiter = RateLimiter(5); limiter.is_allowed("1.2.3.4") # Call 6 times in a minute', output: 'The first 5 calls return True, the 6th returns False.'}
@@ -1028,9 +1012,9 @@ export const tasks: Task[] = [
     description: 'Implement the gradient descent algorithm from scratch in Python to find the minimum of a simple quadratic function, `f(x) = x^2`. The function should take a starting point, learning rate, and number of iterations as input.',
     starterCode: {
       python: 'def gradient_descent(start_x, learning_rate, n_iterations):\n  """\n  Performs gradient descent to find the minimum of f(x) = x^2.\n  The derivative of x^2 is 2x.\n  """\n  x = start_x\n  # Your code here\n  \n  return x',
-      javascript: '# N/A for this challenge',
-      java: '# N/A for this challenge',
-      cpp: '# N/A for this challenge',
+      javascript: '// N/A for this challenge',
+      java: '// N/A for this challenge',
+      cpp: '// N/A for this challenge',
     },
     examples: [
       { input: 'start_x=10, learning_rate=0.1, n_iterations=50', output: 'A value very close to 0.0' }
@@ -1045,10 +1029,10 @@ export const tasks: Task[] = [
     xp: 250,
     description: 'Implement the K-Means clustering algorithm in Python. Your function should take a dataset (as a list of lists/numpy array) and the number of clusters (k) as input. It should return the final centroids and the cluster assignments for each data point.',
     starterCode: {
-      python: 'import random\n\ndef k_means(data, k, max_iterations=100):\n  # 1. Initialize centroids randomly\n  \n  # 2. Loop for max_iterations:\n  #    a. Assign points to the nearest centroid\n  #    b. Update centroids to be the mean of assigned points\n  \n  # Your code here\n  pass',
-      javascript: '# N/A for this challenge',
-      java: '# N/A for this challenge',
-      cpp: '# N/A for this challenge',
+      python: 'import random\nimport numpy as np\n\ndef k_means(data, k, max_iterations=100):\n  # 1. Initialize centroids randomly\n  \n  # 2. Loop for max_iterations:\n  #    a. Assign points to the nearest centroid\n  #    b. Update centroids to be the mean of assigned points\n  \n  # Your code here\n  pass',
+      javascript: '// N/A for this challenge',
+      java: '// N/A for this challenge',
+      cpp: '// N/A for this challenge',
     },
     examples: [],
     constraints: ['Your implementation should handle 2D data points.', 'You will need functions to calculate Euclidean distance.'],
@@ -1061,10 +1045,10 @@ export const tasks: Task[] = [
     xp: 150,
     description: 'Create a simple JavaScript class `ApiClient` that uses `fetch` and Promises to make GET and POST requests. It should have `get(url)` and `post(url, data)` methods.',
     starterCode: {
-      python: '# N/A for this challenge',
+      python: '// N/A for this challenge',
       javascript: 'class ApiClient {\n  async get(url) {\n    // Your code here\n  }\n\n  async post(url, data) {\n    // Your code here\n  }\n}',
-      java: '# N/A for this challenge',
-      cpp: '# N/A for this challenge',
+      java: '// N/A for this challenge',
+      cpp: '// N/A for this challenge',
     },
     examples: [
       { input: "const client = new ApiClient(); client.get('https://api.example.com/posts/1');", output: 'Returns a Promise that resolves with the post data.'}
@@ -1079,10 +1063,10 @@ export const tasks: Task[] = [
     xp: 175,
     description: 'Write a JavaScript function that takes a string of user input and sanitizes it to prevent DOM-based XSS. The function should remove any HTML tags from the string.',
     starterCode: {
-      python: '# N/A for this challenge',
+      python: '// N/A for this challenge',
       javascript: 'function sanitizeInput(input) {\n  // Your code here to remove HTML tags\n}',
-      java: '# N/A for this challenge',
-      cpp: '# N/A for this challenge',
+      java: '// N/A for this challenge',
+      cpp: '// N/A for this challenge',
     },
     examples: [
       { input: "'Hello <b>world</b>'", output: "'Hello world'" },
@@ -1099,9 +1083,9 @@ export const tasks: Task[] = [
     description: 'Implement a simple Gaussian Naive Bayes classifier in Python from scratch. It should have a `fit` method to train on data and a `predict` method to classify new data points.',
     starterCode: {
       python: 'import numpy as np\n\nclass NaiveBayesClassifier:\n    def fit(self, X, y):\n        # Your code to calculate mean, var, and prior for each class\n        pass\n\n    def predict(self, X):\n        # Your code to predict the class for X\n        pass\n',
-      javascript: '# N/A for this challenge',
-      java: '# N/A for this challenge',
-      cpp: '# N/A for this challenge',
+      javascript: '// N/A for this challenge',
+      java: '// N/A for this challenge',
+      cpp: '// N/A for this challenge',
     },
     examples: [],
     constraints: ['Assume features are continuous and normally distributed (Gaussian).', 'The `fit` method should store the necessary statistics.', 'The `predict` method should use Bayes\' theorem to find the most likely class.'],
