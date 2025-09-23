@@ -27,7 +27,7 @@ export const tasks: Task[] = [
     description: 'Write a function that takes a string as input and returns the string reversed.',
     starterCode: {
       python: 'def reverse_string(s):\n  # Your code here\n  pass',
-      javascript: 'function reverseString(s) {\n  // Your code here\n  return s.split("").reverse().join("");\n}',
+      javascript: 'function reverseString(s) {\n  // Your code here\n}',
       java: 'class Solution {\n  public String reverseString(String s) {\n    // Your code here\n  }\n}',
       cpp: '#include <string>\n#include <algorithm>\n\nstd::string reverseString(std::string s) {\n  // Your code here\n  return s;\n}',
     },
@@ -46,7 +46,7 @@ export const tasks: Task[] = [
     description: 'Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`. You may assume that each input would have exactly one solution, and you may not use the same element twice.',
     starterCode: {
         python: 'def two_sum(nums, target):\n  # Your code here\n  pass',
-        javascript: 'function twoSum(nums, target) {\n  // Your code here\n const map = new Map();\n  for (let i = 0; i < nums.length; i++) {\n    const complement = target - nums[i];\n    if (map.has(complement)) {\n      return [map.get(complement), i];\n    }\n    map.set(nums[i], i);\n  }\n}',
+        javascript: 'function twoSum(nums, target) {\n  // Your code here\n}',
         java: 'class Solution {\n  public int[] twoSum(int[] nums, int target) {\n    // Your code here\n  }\n}',
         cpp: '#include <vector>\n\nstd::vector<int> twoSum(std::vector<int>& nums, int target) {\n  // Your code here\n}',
     },
@@ -66,7 +66,7 @@ export const tasks: Task[] = [
     description: 'Using the native `fetch` API in JavaScript, make a GET request to `https://api.example.com/data` and log the response to the console.',
     starterCode: {
       python: '# Python does not run in the browser for this challenge.\n# Please use JavaScript.',
-      javascript: '// Your code here\nfetch(\'https://api.example.com/data\')\n  .then(response => response.json())\n  .then(data => {\n    console.log(data);\n    // Assume verification is handled elsewhere\n  });',
+      javascript: '// Your code here\n// Note: This task requires using fetch() which is asynchronous.\n// The testing environment for this problem is simplified and may not fully support async operations correctly.',
       java: '// Java does not run in the browser for this challenge.\n// Please use JavaScript.',
       cpp: '// C++ does not run in the browser for this challenge.\n// Please use JavaScript.',
     },
@@ -98,7 +98,7 @@ export const tasks: Task[] = [
     description: 'Given a string s containing just the characters \'(\', \')\', \'{\', \'}\', \'[\' and \']\', determine if the input string is valid. An input string is valid if: Open brackets must be closed by the same type of brackets. Open brackets must be closed in the correct order. Every close bracket has a corresponding open bracket of the same type.',
     starterCode: {
         python: 'def is_valid(s):\n  # Your code here\n  pass',
-        javascript: 'function isValid(s) {\n  const stack = [];\n  const map = {\n    "(": ")",\n    "[": "]",\n    "{\": "}"\n  };\n  for (let i = 0; i < s.length; i++) {\n    const char = s[i];\n    if (map[char]) {\n      stack.push(char);\n    } else if (Object.values(map).includes(char)) {\n      if (map[stack.pop()] !== char) {\n        return false;\n      }\n    }\n  }\n  return stack.length === 0;\n}',
+        javascript: 'function isValid(s) {\n  // Your code here\n}',
         java: 'class Solution {\n  public boolean isValid(String s) {\n    // Your code here\n  }\n}',
         cpp: '#include <string>\n#include <stack>\n\nbool isValid(std::string s) {\n  // Your code here\n}',
     },
@@ -118,7 +118,7 @@ export const tasks: Task[] = [
     description: 'You are given the heads of two sorted linked lists list1 and list2. Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists. Return the head of the merged linked list.',
     starterCode: {
         python: '# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\ndef merge_two_lists(list1, list2):\n  # Your code here\n  pass',
-        javascript: '/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\nfunction mergeTwoLists(list1, list2) {\n  if (!list1) return list2;\n  if (!list2) return list1;\n\n  if (list1.val < list2.val) {\n    list1.next = mergeTwoLists(list1.next, list2);\n    return list1;\n  } else {\n    list2.next = mergeTwoLists(list1, list2.next);\n    return list2;\n  }\n}',
+        javascript: '/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\nfunction mergeTwoLists(list1, list2) {\n  // Your code here\n}',
         java: '/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n  public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n    // Your code here\n  }\n}',
         cpp: '/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {\n        // Your code here\n    }\n};',
     },
@@ -138,7 +138,7 @@ export const tasks: Task[] = [
     description: 'Given an integer array nums, find the subarray with the largest sum, and return its sum.',
     starterCode: {
         python: 'def max_subarray(nums):\n  # Your code here\n  pass',
-        javascript: 'function maxSubArray(nums) {\n  let maxSoFar = nums[0];\n  let maxEndingHere = nums[0];\n  for (let i = 1; i < nums.length; i++) {\n    maxEndingHere = Math.max(nums[i], maxEndingHere + nums[i]);\n    maxSoFar = Math.max(maxSoFar, maxEndingHere);\n  }\n  return maxSoFar;\n}',
+        javascript: 'function maxSubArray(nums) {\n  // Your code here\n}',
         java: 'class Solution {\n    public int maxSubArray(int[] nums) {\n        // Your code here\n    }\n}',
         cpp: '#include <vector>\n#include <algorithm>\n\nint maxSubArray(std::vector<int>& nums) {\n    // Your code here\n}',
     },
@@ -158,7 +158,7 @@ export const tasks: Task[] = [
     description: 'Given a string `s`, find the length of the longest substring without repeating characters.',
     starterCode: {
       python: 'def length_of_longest_substring(s):\n  # Your code here\n  pass',
-      javascript: 'function lengthOfLongestSubstring(s) {\n  let maxLen = 0;\n  let start = 0;\n  const map = {};\n\n  for (let end = 0; end < s.length; end++) {\n    const lastChar = s[end];\n    if (map[lastChar] >= start) {\n      start = map[lastChar] + 1;\n    }\n    map[lastChar] = end;\n    maxLen = Math.max(maxLen, end - start + 1);\n  }\n\n  return maxLen;\n}',
+      javascript: 'function lengthOfLongestSubstring(s) {\n  // Your code here\n}',
       java: 'class Solution {\n  public int lengthOfLongestSubstring(String s) {\n    // Your code here\n  }\n}',
       cpp: '#include <string>\n#include <unordered_map>\n\nint lengthOfLongestSubstring(std::string s) {\n  // Your code here\n}',
     },
@@ -178,7 +178,7 @@ export const tasks: Task[] = [
     description: 'Given the root of a binary tree, return its maximum depth. A binary tree\'s maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.',
     starterCode: {
       python: '# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef max_depth(root):\n  # Your code here\n  pass',
-      javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\nfunction maxDepth(root) {\n  if (!root) return 0;\n  const leftDepth = maxDepth(root.left);\n  const rightDepth = maxDepth(root.right);\n  return Math.max(leftDepth, rightDepth) + 1;\n}',
+      javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\nfunction maxDepth(root) {\n  // Your code here\n}',
       java: '/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n  public int maxDepth(TreeNode root) {\n    // Your code here\n  }\n}',
       cpp: '/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int maxDepth(TreeNode* root) {\n        // Your code here\n    }\n};',
     },
@@ -197,7 +197,7 @@ export const tasks: Task[] = [
     description: 'You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?',
     starterCode: {
       python: 'def climb_stairs(n):\n  # Your code here\n  pass',
-      javascript: 'function climbStairs(n) {\n    if (n <= 2) return n;\n    let one_step_before = 2;\n    let two_steps_before = 1;\n    let all_ways = 0;\n    for(let i=2; i<n; i++){\n        all_ways = one_step_before + two_steps_before;\n        two_steps_before = one_step_before;\n        one_step_before = all_ways;\n    }\n    return all_ways;\n}',
+      javascript: 'function climbStairs(n) {\n  // Your code here\n}',
       java: 'class Solution {\n  public int climbStairs(int n) {\n    // Your code here\n  }\n}',
       cpp: 'class Solution {\npublic:\n    int climbStairs(int n) {\n        // Your code here\n    }\n};',
     },
@@ -216,7 +216,7 @@ export const tasks: Task[] = [
     description: 'Given `head`, the head of a linked list, determine if the linked list has a cycle in it. There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the `next` pointer.',
     starterCode: {
         python: '# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\ndef has_cycle(head):\n  # Your code here\n  pass',
-        javascript: '/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\nfunction hasCycle(head) {\n  let fast = head;\n  let slow = head;\n  while (fast && fast.next) {\n    slow = slow.next;\n    fast = fast.next.next;\n    if (slow === fast) {\n      return true;\n    }\n  }\n  return false;\n};',
+        javascript: '/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\nfunction hasCycle(head) {\n  // Your code here\n};',
         java: '/**\n * Definition for singly-linked list.\n * class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public boolean hasCycle(ListNode head) {\n        // Your code here\n    }\n}',
         cpp: '/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode(int x) : val(x), next(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    bool hasCycle(ListNode *head) {\n        // Your code here\n    }\n};',
     },
@@ -236,7 +236,7 @@ export const tasks: Task[] = [
     description: 'Given the root of a binary tree, invert the tree, and return its root.',
     starterCode: {
       python: '# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef invert_tree(root):\n  # Your code here\n  pass',
-      javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\nfunction invertTree(root) {\n  if (!root) return null;\n  const left = invertTree(root.left);\n  const right = invertTree(root.right);\n  root.left = right;\n  root.right = left;\n  return root;\n}',
+      javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\nfunction invertTree(root) {\n  // Your code here\n}',
       java: '/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public TreeNode invertTree(TreeNode root) {\n        // Your code here\n    }\n}',
       cpp: '/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        // Your code here\n    }\n};',
     },
@@ -256,7 +256,7 @@ export const tasks: Task[] = [
     description: 'Given an integer array `nums` and an integer `k`, return the `k`th largest element in the array. Note that it is the `k`th largest element in the sorted order, not the `k`th distinct element.',
     starterCode: {
       python: 'def find_kth_largest(nums, k):\n  # Your code here\n  pass',
-      javascript: 'function findKthLargest(nums, k) {\n  nums.sort((a, b) => b - a);\n  return nums[k - 1];\n}',
+      javascript: 'function findKthLargest(nums, k) {\n  // Your code here\n}',
       java: 'class Solution {\n  public int findKthLargest(int[] nums, int k) {\n    // Your code here\n  }\n}',
       cpp: '#include <vector>\n\nclass Solution {\npublic:\n    int findKthLargest(std::vector<int>& nums, int k) {\n        // Your code here\n    }\n};',
     },
@@ -275,7 +275,7 @@ export const tasks: Task[] = [
     description: 'Given an `m x n` 2D binary grid `grid` which represents a map of `\'1\'`s (land) and `\'0\'`s (water), return the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.',
     starterCode: {
       python: 'def num_islands(grid):\n  # Your code here\n  pass',
-      javascript: 'function numIslands(grid) {\n  if (!grid || grid.length === 0) return 0;\n  let islands = 0;\n  for (let i = 0; i < grid.length; i++) {\n    for (let j = 0; j < grid[i].length; j++) {\n      if (grid[i][j] === "1") {\n        islands++;\n        dfs(grid, i, j);\n      }\n    }\n  }\n  return islands;\n}\n\nfunction dfs(grid, i, j) {\n  if (i < 0 || i >= grid.length || j < 0 || j >= grid[i].length || grid[i][j] === "0") return;\n  grid[i][j] = "0";\n  dfs(grid, i + 1, j);\n  dfs(grid, i - 1, j);\n  dfs(grid, i, j + 1);\n  dfs(grid, i, j - 1);\n}',
+      javascript: 'function numIslands(grid) {\n  // Your code here\n}',
       java: 'class Solution {\n  public int numIslands(char[][] grid) {\n    // Your code here\n  }\n}',
       cpp: '#include <vector>\n\nclass Solution {\npublic:\n    int numIslands(std::vector<std::vector<char>>& grid) {\n        // Your code here\n    }\n};',
     },
@@ -294,7 +294,7 @@ export const tasks: Task[] = [
     description: 'Given an integer array `nums`, return an array `answer` such that `answer[i]` is equal to the product of all the elements of `nums` except `nums[i]`. The product of any prefix or suffix of `nums` is guaranteed to fit in a 32-bit integer. You must write an algorithm that runs in O(n) time and without using the division operation.',
     starterCode: {
       python: 'def product_except_self(nums):\n  # Your code here\n  pass',
-      javascript: 'function productExceptSelf(nums) {\n  const n = nums.length;\n  const res = new Array(n);\n  let left = 1;\n  for (let i = 0; i < n; i++) {\n    res[i] = left;\n    left *= nums[i];\n  }\n  let right = 1;\n  for (let i = n - 1; i >= 0; i--) {\n    res[i] *= right;\n    right *= nums[i];\n  }\n  return res;\n}',
+      javascript: 'function productExceptSelf(nums) {\n  // Your code here\n}',
       java: 'class Solution {\n  public int[] productExceptSelf(int[] nums) {\n    // Your code here\n  }\n}',
       cpp: '#include <vector>\n\nclass Solution {\npublic:\n    std::vector<int> productExceptSelf(std::vector<int>& nums) {\n        // Your code here\n    }\n};',
     },
@@ -313,7 +313,7 @@ export const tasks: Task[] = [
     description: 'Given the `root` of a binary tree, determine if it is a valid binary search tree (BST). A valid BST is defined as follows: The left subtree of a node contains only nodes with keys less than the node\'s key. The right subtree of a node contains only nodes with keys greater than the node\'s key. Both the left and right subtrees must also be binary search trees.',
     starterCode: {
       python: '# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef is_valid_bst(root):\n  # Your code here\n  pass',
-      javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\nfunction isValidBST(root, min = null, max = null) {\n  if (!root) return true;\n  if (min !== null && root.val <= min) return false;\n  if (max !== null && root.val >= max) return false;\n  return isValidBST(root.left, min, root.val) && isValidBST(root.right, root.val, max);\n}',
+      javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\nfunction isValidBST(root, min = null, max = null) {\n  // Your code here\n}',
       java: '/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n  public boolean isValidBST(TreeNode root) {\n    // Your code here\n  }\n}',
       cpp: '/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        // Your code here\n    }\n};',
     },
@@ -332,7 +332,7 @@ export const tasks: Task[] = [
     description: 'You are given an integer array `height` of length `n`. There are `n` vertical lines drawn such that the two endpoints of the `i`th line are `(i, 0)` and `(i, height[i])`. Find two lines that together with the x-axis form a container, such that the container contains the most water. Return the maximum amount of water a container can store.',
     starterCode: {
       python: 'def max_area(height):\n  # Your code here\n  pass',
-      javascript: 'function maxArea(height) {\n  let max = 0;\n  let left = 0;\n  let right = height.length - 1;\n  while (left < right) {\n    const h = Math.min(height[left], height[right]);\n    const w = right - left;\n    max = Math.max(max, h * w);\n    if (height[left] < height[right]) {\n      left++;\n    } else {\n      right--;\n    }\n  }\n  return max;\n}',
+      javascript: 'function maxArea(height) {\n  // Your code here\n}',
       java: 'class Solution {\n  public int maxArea(int[] height) {\n    // Your code here\n  }\n}',
       cpp: '#include <vector>\n\nclass Solution {\npublic:\n    int maxArea(std::vector<int>& height) {\n        // Your code here\n    }\n};',
     },
@@ -351,7 +351,7 @@ export const tasks: Task[] = [
     description: 'Given a string `s`, return the longest palindromic substring in `s`.',
     starterCode: {
         python: 'def longest_palindrome(s):\n  # Your code here\n  pass',
-        javascript: 'function longestPalindrome(s) {\n    if (s.length < 2) return s;\n    let start = 0, maxLen = 1;\n\n    function expandAroundCenter(left, right) {\n        while (left >= 0 && right < s.length && s[left] === s[right]) {\n            if (right - left + 1 > maxLen) {\n                maxLen = right - left + 1;\n                start = left;\n            }\n            left--;\n            right++;\n        }\n    }\n\n    for (let i = 0; i < s.length; i++) {\n        expandAroundCenter(i, i); // Odd length\n        expandAroundCenter(i, i + 1); // Even length\n    }\n\n    return s.substring(start, start + maxLen);\n}',
+        javascript: 'function longestPalindrome(s) {\n    // Your code here\n}',
         java: 'class Solution {\n    public String longestPalindrome(String s) {\n        // Your code here\n    }\n}',
         cpp: 'class Solution {\npublic:\n    string longestPalindrome(string s) {\n        // Your code here\n    }\n};',
     },
@@ -370,7 +370,7 @@ export const tasks: Task[] = [
     description: 'Given an integer array `nums`, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`. Notice that the solution set must not contain duplicate triplets.',
     starterCode: {
         python: 'def three_sum(nums):\n  # Your code here\n  pass',
-        javascript: 'function threeSum(nums) {\n    nums.sort((a, b) => a - b);\n    const result = [];\n    for (let i = 0; i < nums.length - 2; i++) {\n        if (i > 0 && nums[i] === nums[i - 1]) continue;\n        let left = i + 1, right = nums.length - 1;\n        while (left < right) {\n            const sum = nums[i] + nums[left] + nums[right];\n            if (sum === 0) {\n                result.push([nums[i], nums[left], nums[right]]);\n                while (left < right && nums[left] === nums[left + 1]) left++;\n                while (left < right && nums[right] === nums[right - 1]) right--;\n                left++;\n                right--;\n            } else if (sum < 0) {\n                left++;\n            } else {\n                right--;\n            }\n        }\n    }\n    return result;\n}',
+        javascript: 'function threeSum(nums) {\n    // Your code here\n}',
         java: 'class Solution {\n    public List<List<Integer>> threeSum(int[] nums) {\n        // Your code here\n    }\n}',
         cpp: 'class Solution {\npublic:\n    vector<vector<int>> threeSum(vector<int>& nums) {\n        // Your code here\n    }\n};',
     },
@@ -390,7 +390,7 @@ export const tasks: Task[] = [
     description: 'Given the root of a binary tree, return the inorder traversal of its nodes\' values.',
     starterCode: {
         python: '# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef inorder_traversal(root):\n  # Your code here\n  pass',
-        javascript: 'function inorderTraversal(root) {\n    const result = [];\n    function traverse(node) {\n        if (!node) return;\n        traverse(node.left);\n        result.push(node.val);\n        traverse(node.right);\n    }\n    traverse(root);\n    return result;\n}',
+        javascript: 'function inorderTraversal(root) {\n    // Your code here\n}',
         java: 'class Solution {\n    public List<Integer> inorderTraversal(TreeNode root) {\n        // Your code here\n    }\n}',
         cpp: 'class Solution {\npublic:\n    vector<int> inorderTraversal(TreeNode* root) {\n        // Your code here\n    }\n};',
     },
@@ -410,7 +410,7 @@ export const tasks: Task[] = [
     description: 'Given a string `s` and a dictionary of strings `wordDict`, return `true` if `s` can be segmented into a space-separated sequence of one or more dictionary words. Note that the same word in the dictionary may be reused multiple times in the segmentation.',
     starterCode: {
         python: 'def word_break(s, word_dict):\n  # Your code here\n  pass',
-        javascript: 'function wordBreak(s, wordDict) {\n    const dp = new Array(s.length + 1).fill(false);\n    dp[0] = true;\n    for (let i = 1; i <= s.length; i++) {\n        for (let j = 0; j < i; j++) {\n            if (dp[j] && wordDict.includes(s.substring(j, i))) {\n                dp[i] = true;\n                break;\n            }\n        }\n    }\n    return dp[s.length];\n}',
+        javascript: 'function wordBreak(s, wordDict) {\n    // Your code here\n}',
         java: 'class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        // Your code here\n    }\n}',
         cpp: 'class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        // Your code here\n    }\n};',
     },
@@ -430,7 +430,7 @@ export const tasks: Task[] = [
     description: 'You are given an integer array `coins` representing coins of different denominations and an integer `amount` representing a total amount of money. Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1. You may assume that you have an infinite number of each kind of coin.',
     starterCode: {
         python: 'def coin_change(coins, amount):\n  # Your code here\n  pass',
-        javascript: 'function coinChange(coins, amount) {\n    const dp = new Array(amount + 1).fill(Infinity);\n    dp[0] = 0;\n    for (const coin of coins) {\n        for (let i = coin; i <= amount; i++) {\n            dp[i] = Math.min(dp[i], dp[i - coin] + 1);\n        }\n    }\n    return dp[amount] === Infinity ? -1 : dp[amount];\n}',
+        javascript: 'function coinChange(coins, amount) {\n    // Your code here\n}',
         java: 'class Solution {\n    public int coinChange(int[] coins, int amount) {\n        // Your code here\n    }\n}',
         cpp: 'class Solution {\npublic:\n    int coinChange(vector<int>& coins, int amount) {\n        // Your code here\n    }\n};',
     },
@@ -450,7 +450,7 @@ export const tasks: Task[] = [
     description: 'Design a data structure that follows the constraints of a Least Recently Used (LRU) cache. Implement the `LRUCache` class: `LRUCache(int capacity)` initializes the LRU cache with positive size capacity. `int get(int key)` returns the value of the key if the key exists, otherwise returns -1. `void put(int key, int value)` updates the value of the key if the key exists. Otherwise, add the key-value pair to the cache. If the number of keys exceeds the capacity from this operation, evict the least recently used key.',
     starterCode: {
         python: 'class LRUCache:\n\n    def __init__(self, capacity: int):\n        # your code here\n\n    def get(self, key: int) -> int:\n        # your code here\n\n    def put(self, key: int, value: int) -> None:\n        # your code here\n',
-        javascript: 'class LRUCache {\n    constructor(capacity) {\n        this.capacity = capacity;\n        this.map = new Map();\n    }\n\n    get(key) {\n        if (!this.map.has(key)) return -1;\n        const val = this.map.get(key);\n        this.map.delete(key);\n        this.map.set(key, val);\n        return val;\n    }\n\n    put(key, value) {\n        this.map.delete(key);\n        this.map.set(key, value);\n        if (this.map.size > this.capacity) {\n            const firstKey = this.map.keys().next().value;\n            this.map.delete(firstKey);\n        }\n    }\n}',
+        javascript: 'class LRUCache {\n    constructor(capacity) {\n        // your code here\n    }\n\n    get(key) {\n        // your code here\n    }\n\n    put(key, value) {\n        // your code here\n    }\n}',
         java: 'class LRUCache {\n    public LRUCache(int capacity) {\n        // your code here\n    }\n    \n    public int get(int key) {\n        // your code here\n    }\n    \n    public void put(int key, int value) {\n        // your code here\n    }\n}',
         cpp: 'class LRUCache {\npublic:\n    LRUCache(int capacity) {\n        // your code here\n    }\n    \n    int get(int key) {\n        // your code here\n    }\n    \n    void put(int key, int value) {\n        // your code here\n    }\n};',
     },
@@ -466,7 +466,7 @@ export const tasks: Task[] = [
     description: 'A trie or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. Implement the Trie class.',
     starterCode: {
         python: 'class Trie:\n\n    def __init__(self):\n        # your code here\n\n    def insert(self, word: str) -> None:\n        # your code here\n\n    def search(self, word: str) -> bool:\n        # your code here\n\n    def startsWith(self, prefix: str) -> bool:\n        # your code here\n',
-        javascript: 'class TrieNode {\n    constructor() {\n        this.children = {};\n        this.isEndOfWord = false;\n    }\n}\n\nclass Trie {\n    constructor() {\n        this.root = new TrieNode();\n    }\n\n    insert(word) {\n        let node = this.root;\n        for (const char of word) {\n            if (!node.children[char]) {\n                node.children[char] = new TrieNode();\n            }\n            node = node.children[char];\n        }\n        node.isEndOfWord = true;\n    }\n\n    search(word) {\n        let node = this.root;\n        for (const char of word) {\n            if (!node.children[char]) return false;\n            node = node.children[char];\n        }\n        return node.isEndOfWord;\n    }\n\n    startsWith(prefix) {\n        let node = this.root;\n        for (const char of prefix) {\n            if (!node.children[char]) return false;\n            node = node.children[char];\n        }\n        return true;\n    }\n}',
+        javascript: 'class Trie {\n    constructor() {\n        // your code here\n    }\n\n    insert(word) {\n        // your code here\n    }\n\n    search(word) {\n        // your code here\n    }\n\n    startsWith(prefix) {\n        // your code here\n    }\n}',
         java: 'class Trie {\n    public Trie() {\n        // your code here\n    }\n    \n    public void insert(String word) {\n        // your code here\n    }\n    \n    public boolean search(String word) {\n        // your code here\n    }\n    \n    public boolean startsWith(String prefix) {\n        // your code here\n    }\n}',
         cpp: 'class Trie {\npublic:\n    Trie() {\n        // your code here\n    }\n    \n    void insert(string word) {\n        // your code here\n    }\n    \n    bool search(string word) {\n        // your code here\n    }\n    \n    bool startsWith(string prefix) {\n        // your code here\n    }\n};',
     },
@@ -482,7 +482,7 @@ export const tasks: Task[] = [
     description: 'There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. Return true if you can finish all courses. Otherwise, return false.',
     starterCode: {
         python: 'def can_finish(num_courses, prerequisites):\n  # Your code here\n  pass',
-        javascript: 'function canFinish(numCourses, prerequisites) {\n    const adj = new Array(numCourses).fill(0).map(() => []);\n    const inDegree = new Array(numCourses).fill(0);\n    for (const [course, prereq] of prerequisites) {\n        adj[prereq].push(course);\n        inDegree[course]++;\n    }\n\n    const queue = [];\n    for (let i = 0; i < numCourses; i++) {\n        if (inDegree[i] === 0) queue.push(i);\n    }\n\n    let count = 0;\n    while (queue.length) {\n        const course = queue.shift();\n        count++;\n        for (const neighbor of adj[course]) {\n            inDegree[neighbor]--;\n            if (inDegree[neighbor] === 0) queue.push(neighbor);\n        }\n    }\n    return count === numCourses;\n}',
+        javascript: 'function canFinish(numCourses, prerequisites) {\n    // Your code here\n}',
         java: 'class Solution {\n    public boolean canFinish(int numCourses, int[][] prerequisites) {\n        // Your code here\n    }\n}',
         cpp: 'class Solution {\npublic:\n    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {\n        // Your code here\n    }\n};',
     },
