@@ -32,5 +32,15 @@ export default function AuthLayout({
   }
   
   // If not loading and no user, show the children (Login or Signup page).
-  return <>{!user && children}</>;
+  // This prevents a flash of the login page before the redirect can happen for a logged-in user.
+  if (!user) {
+    return <>{children}</>;
+  }
+
+  // If there is a user, we'll show a loader while the useEffect above handles the redirect.
+  return (
+    <div className="flex h-screen items-center justify-center">
+      <Loader2 className="h-12 w-12 animate-spin text-primary" />
+    </div>
+  );
 }

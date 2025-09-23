@@ -49,7 +49,7 @@ export default function MainLayout({
   }
 
   // If loading is complete and there's no user, we'll show the loader briefly
-  // while the useEffect above handles the redirect. Returning null prevents
+  // while the useEffect above handles the redirect. Returning this loader prevents
   // rendering the children for a split second before the redirect occurs.
   return (
       <div className="flex h-screen items-center justify-center">
