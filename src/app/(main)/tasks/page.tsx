@@ -117,29 +117,31 @@ export default function TasksPage() {
                 <TableHead className="text-right">Action</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
-              {filteredTasks.map((task, index) => (
-                <TableRow key={task.id}>
-                   <TableCell className="font-medium">{index + 1}</TableCell>
-                  <TableCell className="font-medium">{task.title}</TableCell>
-                  <TableCell className="hidden md:table-cell text-muted-foreground">{task.category}</TableCell>
-                  <TableCell>
-                    <Badge variant={difficultyVariant(task.difficulty)}>{task.difficulty}</Badge>
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell text-primary font-semibold">
-                    {task.xp} XP
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Button asChild size="sm" variant="outline">
-                      <Link href={`/tasks/${task.id}`}>
-                        <Eye className="mr-2 h-4 w-4" />
-                        View
-                      </Link>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+            {filteredTasks.length > 0 && (
+              <TableBody>
+                {filteredTasks.map((task, index) => (
+                  <TableRow key={task.id}>
+                    <TableCell className="font-medium">{index + 1}</TableCell>
+                    <TableCell className="font-medium">{task.title}</TableCell>
+                    <TableCell className="hidden md:table-cell text-muted-foreground">{task.category}</TableCell>
+                    <TableCell>
+                      <Badge variant={difficultyVariant(task.difficulty)}>{task.difficulty}</Badge>
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell text-primary font-semibold">
+                      {task.xp} XP
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button asChild size="sm" variant="outline">
+                        <Link href={`/tasks/${task.id}`}>
+                          <Eye className="mr-2 h-4 w-4" />
+                          View
+                        </Link>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
           </Table>
            {filteredTasks.length === 0 && (
               <div className="text-center p-8 text-muted-foreground">
