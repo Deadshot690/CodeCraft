@@ -17,14 +17,13 @@ export default function MainLayout({
   const router = useRouter();
 
   useEffect(() => {
-    // If the auth state is done loading and there is still no user,
-    // then we can safely redirect to the login page.
+    // If auth has finished loading and there is NO user, redirect to login.
     if (!loading && !user) {
       router.push("/login");
     }
   }, [user, loading, router]);
 
-  // While checking the auth state, show a full-screen loader.
+  // While authentication is loading, show a full-screen loader.
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -33,8 +32,8 @@ export default function MainLayout({
     );
   }
 
-  // If loading is complete and we have a user, show the main application layout.
-  // The 'user' check prevents a flash of the child content before the redirect in the useEffect can happen.
+  // If loading is complete and we have a user, show the main application.
+  // This check prevents a flash of unauthenticated content.
   if (user) {
     return (
       <SidebarProvider>
@@ -48,9 +47,8 @@ export default function MainLayout({
     );
   }
 
-  // If loading is complete and there's no user, we'll show the loader briefly
-  // while the useEffect above handles the redirect. Returning this loader prevents
-  // rendering the children for a split second before the redirect occurs.
+  // If loading is complete and there's no user, the useEffect is handling the redirect.
+  // Show a loader to prevent any content from flashing.
   return (
       <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />

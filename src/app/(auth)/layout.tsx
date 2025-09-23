@@ -15,14 +15,13 @@ export default function AuthLayout({
   const router = useRouter();
 
   useEffect(() => {
-    // If the auth state is not loading and a user is logged in,
-    // redirect them to the main dashboard.
+    // If auth is not loading and a user IS logged in, redirect to dashboard.
     if (!loading && user) {
       router.push("/dashboard");
     }
   }, [user, loading, router]);
 
-  // While checking auth state, show a loader.
+  // While checking auth state, show a full-screen loader.
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -31,13 +30,13 @@ export default function AuthLayout({
     );
   }
   
-  // If not loading and no user, show the children (Login or Signup page).
-  // This prevents a flash of the login page before the redirect can happen for a logged-in user.
+  // If not loading and there is NO user, show the login/signup page.
+  // This prevents a flash of the login page for an already logged-in user.
   if (!user) {
     return <>{children}</>;
   }
 
-  // If there is a user, we'll show a loader while the useEffect above handles the redirect.
+  // If there is a user, we're in the process of redirecting. Show a loader to prevent content flash.
   return (
     <div className="flex h-screen items-center justify-center">
       <Loader2 className="h-12 w-12 animate-spin text-primary" />

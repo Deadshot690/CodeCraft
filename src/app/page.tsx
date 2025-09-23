@@ -11,20 +11,20 @@ export default function LandingPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // If the auth state is not loading, decide where to route the user.
+    // Wait until the authentication status is fully determined.
     if (!loading) {
       if (user) {
-        // If the user is logged in, redirect them to the dashboard.
+        // If logged in, go to the dashboard.
         router.replace("/dashboard");
       } else {
-        // If the user is not logged in, redirect them to the login page.
+        // If not logged in, go to the login page.
         router.replace("/login");
       }
     }
   }, [user, loading, router]);
 
-  // While the auth state is loading, show a full-screen loader.
-  // This prevents a "flash" of the wrong page.
+  // Show a loader while we determine the user's auth state.
+  // This prevents any "flash" of content before the redirect can happen.
   return (
     <div className="flex h-screen items-center justify-center">
       <Loader2 className="h-12 w-12 animate-spin text-primary" />
