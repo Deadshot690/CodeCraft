@@ -87,6 +87,66 @@ export const tasks: Task[] = [
     examples: [],
     constraints: ['Use parameterized queries or prepared statements.'],
   },
+  {
+    id: '5',
+    title: 'Valid Parentheses',
+    category: 'Data Structures & Algorithms',
+    difficulty: 'Beginner',
+    xp: 75,
+    description: 'Given a string s containing just the characters \'(\', \')\', \'{\', \'}\', \'[\' and \']\', determine if the input string is valid. An input string is valid if: Open brackets must be closed by the same type of brackets. Open brackets must be closed in the correct order. Every close bracket has a corresponding open bracket of the same type.',
+    starterCode: {
+        python: 'def is_valid(s):\n  # Your code here\n  pass',
+        javascript: 'function isValid(s) {\n  // Your code here\n}',
+        java: 'class Solution {\n  public boolean isValid(String s) {\n    // Your code here\n  }\n}',
+        cpp: '#include <string>\n#include <stack>\n\nbool isValid(std::string s) {\n  // Your code here\n}',
+    },
+    examples: [
+        { input: 's = "()"', output: 'true' },
+        { input: 's = "()[]{}"', output: 'true' },
+        { input: 's = "(]"', output: 'false' },
+    ],
+    constraints: ['1 <= s.length <= 10^4', 's consists of parentheses only \'()[]{}\'.'],
+  },
+  {
+    id: '6',
+    title: 'Merge Two Sorted Lists',
+    category: 'Data Structures & Algorithms',
+    difficulty: 'Beginner',
+    xp: 75,
+    description: 'You are given the heads of two sorted linked lists list1 and list2. Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists. Return the head of the merged linked list.',
+    starterCode: {
+        python: '# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\ndef merge_two_lists(list1, list2):\n  # Your code here\n  pass',
+        javascript: '/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\nfunction mergeTwoLists(list1, list2) {\n  // Your code here\n}',
+        java: '/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n  public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n    // Your code here\n  }\n}',
+        cpp: '/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {\n        // Your code here\n    }\n};',
+    },
+    examples: [
+        { input: 'list1 = [1,2,4], list2 = [1,3,4]', output: '[1,1,2,3,4,4]' },
+        { input: 'list1 = [], list2 = []', output: '[]' },
+        { input: 'list1 = [], list2 = [0]', output: '[0]' },
+    ],
+    constraints: ['The number of nodes in both lists is in the range [0, 50].', '-100 <= Node.val <= 100', 'Both list1 and list2 are sorted in non-decreasing order.'],
+  },
+  {
+    id: '7',
+    title: 'Maximum Subarray',
+    category: 'Data Structures & Algorithms',
+    difficulty: 'Intermediate',
+    xp: 125,
+    description: 'Given an integer array nums, find the subarray with the largest sum, and return its sum.',
+    starterCode: {
+        python: 'def max_subarray(nums):\n  # Your code here\n  pass',
+        javascript: 'function maxSubArray(nums) {\n  // Your code here\n}',
+        java: 'class Solution {\n    public int maxSubArray(int[] nums) {\n        // Your code here\n    }\n}',
+        cpp: '#include <vector>\n#include <algorithm>\n\nint maxSubArray(std::vector<int>& nums) {\n    // Your code here\n}',
+    },
+    examples: [
+        { input: 'nums = [-2,1,-3,4,-1,2,1,-5,4]', output: '6', explanation: 'The subarray [4,-1,2,1] has the largest sum 6.' },
+        { input: 'nums = [1]', output: '1', explanation: 'The subarray [1] has the largest sum 1.' },
+        { input: 'nums = [5,4,-1,7,8]', output: '23', explanation: 'The subarray [5,4,-1,7,8] has the largest sum 23.' },
+    ],
+    constraints: ['1 <= nums.length <= 10^5', '-10^4 <= nums[i] <= 10^4'],
+  },
 ];
 
 export const games: Game[] = [
