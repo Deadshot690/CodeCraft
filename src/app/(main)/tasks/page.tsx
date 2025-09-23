@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -32,15 +32,18 @@ export default function TasksPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<Category>('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('all');
+  const [isClient, setIsClient] = useState(false);
 
-  const filteredTasks = useMemo(() => {
-    return tasks.filter((task) => {
-      const matchesCategory = selectedCategory === 'all' || task.category === selectedCategory;
-      const matchesDifficulty = selectedDifficulty === 'all' || task.difficulty === selectedDifficulty;
-      const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesDifficulty && matchesSearch;
-    });
-  }, [searchQuery, selectedCategory, selectedDifficulty]);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const filteredTasks = tasks.filter((task) => {
+    const matchesCategory = selectedCategory === 'all' || task.category === selectedCategory;
+    const matchesDifficulty = selectedDifficulty === 'all' || task.difficulty === selectedDifficulty;
+    const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesDifficulty && matchesSearch;
+  });
 
   const difficultyVariant = (difficulty: Task['difficulty']): "default" | "secondary" | "destructive" | "outline" => {
     switch (difficulty) {
@@ -55,6 +58,10 @@ export default function TasksPage() {
       default:
         return "default";
     }
+  }
+
+  if (!isClient) {
+    return null; // Or a loading spinner
   }
 
   return (
