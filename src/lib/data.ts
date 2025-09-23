@@ -313,7 +313,7 @@ export const tasks: Task[] = [
     description: 'Given the `root` of a binary tree, determine if it is a valid binary search tree (BST). A valid BST is defined as follows: The left subtree of a node contains only nodes with keys less than the node\'s key. The right subtree of a node contains only nodes with keys greater than the node\'s key. Both the left and right subtrees must also be binary search trees.',
     starterCode: {
       python: '# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef is_valid_bst(root):\n  # Your code here\n  pass',
-      javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\nfunction isValidBST(root, min = null, max = null) {\n  // Your code here\n}',
+      javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\nfunction isValidBST(root) {\n  // Your code here\n}',
       java: '/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n  public boolean isValidBST(TreeNode root) {\n    // Your code here\n  }\n}',
       cpp: '/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        // Your code here\n    }\n};',
     },
@@ -492,6 +492,122 @@ export const tasks: Task[] = [
     ],
     constraints: ['1 <= numCourses <= 2000', '0 <= prerequisites.length <= 5000', 'prerequisites[i].length == 2', '0 <= ai, bi < numCourses', 'All the pairs prerequisites[i] are unique.'],
   },
+  {
+    id: '26',
+    title: 'Group Anagrams',
+    category: 'Data Structures & Algorithms',
+    difficulty: 'Intermediate',
+    xp: 150,
+    description: 'Given an array of strings `strs`, group the anagrams together. You can return the answer in any order.',
+    starterCode: {
+      python: 'def group_anagrams(strs):\n  # Your code here\n  pass',
+      javascript: 'function groupAnagrams(strs) {\n  // Your code here\n}',
+      java: 'class Solution {\n  public List<List<String>> groupAnagrams(String[] strs) {\n    // Your code here\n  }\n}',
+      cpp: 'class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        // Your code here\n    }\n};',
+    },
+    examples: [
+      { input: 'strs = ["eat","tea","tan","ate","nat","bat"]', output: '[["bat"],["nat","tan"],["ate","eat","tea"]]' },
+      { input: 'strs = [""]', output: '[[""]]' },
+      { input: 'strs = ["a"]', output: '[["a"]]' },
+    ],
+    constraints: ['1 <= strs.length <= 10^4', '0 <= strs[i].length <= 100', 'strs[i] consists of lowercase English letters.'],
+  },
+  {
+    id: '27',
+    title: 'Rotate Image',
+    category: 'Data Structures & Algorithms',
+    difficulty: 'Intermediate',
+    xp: 150,
+    description: 'You are given an `n x n` 2D `matrix` representing an image. Rotate the image by 90 degrees (clockwise). You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.',
+    starterCode: {
+      python: 'def rotate(matrix):\n  # Your code here, modify matrix in-place.\n  pass',
+      javascript: 'function rotate(matrix) {\n  // Your code here, modify matrix in-place.\n}',
+      java: 'class Solution {\n  public void rotate(int[][] matrix) {\n    // Your code here\n  }\n}',
+      cpp: 'class Solution {\npublic:\n    void rotate(vector<vector<int>>& matrix) {\n        // Your code here\n    }\n};',
+    },
+    examples: [
+      { input: 'matrix = [[1,2,3],[4,5,6],[7,8,9]]', output: '[[7,4,1],[8,5,2],[9,6,3]]' },
+      { input: 'matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]', output: '[[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]' },
+    ],
+    constraints: ['matrix.length == n', 'matrix[i].length == n', '1 <= n <= 20', '-1000 <= matrix[i][j] <= 1000'],
+  },
+  {
+    id: '28',
+    title: 'Search in Rotated Sorted Array',
+    category: 'Data Structures & Algorithms',
+    difficulty: 'Intermediate',
+    xp: 175,
+    description: 'There is an integer array `nums` sorted in ascending order (with distinct values). Prior to being passed to your function, `nums` is possibly rotated at an unknown pivot index `k`. Given the array `nums` after the possible rotation and an integer `target`, return the index of `target` if it is in `nums`, or -1 if it is not in `nums`. You must write an algorithm with O(log n) runtime complexity.',
+    starterCode: {
+      python: 'def search(nums, target):\n  # Your code here\n  pass',
+      javascript: 'function search(nums, target) {\n  // Your code here\n}',
+      java: 'class Solution {\n  public int search(int[] nums, int target) {\n    // Your code here\n  }\n}',
+      cpp: 'class Solution {\npublic:\n    int search(vector<int>& nums, int target) {\n        // Your code here\n    }\n};',
+    },
+    examples: [
+      { input: 'nums = [4,5,6,7,0,1,2], target = 0', output: '4' },
+      { input: 'nums = [4,5,6,7,0,1,2], target = 3', output: '-1' },
+      { input: 'nums = [1], target = 0', output: '-1' },
+    ],
+    constraints: ['1 <= nums.length <= 5000', '-10^4 <= nums[i] <= 10^4', 'All values of nums are unique.', 'nums is an ascending array that is possibly rotated.', '-10^4 <= target <= 10^4'],
+  },
+  {
+    id: '29',
+    title: 'Minimum Window Substring',
+    category: 'Data Structures & Algorithms',
+    difficulty: 'Expert',
+    xp: 275,
+    description: 'Given two strings `s` and `t` of lengths `m` and `n` respectively, return the minimum window substring of `s` such that every character in `t` (including duplicates) is included in the window. If there is no such substring, return the empty string `""`.',
+    starterCode: {
+      python: 'def min_window(s, t):\n  # Your code here\n  pass',
+      javascript: 'function minWindow(s, t) {\n  // Your code here\n}',
+      java: 'class Solution {\n  public String minWindow(String s, String t) {\n    // Your code here\n  }\n}',
+      cpp: 'class Solution {\npublic:\n    string minWindow(string s, string t) {\n        // Your code here\n    }\n};',
+    },
+    examples: [
+      { input: 's = "ADOBECODEBANC", t = "ABC"', output: '"BANC"' },
+      { input: 's = "a", t = "a"', output: '"a"' },
+      { input: 's = "a", t = "aa"', output: '""' },
+    ],
+    constraints: ['m == s.length', 'n == t.length', '1 <= m, n <= 10^5', 's and t consist of uppercase and lowercase English letters.'],
+  },
+  {
+    id: '30',
+    title: 'Serialize and Deserialize Binary Tree',
+    category: 'Data Structures & Algorithms',
+    difficulty: 'Expert',
+    xp: 300,
+    description: 'Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment. Design an algorithm to serialize and deserialize a binary tree.',
+    starterCode: {
+      python: '# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Codec:\n\n    def serialize(self, root):\n        """Encodes a tree to a single string.\n        \n        :type root: TreeNode\n        :rtype: str\n        """\n        \n\n    def deserialize(self, data):\n        """Decodes your encoded data to tree.\n        \n        :type data: str\n        :rtype: TreeNode\n        """\n',
+      javascript: '/**\n * Definition for a binary tree node.\n * function TreeNode(val) {\n *     this.val = val;\n *     this.left = this.right = null;\n * }\n */\n\n/**\n * Encodes a tree to a single string.\n *\n * @param {TreeNode} root\n * @return {string}\n */\nvar serialize = function(root) {\n    \n};\n\n/**\n * Decodes your encoded data to tree.\n *\n * @param {string} data\n * @return {TreeNode}\n */\nvar deserialize = function(data) {\n    \n};',
+      java: '/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\npublic class Codec {\n\n    // Encodes a tree to a single string.\n    public String serialize(TreeNode root) {\n        \n    }\n\n    // Decodes your encoded data to tree.\n    public TreeNode deserialize(String data) {\n        \n    }\n}',
+      cpp: '/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}\n * };\n */\nclass Codec {\npublic:\n\n    // Encodes a tree to a single string.\n    string serialize(TreeNode* root) {\n        \n    }\n\n    // Decodes your encoded data to tree.\n    TreeNode* deserialize(string data) {\n        \n    }\n};',
+    },
+    examples: [
+      { input: 'root = [1,2,3,null,null,4,5]', output: '[1,2,3,null,null,4,5]' },
+    ],
+    constraints: ['The number of nodes in the tree is in the range [0, 10^4].', '0 <= Node.val <= 1000', 'The same as the input tree.'],
+  },
+  {
+    id: '31',
+    title: 'Trapping Rain Water',
+    category: 'Data Structures & Algorithms',
+    difficulty: 'Expert',
+    xp: 300,
+    description: 'Given `n` non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.',
+    starterCode: {
+      python: 'def trap(height):\n  # Your code here\n  pass',
+      javascript: 'function trap(height) {\n  // Your code here\n}',
+      java: 'class Solution {\n  public int trap(int[] height) {\n    // Your code here\n  }\n}',
+      cpp: 'class Solution {\npublic:\n    int trap(vector<int>& height) {\n        // Your code here\n    }\n};',
+    },
+    examples: [
+      { input: 'height = [0,1,0,2,1,0,1,3,2,1,2,1]', output: '6' },
+      { input: 'height = [4,2,0,3,2,5]', output: '9' },
+    ],
+    constraints: ['n == height.length', '1 <= n <= 2 * 10^4', '0 <= height[i] <= 10^5'],
+  }
 ];
 
 export const games: Game[] = [
@@ -501,3 +617,5 @@ export const games: Game[] = [
     { id: '4', title: 'Monster Battle', description: 'RPG fight with coding questions.', icon: Shield, href: '#' },
     { id: '5', title: 'Code Dungeon', description: 'Dungeon crawler with coding puzzles.', icon: Castle, href: '#' },
 ];
+
+    
