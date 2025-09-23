@@ -1,3 +1,40 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "badge-python-pro",
+      "description": "A badge for Python experts",
+      "imageUrl": "https://images.unsplash.com/photo-1679110449630-078e217ac7c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzbmFrZSUyMGNvZGV8ZW58MHx8fHwxNzU4NjEyMzc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "snake code"
+    },
+    {
+      "id": "badge-js-master",
+      "description": "A badge for JavaScript masters",
+      "imageUrl": "https://images.unsplash.com/photo-1653499676737-becf2c9562c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxsb2dvJTIwc2NyaXB0fGVufDB8fHx8MTc1ODYxMjM3OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "logo script"
+    },
+    {
+      "id": "badge-5-day-streak",
+      "description": "A badge for a 5-day coding streak",
+      "imageUrl": "https://images.unsplash.com/photo-1613825787346-ef9c6189774b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmaXJlJTIwbWVkYWx8ZW58MHx8fHwxNzU4NjEyMzc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fire medal"
+    },
+    {
+      "id": "badge-first-challenge",
+      "description": "A badge for completing the first challenge",
+      "imageUrl": "https://images.unsplash.com/photo-1614642240262-a452c2c11724?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxyb2NrZXQlMjBsYXVuY2h8ZW58MHx8fHwxNzU4NTk3MDc3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "rocket launch"
+    },
+    {
+      "id": "badge-bug-smasher",
+      "description": "A badge for solving 10 debugging tasks",
+      "imageUrl": "https://images.unsplash.com/photo-1691317152924-cb163367aceb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8aGFtbWVyJTIwYnVnfGVufDB8fHx8MTc1ODYxMjM4MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "hammer bug"
+    },
+    {
+      "id": "badge-algo-expert",
+      "description": "A badge for mastering algorithms",
+      "imageUrl": "https://images.unsplash.com/photo-1554847464-bce967372cb7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YnJhaW4lMjBtYXplfGVufDB8fHx8MTc1ODYxMjM3OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "brain maze"
+    }
+  ]
 }
