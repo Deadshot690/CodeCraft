@@ -21,7 +21,7 @@ export const user: User = {
 };
 
 export const tasks: Task[] = [
-  {
+    {
     id: '1',
     title: 'Reverse a String',
     category: 'Data Structures & Algorithms',

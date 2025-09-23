@@ -4,17 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Flame, Star, Zap } from 'lucide-react';
-import { useAuth } from './auth-provider';
+import { user } from '@/lib/data';
 
 type AppHeaderProps = {
   title: string;
 };
 
 export function AppHeader({ title }: AppHeaderProps) {
-  const { user } = useAuth();
-  
-  if (!user) return null;
-
   const xpPercentage = (user.xp / user.xpToNextLevel) * 100;
 
   return (

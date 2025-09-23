@@ -1,11 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Code, Gamepad, Home, LogOut } from "lucide-react";
-import { useAuth } from "./auth-provider";
-import { auth } from "@/lib/firebase";
-import { signOut } from "firebase/auth";
+import { user } from "@/lib/data";
 
 import {
   Sidebar,
@@ -30,18 +28,7 @@ const CodeCraftLogo = () => (
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const router = useRouter();
-  const { user, loading } = useAuth();
   const isActive = (path: string) => pathname === path || (path !== '/dashboard' && pathname.startsWith(path));
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    router.push('/login');
-  };
-
-  if (loading || !user) {
-    return null; // Or a loading skeleton
-  }
 
   return (
     <Sidebar>
@@ -102,7 +89,7 @@ export function AppSidebar() {
                 </div>
             </div>
         </Link>
-        <Button variant="outline" size="sm" onClick={handleLogout}>
+        <Button variant="outline" size="sm">
             <LogOut className="mr-2"/>
             Logout
         </Button>

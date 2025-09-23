@@ -1,6 +1,4 @@
 
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -12,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { tasks } from "@/lib/data";
+import { user, tasks } from "@/lib/data";
 import { Flame, Star, Zap, Trophy } from "lucide-react";
 import {
   Tooltip,
@@ -20,17 +18,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useAuth } from "@/components/auth-provider";
 
 const dailyChallenge = tasks[0];
 
 export default function DashboardPage() {
-  const { user } = useAuth();
-  
-  if (!user) {
-    return null; // Or a loading spinner
-  }
-
   const xpPercentage = (user.xp / user.xpToNextLevel) * 100;
 
   return (
