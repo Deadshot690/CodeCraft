@@ -7,6 +7,7 @@
  * - RunCodeOutput - The return type for the runCode function.
  */
 
+import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 import type { Task } from '@/lib/types';
 
@@ -51,80 +52,6 @@ const RunCodeOutputSchema = z.object({
 });
 export type RunCodeOutput = z.infer<typeof RunCodeOutputSchema>;
 
-
-// This function will simulate running code without an AI model.
-// NOTE: This is a simplified and UNSAFE implementation for demonstration purposes.
-// Using eval() on user-provided code is a major security risk in a real application.
-// A real-world scenario would use a secure, isolated sandbox (e.g., Docker containers).
-async function runCodeLocally(input: RunCodeInput): Promise<RunCodeOutput> {
-  const { code, language, task } = input;
-
-  if (language !== 'javascript') {
-    return {
-      output: `Code execution for "${language}" is not supported in this environment. Only JavaScript is supported.`,
-      testResults: [],
-    };
-  }
-
-  let consoleOutput = '';
-  const capturedLogs: string[] = [];
-  const originalConsoleLog = console.log;
-  console.log = (...args) => {
-    capturedLogs.push(args.map(arg => JSON.stringify(arg, null, 2)).join(' '));
-  };
-
-  const testResults: z.infer<typeof RunCodeOutputSchema>['testResults'] = [];
-
-  try {
-    for (const example of task.examples) {
-      // Very simplistic input parsing. Assumes "variable = value" format.
-      const inputVar = example.input.split('=')[0].trim();
-      const inputValue = example.input.split('=')[1].trim();
-
-      // This is highly unsafe and is for demonstration only.
-      // It constructs a function from the user's code and calls it with the example input.
-      const fullCode = `
-        ${code}
-        const result = ${task.title.replace(/\s/g, '')}(${inputValue});
-        result;
-      `;
-      
-      // Using Function constructor is slightly safer than direct eval, but still a risk.
-      const execute = new Function(fullCode);
-      const actualRaw = execute();
-      const actual = JSON.stringify(actualRaw);
-      
-      const success = actual === example.output;
-
-      testResults.push({
-        testCase: example.input,
-        expected: example.output,
-        actual: actual,
-        success: success,
-      });
-    }
-    consoleOutput = capturedLogs.join('\n') || 'Code executed successfully with no console output.';
-  } catch (error: any) {
-    consoleOutput = `Error: ${error.message}\n${error.stack}`;
-  } finally {
-    console.log = originalConsoleLog; // Restore original console.log
-  }
-
-  return {
-    output: consoleOutput,
-    testResults: testResults,
-  };
-}
-
-
-export async function runCode(input: RunCodeInput): Promise<RunCodeOutput> {
-  // We are now calling the local runner instead of the AI flow.
-  return runCodeLocally(input);
-}
-
-// The Genkit AI flow is no longer needed but is kept here for reference.
-/*
-import { ai } from '@/ai/genkit';
 
 const prompt = ai.definePrompt({
   name: 'runCodePrompt',
@@ -171,4 +98,7 @@ const runCodeFlow = ai.defineFlow(
     return output!;
   }
 );
-*/
+
+export async function runCode(input: RunCodeInput): Promise<RunCodeOutput> {
+  return runCodeFlow(input);
+}
