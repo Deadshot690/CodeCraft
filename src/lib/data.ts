@@ -9,7 +9,6 @@ import { user } from './user-data';
 import { games } from './games-data';
 import { monsters, battleQuestions, playerDialogues } from './monster-battle-data';
 import { debugChallenges } from './debug-hunt-data';
-import { codeJigsawChallenges } from './code-jigsaw-data';
 
 export {
     tasks,
@@ -18,6 +17,5 @@ export {
     monsters,
     battleQuestions,
     playerDialogues,
-    debugChallenges,
-    codeJigsawChallenges
+    debugChallenges
 };
