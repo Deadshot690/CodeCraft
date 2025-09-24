@@ -170,7 +170,6 @@ export default function CodeTyperArenaPage() {
                                 value={userInput}
                                 onChange={handleInputChange}
                                 className="absolute top-0 left-0 w-full h-full p-4 bg-transparent text-transparent caret-primary font-code text-base whitespace-pre-wrap border-none outline-none resize-none"
-                                placeholder={status === 'waiting' ? "Start typing here..." : ""}
                                 spellCheck="false"
                                 disabled={status === 'finished'}
                                 autoFocus
