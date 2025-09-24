@@ -13,19 +13,19 @@ export default function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user, loading } = useAuth();
+  const { user, firebaseUser, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (loading) return; // Do nothing while loading
-    // If auth has finished loading and there is NO user, redirect to login.
-    if (!user) {
+    // If auth has finished loading and there is NO firebase user, redirect to login.
+    if (!firebaseUser) {
       router.replace("/login");
     }
-  }, [user, loading, router]);
+  }, [firebaseUser, loading, router]);
 
   // While authentication is loading, show a full-screen loader.
-  if (loading) {
+  if (loading || !firebaseUser || !user) {
     return (
       <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -34,23 +34,14 @@ export default function MainLayout({
   }
 
   // If loading is complete and we have a user, show the main application.
-  if (user) {
-    return (
-      <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>
-          <main className="min-h-screen flex-1 flex-col">
-            {children}
-          </main>
-        </SidebarInset>
-      </SidebarProvider>
-    );
-  }
-
-  // If loading is complete and there's no user, we are redirecting. Show a loader.
   return (
-      <div className="flex h-screen items-center justify-center">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-      </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <main className="min-h-screen flex-1 flex-col">
+          {children}
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

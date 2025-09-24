@@ -11,19 +11,19 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user, loading } = useAuth();
+  const { firebaseUser, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (loading) return; // Do nothing while loading.
     // If auth is not loading and a user IS logged in, redirect to dashboard.
-    if (user) {
+    if (firebaseUser) {
       router.replace("/dashboard");
     }
-  }, [user, loading, router]);
+  }, [firebaseUser, loading, router]);
 
   // While checking auth state, or if we are about to redirect, show a loader.
-  if (loading || user) {
+  if (loading || firebaseUser) {
     return (
       <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />

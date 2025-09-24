@@ -7,13 +7,13 @@ import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 
 export default function LandingPage() {
-  const { user, loading } = useAuth();
+  const { firebaseUser, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     // Wait until the authentication status is fully determined.
     if (!loading) {
-      if (user) {
+      if (firebaseUser) {
         // If logged in, go to the dashboard.
         router.replace("/dashboard");
       } else {
@@ -21,7 +21,7 @@ export default function LandingPage() {
         router.replace("/login");
       }
     }
-  }, [user, loading, router]);
+  }, [firebaseUser, loading, router]);
 
   // Show a loader while we determine the user's auth state.
   return (
