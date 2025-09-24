@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -111,6 +112,7 @@ export default function CodeTyperLobbyPage() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-[80px]">Sr.No.</TableHead>
                   <TableHead>Challenge</TableHead>
                   <TableHead className="hidden md:table-cell">Language</TableHead>
                   <TableHead>Difficulty</TableHead>
@@ -121,6 +123,7 @@ export default function CodeTyperLobbyPage() {
               <TableBody>
                 {filteredChallenges.map((challenge, index) => (
                   <TableRow key={challenge.id}>
+                    <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell className="font-medium">{challenge.title}</TableCell>
                     <TableCell className="hidden md:table-cell text-muted-foreground">{challenge.language.charAt(0).toUpperCase() + challenge.language.slice(1)}</TableCell>
                     <TableCell>
