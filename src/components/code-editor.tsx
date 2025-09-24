@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -7,6 +8,7 @@ import { python } from "@codemirror/lang-python";
 import { java, javaLanguage } from "@codemirror/lang-java";
 import { cpp, cppLanguage } from "@codemirror/lang-cpp";
 import { okaidia } from '@uiw/codemirror-theme-okaidia';
+import { cn } from "@/lib/utils";
 
 
 type Language = 'javascript' | 'python' | 'java' | 'cpp';
@@ -15,6 +17,7 @@ interface CodeEditorProps {
   initialCode: string;
   language: Language;
   onCodeChange?: (code: string) => void;
+  transparentBg?: boolean;
 }
 
 const languageExtensions = {
@@ -25,7 +28,7 @@ const languageExtensions = {
 };
 
 
-export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, onCodeChange }) => {
+export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, onCodeChange, transparentBg = false }) => {
   const [code, setCode] = useState(initialCode);
 
   const handleOnChange = (value: string) => {
@@ -40,9 +43,14 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, o
       value={code}
       height="100%"
       extensions={languageExtensions[language]}
-      theme={okaidia}
+      theme={transparentBg ? 'none' : okaidia}
       onChange={handleOnChange}
-      className="flex-grow rounded-md overflow-hidden text-base border"
+      className={cn(
+        "flex-grow rounded-md overflow-hidden text-base border",
+        transparentBg && "bg-transparent"
+        )}
     />
   );
 };
+
+    

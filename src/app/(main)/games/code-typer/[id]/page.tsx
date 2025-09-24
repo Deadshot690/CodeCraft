@@ -205,6 +205,7 @@ export default function CodeTyperArenaPage() {
                                 initialCode=""
                                 language={language}
                                 onCodeChange={handleCodeChange}
+                                transparentBg={true}
                             />
                         </div>
                         <Progress value={progress} className="mt-4 h-2" />
@@ -223,5 +224,7 @@ export default function CodeTyperArenaPage() {
         </div>
     );
 }
+
+    
 
     
