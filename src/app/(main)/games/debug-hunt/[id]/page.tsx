@@ -8,8 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader2, Bug, Lightbulb, PartyPopper, ChevronLeft } from "lucide-react";
-import { debugCode, DebugCodeOutput } from "@/ai/flows/debug-code-flow";
 import type { DebugChallenge } from "@/lib/types";
+import { normalizeAnswer } from "@/lib/utils";
+
+interface SubmissionResult {
+  isCorrect: boolean;
+  explanation: string;
+}
 
 export default function DebugHuntArenaPage({ params }: { params: { id: string } }) {
   const resolvedParams = use(params);
@@ -17,7 +22,7 @@ export default function DebugHuntArenaPage({ params }: { params: { id: string } 
 
   const [isPending, startTransition] = useTransition();
   const [userCode, setUserCode] = useState("");
-  const [submissionResult, setSubmissionResult] = useState<DebugCodeOutput | null>(null);
+  const [submissionResult, setSubmissionResult] = useState<SubmissionResult | null>(null);
 
   const challenge = useMemo(() => {
     return debugChallenges.find((c) => c.id === resolvedParams.id);
@@ -36,12 +41,20 @@ export default function DebugHuntArenaPage({ params }: { params: { id: string } 
   }
 
   const handleSubmitFix = () => {
-    startTransition(async () => {
-      const result = await debugCode({ userCode, challenge: challenge as DebugChallenge });
-      setSubmissionResult(result);
+    startTransition(() => {
+      if (!challenge) return;
+      // Simple string comparison instead of AI call
+      const isCorrect = normalizeAnswer(userCode) === normalizeAnswer(challenge.fixedCode);
+      
+      setSubmissionResult({
+        isCorrect: isCorrect,
+        explanation: isCorrect 
+          ? "Great job! You fixed the bug."
+          : "That's not quite right. Take another look at the code and see if you can spot the issue."
+      });
     });
   };
-
+  
   const handleNextChallenge = () => {
     const currentIndex = debugChallenges.findIndex(c => c.id === challenge.id);
     const nextChallenge = debugChallenges[(currentIndex + 1) % debugChallenges.length];

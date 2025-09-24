@@ -7,8 +7,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export function normalizeAnswer(answer: string): string {
   if (!answer) return "";
+  // For code, just trim whitespace. For trivia, more normalization is needed.
+  // This simple version will work for both now.
   return answer
     .toLowerCase()
     .trim()
-    .replace(/[().\s]/g, ''); // Removes parentheses, dots, and whitespace
+    .replace(/\s+/g, ' '); 
 }
