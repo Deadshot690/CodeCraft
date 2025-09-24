@@ -93,7 +93,15 @@ export default function MonsterBattleArenaPage({ params }: { params: { id: strin
   };
 
   const handleNextBattle = () => {
-    router.push('/games/monster-battle');
+    startTransition(() => {
+        const otherQuestions = battleQuestions.filter(bq => bq.id !== question.id);
+        const nextQuestion = getRandomItem(otherQuestions);
+        if (nextQuestion) {
+            router.push(`/games/monster-battle/${nextQuestion.id}`);
+        } else {
+            router.push('/games/monster-battle');
+        }
+    });
   };
 
   return (
@@ -103,7 +111,7 @@ export default function MonsterBattleArenaPage({ params }: { params: { id: strin
           <Swords className="text-primary" />
           Monster Battle Arena
         </h1>
-        <Button variant="outline" onClick={handleNextBattle} className='bg-background/80'>
+        <Button variant="outline" onClick={() => router.push('/games/monster-battle')} className='bg-background/80'>
             Back to Challenges
         </Button>
       </header>
@@ -208,9 +216,15 @@ export default function MonsterBattleArenaPage({ params }: { params: { id: strin
               </div>
             )}
             
-            {(gameState === 'player-win' || gameState === 'monster-win') && !isPending && (
+            {gameState === 'player-win' && !isPending && (
                  <Button size="lg" onClick={handleNextBattle}>
-                    {gameState === 'player-win' ? "Find Next Opponent" : "Return to Lobby"}
+                   <Swords className="mr-2 h-4 w-4" />
+                    Find Next Opponent
+                </Button>
+            )}
+             {gameState === 'monster-win' && !isPending && (
+                 <Button size="lg" onClick={() => router.push('/games/monster-battle')}>
+                    Return to Lobby
                 </Button>
             )}
           </CardContent>

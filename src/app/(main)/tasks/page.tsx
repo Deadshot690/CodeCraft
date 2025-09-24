@@ -38,12 +38,12 @@ export default function TasksPage() {
     setIsClient(true);
   }, []);
 
-  const filteredTasks = tasks.filter((task) => {
+  const filteredTasks = useMemo(() => tasks.filter((task) => {
     const matchesCategory = selectedCategory === 'all' || task.category === selectedCategory;
     const matchesDifficulty = selectedDifficulty === 'all' || task.difficulty === selectedDifficulty;
     const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesDifficulty && matchesSearch;
-  });
+  }), [searchQuery, selectedCategory, selectedDifficulty]);
 
   const difficultyVariant = (difficulty: Task['difficulty']): "default" | "secondary" | "destructive" | "outline" => {
     switch (difficulty) {
@@ -117,7 +117,7 @@ export default function TasksPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[50px]">Sr.No.</TableHead>
+                  <TableHead className="w-[80px]">Sr.No.</TableHead>
                   <TableHead>Title</TableHead>
                   <TableHead className="hidden md:table-cell">Category</TableHead>
                   <TableHead>Difficulty</TableHead>
