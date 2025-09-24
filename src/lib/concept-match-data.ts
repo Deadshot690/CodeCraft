@@ -2392,5 +2392,410 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
             { codeId: 'cm105-c2', conceptId: 'cm105-p2' },
             { codeId: 'cm105-c3', conceptId: 'cm105-p3' },
         ]
+    },
+    {
+        id: 'cm106',
+        title: 'JavaScript `async`/`await` Error Handling',
+        description: 'Match the code block to its error handling behavior.',
+        difficulty: 'Intermediate',
+        xp: 50,
+        codeSnippets: [
+            { id: 'cm106-c1', language: 'javascript', code: 'async function A() { await Promise.reject("err"); }' },
+            { id: 'cm106-c2', language: 'javascript', code: 'async function B() { try { await Promise.reject("err"); } catch (e) {} }' },
+            { id: 'cm106-c3', language: 'javascript', code: 'function C() { Promise.reject("err").catch(e => {}); }' }
+        ],
+        concepts: [
+            { id: 'cm106-p1', name: 'Results in an Unhandled Promise Rejection.' },
+            { id: 'cm106-p2', name: 'Catches the error internally, preventing rejection.' },
+            { id: 'cm106-p3', name: 'Handles the rejection using a promise method.' }
+        ],
+        pairs: [
+            { codeId: 'cm106-c1', conceptId: 'cm106-p1' },
+            { codeId: 'cm106-c2', conceptId: 'cm106-p2' },
+            { codeId: 'cm106-c3', conceptId: 'cm106-p3' },
+        ]
+    },
+    {
+        id: 'cm107',
+        title: 'Python Memory Management',
+        description: 'Match the concept to its role in Python memory management.',
+        difficulty: 'Advanced',
+        xp: 70,
+        codeSnippets: [
+            { id: 'cm107-c1', language: 'generic', code: 'The primary mechanism for reclaiming memory from objects that are no longer reachable.' },
+            { id: 'cm107-c2', language: 'generic', code: 'A system to handle cycles of objects that refer to each other, which reference counting cannot clean up.' },
+            { id: 'cm107-c3', language: 'generic', code: 'The CPython-specific lock that prevents multiple native threads from executing Python bytecodes at the same time.' }
+        ],
+        concepts: [
+            { id: 'cm107-p1', name: 'Reference Counting' },
+            { id: 'cm107-p2', name: 'Generational Garbage Collector' },
+            { id: 'cm107-p3', name: 'Global Interpreter Lock (GIL)' }
+        ],
+        pairs: [
+            { codeId: 'cm107-c1', conceptId: 'cm107-p1' },
+            { codeId: 'cm107-c2', conceptId: 'cm107-p2' },
+            { codeId: 'cm107-c3', conceptId: 'cm107-p3' },
+        ]
+    },
+    {
+        id: 'cm108',
+        title: 'Java `String` vs `StringBuilder` vs `StringBuffer`',
+        description: 'Match the class to its characteristics.',
+        difficulty: 'Advanced',
+        xp: 65,
+        codeSnippets: [
+            { id: 'cm108-c1', language: 'java', code: 'Immutable. Creates a new object for every modification.' },
+            { id: 'cm108-c2', language: 'java', code: 'Mutable. Not thread-safe, but faster.' },
+            { id: 'cm108-c3', language: 'java', code: 'Mutable. Thread-safe, but slower due to synchronization.' }
+        ],
+        concepts: [
+            { id: 'cm108-p1', name: '`String`' },
+            { id: 'cm108-p2', name: '`StringBuilder`' },
+            { id: 'cm108-p3', name: '`StringBuffer`' }
+        ],
+        pairs: [
+            { codeId: 'cm108-c1', conceptId: 'cm108-p1' },
+            { codeId: 'cm108-c2', conceptId: 'cm108-p2' },
+            { codeId: 'cm108-c3', conceptId: 'cm108-p3' },
+        ]
+    },
+    {
+        id: 'cm109',
+        title: 'C++ Smart Pointer Use Cases',
+        description: 'Match the scenario to the most appropriate smart pointer.',
+        difficulty: 'Advanced',
+        xp: 75,
+        codeSnippets: [
+            { id: 'cm109-c1', language: 'generic', code: 'A factory function that creates an object and transfers ownership to the caller.' },
+            { id: 'cm109-c2', language: 'generic', code: 'Multiple objects in a data structure that all co-own a resource.' },
+            { id: 'cm109-c3', language: 'generic', code: 'A parent node in a tree needs to refer to its child, and the child needs to refer back to its parent.' }
+        ],
+        concepts: [
+            { id: 'cm109-p1', name: '`std::unique_ptr`' },
+            { id: 'cm109-p2', name: '`std::shared_ptr`' },
+            { id: 'cm109-p3', name: '`std::weak_ptr` (for the back-reference)' }
+        ],
+        pairs: [
+            { codeId: 'cm109-c1', conceptId: 'cm109-p1' },
+            { codeId: 'cm109-c2', conceptId: 'cm109-p2' },
+            { codeId: 'cm109-c3', conceptId: 'cm109-p3' },
+        ]
+    },
+    {
+        id: 'cm110',
+        title: 'JavaScript `Proxy` vs `Object.defineProperty`',
+        description: 'Match the metaprogramming feature to its characteristic.',
+        difficulty: 'Advanced',
+        xp: 80,
+        codeSnippets: [
+            { id: 'cm110-c1', language: 'generic', code: 'Intercepts and redefines fundamental operations for an object. Wraps an existing object.' },
+            { id: 'cm110-c2', language: 'generic', code: 'Defines or modifies a property directly on an object.' },
+            { id: 'cm110-c3', language: 'generic', code: 'Uses "traps" like `get`, `set`, and `has`.' }
+        ],
+        concepts: [
+            { id: 'cm110-p1', name: '`Proxy`' },
+            { id: 'cm110-p2', name: '`Object.defineProperty`' }
+        ],
+        pairs: [
+            { codeId: 'cm110-c1', conceptId: 'cm110-p1' },
+            { codeId: 'cm110-c2', conceptId: 'cm110-p2' },
+            { codeId: 'cm110-c3', conceptId: 'cm110-p1' },
+        ]
+    },
+    {
+        id: 'cm111',
+        title: 'Dijkstra vs A* Algorithm',
+        description: 'Match the shortest path algorithm to its key characteristic.',
+        difficulty: 'Advanced',
+        xp: 85,
+        codeSnippets: [
+            { id: 'cm111-c1', language: 'generic', code: 'Explores paths in order of their current cost from the start node. Guarantees the shortest path.' },
+            { id: 'cm111-c2', language: 'generic', code: 'Uses a heuristic to guide its search towards the goal node, often finding the shortest path much faster.' }
+        ],
+        concepts: [
+            { id: 'cm111-p1', name: 'Dijkstra\'s Algorithm' },
+            { id: 'cm111-p2', name: 'A* Search Algorithm' }
+        ],
+        pairs: [
+            { codeId: 'cm111-c1', conceptId: 'cm111-p1' },
+            { codeId: 'cm111-c2', conceptId: 'cm111-p2' }
+        ]
+    },
+    {
+        id: 'cm112',
+        title: 'CSS Grid vs Flexbox',
+        description: 'Match the CSS layout model to its primary design use.',
+        difficulty: 'Intermediate',
+        xp: 50,
+        codeSnippets: [
+            { id: 'cm112-c1', language: 'generic', code: 'Primarily designed for one-dimensional layouts (either a row or a column).' },
+            { id: 'cm112-c2', language: 'generic', code: 'Designed for two-dimensional layouts, with rows and columns.' }
+        ],
+        concepts: [
+            { id: 'cm112-p1', name: 'Flexbox' },
+            { id: 'cm112-p2', name: 'Grid' }
+        ],
+        pairs: [
+            { codeId: 'cm112-c1', conceptId: 'cm112-p1' },
+            { codeId: 'cm112-c2', conceptId: 'cm112-p2' }
+        ]
+    },
+    {
+        id: 'cm113',
+        title: 'SQL Database Indexes',
+        description: 'Match the index type to its structure.',
+        difficulty: 'Advanced',
+        xp: 75,
+        codeSnippets: [
+            { id: 'cm113-c1', language: 'generic', code: 'The most common type, organized like a B-Tree. Efficient for range queries and equality checks.' },
+            { id: 'cm113-c2', language: 'generic', code: 'The data rows are stored in the index in sorted order of the key. A table can only have one.' }
+        ],
+        concepts: [
+            { id: 'cm113-p1', name: 'Non-Clustered Index' },
+            { id: 'cm113-p2', name: 'Clustered Index' }
+        ],
+        pairs: [
+            { codeId: 'cm113-c1', conceptId: 'cm113-p1' },
+            { codeId: 'cm113-c2', conceptId: 'cm113-p2' }
+        ]
+    },
+    {
+        id: 'cm114',
+        title: 'Monolithic vs Microservices',
+        description: 'Match the architectural style to its characteristic.',
+        difficulty: 'Intermediate',
+        xp: 55,
+        codeSnippets: [
+            { id: 'cm114-c1', language: 'generic', code: 'All components are tightly coupled and run as a single service. Simple to deploy initially.' },
+            { id: 'cm114-c2', language: 'generic', code: 'The application is structured as a collection of loosely coupled, independently deployable services.' }
+        ],
+        concepts: [
+            { id: 'cm114-p1', name: 'Monolithic Architecture' },
+            { id: 'cm114-p2', name: 'Microservices Architecture' }
+        ],
+        pairs: [
+            { codeId: 'cm114-c1', conceptId: 'cm114-p1' },
+            { codeId: 'cm114-c2', conceptId: 'cm114-p2' }
+        ]
+    },
+    {
+        id: 'cm115',
+        title: 'Web Security: XSS vs CSRF',
+        description: 'Match the web attack to its description.',
+        difficulty: 'Advanced',
+        xp: 70,
+        codeSnippets: [
+            { id: 'cm115-c1', language: 'generic', code: 'An attacker injects malicious scripts into a trusted website, which then execute in a victim\'s browser.' },
+            { id: 'cm115-c2', language: 'generic', code: 'An attacker tricks a victim into submitting a malicious request to a web application they are already authenticated with.' }
+        ],
+        concepts: [
+            { id: 'cm115-p1', name: 'Cross-Site Scripting (XSS)' },
+            { id: 'cm115-p2', name: 'Cross-Site Request Forgery (CSRF)' }
+        ],
+        pairs: [
+            { codeId: 'cm115-c1', conceptId: 'cm115-p1' },
+            { codeId: 'cm115-c2', conceptId: 'cm115-p2' }
+        ]
+    },
+    {
+        id: 'cm116',
+        title: 'Python `__slots__`',
+        description: 'Match the concept to its effect.',
+        difficulty: 'Advanced',
+        xp: 70,
+        codeSnippets: [
+            { id: 'cm116-c1', language: 'python', code: 'class MyClass:\n  __slots__ = ["x", "y"]' },
+            { id: 'cm116-c2', language: 'python', code: 'Reduces memory footprint by preventing the creation of an instance `__dict__`.' },
+            { id: 'cm116-c3', language: 'python', code: 'Prevents the addition of new attributes to an instance not listed in `__slots__`.' }
+        ],
+        concepts: [
+            { id: 'cm116-p1', name: 'Declaration' },
+            { id: 'cm116-p2', name: 'Memory Optimization' },
+            { id: 'cm116-p3', name: 'Attribute Restriction' }
+        ],
+        pairs: [
+            { codeId: 'cm116-c1', conceptId: 'cm116-p1' },
+            { codeId: 'cm116-c2', conceptId: 'cm116-p2' },
+            { codeId: 'cm116-c3', conceptId: 'cm116-p3' },
+        ]
+    },
+    {
+        id: 'cm117',
+        title: 'GraphQL vs REST',
+        description: 'Match the API design to its characteristic.',
+        difficulty: 'Intermediate',
+        xp: 55,
+        codeSnippets: [
+            { id: 'cm117-c1', language: 'generic', code: 'Clients ask for exactly the data they need and get back predictable results.' },
+            { id: 'cm117-c2', language: 'generic', code: 'Uses a fixed data structure, often leading to over-fetching or under-fetching of data.' },
+            { id: 'cm117-c3', language: 'generic', code: 'Typically uses multiple endpoints to fetch related data (e.g., `/users/1`, `/users/1/posts`).' }
+        ],
+        concepts: [
+            { id: 'cm117-p1', name: 'GraphQL' },
+            { id: 'cm117-p2', name: 'REST' }
+        ],
+        pairs: [
+            { codeId: 'cm117-c1', conceptId: 'cm117-p1' },
+            { codeId: 'cm117-c2', conceptId: 'cm117-p2' },
+            { codeId: 'cm117-c3', conceptId: 'cm117-p2' },
+        ]
+    },
+    {
+        id: 'cm118',
+        title: 'JavaScript Event Delegation',
+        description: 'Match the concept to its definition.',
+        difficulty: 'Advanced',
+        xp: 60,
+        codeSnippets: [
+            { id: 'cm118-c1', language: 'generic', code: 'The process where an event bubbles up from a child element to its parent elements in the DOM tree.' },
+            { id: 'cm118-c2', language: 'generic', code: 'Attaching a single event listener to a parent element to manage events for all of its children.' }
+        ],
+        concepts: [
+            { id: 'cm118-p1', name: 'Event Bubbling' },
+            { id: 'cm118-p2', name: 'Event Delegation' }
+        ],
+        pairs: [
+            { codeId: 'cm118-c1', conceptId: 'cm118-p1' },
+            { codeId: 'cm118-c2', conceptId: 'cm118-p2' }
+        ]
+    },
+    {
+        id: 'cm119',
+        title: 'C++ Virtual Table (vtable)',
+        description: 'Match the term to its role in C++ polymorphism.',
+        difficulty: 'Advanced',
+        xp: 85,
+        codeSnippets: [
+            { id: 'cm119-c1', language: 'generic', code: 'A lookup table of functions used to resolve virtual function calls at runtime.' },
+            { id: 'cm119-c2', language: 'generic', code: 'A hidden pointer in an object instance that points to the class\'s vtable.' }
+        ],
+        concepts: [
+            { id: 'cm119-p1', name: 'vtable' },
+            { id: 'cm119-p2', name: 'vptr' }
+        ],
+        pairs: [
+            { codeId: 'cm119-c1', conceptId: 'cm119-p1' },
+            { codeId: 'cm119-c2', conceptId: 'cm119-p2' }
+        ]
+    },
+    {
+        id: 'cm120',
+        title: 'Python `__new__` vs `__init__`',
+        description: 'Match the special method to its purpose.',
+        difficulty: 'Advanced',
+        xp: 75,
+        codeSnippets: [
+            { id: 'cm120-c1', language: 'generic', code: 'Responsible for creating and returning a new instance of a class. The first step of object creation.' },
+            { id: 'cm120-c2', language: 'generic', code: 'Responsible for initializing the instance after it has been created.' }
+        ],
+        concepts: [
+            { id: 'cm120-p1', name: '`__new__`' },
+            { id: 'cm120-p2', name: '`__init__`' }
+        ],
+        pairs: [
+            { codeId: 'cm120-c1', conceptId: 'cm120-p1' },
+            { codeId: 'cm120-c2', conceptId: 'cm120-p2' }
+        ]
+    },
+    {
+        id: 'cm121',
+        title: 'Kubernetes Components',
+        description: 'Match the Kubernetes component to its role.',
+        difficulty: 'Advanced',
+        xp: 80,
+        codeSnippets: [
+            { id: 'cm121-c1', language: 'generic', code: 'The smallest deployable unit of computing that you can create and manage.' },
+            { id: 'cm121-c2', language: 'generic', code: 'An abstraction which defines a logical set of Pods and a policy by which to access them.' },
+            { id: 'cm121-c3', language: 'generic', code: 'An agent that runs on each node in the cluster. It makes sure that containers are running in a Pod.' }
+        ],
+        concepts: [
+            { id: 'cm121-p1', name: 'Pod' },
+            { id: 'cm121-p2', name: 'Service' },
+            { id: 'cm121-p3', name: 'Kubelet' }
+        ],
+        pairs: [
+            { codeId: 'cm121-c1', conceptId: 'cm121-p1' },
+            { codeId: 'cm121-c2', conceptId: 'cm121-p2' },
+            { codeId: 'cm121-c3', conceptId: 'cm121-p3' },
+        ]
+    },
+    {
+        id: 'cm122',
+        title: 'WebAssembly (Wasm)',
+        description: 'Match the concept to its role in WebAssembly.',
+        difficulty: 'Advanced',
+        xp: 75,
+        codeSnippets: [
+            { id: 'cm122-c1', language: 'generic', code: 'A binary instruction format for a stack-based virtual machine.' },
+            { id: 'cm122-c2', language: 'generic', code: 'A human-readable text format for WebAssembly.' }
+        ],
+        concepts: [
+            { id: 'cm122-p1', name: '.wasm' },
+            { id: 'cm122-p2', name: '.wat' }
+        ],
+        pairs: [
+            { codeId: 'cm122-c1', conceptId: 'cm122-p1' },
+            { codeId: 'cm122-c2', conceptId: 'cm122-p2' }
+        ]
+    },
+    {
+        id: 'cm123',
+        title: 'Docker Concepts',
+        description: 'Match the Docker term to its definition.',
+        difficulty: 'Intermediate',
+        xp: 50,
+        codeSnippets: [
+            { id: 'cm123-c1', language: 'generic', code: 'A read-only template with instructions for creating a Docker container.' },
+            { id: 'cm123-c2', language: 'generic', code: 'A runnable instance of an image.' },
+            { id: 'cm123-c3', language: 'generic', code: 'A text document that contains all the commands a user could call on the command line to assemble an image.' }
+        ],
+        concepts: [
+            { id: 'cm123-p1', name: 'Image' },
+            { id: 'cm123-p2', name: 'Container' },
+            { id: 'cm123-p3', name: 'Dockerfile' }
+        ],
+        pairs: [
+            { codeId: 'cm123-c1', conceptId: 'cm123-p1' },
+            { codeId: 'cm123-c2', conceptId: 'cm123-p2' },
+            { codeId: 'cm123-c3', conceptId: 'cm123-p3' },
+        ]
+    },
+    {
+        id: 'cm124',
+        title: 'Java `HashMap` vs `TreeMap`',
+        description: 'Match the Map implementation to its characteristic.',
+        difficulty: 'Intermediate',
+        xp: 55,
+        codeSnippets: [
+            { id: 'cm124-c1', language: 'generic', code: 'Does not guarantee any order of its elements.' },
+            { id: 'cm124-c2', language: 'generic', code: 'Maintains its elements in ascending key order.' }
+        ],
+        concepts: [
+            { id: 'cm124-p1', name: '`HashMap`' },
+            { id: 'cm124-p2', name: '`TreeMap`' }
+        ],
+        pairs: [
+            { codeId: 'cm124-c1', conceptId: 'cm124-p1' },
+            { codeId: 'cm124-c2', conceptId: 'cm124-p2' }
+        ]
+    },
+    {
+        id: 'cm125',
+        title: 'Python Metaclasses',
+        description: 'Match the term to its definition.',
+        difficulty: 'Advanced',
+        xp: 85,
+        codeSnippets: [
+            { id: 'cm125-c1', language: 'generic', code: 'The "class of a class". It defines how a class behaves.' },
+            { id: 'cm125-c2', language: 'generic', code: 'The default metaclass for all classes in Python.' }
+        ],
+        concepts: [
+            { id: 'cm125-p1', name: 'Metaclass' },
+            { id: 'cm125-p2', name: '`type`' }
+        ],
+        pairs: [
+            { codeId: 'cm125-c1', conceptId: 'cm125-p1' },
+            { codeId: 'cm125-c2', conceptId: 'cm125-p2' }
+        ]
     }
 ];
