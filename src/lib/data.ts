@@ -3702,7 +3702,7 @@ export const tasks: Task[] = [
 ];
 
 export const games: Game[] = [
-    { id: '1', title: 'Monster Battle', description: 'Answer coding trivia to defeat monsters in a turn-based RPG.', icon: Swords, href: '#' },
+    { id: '1', title: 'Monster Battle', description: 'Answer coding trivia to defeat monsters in a turn-based RPG.', icon: Swords, href: '/games/monster-battle' },
     { id: '2', title: 'Debug Hunt', description: 'Find and fix bugs in code snippets against the clock.', icon: Bug, href: '#' },
     { id: '3', title: 'Code Jigsaw', description: 'Reassemble scrambled code blocks into a working program.', icon: Puzzle, href: '#' },
     { id: '4', title: 'Code Typer', description: 'Improve your typing speed and accuracy with code snippets.', icon: Keyboard, href: '#' },
@@ -3711,5 +3711,3 @@ export const games: Game[] = [
     { id: '7', title: 'Algo Arena', description: 'Competitive programming challenges against other users.', icon: Gamepad2, href: '#' },
     { id: '8', title: 'Security Fortress', description: 'Identify and patch security vulnerabilities in a codebase.', icon: Castle, href: '#' },
 ];
-
-    
