@@ -118,3 +118,27 @@ export type OutputPredictionChallenge = {
   explanation: string;
 };
 
+export type ConceptMatchCodeSnippet = {
+  id: string;
+  language: 'python' | 'javascript' | 'java' | 'cpp' | 'generic';
+  code: string;
+};
+
+export type Concept = {
+  id: string;
+  name: string;
+};
+
+export type ConceptMatchChallenge = {
+  id: string;
+  title: string;
+  description: string;
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  xp: number;
+  pairs: {
+    codeId: string;
+    conceptId: string;
+  }[];
+  codeSnippets: ConceptMatchCodeSnippet[];
+  concepts: Concept[];
+};

@@ -11,6 +11,7 @@ import { monsters, battleQuestions, playerDialogues } from './monster-battle-dat
 import { debugChallenges } from './debug-hunt-data';
 import { codeTyperChallenges } from './code-typer-data';
 import { outputPredictionChallenges } from './output-prediction-data';
+import { conceptMatchChallenges } from './concept-match-data';
 
 export {
     tasks,
@@ -21,5 +22,6 @@ export {
     playerDialogues,
     debugChallenges,
     codeTyperChallenges,
-    outputPredictionChallenges
+    outputPredictionChallenges,
+    conceptMatchChallenges
 };
