@@ -1,31 +1,23 @@
-
 "use client";
-
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { useAuth } from "@/components/auth-provider";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
-export default function MainLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { user, firebaseUser, loading } = useAuth();
+export default function MainLayout({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (loading) return; // Do nothing while loading
-    // If auth has finished loading and there is NO firebase user, redirect to login.
-    if (!firebaseUser) {
+    if (loading) return; // Wait for the auth state to be determined
+    if (!user) {
       router.replace("/login");
     }
-  }, [firebaseUser, loading, router]);
+  }, [user, loading, router]);
 
-  // While authentication is loading, or if we are about to redirect, or if the full user profile hasn't loaded yet, show a loader.
-  if (loading || !firebaseUser || !user) {
+  if (loading || !user) {
     return (
       <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -33,15 +25,12 @@ export default function MainLayout({
     );
   }
 
-  // If loading is complete and we have a user, show the main application.
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-        <main className="min-h-screen flex-1 flex-col">
-          {children}
-        </main>
-      </SidebarInset>
+      <main className="flex-1">
+        {children}
+      </main>
     </SidebarProvider>
   );
 }

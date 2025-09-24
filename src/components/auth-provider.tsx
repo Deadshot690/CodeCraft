@@ -1,10 +1,17 @@
 "use client";
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
-import type { User } from "@/lib/types";
+
+// user type example
+export interface User {
+  uid: string;
+  email: string | null;
+  name: string;
+  avatarUrl: string | null;
+  // Add other fields...
+}
 
 interface AuthContextType {
   user: User | null;
@@ -27,32 +34,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const unsubscribeAuth = onAuthStateChanged(auth, (fbUser) => {
       setFirebaseUser(fbUser);
       if (fbUser) {
-        // If user is logged in, listen for real-time updates to their profile document
-        const userDocRef = doc(db, "users", fbUser.uid);
-        const unsubscribeFirestore = onSnapshot(userDocRef, (doc) => {
-          if (doc.exists()) {
-            setUser(doc.data() as User);
-          } else {
-            // This can happen if the profile doc hasn't been created yet on signup.
-            // The logic in actions.ts handles creation. For routing, firebaseUser is enough.
-            setUser(null);
-          }
+        const userRef = doc(db, "users", fbUser.uid);
+        const unsubscribeFirestore = onSnapshot(userRef, (docSnap) => {
+          setUser(docSnap.exists() ? (docSnap.data() as User) : null);
           setLoading(false);
-        }, (error) => {
-            console.error("Error fetching user profile:", error);
-            setUser(null);
-            setLoading(false);
         });
-        return () => unsubscribeFirestore(); // Cleanup Firestore listener
+        return () => unsubscribeFirestore();
       } else {
-        // If user is logged out
         setUser(null);
-        setFirebaseUser(null);
         setLoading(false);
       }
     });
-
-    return () => unsubscribeAuth(); // Cleanup auth listener
+    return () => unsubscribeAuth();
   }, []);
 
   return (
