@@ -1,6 +1,7 @@
+
 import type { User, Task, Game, Badge } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Swords, Gamepad2, Puzzle, Shield, BrainCircuit, Castle } from 'lucide-react';
+import { Swords, Bug, Puzzle, Keyboard, Eye, BrainCircuit, Gamepad2, Castle } from 'lucide-react';
 
 export const user: User = {
   uid: '123',
@@ -929,7 +930,7 @@ export const tasks: Task[] = [
       python: 'def merge_k_lists(lists):\n  # Your code here\n  pass',
       javascript: 'function mergeKLists(lists) {\n  // Your code here\n}',
       java: 'class Solution {\n  public ListNode mergeKLists(ListNode[] lists) {\n    // Your code here\n  }\n}',
-      cpp: 'class Solution {\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n        // Your code here\n    }\n};',
+      cpp: 'class Solution {\npublic:\n    ListNode* mergeKLists(ListNode* lists) {\n        // Your code here\n    }\n};',
     },
     examples: [
       { input: 'lists = [[1,4,5],[1,3,4],[2,6]]', output: '[1,1,2,3,4,4,5,6]' },
@@ -1628,9 +1629,9 @@ export const tasks: Task[] = [
     description: 'Implement a Python function that calculates the Mean Squared Error (MSE) between two lists or numpy arrays of numbers (predicted values and true values).',
     starterCode: {
       python: 'import numpy as np\n\ndef mean_squared_error(y_true, y_pred):\n  """Calculates the Mean Squared Error."""\n  # Your code here\n  pass',
-      javascript: '// N/A',
-      java: '// N/A',
-      cpp: '// N/A',
+      javascript: '// N/A for this challenge',
+      java: '// N/A for this challenge',
+      cpp: '// N/A for this challenge',
     },
     examples: [
       { input: 'y_true = [1, 2, 3], y_pred = [1, 2, 3]', output: '0.0' },
@@ -3426,7 +3427,7 @@ export const tasks: Task[] = [
       python: 'def find_min_height_trees(n, edges):\n  # Your code here\n  pass',
       javascript: 'function findMinHeightTrees(n, edges) {\n  // Your code here\n}',
       java: 'class Solution {\n  public List<Integer> findMinHeightTrees(int n, int[][] edges) {\n    // Your code here\n  }\n}',
-      cpp: 'class Solution {\npublic:\n    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {\n        // Your code here\n    }\n};',
+      cpp: 'class Solution {\npublic:\n    vector<int> findMinHeightTrees(vector<vector<int>>& edges) {\n        // Your code here\n    }\n};',
     },
     examples: [
       { input: 'n = 4, edges = [[1,0],[1,2],[1,3]]', output: '[1]' },
@@ -3701,9 +3702,14 @@ export const tasks: Task[] = [
 ];
 
 export const games: Game[] = [
-    { id: '1', title: 'Code Rush', description: 'Timed typing game with missing code snippets.', icon: Gamepad2, href: '#' },
-    { id: '2', title: 'Code Invaders', description: 'Space Invaders with coding MCQs.', icon: Swords, href: '#' },
-    { id: '3', title: 'Debug Tower', description: 'Drag/drop fixes into a buggy code tower.', icon: Puzzle, href: '#' },
-    { id: '4', title: 'Monster Battle', description: 'RPG fight with coding questions.', icon: Shield, href: '#' },
-    { id: '5', title: 'Code Dungeon', description: 'Dungeon crawler with coding puzzles.', icon: Castle, href: '#' },
+    { id: '1', title: 'Monster Battle', description: 'Answer coding trivia to defeat monsters in a turn-based RPG.', icon: Swords, href: '#' },
+    { id: '2', title: 'Debug Hunt', description: 'Find and fix bugs in code snippets against the clock.', icon: Bug, href: '#' },
+    { id: '3', title: 'Code Jigsaw', description: 'Reassemble scrambled code blocks into a working program.', icon: Puzzle, href: '#' },
+    { id: '4', title: 'Code Typer', description: 'Improve your typing speed and accuracy with code snippets.', icon: Keyboard, href: '#' },
+    { id: '5', title: 'Output Prediction', description: 'Test your code comprehension by predicting the output.', icon: Eye, href: '#' },
+    { id: '6', title: 'Concept Match', description: 'Match code snippets to their corresponding programming concepts.', icon: BrainCircuit, href: '#' },
+    { id: '7', title: 'Algo Arena', description: 'Competitive programming challenges against other users.', icon: Gamepad2, href: '#' },
+    { id: '8', title: 'Security Fortress', description: 'Identify and patch security vulnerabilities in a codebase.', icon: Castle, href: '#' },
 ];
+
+    
