@@ -1,7 +1,8 @@
+
 "use client";
 
 import * as React from 'react';
-import { useState, useTransition, useEffect, useMemo } from 'react';
+import { useState, useTransition, useEffect, useMemo, use } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,7 @@ type GameState = 'playing' | 'answered' | 'player-win' | 'monster-win';
 const getRandomItem = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
 export default function MonsterBattleArenaPage({ params }: { params: { id: string } }) {
+  const resolvedParams = use(params);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -32,7 +34,7 @@ export default function MonsterBattleArenaPage({ params }: { params: { id: strin
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [gameState, setGameState] = useState<GameState>('playing');
   
-  const question = useMemo(() => battleQuestions.find(q => q.id === params.id), [params.id]);
+  const question = useMemo(() => battleQuestions.find(q => q.id === resolvedParams.id), [resolvedParams.id]);
   
   const [monster, setMonster] = useState<Monster | null>(() => {
     if (!question) return null;
