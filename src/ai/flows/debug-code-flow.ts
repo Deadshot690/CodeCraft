@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A flow for evaluating a user's bug fix for a code snippet.
@@ -64,7 +65,7 @@ const prompt = ai.definePrompt({
 
 **Instructions:**
 1.  **Analyze the User's Code:** Compare the user's submitted code to the correctly fixed code.
-2.  **Determine Correctness:** The user's code does not need to be an exact match to the reference solution. It is correct if it solves the underlying bug described in the challenge. For example, `total = total + num` is the same as `total += num`. Minor stylistic differences are acceptable.
+2.  **Determine Correctness:** The user's code does not need to be an exact match to the reference solution. It is correct if it solves the underlying bug described in the challenge. For example, \`total = total + num\` is the same as \`total += num\`. Minor stylistic differences are acceptable.
 3.  **Set \`isCorrect\`:** Set to \`true\` if the user's code fixes the bug, otherwise set to \`false\`.
 4.  **Provide Explanation:** 
     *   If correct, provide a short, encouraging explanation of what they did right (e.g., "Great job! You correctly used the 'return' statement to output the value.").
