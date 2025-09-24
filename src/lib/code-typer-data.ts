@@ -8,7 +8,6 @@ export const codeTyperChallenges: CodeTyperChallenge[] = [
     language: 'javascript',
     difficulty: 'Beginner',
     xp: 15,
-    duration: 90,
     snippet: `for (let i = 1; i <= 100; i++) {
   if (i % 3 === 0 && i % 5 === 0) {
     console.log("FizzBuzz");
@@ -27,7 +26,6 @@ export const codeTyperChallenges: CodeTyperChallenge[] = [
     language: 'python',
     difficulty: 'Advanced',
     xp: 50,
-    duration: 120,
     snippet: `def quick_sort(arr):
     if len(arr) <= 1:
         return arr
@@ -43,7 +41,6 @@ export const codeTyperChallenges: CodeTyperChallenge[] = [
     language: 'java',
     difficulty: 'Beginner',
     xp: 10,
-    duration: 45,
     snippet: `public class HelloWorld {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
@@ -56,7 +53,6 @@ export const codeTyperChallenges: CodeTyperChallenge[] = [
     language: 'cpp',
     difficulty: 'Intermediate',
     xp: 30,
-    duration: 75,
     snippet: `#include <iostream>
 
 unsigned long long factorial(int n) {
@@ -74,7 +70,6 @@ unsigned long long factorial(int n) {
     language: 'javascript',
     difficulty: 'Intermediate',
     xp: 35,
-    duration: 90,
     snippet: `async function fetchData(url) {
     try {
         const response = await fetch(url);
@@ -94,7 +89,6 @@ unsigned long long factorial(int n) {
     language: 'python',
     difficulty: 'Beginner',
     xp: 20,
-    duration: 60,
     snippet: `squares = [x**2 for x in range(10)]
 even_numbers = [x for x in range(20) if x % 2 == 0]`
   },

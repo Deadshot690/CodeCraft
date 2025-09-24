@@ -103,6 +103,6 @@ export type CodeTyperChallenge = {
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   xp: number;
   snippet: string;
-  duration: number; // in seconds
 };
+
 

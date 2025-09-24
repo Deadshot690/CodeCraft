@@ -20,6 +20,14 @@ const getWPM = (charCount: number, seconds: number) => {
     return Math.round(words / minutes);
 };
 
+const calculateDuration = (snippet: string, wpm: number = 25): number => {
+    const charCount = snippet.length;
+    const wordCount = charCount / 5; // Standard WPM calculation
+    const minutes = wordCount / wpm;
+    const seconds = Math.ceil(minutes * 60);
+    return Math.max(seconds + 5, 30); // Add a 5-second buffer, with a minimum of 30 seconds
+};
+
 export default function CodeTyperArenaPage() {
     const params = useParams();
     const router = useRouter();
@@ -28,18 +36,24 @@ export default function CodeTyperArenaPage() {
         return codeTyperChallenges.find((c) => c.id === params.id);
     }, [params.id]);
 
+    const challengeDuration = useMemo(() => {
+        return challenge ? calculateDuration(challenge.snippet) : 60;
+    }, [challenge]);
+
     const [userInput, setUserInput] = useState('');
     const [status, setStatus] = useState<GameStatus>('waiting');
-    const [timer, setTimer] = useState(challenge?.duration || 60);
+    const [timer, setTimer] = useState(challengeDuration);
     const [errors, setErrors] = useState(0);
     const [isClient, setIsClient] = useState(false);
+    const [startTime, setStartTime] = useState<Date | null>(null);
 
     const resetGame = useCallback(() => {
         setStatus('waiting');
         setUserInput('');
         setErrors(0);
-        setTimer(challenge?.duration || 60);
-    }, [challenge]);
+        setTimer(challengeDuration);
+        setStartTime(null);
+    }, [challengeDuration]);
 
     useEffect(() => {
         setIsClient(true);
@@ -62,9 +76,9 @@ export default function CodeTyperArenaPage() {
         const { value } = e.target;
         if (status === 'waiting') {
             setStatus('playing');
+            setStartTime(new Date());
         }
         
-        // Check for new errors by comparing the current input with the source snippet
         let errorCount = 0;
         for (let i = 0; i < value.length; i++) {
             if (value[i] !== challenge?.snippet[i]) {
@@ -96,7 +110,9 @@ export default function CodeTyperArenaPage() {
     const typedChars = userInput.length;
     const totalChars = snippet.length;
     const accuracy = typedChars > 0 ? Math.max(0, ((typedChars - errors) / typedChars) * 100) : 100;
-    const wpm = getWPM(typedChars - errors, (challenge.duration || 60) - timer);
+    
+    const elapsedSeconds = startTime ? (new Date().getTime() - startTime.getTime()) / 1000 : 0;
+    const wpm = getWPM(typedChars - errors, elapsedSeconds);
     const progress = (typedChars / totalChars) * 100;
 
     const renderSnippet = () => {
@@ -192,4 +208,3 @@ export default function CodeTyperArenaPage() {
         </div>
     );
 }
-
