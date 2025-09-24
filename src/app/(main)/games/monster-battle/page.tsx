@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from 'react';
 import { useState, useTransition, useEffect } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -257,5 +258,3 @@ const ProgressWithIndicator = React.forwardRef<
 ));
 ProgressWithIndicator.displayName = 'Progress';
 Object.assign(Progress, { Root: OriginalProgress.Root, Indicator: ProgressWithIndicator });
-
-
