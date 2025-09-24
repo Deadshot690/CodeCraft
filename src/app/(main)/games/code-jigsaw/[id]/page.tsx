@@ -21,7 +21,6 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 export default function CodeJigsawArenaPage({ params }: { params: { id: string } }) {
-  const resolvedParams = use(params);
   const router = useRouter();
 
   const [isClient, setIsClient] = useState(false);
@@ -30,8 +29,9 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const challenge = useMemo(() => {
-    return codeJigsawChallenges.find((c) => c.id === resolvedParams.id);
-  }, [resolvedParams.id]);
+    return codeJigsawChallenges.find((c) => c.id === params.id);
+  }, [params.id]);
+
 
   useEffect(() => {
     setIsClient(true);
