@@ -1,5 +1,5 @@
 
-import type { User, Task, Game, Badge, Monster, BattleQuestion } from '@/lib/types';
+import type { User, Task, Game, Badge, Monster, BattleQuestion, DebugChallenge } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Swords, Bug, Puzzle, Keyboard, Eye, BrainCircuit, Gamepad2, Castle } from 'lucide-react';
 
@@ -943,7 +943,7 @@ export const battleQuestions: BattleQuestion[] = [
 
 export const games: Game[] = [
     { id: '1', title: 'Monster Battle', description: 'Answer coding trivia to defeat monsters in a turn-based RPG.', icon: Swords, href: '/games/monster-battle' },
-    { id: '2', title: 'Debug Hunt', description: 'Find and fix bugs in code snippets against the clock.', icon: Bug, href: '#' },
+    { id: '2', title: 'Debug Hunt', description: 'Find and fix bugs in code snippets against the clock.', icon: Bug, href: '/games/debug-hunt' },
     { id: '3', title: 'Code Jigsaw', description: 'Reassemble scrambled code blocks into a working program.', icon: Puzzle, href: '#' },
     { id: '4', title: 'Code Typer', description: 'Improve your typing speed and accuracy.', icon: Keyboard, href: '#' },
     { id: '5', title: 'Output Prediction', description: 'Test your code comprehension.', icon: Eye, href: '#' },
@@ -952,5 +952,82 @@ export const games: Game[] = [
     { id: '8', title: 'Security Fortress', description: 'Identify and patch security vulnerabilities in a codebase.', icon: Castle, href: '#' },
 ];
 
-    
-    
+export const debugChallenges: DebugChallenge[] = [
+  {
+    id: 'db1',
+    title: 'Python: Sum of List',
+    description: 'This Python function is supposed to calculate the sum of a list of numbers, but it keeps returning 0.',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 20,
+    buggyCode: `def calculate_sum(numbers):
+  total = 0
+  for number in numbers:
+    number + total
+  return total
+`,
+    fixedCode: `def calculate_sum(numbers):
+  total = 0
+  for number in numbers:
+    total = total + number
+  return total
+`
+  },
+  {
+    id: 'db2',
+    title: 'JavaScript: Greet User',
+    description: 'This JavaScript function should return a greeting string "Hello, [name]!", but it\'s not working correctly.',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    buggyCode: `function greet(name) {
+  "Hello, " + name + "!"
+}`,
+    fixedCode: `function greet(name) {
+  return "Hello, " + name + "!";
+}`
+  },
+  {
+    id: 'db3',
+    title: 'JavaScript: Counter Bug',
+    description: 'This React component has a button that should increment a counter, but the counter value never changes in the UI.',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 40,
+    buggyCode: `import { useState } from 'react';
+
+function Counter() {
+  let count = 0;
+
+  const handleClick = () => {
+    count = count + 1;
+    console.log(count);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleClick}>Increment</button>
+    </div>
+  );
+}
+`,
+    fixedCode: `import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleClick}>Increment</button>
+    </div>
+  );
+}
+`
+  }
+];

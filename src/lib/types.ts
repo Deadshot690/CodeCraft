@@ -69,3 +69,14 @@ export type BattleQuestion = {
   xp: number;
   category: string;
 };
+
+export type DebugChallenge = {
+  id: string;
+  title: string;
+  description: string;
+  language: 'python' | 'javascript' | 'java' | 'cpp';
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  xp: number;
+  buggyCode: string;
+  fixedCode: string;
+};
