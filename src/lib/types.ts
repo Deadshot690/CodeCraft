@@ -1,3 +1,4 @@
+
 import type { LucideIcon } from "lucide-react";
 
 export type User = {
@@ -102,4 +103,6 @@ export type CodeTyperChallenge = {
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   xp: number;
   snippet: string;
+  duration: number; // in seconds
 };
+
