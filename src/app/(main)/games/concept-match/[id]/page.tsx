@@ -77,52 +77,47 @@ export default function ConceptMatchArenaPage() {
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
-  
+
+    // Ignore drops outside of a droppable area
     if (!destination) return;
-  
-    // Find the dragged item
-    const sourceCol = Object.values(columns).find(col => col.id === source.droppableId);
-    if (!sourceCol) return;
+
+    // Find the source and destination columns
+    const sourceCol = columns[source.droppableId];
+    const destCol = columns[destination.droppableId];
+    if (!sourceCol || !destCol) return;
+
+    // Find the item being dragged
     const draggedItem = sourceCol.items.find(item => item.id === draggableId);
     if (!draggedItem) return;
-  
-    // Find the target item if dropped on another item
-    const destCol = Object.values(columns).find(col => col.id === destination.droppableId);
-    if (!destCol) return;
-    const targetItem = destCol.items.find(item => item.id === destination.droppableId); // This logic is flawed for dropping on a column
-  
-    if (draggedItem.matchId === (targetItem?.id || destination.droppableId)) {
-        // Correct match
+
+    // Handle dropping onto an item in another column (the match logic)
+    if (source.droppableId !== destination.droppableId && destination.droppableId !== 'col-matched') {
+      const targetItem = destCol.items.find(item => item.id === destination.droppableId);
+      
+      // Check for a correct match
+      if (draggedItem.matchId === destination.droppableId) {
+        const targetItem = destCol.items.find(i => i.id === destination.droppableId);
+        if (!targetItem) return;
+
+        // Correct match found, move both items to the 'matched' column
         const newColumns = { ...columns };
-        const sourceColumn = newColumns[source.droppableId];
-        const destColumn = newColumns['col-matched'];
         
-        // Remove dragged item
-        const [movedItem] = sourceColumn.items.splice(source.index, 1);
+        // Remove dragged item from source
+        newColumns[source.droppableId].items = newColumns[source.droppableId].items.filter(i => i.id !== draggableId);
 
-        // Find and remove pair item
-        let pairItem: Item | undefined;
-        for (const colId of ['col-code', 'col-concept']) {
-            if (colId !== source.droppableId) {
-                const pairCol = newColumns[colId];
-                const pairIndex = pairCol.items.findIndex(i => i.id === movedItem.matchId);
-                if (pairIndex !== -1) {
-                    [pairItem] = pairCol.items.splice(pairIndex, 1);
-                    break;
-                }
-            }
-        }
+        // Remove target item from destination
+        newColumns[destination.droppableId].items = newColumns[destination.droppableId].items.filter(i => i.id !== destination.droppableId);
+
+        // Add both to the matched column
+        newColumns['col-matched'].items.push(draggedItem, targetItem);
         
-        if (pairItem) {
-            // Add both to the matched column
-            destColumn.items.push(movedItem, pairItem);
-            setColumns(newColumns);
-        }
-
-    } else {
-        // Incorrect match or invalid drop, do nothing (item snaps back)
+        setColumns(newColumns);
+      } else {
+        // Incorrect match, do nothing (item snaps back)
         return;
+      }
     }
+    // If dropping elsewhere (e.g., reordering within a column, which we don't support), do nothing.
   };
   
   useEffect(() => {
@@ -136,25 +131,38 @@ export default function ConceptMatchArenaPage() {
 
   const allMatched = columns['col-matched']?.items.length === challenge.codeSnippets.length * 2;
 
-  const renderItem = (item: Item, isMatchedCol: boolean) => {
-    if (item.type === 'code') {
-      return (
-          <div className="h-full w-full">
+  const renderItem = (item: Item, isMatchedCol: boolean, isDraggable: boolean, isOver: boolean) => {
+    const content = item.type === 'code' ? (
+        <div className="h-full w-full">
             <CodeEditor
                 initialCode={item.content}
                 language={item.language || 'javascript'}
                 onCodeChange={() => {}} // read-only
             />
-          </div>
-      );
-    } else {
-      return (
-          <Card className="h-full w-full bg-secondary flex items-center justify-center p-4">
-              <p className="text-center font-semibold">{item.content}</p>
-          </Card>
-      );
+        </div>
+    ) : (
+        <Card className={cn("h-full w-full flex items-center justify-center p-4", isOver ? "bg-green-500/20" : "bg-secondary")}>
+            <p className="text-center font-semibold">{item.content}</p>
+        </Card>
+    );
+
+    if (isDraggable) {
+        return content;
     }
+
+    // If it's a drop target, wrap it to be a droppable area
+    return (
+        <Droppable droppableId={item.id} isDropDisabled={false} isCombineEnabled={false}>
+            {(provided) => (
+                <div ref={provided.innerRef} {...provided.droppableProps} className="h-full w-full">
+                    {content}
+                    <div style={{display: 'none'}}>{provided.placeholder}</div>
+                </div>
+            )}
+        </Droppable>
+    );
   };
+
 
   return (
     <div className="flex flex-col h-screen p-4 md:p-6">
@@ -186,11 +194,11 @@ export default function ConceptMatchArenaPage() {
                   <CardTitle className="font-headline text-lg text-center">{columns[colId].title}</CardTitle>
                 </CardHeader>
                 <Droppable droppableId={colId} isDropDisabled={true} isCombineEnabled={false}>
-                  {(provided, snapshot) => (
+                  {(provided) => (
                     <CardContent
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className={cn("flex-1 p-2 space-y-2 overflow-y-auto rounded-lg bg-muted/50")}
+                      className="flex-1 p-2 space-y-2 overflow-y-auto rounded-lg bg-muted/50"
                     >
                       {columns[colId].items.map((item, index) => (
                         <Draggable key={item.id} draggableId={item.id} index={index}>
@@ -201,7 +209,7 @@ export default function ConceptMatchArenaPage() {
                                 {...provided.dragHandleProps}
                                 className={cn("h-32 p-1 border rounded-lg flex items-center bg-card", snapshot.isDragging && "shadow-lg ring-2 ring-primary")}
                               >
-                                {renderItem(item, false)}
+                                {renderItem(item, false, true, false)}
                               </div>
                           )}
                         </Draggable>
@@ -218,32 +226,25 @@ export default function ConceptMatchArenaPage() {
                 <Confetti active={showConfetti} config={{ spread: 90, elementCount: 200 }} />
               </div>
               <CardHeader>
-                <CardTitle className="font-headline text-lg text-center">{allMatched ? "Complete!" : "Drop Matches Here"}</CardTitle>
+                <CardTitle className="font-headline text-lg text-center">{allMatched ? "Complete!" : "Matched Pairs"}</CardTitle>
               </CardHeader>
-              <Droppable droppableId="col-matched" isCombineEnabled={false}>
-                {(provided, snapshot) => (
-                  <CardContent
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                     className={cn("flex-1 p-2 space-y-2 overflow-y-auto rounded-lg min-h-[200px]", snapshot.isDraggingOver ? 'bg-green-500/20' : 'bg-muted/50')}
-                  >
-                    {columns['col-matched'].items.length > 0 ? (
-                       <div className="grid grid-cols-2 gap-2">
-                        {columns['col-matched'].items.map((item, index) => (
-                           <div key={item.id} className="h-32 p-1 border rounded-lg flex items-center bg-card">
-                              {renderItem(item, true)}
-                           </div>
-                        ))}
-                       </div>
-                    ): (
-                      <div className="flex items-center justify-center h-full text-muted-foreground">
-                        <p>Drag a code snippet or concept here to start matching.</p>
-                      </div>
-                    )}
-                    {provided.placeholder}
-                  </CardContent>
-                )}
-              </Droppable>
+                <CardContent
+                  className="flex-1 p-2 space-y-2 overflow-y-auto rounded-lg bg-muted/50"
+                >
+                  {columns['col-matched'].items.length > 0 ? (
+                     <div className="grid grid-cols-2 gap-2">
+                      {columns['col-matched'].items.map((item, index) => (
+                         <div key={item.id} className="h-32 p-1 border rounded-lg flex items-center bg-card/80 border-green-500/50">
+                            {renderItem(item, true, true, false)}
+                         </div>
+                      ))}
+                     </div>
+                  ): (
+                    <div className="flex items-center justify-center h-full text-muted-foreground">
+                      <p>Drag a code snippet onto its matching concept.</p>
+                    </div>
+                  )}
+                </CardContent>
             </Card>
           </div>
         </DragDropContext>
