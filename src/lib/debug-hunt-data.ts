@@ -1,3 +1,4 @@
+
 import type { DebugChallenge } from '@/lib/types';
 
 export const debugChallenges: DebugChallenge[] = [
@@ -464,8 +465,1211 @@ int sum_array(std::vector<int>& v) {
     { id: 'db200', title: 'Java: `String.intern()`', description: 'Returns a canonical representation for the string object. A pool of strings is maintained by Java.', language: 'java', difficulty: 'Advanced', xp: 65, buggyCode: 'String s1 = new String("a"); String s2 = new String("a");', testCases: [{ input: 'Comparing many created strings', expectedOutput: 'Uses `intern()`' }] },
     { id: 'db201', title: 'C++: `std::scoped_lock`', description: 'A C++17 feature for locking multiple mutexes in a deadlock-avoiding manner.', language: 'cpp', difficulty: 'Advanced', xp: 85, buggyCode: 'm1.lock(); m2.lock();', testCases: [{ input: '', expectedOutput: '`std::scoped_lock lock(m1, m2);`' }] },
     { id: 'db202', title: 'Python: `zip` to create dictionaries', description: 'The `zip` function can be used with the `dict` constructor to create dictionaries from two lists.', language: 'python', difficulty: 'Intermediate', xp: 40, buggyCode: 'd = {}\nfor i in range(len(keys)): d[keys[i]] = vals[i]', testCases: [{ input: '', expectedOutput: '`dict(zip(keys, vals))`' }] },
-    { id: 'db203', title: 'JavaScript: `class` syntax', description: 'ES6 classes are syntactic sugar over JavaScript\'s existing prototype-based inheritance.', language: 'javascript', difficulty: 'Beginner', xp: 35, buggyCode: 'function C(v){ this.v = v; } C.prototype.get = function(){...}', testCases: [{ input: '', expectedOutput: 'Uses `class` syntax' }] }
+    { id: 'db203', title: 'JavaScript: `class` syntax', description: 'ES6 classes are syntactic sugar over JavaScript\'s existing prototype-based inheritance.', language: 'javascript', difficulty: 'Beginner', xp: 35, buggyCode: 'function C(v){ this.v = v; } C.prototype.get = function(){...}', testCases: [{ input: '', expectedOutput: 'Uses `class` syntax' }] },
+    {
+      id: 'db204',
+      title: 'Python: Lambda Sort',
+      description: 'The code attempts to sort a list of tuples by the second element, but the lambda function is incorrect.',
+      language: 'python',
+      difficulty: 'Beginner',
+      xp: 30,
+      buggyCode: 'pairs = [(1, 5), (3, 2), (2, 8)]\npairs.sort(key=lambda x: x[0])',
+      testCases: [
+        { input: '', expectedOutput: '[(3, 2), (1, 5), (2, 8)]' }
+      ]
+    },
+    {
+      id: 'db205',
+      title: 'JavaScript: Unintended Global',
+      description: 'A function creates a global variable by forgetting to use `let`, `const`, or `var`.',
+      language: 'javascript',
+      difficulty: 'Beginner',
+      xp: 25,
+      buggyCode: 'function setConfig() {\n  logLevel = "DEBUG";\n}\nsetConfig();',
+      testCases: [
+        { input: 'console.log(typeof logLevel)', expectedOutput: 'undefined' }
+      ]
+    },
+    {
+      id: 'db206',
+      title: 'Java: Array Index Out of Bounds',
+      description: 'A loop condition causes an `ArrayIndexOutOfBoundsException`.',
+      language: 'java',
+      difficulty: 'Beginner',
+      xp: 30,
+      buggyCode: 'int[] arr = {1, 2, 3};\nfor (int i = 0; i <= arr.length; i++) {\n  System.out.println(arr[i]);\n}',
+      testCases: [
+        { input: '', expectedOutput: '1\n2\n3' }
+      ]
+    },
+    {
+      id: 'db207',
+      title: 'C++: Pointer to Local Variable',
+      description: 'A function returns a pointer to a local variable, which is deallocated when the function exits.',
+      language: 'cpp',
+      difficulty: 'Intermediate',
+      xp: 55,
+      buggyCode: 'int* create_value() {\n  int x = 10;\n  return &x;\n}',
+      testCases: [
+        { input: '', expectedOutput: 'Should not cause undefined behavior' }
+      ]
+    },
+    {
+      id: 'db208',
+      title: 'Python: Modifying a Set While Iterating',
+      description: 'Iterating over a set and modifying it at the same time is not allowed and will raise a `RuntimeError`.',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: 's = {1, 2, 3}\nfor item in s:\n  if item > 1:\n    s.remove(item)',
+      testCases: [
+        { input: '', expectedOutput: '{1}' }
+      ]
+    },
+    {
+      id: 'db209',
+      title: 'JavaScript: Promise Not Returned',
+      description: 'An async function that does not return a promise explicitly or implicitly returns `undefined`.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 50,
+      buggyCode: 'async function fetchData() {\n  const response = await fetch("/data");\n  const data = response.json();\n}',
+      testCases: [
+        { input: 'fetchData().then(d => ...)', expectedOutput: 'Data object' }
+      ]
+    },
+    {
+      id: 'db210',
+      title: 'Java: Static Method Hiding',
+      description: 'A static method in a subclass with the same signature as a static method in the superclass hides the superclass method, it does not override it.',
+      language: 'java',
+      difficulty: 'Advanced',
+      xp: 65,
+      buggyCode: 'class A { static void s() {} }\nclass B extends A { static void s() {} }\nA.s();',
+      testCases: [
+        { input: 'A a = new B(); a.s()', expectedOutput: 'Should call method from class A' }
+      ]
+    },
+    {
+      id: 'db211',
+      title: 'C++: std::map `[]` operator side effect',
+      description: 'The `[]` operator on a `std::map` will insert a default-constructed element if the key does not exist.',
+      language: 'cpp',
+      difficulty: 'Intermediate',
+      xp: 50,
+      buggyCode: 'std::map<int, int> m;\nif (m[5] == 0) { /* side effect */ }',
+      testCases: [
+        { input: 'm.size() after check', expectedOutput: '0' }
+      ]
+    },
+    {
+      id: 'db212',
+      title: 'Python: Using `in` on a large list',
+      description: 'Checking for membership in a large list is slow (O(n)). Using a set is much faster (O(1) on average).',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: 'large_list = list(range(1000000))\nif 999999 in large_list: ...',
+      testCases: [
+        { input: '', expectedOutput: 'Uses a set for faster lookups' }
+      ]
+    },
+    {
+      id: 'db213',
+      title: 'JavaScript: `Array.splice` return value',
+      description: '`splice` modifies the array in place and returns an array containing the deleted elements.',
+      language: 'javascript',
+      difficulty: 'Beginner',
+      xp: 35,
+      buggyCode: 'let arr = [1, 2, 3, 4];\nlet removed = arr.splice(1, 2);\nconsole.log(arr);',
+      testCases: [
+        { input: '', expectedOutput: '[1, 4]' }
+      ]
+    },
+    {
+      id: 'db214',
+      title: 'Java: Comparing Wrapper Classes',
+      description: 'Comparing Integer objects with `==` checks for reference equality, not value equality, which can be unpredictable due to caching.',
+      language: 'java',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: 'Integer a = 128;\nInteger b = 128;\nSystem.out.println(a == b);',
+      testCases: [
+        { input: '', expectedOutput: 'true' }
+      ]
+    },
+    {
+      id: 'db215',
+      title: 'C++: Destructor of base class not virtual',
+      description: 'If you delete a derived object through a pointer to a base class that has a non-virtual destructor, the behavior is undefined.',
+      language: 'cpp',
+      difficulty: 'Advanced',
+      xp: 80,
+      buggyCode: 'class Base {};\nclass Derived : public Base { ~Derived(){} };\nBase* b = new Derived();\ndelete b;',
+      testCases: [
+        { input: '', expectedOutput: 'Derived destructor is called' }
+      ]
+    },
+    {
+      id: 'db216',
+      title: 'Python: `round()` behavior',
+      description: '`round()` in Python 3 rounds to the nearest even number for .5 cases (e.g., `round(2.5)` is 2).',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 'print(round(2.5))',
+      testCases: [
+        { input: '', expectedOutput: '3' }
+      ]
+    },
+    {
+      id: 'db217',
+      title: 'JavaScript: `const` with objects',
+      description: 'A `const` declaration on an object does not make the object\'s properties immutable.',
+      language: 'javascript',
+      difficulty: 'Beginner',
+      xp: 30,
+      buggyCode: 'const person = { name: "A" };\nperson.name = "B";',
+      testCases: [
+        { input: '', expectedOutput: 'Prevents modification of person.name' }
+      ]
+    },
+    {
+      id: 'db218',
+      title: 'Java: `String.replace()`',
+      description: '`String.replace()` returns a new string and does not modify the original, as strings are immutable.',
+      language: 'java',
+      difficulty: 'Beginner',
+      xp: 25,
+      buggyCode: 'String s = "hello";\ns.replace("h", "H");\nSystem.out.println(s);',
+      testCases: [
+        { input: '', expectedOutput: 'Hello' }
+      ]
+    },
+    {
+      id: 'db219',
+      title: 'C++: Constructor initialization list',
+      description: 'Not using the member initialization list in a constructor can lead to inefficient object creation.',
+      language: 'cpp',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: 'class MyClass { std::string s; MyClass(std::string str) { s = str; } };',
+      testCases: [
+        { input: '', expectedOutput: 'Uses member initialization list' }
+      ]
+    },
+    {
+      id: 'db220',
+      title: 'Python: `json.loads` vs `json.load`',
+      description: '`json.loads` is for loading a string, while `json.load` is for loading from a file-like object.',
+      language: 'python',
+      difficulty: 'Beginner',
+      xp: 35,
+      buggyCode: 'import json; json.load(\'{"key": "value"}\')',
+      testCases: [
+        { input: '', expectedOutput: '{"key": "value"}' }
+      ]
+    },
+    {
+      id: 'db221',
+      title: 'JavaScript: Event listener memory leak',
+      description: 'Forgetting to remove an event listener when a component unmounts can cause a memory leak.',
+      language: 'javascript',
+      difficulty: 'Advanced',
+      xp: 70,
+      buggyCode: 'React.useEffect(() => { window.addEventListener("resize", handle); });',
+      testCases: [
+        { input: '', expectedOutput: 'Removes listener in cleanup function' }
+      ]
+    },
+    {
+      id: 'db222',
+      title: 'Java: Array to List',
+      description: '`Arrays.asList()` returns a fixed-size list backed by the array. It does not support `add` or `remove`.',
+      language: 'java',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: 'List<String> list = Arrays.asList("a", "b");\nlist.add("c");',
+      testCases: [
+        { input: '', expectedOutput: 'Adds "c" successfully' }
+      ]
+    },
+    {
+      id: 'db223',
+      title: 'C++: Passing by value vs reference',
+      description: 'Passing a large object by value can be expensive due to the copy operation.',
+      language: 'cpp',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 'void process_data(std::vector<int> data) { /* ... */ }',
+      testCases: [
+        { input: 'Large vector', expectedOutput: 'Passes by const reference' }
+      ]
+    },
+    {
+      id: 'db224',
+      title: 'Python: `None` as a default argument',
+      description: 'Using a mutable default argument like a list is a common pitfall. The correct pattern for mutable defaults is to use `None`.',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 50,
+      buggyCode: 'def create_list(value, my_list=[]):\n  my_list.append(value)\n  return my_list',
+      testCases: [
+        { input: 'create_list(1) then create_list(2)', expectedOutput: '[2]' }
+      ]
+    },
+    {
+      id: 'db225',
+      title: 'JavaScript: Incorrect `this` in callback',
+      description: 'A method passed as a callback loses its `this` context.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 50,
+      buggyCode: 'class Person { constructor(name){this.name=name} greet(){alert(this.name)} }\nconst p = new Person("A");\nsetTimeout(p.greet, 100);',
+      testCases: [
+        { input: '', expectedOutput: 'Alerts "A"' }
+      ]
+    },
+    {
+      id: 'db226',
+      title: 'Java: Overriding `equals` without `hashCode`',
+      description: 'If two objects are equal, they must have the same hash code. Not overriding `hashCode` when you override `equals` violates this contract.',
+      language: 'java',
+      difficulty: 'Advanced',
+      xp: 75,
+      buggyCode: 'class Point { int x,y; @Override public boolean equals(Object o){...} }\n// Fails in HashMap',
+      testCases: [
+        { input: '', expectedOutput: 'Overrides `hashCode` as well' }
+      ]
+    },
+    {
+      id: 'db227',
+      title: 'C++: Including header files',
+      description: 'Including `.cpp` files is incorrect and leads to linker errors. You should include header (`.h` or `.hpp`) files.',
+      language: 'cpp',
+      difficulty: 'Beginner',
+      xp: 30,
+      buggyCode: '#include "my_logic.cpp"',
+      testCases: [
+        { input: '', expectedOutput: '`#include "my_logic.h"`' }
+      ]
+    },
+    {
+      id: 'db228',
+      title: 'Python: `requests` post data',
+      description: 'For sending JSON data in a POST request with the `requests` library, you should use the `json` parameter, not `data`.',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 'import requests; requests.post(url, data={"key": "value"})',
+      testCases: [
+        { input: '', expectedOutput: '`requests.post(url, json={"key": "value"})`' }
+      ]
+    },
+    {
+      id: 'db229',
+      title: 'JavaScript: Using `map` on an object',
+      description: 'Objects do not have a `.map` method. You need to use `Object.keys`, `Object.values`, or `Object.entries`.',
+      language: 'javascript',
+      difficulty: 'Beginner',
+      xp: 35,
+      buggyCode: 'const my_obj = { a: 1, b: 2 };\nmy_obj.map(v => v * 2);',
+      testCases: [
+        { input: '', expectedOutput: '[2, 4]' }
+      ]
+    },
+    {
+      id: 'db230',
+      title: 'Java: `char` to `int` conversion',
+      description: 'Casting a `char` representing a digit to an `int` gives its ASCII value, not the numeric value.',
+      language: 'java',
+      difficulty: 'Beginner',
+      xp: 30,
+      buggyCode: 'char c = \'9\';\nint i = (int) c;',
+      testCases: [
+        { input: '', expectedOutput: '9' }
+      ]
+    },
+    {
+      id: 'db231',
+      title: 'C++: Raw pointer ownership',
+      description: 'A function takes a raw pointer but it is unclear who is responsible for deleting the memory.',
+      language: 'cpp',
+      difficulty: 'Advanced',
+      xp: 70,
+      buggyCode: 'void process(MyObject* obj) { /* ... */ }',
+      testCases: [
+        { input: '', expectedOutput: 'Uses a smart pointer like `std::unique_ptr`' }
+      ]
+    },
+    {
+      id: 'db232',
+      title: 'Python: Floating Point Modulo',
+      description: 'The modulo operator with floating-point numbers can have surprising results due to precision.',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 'print(8.0 % 0.8)',
+      testCases: [
+        { input: '', expectedOutput: '0.0' }
+      ]
+    },
+    {
+      id: 'db233',
+      title: 'JavaScript: `reduce` initial value',
+      description: 'If `reduce` is called on an empty array without an initial value, it throws a `TypeError`.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: '[].reduce((acc, val) => acc + val);',
+      testCases: [
+        { input: '', expectedOutput: 'Provides an initial value' }
+      ]
+    },
+    {
+      id: 'db234',
+      title: 'Python: Reversed loop',
+      description: 'This python function is supposed to iterate from 5 down to 1',
+      language: 'python',
+      difficulty: 'Beginner',
+      xp: 20,
+      buggyCode: 'def count_down():\n  for i in range(5, 1):\n    print(i)',
+      testCases: [
+        { input: '', expectedOutput: '5\n4\n3\n2\n1\n' }
+      ]
+    },
+    {
+      id: 'db235',
+      title: 'JavaScript: Incorrectly finding max value',
+      description: '`Math.max` doesn\'t work on an array directly, it expects individual arguments.',
+      language: 'javascript',
+      difficulty: 'Beginner',
+      xp: 25,
+      buggyCode: 'const arr = [1, 5, 2];\nconst max = Math.max(arr);',
+      testCases: [
+        { input: '', expectedOutput: '5' }
+      ]
+    },
+    {
+      id: 'db236',
+      title: 'Java: Infinite loop',
+      description: 'A floating point variable in a loop condition might never exactly equal the target value.',
+      language: 'java',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: 'for (float f = 0.0f; f != 1.0f; f += 0.1f) { /* loop may not terminate */ }',
+      testCases: [
+        { input: '', expectedOutput: 'Uses `<` or `<=` comparison' }
+      ]
+    },
+    {
+      id: 'db237',
+      title: 'C++: Using `sizeof` on a pointer',
+      description: '`sizeof` on a pointer returns the size of the pointer itself, not the size of the array it points to.',
+      language: 'cpp',
+      difficulty: 'Beginner',
+      xp: 35,
+      buggyCode: 'int arr[10];\nint* p = arr;\nint size = sizeof(p);',
+      testCases: [
+        { input: '', expectedOutput: 'Should get the size of the array correctly' }
+      ]
+    },
+    {
+      id: 'db238',
+      title: 'Python: Tuple with one element',
+      description: 'To create a tuple with a single element, you need a trailing comma.',
+      language: 'python',
+      difficulty: 'Beginner',
+      xp: 25,
+      buggyCode: 't = (1)\nprint(type(t))',
+      testCases: [
+        { input: '', expectedOutput: '<class \'tuple\'>' }
+      ]
+    },
+    {
+      id: 'db239',
+      title: 'JavaScript: Arrow function return',
+      description: 'When an arrow function has a block body `{}`, an explicit `return` statement is needed.',
+      language: 'javascript',
+      difficulty: 'Beginner',
+      xp: 30,
+      buggyCode: 'const add = (a, b) => { a + b };',
+      testCases: [
+        { input: 'add(2, 3)', expectedOutput: '5' }
+      ]
+    },
+    {
+      id: 'db240',
+      title: 'Java: Private constructor',
+      description: 'A private constructor prevents a class from being instantiated from outside the class.',
+      language: 'java',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 'class Singleton { private Singleton() {} }\nSingleton s = new Singleton();',
+      testCases: [
+        { input: '', expectedOutput: 'Uses a static factory method' }
+      ]
+    },
+    {
+      id: 'db241',
+      title: 'C++: Using `endl` in a tight loop',
+      description: '`std::endl` flushes the output buffer, which can be a performance bottleneck inside a loop.',
+      language: 'cpp',
+      difficulty: 'Beginner',
+      xp: 30,
+      buggyCode: 'for(int i=0; i<100000; ++i) std::cout << i << std::endl;',
+      testCases: [
+        { input: '', expectedOutput: 'Uses `\'\\n\'` instead' }
+      ]
+    },
+    {
+      id: 'db242',
+      title: 'Python: String concatenation in loop',
+      description: 'Concatenating strings with `+` in a loop is inefficient as it creates a new string each time.',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 's = ""\nfor i in my_list:\n  s += str(i)',
+      testCases: [
+        { input: '', expectedOutput: 'Uses `"".join()`' }
+      ]
+    },
+    {
+      id: 'db243',
+      title: 'JavaScript: Asynchronous `forEach`',
+      description: '`Array.prototype.forEach` does not wait for promises. An `async` callback to `forEach` will not work as expected.',
+      language: 'javascript',
+      difficulty: 'Advanced',
+      xp: 75,
+      buggyCode: 'async function process(arr) { arr.forEach(async (item) => { await doSomething(item); }); console.log("Done"); }',
+      testCases: [
+        { input: '', expectedOutput: '"Done" logs after all items are processed' }
+      ]
+    },
+    {
+      id: 'db244',
+      title: 'Java: Static variable shared',
+      description: 'A static variable is shared among all instances of a class, which might not be the intended behavior.',
+      language: 'java',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 'class Counter { static int count = 0; public void increment() { count++; } }',
+      testCases: [
+        { input: 'Two instances incrementing', expectedOutput: 'Each instance has its own count' }
+      ]
+    },
+    {
+      id: 'db245',
+      title: 'C++: Slicing',
+      description: 'Assigning a derived class object to a base class object slices off the derived part.',
+      language: 'cpp',
+      difficulty: 'Advanced',
+      xp: 80,
+      buggyCode: 'class B{}; class D:public B{}; D d; B b = d;',
+      testCases: [
+        { input: '', expectedOutput: 'Uses pointers or references' }
+      ]
+    },
+    {
+      id: 'db246',
+      title: 'Python: Accessing index and value',
+      description: 'A C-style loop is used to access the index and value, but there\'s a more Pythonic way.',
+      language: 'python',
+      difficulty: 'Beginner',
+      xp: 25,
+      buggyCode: 'for i in range(len(my_list)):\n  print(i, my_list[i])',
+      testCases: [
+        { input: '', expectedOutput: 'Uses `enumerate`' }
+      ]
+    },
+    {
+      id: 'db247',
+      title: 'JavaScript: `this` in a method passed as callback',
+      description: 'When a method is passed as a callback, `this` can be lost. `bind` is one way to fix it.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 55,
+      buggyCode: 'class App { run() { setTimeout(this.log, 100); } log(){console.log("Logged")} }',
+      testCases: [
+        { input: '', expectedOutput: 'Logs correctly' }
+      ]
+    },
+    {
+      id: 'db248',
+      title: 'Java: Using raw types',
+      description: 'Using a raw type like `List` instead of a parameterized type like `List<String>` bypasses generic type checking.',
+      language: 'java',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: 'List list = new ArrayList();\nlist.add("a");\nlist.add(1);',
+      testCases: [
+        { input: '', expectedOutput: 'Uses generic type `List<String>`' }
+      ]
+    },
+    {
+      id: 'db249',
+      title: 'C++: RAII',
+      description: 'A resource (like a file or lock) is acquired but not released in all code paths (e.g., if an exception is thrown).',
+      language: 'cpp',
+      difficulty: 'Advanced',
+      xp: 85,
+      buggyCode: 'mutex.lock();\n// ... critical section ...\nmutex.unlock();',
+      testCases: [
+        { input: 'Exception in critical section', expectedOutput: 'Uses `std::lock_guard` or `std::scoped_lock`' }
+      ]
+    },
+    {
+      id: 'db250',
+      title: 'Python: Appending to list in loop',
+      description: 'The code intends to create a list of functions, but all functions end up using the last value of the loop variable.',
+      language: 'python',
+      difficulty: 'Advanced',
+      xp: 65,
+      buggyCode: 'funcs = []\nfor i in range(3):\n  funcs.append(lambda: print(i))',
+      testCases: [
+        { input: 'funcs[0]()', expectedOutput: '0' }
+      ]
+    },
+    {
+      id: 'db251',
+      title: 'JavaScript: String Immutability',
+      description: 'Strings are immutable in JavaScript. Methods that seem to modify them actually return a new string.',
+      language: 'javascript',
+      difficulty: 'Beginner',
+      xp: 25,
+      buggyCode: 'let s = "hi";\ns.toUpperCase();',
+      testCases: [
+        { input: 'console.log(s)', expectedOutput: '"HI"' }
+      ]
+    },
+    {
+      id: 'db252',
+      title: 'Java: `StringBuilder` vs `String`',
+      description: 'Using `+` to concatenate strings in a loop is inefficient.',
+      language: 'java',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 'String result = "";\nfor(String s: my_list) { result += s; }',
+      testCases: [
+        { input: 'Large list', expectedOutput: 'Uses `StringBuilder`' }
+      ]
+    },
+    {
+      id: 'db253',
+      title: 'C++: Forgetting `#include` guards',
+      description: 'A header file without include guards can cause multiple definition errors if included more than once.',
+      language: 'cpp',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: '// my_header.h\nstruct MyStruct {};',
+      testCases: [
+        { input: 'Included in two different files', expectedOutput: 'Uses `#pragma once` or `#ifndef` guards' }
+      ]
+    },
+    {
+      id: 'db254',
+      title: 'Python: Logical operator precedence',
+      description: '`and` has a higher precedence than `or`, which can lead to unexpected results without parentheses.',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 'if a or b and c:',
+      testCases: [
+        { input: 'a=True, b=False, c=False', expectedOutput: 'Should evaluate `(a or b) and c`' }
+      ]
+    },
+    {
+      id: 'db255',
+      title: 'JavaScript: `filter` creates new array',
+      description: 'The `filter` method does not modify the original array; it returns a new one.',
+      language: 'javascript',
+      difficulty: 'Beginner',
+      xp: 30,
+      buggyCode: 'let arr = [1, -2, 3];\narr.filter(n => n > 0);',
+      testCases: [
+        { input: 'console.log(arr)', expectedOutput: '[1, 3]' }
+      ]
+    },
+    {
+      id: 'db256',
+      title: 'Java: `switch` on Strings (pre-Java 7)',
+      description: 'Before Java 7, you could not use a `switch` statement on a String.',
+      language: 'java',
+      difficulty: 'Beginner',
+      xp: 25,
+      buggyCode: '// Assumes Java 6 or older\nString s = "a";\nswitch(s) { case "a": ... }',
+      testCases: [
+        { input: '', expectedOutput: 'Uses `if-else` chain' }
+      ]
+    },
+    {
+      id: 'db257',
+      title: 'C++: Integer Promotion Rules',
+      description: 'When comparing a signed and unsigned integer, the signed integer is promoted to unsigned, which can lead to unexpected results.',
+      language: 'cpp',
+      difficulty: 'Intermediate',
+      xp: 55,
+      buggyCode: 'int s = -1;\nunsigned int u = 1;\nif (s < u) { /* always true */ }',
+      testCases: [
+        { input: '', expectedOutput: 'Correctly compares values' }
+      ]
+    },
+    {
+      id: 'db258',
+      title: 'Python: Class attribute modified by instance',
+      description: 'Modifying a mutable class attribute through an instance affects all other instances of the class.',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 50,
+      buggyCode: 'class MyClass:\n  items = []\nm1 = MyClass()\nm1.items.append(1)',
+      testCases: [
+        { input: 'm2 = MyClass(); print(m2.items)', expectedOutput: '[]' }
+      ]
+    },
+    {
+      id: 'db259',
+      title: 'JavaScript: `setTimeout` with string',
+      description: 'Passing a string to `setTimeout` is equivalent to using `eval` and is a bad practice.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 'setTimeout("console.log(\'hi\')", 100);',
+      testCases: [
+        { input: '', expectedOutput: 'Passes a function reference' }
+      ]
+    },
+    {
+      id: 'db260',
+      title: 'Java: `BigDecimal` comparison',
+      description: '`BigDecimal` objects should be compared using `compareTo()`, not `equals()` if you only care about numerical value.',
+      language: 'java',
+      difficulty: 'Advanced',
+      xp: 60,
+      buggyCode: 'new BigDecimal("1.0").equals(new BigDecimal("1.00")) // false',
+      testCases: [
+        { input: '', expectedOutput: 'True' }
+      ]
+    },
+    {
+      id: 'db261',
+      title: 'C++: Incorrect `delete` for arrays',
+      description: 'Memory allocated with `new[]` must be deallocated with `delete[]`.',
+      language: 'cpp',
+      difficulty: 'Intermediate',
+      xp: 50,
+      buggyCode: 'int* arr = new int[10];\ndelete arr;',
+      testCases: [
+        { input: '', expectedOutput: '`delete[] arr;`' }
+      ]
+    },
+    {
+      id: 'db262',
+      title: 'Python: `get` with default value',
+      description: 'The code checks for a key\'s existence before getting it, but `get` with a default value is more concise.',
+      language: 'python',
+      difficulty: 'Beginner',
+      xp: 25,
+      buggyCode: 'if "key" in my_dict:\n  val = my_dict["key"]\nelse:\n  val = 0',
+      testCases: [
+        { input: '', expectedOutput: '`my_dict.get("key", 0)`' }
+      ]
+    },
+    {
+      id: 'db263',
+      title: 'JavaScript: `this` in event handlers (React)',
+      description: 'In a React class component, `this` is not automatically bound in event handlers.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 50,
+      buggyCode: 'class MyComp extends React.Component { onClick() { this.setState(...) } render() { return <button onClick={this.onClick} /> } }',
+      testCases: [
+        { input: '', expectedOutput: 'Binds `this` in constructor or uses arrow function' }
+      ]
+    },
+    {
+      id: 'db264',
+      title: 'Java: `clone()` method complexities',
+      description: 'Implementing `clone()` correctly is notoriously difficult, involving `super.clone()` and handling `CloneNotSupportedException`.',
+      language: 'java',
+      difficulty: 'Advanced',
+      xp: 80,
+      buggyCode: 'class MyClass implements Cloneable { @Override public Object clone() { return this; } }',
+      testCases: [
+        { input: '', expectedOutput: 'Implements clone correctly or uses a copy constructor' }
+      ]
+    },
+    {
+      id: 'db265',
+      title: 'C++: Unsequenced modifications',
+      description: 'Modifying a variable more than once between sequence points (like in a function call) is undefined behavior.',
+      language: 'cpp',
+      difficulty: 'Advanced',
+      xp: 75,
+      buggyCode: 'int i = 0;\nfoo(i++, i);',
+      testCases: [
+        { input: '', expectedOutput: 'Avoids unsequenced modifications' }
+      ]
+    },
+    {
+      id: 'db266',
+      title: 'Python: `time.sleep` blocking',
+      description: '`time.sleep` blocks the entire thread, which is problematic in async code or GUIs.',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 55,
+      buggyCode: '# in an asyncio function\nimport time\ntime.sleep(1)',
+      testCases: [
+        { input: '', expectedOutput: '`await asyncio.sleep(1)`' }
+      ]
+    },
+    {
+      id: 'db267',
+      title: 'JavaScript: `JSON.stringify` replacer function',
+      description: 'The `replacer` argument of `JSON.stringify` can be used to filter or transform values.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: 'const obj = { a: 1, b: 2 };\nJSON.stringify(obj);',
+      testCases: [
+        { input: 'Exclude property "b"', expectedOutput: '`{"a":1}`' }
+      ]
+    },
+    {
+      id: 'db268',
+      title: 'Java: `Thread.sleep` in a lock',
+      description: 'Holding a lock while sleeping can cause performance issues and is generally a bad practice.',
+      language: 'java',
+      difficulty: 'Advanced',
+      xp: 65,
+      buggyCode: 'synchronized(this) {\n  Thread.sleep(1000);\n}',
+      testCases: [
+        { input: '', expectedOutput: 'Does not sleep while holding a lock' }
+      ]
+    },
+    {
+      id: 'db269',
+      title: 'C++: Order of base class construction',
+      description: 'Base classes are always constructed before member variables, in the order they appear in the class definition.',
+      language: 'cpp',
+      difficulty: 'Advanced',
+      xp: 60,
+      buggyCode: 'class MyClass : public Base1, public Base2 { MyClass() : Base2(), Base1() {} };',
+      testCases: [
+        { input: '', expectedOutput: 'Initializes in the correct order' }
+      ]
+    },
+    {
+      id: 'db270',
+      title: 'Python: Reading a binary file in text mode',
+      description: 'Opening a binary file (like an image) in text mode (`"r"`) will raise a `UnicodeDecodeError`.',
+      language: 'python',
+      difficulty: 'Beginner',
+      xp: 30,
+      buggyCode: 'with open("image.jpg", "r") as f:\n  content = f.read()',
+      testCases: [
+        { input: '', expectedOutput: 'Opens with mode `"rb"`' }
+      ]
+    },
+    {
+      id: 'db271',
+      title: 'JavaScript: `Array.sort` with mixed types',
+      description: '`sort` will convert elements to strings for comparison, which can be problematic for mixed-type arrays.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: '[1, "10", 2].sort()',
+      testCases: [
+        { input: '', expectedOutput: '[1, 2, "10"]' }
+      ]
+    },
+    {
+      id: 'db272',
+      title: 'Java: Modulo with negative numbers',
+      description: 'The result of the `%` operator can be negative if the dividend is negative.',
+      language: 'java',
+      difficulty: 'Beginner',
+      xp: 35,
+      buggyCode: 'int r = -5 % 3;',
+      testCases: [
+        { input: '', expectedOutput: 'Handles negative result correctly' }
+      ]
+    },
+    {
+      id: 'db273',
+      title: 'C++: Object slicing with virtual functions',
+      description: 'Calling a virtual function on a sliced object will call the base class version, not the derived one.',
+      language: 'cpp',
+      difficulty: 'Advanced',
+      xp: 85,
+      buggyCode: 'class B { virtual void f(); }; class D : public B { void f() override; };\nD d;\nB b = d;\nb.f();',
+      testCases: [
+        { input: '', expectedOutput: 'Calls `D::f()`' }
+      ]
+    },
+    {
+      id: 'db274',
+      title: 'Python: Dictionary view objects',
+      description: 'In Python 3, `dict.keys()`, `values()`, and `items()` return view objects, not lists. They reflect changes in the dictionary.',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: 'd = {"a":1}\nkeys = d.keys()\nd["b"]=2\nprint(len(keys))',
+      testCases: [
+        { input: '', expectedOutput: '2' }
+      ]
+    },
+    {
+      id: 'db275',
+      title: 'JavaScript: Number precision',
+      description: '`Number.MAX_SAFE_INTEGER` is the largest integer that can be safely represented without losing precision.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: '9007199254740991 + 2',
+      testCases: [
+        { input: '', expectedOutput: '9007199254740993' }
+      ]
+    },
+    {
+      id: 'db276',
+      title: 'Java: `final` parameter',
+      description: 'A `final` parameter cannot be reassigned within the method.',
+      language: 'java',
+      difficulty: 'Beginner',
+      xp: 25,
+      buggyCode: 'void process(final int x) { x = 5; }',
+      testCases: [
+        { input: '', expectedOutput: 'Does not reassign the parameter' }
+      ]
+    },
+    {
+      id: 'db277',
+      title: 'C++: `std::vector` reallocation',
+      description: 'When a `std::vector` reallocates its storage, pointers and iterators to its elements become invalidated.',
+      language: 'cpp',
+      difficulty: 'Advanced',
+      xp: 70,
+      buggyCode: 'std::vector<int> v = {1};\nint* p = &v[0];\nv.push_back(2); // might reallocate\n*p = 5;',
+      testCases: [
+        { input: '', expectedOutput: 'Avoids using invalidated pointer' }
+      ]
+    },
+    {
+      id: 'db278',
+      title: 'Python: Set comprehension',
+      description: 'A set comprehension is used to create a set, similar to a list comprehension.',
+      language: 'python',
+      difficulty: 'Beginner',
+      xp: 30,
+      buggyCode: 's = set()\nfor i in range(5): s.add(i*i)',
+      testCases: [
+        { input: '', expectedOutput: '{i*i for i in range(5)}' }
+      ]
+    },
+    {
+      id: 'db279',
+      title: 'JavaScript: `Promise.resolve`',
+      description: '`Promise.resolve(value)` returns a Promise object that is resolved with the given value.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 'function makePromise() { return new Promise(res => res(42)); }',
+      testCases: [
+        { input: '', expectedOutput: '`Promise.resolve(42)`' }
+      ]
+    },
+    {
+      id: 'db280',
+      title: 'Java: `continue` in a loop',
+      description: 'The `continue` statement skips the current iteration of a loop.',
+      language: 'java',
+      difficulty: 'Beginner',
+      xp: 25,
+      buggyCode: 'for(int i=0; i<5; ++i){ if(i==2){/* skip 2 */} System.out.println(i); }',
+      testCases: [
+        { input: '', expectedOutput: '0\n1\n3\n4' }
+      ]
+    },
+    {
+      id: 'db281',
+      title: 'C++: `auto` type deduction with references',
+      description: '`auto` deduces a value type, dropping references and const qualifiers. `auto&` or `const auto&` should be used to keep them.',
+      language: 'cpp',
+      difficulty: 'Intermediate',
+      xp: 55,
+      buggyCode: 'std::string s = "hi";\nauto s2 = s; // copy',
+      testCases: [
+        { input: 'Modify `s2`', expectedOutput: 'Modifies `s`' }
+      ]
+    },
+    {
+      id: 'db282',
+      title: 'Python: `__name__ == "__main__"`',
+      description: 'This common idiom allows code to be run when the file is executed as a script, but not when it\'s imported.',
+      language: 'python',
+      difficulty: 'Beginner',
+      xp: 35,
+      buggyCode: '# code runs on import',
+      testCases: [
+        { input: '', expectedOutput: 'Uses `if __name__ == "__main__"` block' }
+      ]
+    },
+    {
+      id: 'db283',
+      title: 'JavaScript: Object key with spaces',
+      description: 'If an object key contains spaces, you must use bracket notation to access it.',
+      language: 'javascript',
+      difficulty: 'Beginner',
+      xp: 25,
+      buggyCode: 'const obj = { "first name": "A" };\nobj.first name;',
+      testCases: [
+        { input: '', expectedOutput: '`obj["first name"]`' }
+      ]
+    },
+    {
+      id: 'db284',
+      title: 'Java: `final` class',
+      description: 'A `final` class cannot be subclassed.',
+      language: 'java',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 'final class Parent {}\nclass Child extends Parent {}',
+      testCases: [
+        { input: '', expectedOutput: 'Compilation error' }
+      ]
+    },
+    {
+      id: 'db285',
+      title: 'C++: Temporary object lifetime',
+      description: 'A temporary object is destroyed at the end of the full-expression in which it was created.',
+      language: 'cpp',
+      difficulty: 'Advanced',
+      xp: 75,
+      buggyCode: 'const char* c = std::string("hi").c_str();\n// c is a dangling pointer',
+      testCases: [
+        { input: '', expectedOutput: 'Binds temporary to a const reference or makes a copy' }
+      ]
+    },
+    {
+      id: 'db286',
+      title: 'Python: The `else` clause on loops',
+      description: 'Python loops have an `else` clause that executes if the loop completes without hitting a `break` statement.',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 55,
+      buggyCode: 'for i in []:\n  print(i)\nelse:\n  print("Empty")',
+      testCases: [
+        { input: '', expectedOutput: '"Empty"' }
+      ]
+    },
+    {
+      id: 'db287',
+      title: 'JavaScript: Default Parameters',
+      description: 'ES6 introduced default function parameters.',
+      language: 'javascript',
+      difficulty: 'Beginner',
+      xp: 30,
+      buggyCode: 'function greet(name) {\n  name = name || "Guest";\n}',
+      testCases: [
+        { input: '', expectedOutput: '`function greet(name = "Guest")`' }
+      ]
+    },
+    {
+      id: 'db288',
+      title: 'Java: Abstract method',
+      description: 'An abstract method has no body and must be implemented by a subclass.',
+      language: 'java',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: 'abstract class Animal { abstract void speak() {}; }',
+      testCases: [
+        { input: '', expectedOutput: '`abstract void speak();`' }
+      ]
+    },
+    {
+      id: 'db289',
+      title: 'C++: Perfect forwarding',
+      description: 'Using `std::forward` in a template function allows forwarding arguments to another function while preserving their value category (lvalue/rvalue).',
+      language: 'cpp',
+      difficulty: 'Advanced',
+      xp: 85,
+      buggyCode: 'template<typename T> void wrapper(T&& arg) { another_func(arg); }',
+      testCases: [
+        { input: 'Passing an rvalue', expectedOutput: '`another_func(std::forward<T>(arg));`' }
+      ]
+    },
+    {
+      id: 'db290',
+      title: 'Python: `itertools.groupby`',
+      description: 'This function groups consecutive elements of an iterable that are the same.',
+      language: 'python',
+      difficulty: 'Advanced',
+      xp: 65,
+      buggyCode: '# Group [1, 1, 2, 2, 1]',
+      testCases: [
+        { input: '', expectedOutput: 'Groups into (1, [1,1]), (2, [2,2]), (1, [1])' }
+      ]
+    },
+    {
+      id: 'db291',
+      title: 'JavaScript: Using `var` in a `for` loop callback',
+      description: '`var` is function-scoped, not block-scoped, leading to all callbacks in a loop referencing the same final value of the variable.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 50,
+      buggyCode: 'for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 10);\n}',
+      testCases: [
+        { input: '', expectedOutput: '3\n3\n3' }
+      ]
+    },
+    {
+      id: 'db292',
+      title: 'Java: `volatile` keyword',
+      description: 'The `volatile` keyword ensures that changes to a variable are always visible to other threads.',
+      language: 'java',
+      difficulty: 'Advanced',
+      xp: 70,
+      buggyCode: 'private boolean stop = false;\n// Thread 1: while(!stop){}\n// Thread 2: stop = true;',
+      testCases: [
+        { input: '', expectedOutput: '`private volatile boolean stop;`' }
+      ]
+    },
+    {
+      id: 'db293',
+      title: 'C++: Copy Elision',
+      description: 'The compiler is allowed to optimize away copy and move constructors, even if they have side effects.',
+      language: 'cpp',
+      difficulty: 'Advanced',
+      xp: 80,
+      buggyCode: 'MyClass make_object() { return MyClass(); } // may not call copy constructor',
+      testCases: [
+        { input: '', expectedOutput: 'Understands copy elision' }
+      ]
+    },
+    {
+      id: 'db294',
+      title: 'Python: Generator `send` method',
+      description: 'The `send` method can be used to send a value into a generator.',
+      language: 'python',
+      difficulty: 'Advanced',
+      xp: 70,
+      buggyCode: 'def my_gen():\n  val = yield 1',
+      testCases: [
+        { input: 'gen.send(5)', expectedOutput: '`val` becomes 5' }
+      ]
+    },
+    {
+      id: 'db295',
+      title: 'JavaScript: `arguments` object',
+      description: 'The `arguments` object is an array-like object accessible inside functions that contains the values of the arguments passed to that function.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 40,
+      buggyCode: 'function sum() { /* sum all arguments */ }',
+      testCases: [
+        { input: 'sum(1,2,3)', expectedOutput: '6' }
+      ]
+    },
+    {
+      id: 'db296',
+      title: 'Java: `synchronized` method',
+      description: 'A `synchronized` method acquires a lock on the object (`this`) before executing.',
+      language: 'java',
+      difficulty: 'Intermediate',
+      xp: 55,
+      buggyCode: 'private int c=0; public void inc() { c++; } // race condition',
+      testCases: [
+        { input: '', expectedOutput: '`public synchronized void inc()`' }
+      ]
+    },
+    {
+      id: 'db297',
+      title: 'C++: Virtual inheritance',
+      description: 'Virtual inheritance is used to solve the "diamond problem" in multiple inheritance.',
+      language: 'cpp',
+      difficulty: 'Advanced',
+      xp: 85,
+      buggyCode: 'class A{}; class B:public A{}; class C:public A{}; class D:public B, public C{};',
+      testCases: [
+        { input: '', expectedOutput: '`class B : virtual public A`' }
+      ]
+    },
+    {
+      id: 'db298',
+      title: 'Python: `any` and `all`',
+      description: 'The functions `any` and `all` are concise ways to check for truthiness in an iterable.',
+      language: 'python',
+      difficulty: 'Beginner',
+      xp: 30,
+      buggyCode: 'has_true = False\nfor item in my_list:\n  if item:\n    has_true=True\n    break',
+      testCases: [
+        { input: '', expectedOutput: '`any(my_list)`' }
+      ]
+    },
+    {
+      id: 'db299',
+      title: 'JavaScript: Tagged Template Literals',
+      description: 'A more advanced form of template literals, which allows you to parse them with a function.',
+      language: 'javascript',
+      difficulty: 'Advanced',
+      xp: 65,
+      buggyCode: 'function myTag(strings, ...values){}\nmyTag`Hello ${name}`',
+      testCases: [
+        { input: '', expectedOutput: 'Correctly processes strings and values' }
+      ]
+    },
+    {
+      id: 'db300',
+      title: 'Java: `Serializable` interface',
+      description: 'An interface with no methods that marks a class as being serializable.',
+      language: 'java',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: 'class MyData { int x; } // cannot be serialized',
+      testCases: [
+        { input: '', expectedOutput: '`implements Serializable`' }
+      ]
+    },
+    {
+      id: 'db301',
+      title: 'C++: Using `std::map::at` vs `[]`',
+      description: '`at()` provides bounds checking and throws an exception if the key is not found, while `[]` does not.',
+      language: 'cpp',
+      difficulty: 'Intermediate',
+      xp: 45,
+      buggyCode: 'std::map<int, int> m;\nm[5] = 10; // no bounds check',
+      testCases: [
+        { input: 'Accessing non-existent key', expectedOutput: 'Uses `at()` for safe access' }
+      ]
+    },
+    {
+      id: 'db302',
+      title: 'Python: `else` in `try...except`',
+      description: 'The `else` block in a `try...except` statement executes only if no exceptions were raised in the `try` block.',
+      language: 'python',
+      difficulty: 'Intermediate',
+      xp: 50,
+      buggyCode: 'try:\n  # code that might fail\nexcept:\n  # handle error\n# code that should run only on success',
+      testCases: [
+        { input: '', expectedOutput: 'Uses an `else` block for the success case' }
+      ]
+    },
+    {
+      id: 'db303',
+      title: 'JavaScript: Object.seal()',
+      description: '`Object.seal()` prevents new properties from being added and marks all existing properties as non-configurable, but values can still be changed.',
+      language: 'javascript',
+      difficulty: 'Intermediate',
+      xp: 55,
+      buggyCode: 'const obj = { a: 1 };\nObject.freeze(obj);\nobj.a = 2; // Not allowed',
+      testCases: [
+        { input: 'Need to allow value changes but not property additions', expectedOutput: 'Uses `Object.seal()`' }
+      ]
+    }
   ];
   
+
+    
+
 
     
