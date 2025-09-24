@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useMemo, useEffect, use } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import type { DropResult } from "react-beautiful-dnd";
@@ -27,13 +27,12 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 export default function CodeJigsawArenaPage({ params }: { params: { id: string } }) {
-  const resolvedParams = use(params);
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
 
   const challenge = useMemo(() => {
-    return codeJigsawChallenges.find((c) => c.id === resolvedParams.id);
-  }, [resolvedParams.id]);
+    return codeJigsawChallenges.find((c) => c.id === params.id);
+  }, [params.id]);
 
   const [puzzleLines, setPuzzleLines] = useState<string[]>([]);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -53,12 +52,10 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
-    // If dropped outside of any droppable area
     if (!destination) {
       return;
     }
     
-    // Reorder logic for a single list
     const newLines = Array.from(puzzleLines);
     const [reorderedItem] = newLines.splice(source.index, 1);
     newLines.splice(destination.index, 0, reorderedItem);
@@ -67,7 +64,6 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
   };
 
   const checkSolution = () => {
-    // Compare the reordered lines with the original correct lines
     if (JSON.stringify(puzzleLines) === JSON.stringify(challenge.lines)) {
       setIsCorrect(true);
     } else {
@@ -115,7 +111,6 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
           {isClient && (
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className="max-w-4xl mx-auto">
-                    {/* The only droppable area */}
                     <div className="flex flex-col gap-4">
                         <h2 className="font-headline text-lg font-semibold">Arrange the Code</h2>
                         <Droppable droppableId="puzzle">
