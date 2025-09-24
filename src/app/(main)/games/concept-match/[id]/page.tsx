@@ -78,46 +78,51 @@ export default function ConceptMatchArenaPage() {
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
 
-    // Ignore drops outside of a droppable area
-    if (!destination) return;
+    if (!destination) {
+      return;
+    }
 
-    // Find the source and destination columns
     const sourceCol = columns[source.droppableId];
     const destCol = columns[destination.droppableId];
-    if (!sourceCol || !destCol) return;
-
-    // Find the item being dragged
-    const draggedItem = sourceCol.items.find(item => item.id === draggableId);
-    if (!draggedItem) return;
-
-    // Handle dropping onto an item in another column (the match logic)
-    if (source.droppableId !== destination.droppableId && destination.droppableId !== 'col-matched') {
-      const targetItem = destCol.items.find(item => item.id === destination.droppableId);
-      
-      // Check for a correct match
-      if (draggedItem.matchId === destination.droppableId) {
-        const targetItem = destCol.items.find(i => i.id === destination.droppableId);
-        if (!targetItem) return;
-
-        // Correct match found, move both items to the 'matched' column
-        const newColumns = { ...columns };
-        
-        // Remove dragged item from source
-        newColumns[source.droppableId].items = newColumns[source.droppableId].items.filter(i => i.id !== draggableId);
-
-        // Remove target item from destination
-        newColumns[destination.droppableId].items = newColumns[destination.droppableId].items.filter(i => i.id !== destination.droppableId);
-
-        // Add both to the matched column
-        newColumns['col-matched'].items.push(draggedItem, targetItem);
-        
-        setColumns(newColumns);
-      } else {
-        // Incorrect match, do nothing (item snaps back)
+    
+    if (!sourceCol || !destCol) {
         return;
-      }
     }
-    // If dropping elsewhere (e.g., reordering within a column, which we don't support), do nothing.
+
+    // Dropping onto an item in another column for a match
+    if (
+        source.droppableId !== destination.droppableId &&
+        destination.droppableId !== 'col-code' &&
+        destination.droppableId !== 'col-concept' &&
+        destination.droppableId !== 'col-matched'
+    ) {
+        const draggedItem = sourceCol.items.find(i => i.id === draggableId);
+        
+        let destItems: Item[] = [];
+        Object.values(columns).forEach(col => {
+            destItems = destItems.concat(col.items);
+        });
+
+        const targetItem = destItems.find(i => i.id === destination.droppableId);
+
+        if (draggedItem && targetItem && draggedItem.matchId === targetItem.id) {
+            // Correct match
+            const newColumns = { ...columns };
+            
+            const targetColId = Object.keys(newColumns).find(key => newColumns[key].items.some(i => i.id === targetItem.id));
+
+            if(targetColId) {
+                // Remove both items from their source columns
+                newColumns[source.droppableId].items = newColumns[source.droppableId].items.filter(i => i.id !== draggedItem.id);
+                newColumns[targetColId].items = newColumns[targetColId].items.filter(i => i.id !== targetItem.id);
+
+                // Add to matched column
+                newColumns['col-matched'].items.push(draggedItem, targetItem);
+                
+                setColumns(newColumns);
+            }
+        }
+    }
   };
   
   useEffect(() => {
@@ -152,7 +157,7 @@ export default function ConceptMatchArenaPage() {
 
     // If it's a drop target, wrap it to be a droppable area
     return (
-        <Droppable droppableId={item.id} isDropDisabled={false} isCombineEnabled={false}>
+        <Droppable droppableId={item.id} isDropDisabled={false} isCombineEnabled={false} ignoreContainerClipping={false}>
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps} className="h-full w-full">
                     {content}
@@ -193,7 +198,7 @@ export default function ConceptMatchArenaPage() {
                 <CardHeader>
                   <CardTitle className="font-headline text-lg text-center">{columns[colId].title}</CardTitle>
                 </CardHeader>
-                <Droppable droppableId={colId} isDropDisabled={true} isCombineEnabled={false}>
+                <Droppable droppableId={colId} isDropDisabled={true} isCombineEnabled={false} ignoreContainerClipping={false}>
                   {(provided) => (
                     <CardContent
                       ref={provided.innerRef}
