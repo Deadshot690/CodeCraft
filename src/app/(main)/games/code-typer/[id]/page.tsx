@@ -6,7 +6,7 @@ import { useRouter, notFound, useParams } from 'next/navigation';
 import { codeTyperChallenges } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChevronLeft, RefreshCw, TimerIcon, Crosshair, Target } from 'lucide-react';
+import { ChevronLeft, RefreshCw, TimerIcon, Crosshair, Target, SkipForward } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { CompletionModal } from '@/components/games/completion-modal';
 import { cn } from '@/lib/utils';
@@ -46,6 +46,13 @@ export default function CodeTyperArenaPage() {
     const [errors, setErrors] = useState(0);
     const [isClient, setIsClient] = useState(false);
     const [startTime, setStartTime] = useState<Date | null>(null);
+
+    const handleNextChallenge = useCallback(() => {
+        if (!challenge) return;
+        const currentIndex = codeTyperChallenges.findIndex(c => c.id === challenge.id);
+        const nextChallenge = codeTyperChallenges[(currentIndex + 1) % codeTyperChallenges.length];
+        router.push(`/games/code-typer/${nextChallenge.id}`);
+    }, [challenge, router]);
 
     const resetGame = useCallback(() => {
         setStatus('waiting');
@@ -94,12 +101,6 @@ export default function CodeTyperArenaPage() {
         }
     };
     
-    const handleNextChallenge = () => {
-        const currentIndex = codeTyperChallenges.findIndex(c => c.id === challenge?.id);
-        const nextChallenge = codeTyperChallenges[(currentIndex + 1) % codeTyperChallenges.length];
-        router.push(`/games/code-typer/${nextChallenge.id}`);
-    };
-
     if (!isClient) return null;
 
     if (!challenge) {
@@ -139,10 +140,16 @@ export default function CodeTyperArenaPage() {
                         Code Typer: {challenge.title}
                     </h1>
                 </div>
-                 <Button variant="outline" size="sm" onClick={resetGame}>
-                    <RefreshCw className="mr-2 h-4 w-4" />
-                    Reset
-                </Button>
+                 <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" onClick={resetGame}>
+                        <RefreshCw className="mr-2 h-4 w-4" />
+                        Reset
+                    </Button>
+                    <Button size="sm" onClick={handleNextChallenge}>
+                        Next Challenge
+                        <SkipForward className="ml-2 h-4 w-4" />
+                    </Button>
+                </div>
             </header>
 
             <main className="flex-1 flex flex-col gap-6 pt-4">
