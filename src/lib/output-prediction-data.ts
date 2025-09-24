@@ -2445,5 +2445,2438 @@ print(s)`,
     options: ['{1, 2}', '{1, 1, 2}', '{1}', 'Error'],
     correctAnswer: '{1, 2}',
     explanation: 'Sets only store unique elements. Adding an element that is already in the set has no effect.',
+  },
+  {
+    id: 'op151',
+    title: 'Java `final` field initialization',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `public class Test {
+    final int x;
+    public Test() {
+        // x = 10;
+    }
+}`,
+    question: 'What happens if a `final` instance field is not initialized in the constructor or at declaration?',
+    options: ['It defaults to 0', 'It defaults to null', 'Compilation Error', 'Runtime Error'],
+    correctAnswer: 'Compilation Error',
+    explanation: 'A `final` instance variable must be initialized either at the point of declaration or in every constructor of the class.',
+  },
+  {
+    id: 'op152',
+    title: 'C++ `virtual` Destructor',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `#include <iostream>
+class Base { public: ~Base() { std::cout << "Base dtor"; } };
+class Derived : public Base { public: ~Derived() { std::cout << "Derived dtor"; } };
+int main() {
+    Base* b = new Derived();
+    delete b;
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['Base dtor', 'Derived dtor', 'Derived dtorBase dtor', 'Undefined Behavior'],
+    correctAnswer: 'Base dtor',
+    explanation: 'Without a `virtual` destructor in the base class, deleting a `Derived` object through a `Base*` pointer results in undefined behavior, but typically only the `Base` destructor is called.',
+  },
+  {
+    id: 'op153',
+    title: 'JS `Array.some`',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `const arr = [1, 2, 3, 4];
+console.log(arr.some(n => n > 5));`,
+    question: 'What is the output?',
+    options: ['true', 'false', 'undefined', 'Error'],
+    correctAnswer: 'false',
+    explanation: 'The `some()` method tests whether at least one element in the array passes the test. Since no element is greater than 5, it returns false.',
+  },
+  {
+    id: 'op154',
+    title: 'Python `pass` statement',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `def my_function():
+    pass
+print(my_function())`,
+    question: 'What is the output?',
+    options: ['None', 'pass', '0', 'Error'],
+    correctAnswer: 'None',
+    explanation: 'The `pass` statement is a null operation. A function that does not have an explicit `return` statement implicitly returns `None`.',
+  },
+  {
+    id: 'op155',
+    title: 'Java `String.split` limit',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `String str = "a-b-c";
+String[] parts = str.split("-", 2);
+System.out.println(parts.length);`,
+    question: 'What is the output?',
+    options: ['1', '2', '3', 'Error'],
+    correctAnswer: '2',
+    explanation: 'The second argument to `split` is a limit. It controls the number of times the pattern is applied. The resulting array will have at most `limit` elements.',
+  },
+  {
+    id: 'op156',
+    title: 'C++ `std::vector::at`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `#include <iostream>
+#include <vector>
+int main() {
+    std::vector<int> v = {10};
+    try {
+        std::cout << v.at(1);
+    } catch (const std::out_of_range& e) {
+        std::cout << "Out of range";
+    }
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['10', '0', 'Out of range', 'Undefined Behavior'],
+    correctAnswer: 'Out of range',
+    explanation: 'The `at()` method provides bounds-checking. Accessing an index that is out of bounds throws a `std::out_of_range` exception.',
+  },
+  {
+    id: 'op157',
+    title: 'JS `...` Spread vs. Rest',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `const numbers = [1, 2, 3];
+const [first, ...rest] = numbers;
+console.log(rest);`,
+    question: 'What is the output?',
+    options: ['[1, 2, 3]', '[2, 3]', '1', 'Error'],
+    correctAnswer: '[2, 3]',
+    explanation: 'When used in destructuring, `...` is the rest syntax, which collects the remaining elements into a new array.',
+  },
+  {
+    id: 'op158',
+    title: 'Python `is` vs `==` on integers',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `a = 257
+b = 257
+print(a is b)`,
+    question: 'What is the output in CPython?',
+    options: ['True', 'False', 'Error', 'Depends on system'],
+    correctAnswer: 'False',
+    explanation: 'CPython caches small integers (from -5 to 256). Since 257 is outside this range, `a` and `b` are separate objects in memory, so `is` returns False.',
+  },
+  {
+    id: 'op159',
+    title: 'Java `finally` without `catch`',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `public class Main {
+    public static void main(String[] args) {
+        try {
+            System.out.print("A");
+        } finally {
+            System.out.print("B");
+        }
+        System.out.print("C");
+    }
+}`,
+    question: 'What is the output?',
+    options: ['A', 'B', 'ABC', 'AB'],
+    correctAnswer: 'ABC',
+    explanation: 'A `try` block can be followed by a `finally` block without a `catch`. The `finally` block executes after the `try` block, and then execution continues normally.',
+  },
+  {
+    id: 'op160',
+    title: 'C++ `auto&&`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 65,
+    codeSnippet: `#include <iostream>
+int main() {
+    int x = 10;
+    auto&& ref = x; // What type is ref?
+    ref = 20;
+    std::cout << x;
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['10', '20', 'Compilation Error', 'Undefined Behavior'],
+    correctAnswer: '20',
+    explanation: '`auto&&` is a universal or forwarding reference. When initialized with an lvalue (`x`), `ref` becomes an lvalue reference (`int&`). Modifying `ref` modifies `x`.',
+  },
+  {
+    id: 'op161',
+    title: 'JS `parseInt` with radix',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `console.log(parseInt("101", 2));`,
+    question: 'What is the output?',
+    options: ['101', '3', '5', '2'],
+    correctAnswer: '5',
+    explanation: 'The second argument to `parseInt` is the radix (base). It interprets the string "101" as a binary number, which is equal to 5 in decimal.',
+  },
+  {
+    id: 'op162',
+    title: 'Python `**` for dictionaries',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `d1 = {'a': 1}
+d2 = {'b': 2}
+d3 = {**d1, **d2}
+print(d3)`,
+    question: 'What is the output?',
+    options: ["{'a': 1, 'b': 2}", "{'d1': {'a': 1}, 'd2': {'b': 2}}", 'Error', '{}'],
+    correctAnswer: "{'a': 1, 'b': 2}",
+    explanation: 'The `**` operator can be used to unpack dictionaries into a new dictionary, effectively merging them.',
+  },
+  {
+    id: 'op163',
+    title: 'Java `String.valueOf`',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `System.out.println(String.valueOf(1) + 2);`,
+    question: 'What is the output?',
+    options: ['3', '12', '1 2', 'Error'],
+    correctAnswer: '12',
+    explanation: '`String.valueOf(1)` converts the integer `1` to the string `"1"`. The `+` operator then performs string concatenation, resulting in `"12"`.',
+  },
+  {
+    id: 'op164',
+    title: 'C++ `const` object',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `#include <iostream>
+class MyClass {
+public:
+    void nonConstMethod() {}
+    void constMethod() const {}
+};
+int main() {
+    const MyClass obj;
+    // obj.nonConstMethod(); // Is this valid?
+    obj.constMethod();
+    return 0;
+}`,
+    question: 'Is the call `obj.nonConstMethod()` valid?',
+    options: ['Yes', 'No', 'Only if the method is empty', 'Depends on compiler'],
+    correctAnswer: 'No',
+    explanation: 'You cannot call a non-const member function on a const object, as it violates the const-correctness guarantee.',
+  },
+  {
+    id: 'op165',
+    title: 'JS `async/await` error handling',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `async function test() {
+    try {
+        await Promise.reject("oops");
+    } catch (e) {
+        console.log(e);
+    }
+}
+test();`,
+    question: 'What is the output?',
+    options: ['"oops"', 'undefined', 'Uncaught PromiseRejectionWarning', 'Error'],
+    correctAnswer: '"oops"',
+    explanation: 'The `await` keyword unwraps the rejected promise, and the `try...catch` block correctly catches the rejected value.',
+  },
+  {
+    id: 'op166',
+    title: 'Python `all` function',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `my_list = [True, 1, "hello"]
+print(all(my_list))`,
+    question: 'What is the output?',
+    options: ['True', 'False', 'Error', 'None'],
+    correctAnswer: 'True',
+    explanation: 'The `all()` function returns `True` if all elements in the iterable are truthy. `True`, `1`, and `"hello"` are all truthy.',
+  },
+  {
+    id: 'op167',
+    title: 'Java `abstract` class constructor',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `abstract class Animal {
+    Animal() { System.out.print("Animal "); }
+}
+class Dog extends Animal {
+    Dog() { System.out.print("Dog "); }
+}
+public class Main {
+    public static void main(String[] args) {
+        new Dog();
+    }
+}`,
+    question: 'What is the output?',
+    options: ['Dog', 'Animal', 'Dog Animal', 'Animal Dog'],
+    correctAnswer: 'Animal Dog',
+    explanation: 'Although you cannot instantiate an abstract class directly, its constructor is called when an instance of a subclass is created.',
+  },
+  {
+    id: 'op168',
+    title: 'C++ `char*` literal',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `#include <iostream>
+int main() {
+    char* s = "hello";
+    s[0] = 'H';
+    std::cout << s;
+    return 0;
+}`,
+    question: 'What is the result of this code?',
+    options: ['Hello', 'hello', 'Compilation Error', 'Undefined Behavior'],
+    correctAnswer: 'Undefined Behavior',
+    explanation: 'String literals are stored in read-only memory. Attempting to modify them results in undefined behavior. The code might compile but crash at runtime.',
+  },
+  {
+    id: 'op169',
+    title: 'JS `arguments` object',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `function sumAll() {
+  return Array.prototype.slice.call(arguments).reduce((s, n) => s + n, 0);
+}
+console.log(sumAll(1, 2, 3));`,
+    question: 'What is the output?',
+    options: ['6', '3', 'undefined', 'Error'],
+    correctAnswer: '6',
+    explanation: 'The `arguments` object is an array-like object. To use array methods on it, you must convert it to an array first, which is done here using `Array.prototype.slice.call`.',
+  },
+  {
+    id: 'op170',
+    title: 'Python `+=` on lists',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `a = [1, 2]
+b = a
+a += [3, 4]
+print(b)`,
+    question: 'What is the output?',
+    options: ['[1, 2]', '[1, 2, 3, 4]', '[3, 4]', 'Error'],
+    correctAnswer: '[1, 2, 3, 4]',
+    explanation: 'The `+=` operator on a list modifies the list in-place. Since `a` and `b` refer to the same list object, `b` reflects the changes made to `a`.',
+  },
+  {
+    id: 'op171',
+    title: 'Java `Integer` vs `int`',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `public class Main {
+    public static void main(String[] args) {
+        int i = 1;
+        Integer j = 1;
+        System.out.println(i == j);
+    }
+}`,
+    question: 'What is the output?',
+    options: ['true', 'false', 'Compilation Error', 'Runtime Error'],
+    correctAnswer: 'true',
+    explanation: 'When comparing a primitive type (`int`) with a wrapper type (`Integer`), the wrapper type is unboxed to its primitive value for the comparison. `1 == 1` is true.',
+  },
+  {
+    id: 'op172',
+    title: 'C++ `std::map::operator[]`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `#include <iostream>
+#include <map>
+int main() {
+    std::map<int, int> m;
+    std::cout << m[0];
+    std::cout << m.size();
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['01', '00', '11', 'Undefined Behavior'],
+    correctAnswer: '01',
+    explanation: 'Accessing a key in a `std::map` with `operator[]` that does not exist will default-construct a value for that key and insert it. For `int`, this is 0. So `m[0]` prints 0 and increases the map size to 1.',
+  },
+  {
+    id: 'op173',
+    title: 'JS `setTimeout` return value',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `const timeoutId = setTimeout(() => {}, 100);
+console.log(typeof timeoutId);`,
+    question: 'What is the output?',
+    options: ['"number"', '"object"', '"function"', '"undefined"'],
+    correctAnswer: '"number"',
+    explanation: 'In browsers and Node.js, `setTimeout` returns a numeric ID that can be used to cancel the timeout with `clearTimeout()`.',
+  },
+  {
+    id: 'op174',
+    title: 'Python `del` and references',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `a = [1, 2]
+b = a
+del a
+print(b)`,
+    question: 'What is the output?',
+    options: ['[1, 2]', 'NameError', 'AttributeError', '[]'],
+    correctAnswer: '[1, 2]',
+    explanation: '`del a` removes the name `a` from the current scope. It does not delete the object itself. Since `b` still refers to the object, the object is not garbage collected and can be printed.',
+  },
+  {
+    id: 'op175',
+    title: 'Java `char` default value',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `public class Main {
+    static char c;
+    public static void main(String[] args) {
+        System.out.println((int)c);
+    }
+}`,
+    question: 'What is the output?',
+    options: ['0', 'null', 'Compilation Error', 'Garbage value'],
+    correctAnswer: '0',
+    explanation: 'The default value for a `char` field in Java is the null character, `\\u0000`, which has a numeric value of 0.',
+  },
+  {
+    id: 'op176',
+    title: 'C++ `char` array decay',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `#include <iostream>
+void print_size(int arr[]) {
+    std::cout << sizeof(arr);
+}
+int main() {
+    int nums[] = {1, 2, 3};
+    print_size(nums);
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['12', '4', '8', 'Depends on system'],
+    correctAnswer: 'Depends on system',
+    explanation: 'When an array is passed to a function, it "decays" into a pointer to its first element. `sizeof(arr)` inside the function gives the size of a pointer, not the array. This is typically 4 or 8 bytes.',
+  },
+  {
+    id: 'op177',
+    title: 'JS `function` declaration hoisting',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `hoisted();
+function hoisted() {
+  console.log("Hoisted");
+}`,
+    question: 'What is the output?',
+    options: ['Hoisted', 'undefined', 'ReferenceError', 'TypeError'],
+    correctAnswer: 'Hoisted',
+    explanation: 'Function declarations are fully hoisted, meaning both the name and the function body are moved to the top of their scope. This allows you to call them before they appear in the code.',
+  },
+  {
+    id: 'op178',
+    title: 'Python `continue` in a loop',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `for i in range(3):
+    if i == 1:
+        continue
+    print(i)`,
+    question: 'What is the output?',
+    options: ['0, 2', '0, 1, 2', '0', 'Error'],
+    correctAnswer: '0, 2',
+    explanation: 'The `continue` statement skips the rest of the code inside the loop for the current iteration and proceeds to the next iteration. When `i` is 1, `print(i)` is skipped.',
+  },
+  {
+    id: 'op179',
+    title: 'Java `private` constructor',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `public class Singleton {
+    private static Singleton instance = new Singleton();
+    private Singleton() {}
+    public static Singleton getInstance() {
+        return instance;
+    }
+}`,
+    question: 'How can you create an instance of this `Singleton` class?',
+    options: ['new Singleton()', 'Singleton.getInstance()', 'It cannot be instantiated', 'Singleton.instance'],
+    correctAnswer: 'Singleton.getInstance()',
+    explanation: 'This is the Singleton design pattern. The private constructor prevents direct instantiation, forcing you to use the public static `getInstance()` method.',
+  },
+  {
+    id: 'op180',
+    title: 'C++ `std::string` vs `char*`',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `#include <iostream>
+#include <string>
+int main() {
+    const char* c_str = "A";
+    std::string cpp_str = "A";
+    std::cout << (c_str == "A") << " " << (cpp_str == "A");
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['1 1', '0 1', '1 0', 'Depends on compiler'],
+    correctAnswer: 'Depends on compiler',
+    explanation: '`c_str == "A"` compares pointer addresses, which is not guaranteed to be true. The compiler might merge identical string literals, but it is not required. `cpp_str == "A"` correctly compares the string contents, which is always true.',
+  },
+  {
+    id: 'op181',
+    title: 'JavaScript `+` unary operator',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `console.log(+"5");`,
+    question: 'What is the output?',
+    options: ['5', '"5"', 'NaN', 'Error'],
+    correctAnswer: '5',
+    explanation: 'The unary plus operator `+` attempts to convert its operand to a number.',
+  },
+  {
+    id: 'op182',
+    title: 'Python `dict.fromkeys`',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `keys = ['a', 'b']
+value = []
+d = dict.fromkeys(keys, value)
+d['a'].append(1)
+print(d)`,
+    question: 'What is the output?',
+    options: ["{'a': [1], 'b': []}", "{'a': [1], 'b': [1]}", 'Error', "{'a': 1, 'b': []}"],
+    correctAnswer: "{'a': [1], 'b': [1]}",
+    explanation: '`dict.fromkeys` uses the same `value` object for all keys. Since the value is a mutable list, appending to it through one key affects the value for all other keys.',
+  },
+  {
+    id: 'op183',
+    title: 'Java `boolean` default value',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `public class Main {
+    static boolean b;
+    public static void main(String[] args) {
+        System.out.println(b);
+    }
+}`,
+    question: 'What is the output?',
+    options: ['true', 'false', 'null', 'Compilation Error'],
+    correctAnswer: 'false',
+    explanation: 'The default value for a `boolean` field in Java is `false`.',
+  },
+  {
+    id: 'op184',
+    title: 'C++ `std::vector` `size` vs `capacity`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `#include <iostream>
+#include <vector>
+int main() {
+    std::vector<int> v(5);
+    std::cout << v.size() << v.capacity();
+    return 0;
+}`,
+    question: 'What is a possible output?',
+    options: ['55', '05', '00', '50'],
+    correctAnswer: '55',
+    explanation: '`std::vector<int> v(5)` creates a vector with 5 elements (all default-initialized to 0). Both its size and capacity will be at least 5. Typically, they will both be 5.',
+  },
+  {
+    id: 'op185',
+    title: 'JS `function` vs `arrow` `arguments`',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `const arrowFunc = () => {
+  console.log(typeof arguments);
+};
+arrowFunc();`,
+    question: 'What is the output?',
+    options: ['"object"', '"array"', '"undefined"', 'ReferenceError'],
+    correctAnswer: 'ReferenceError',
+    explanation: 'Arrow functions do not have their own `arguments` object. Trying to access it will result in a `ReferenceError` in strict mode or find an `arguments` object from an enclosing scope.',
+  },
+  {
+    id: 'op186',
+    title: 'Python `is` vs `==` for strings',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `a = 'a' * 1000
+b = 'a' * 1000
+print(a is b)`,
+    question: 'What is the likely output?',
+    options: ['True', 'False', 'Error', 'Sometimes True'],
+    correctAnswer: 'False',
+    explanation: 'Python may intern short strings, but it is not guaranteed for longer or more complex strings created at runtime. `a` and `b` are likely to be two different string objects, so `is` returns False.',
+  },
+  {
+    id: 'op187',
+    title: 'Java `try-catch-finally` return',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `public static int getValue() {
+    try {
+        throw new RuntimeException();
+    } catch (Exception e) {
+        return 1;
+    } finally {
+        return 2;
+    }
+}`,
+    question: 'What does this function return?',
+    options: ['1', '2', 'It throws an exception', 'Compilation Error'],
+    correctAnswer: '2',
+    explanation: 'The `finally` block is always executed. A `return` statement in a `finally` block will override any value returned or exception thrown from the `try` or `catch` blocks.',
+  },
+  {
+    id: 'op188',
+    title: 'C++ `char` signedness',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `#include <iostream>
+int main() {
+    char c = 255;
+    int i = c;
+    std::cout << i;
+    return 0;
+}`,
+    question: 'What is a possible output?',
+    options: ['255', '-1', '127', 'Implementation-defined'],
+    correctAnswer: 'Implementation-defined',
+    explanation: 'Whether `char` is signed or unsigned is implementation-defined. If `char` is signed and 8 bits, 255 will overflow and likely become -1. If it is unsigned, it will be 255.',
+  },
+  {
+    id: 'op189',
+    title: 'JS `Array.from` with map function',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `const arr = Array.from({ length: 3 }, (v, i) => i * 2);
+console.log(arr);`,
+    question: 'What is the output?',
+    options: ['[0, 2, 4]', '[1, 2, 3]', '[undefined, undefined, undefined]', 'Error'],
+    correctAnswer: '[0, 2, 4]',
+    explanation: '`Array.from` can take a map function as a second argument, which is called for each element (or in this case, for each index of the array-like object).',
+  },
+  {
+    id: 'op190',
+    title: 'Python `*` with strings',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `print("a-" * 3)`,
+    question: 'What is the output?',
+    options: ['"a-a-a-"', '"aaa---"', '"a-3"', 'Error'],
+    correctAnswer: '"a-a-a-"',
+    explanation: 'The `*` operator performs string repetition.',
+  },
+  {
+    id: 'op191',
+    title: 'JS `[] + {}`',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `console.log([] + {});`,
+    question: 'What is the output?',
+    options: ['""', '0', '"[object Object]"', 'NaN'],
+    correctAnswer: '"[object Object]"',
+    explanation: 'Both operands are converted to strings. `[].toString()` is `""`. `{}.toString()` is `"[object Object]"`. The result is the concatenation: `"" + "[object Object]"`.',
+  },
+  {
+    id: 'op192',
+    title: 'Python `eval` function',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `x = 1
+result = eval('x + 1')
+print(result)`,
+    question: 'What is the output?',
+    options: ['2', "'x + 1'", 'Error', 'None'],
+    correctAnswer: '2',
+    explanation: 'The `eval()` function evaluates the given string as a Python expression.',
+  },
+  {
+    id: 'op193',
+    title: 'Java `System.exit()` in `finally`',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `public static int test() {
+    try {
+        return 1;
+    } finally {
+        System.exit(0);
+    }
+}`,
+    question: 'What does this function do?',
+    options: ['Returns 1', 'Returns 0', 'Terminates the JVM', 'Throws an exception'],
+    correctAnswer: 'Terminates the JVM',
+    explanation: '`System.exit()` immediately terminates the Java Virtual Machine. The `finally` block runs, but the `return 1` from the `try` block is never completed.',
+  },
+  {
+    id: 'op194',
+    title: 'C++ `const_cast`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 65,
+    codeSnippet: `#include <iostream>
+int main() {
+    const int x = 10;
+    int* p = const_cast<int*>(&x);
+    *p = 20; // What happens here?
+    std::cout << x;
+    return 0;
+}`,
+    question: 'What is the result of this code?',
+    options: ['10', '20', 'Compilation Error', 'Undefined Behavior'],
+    correctAnswer: 'Undefined Behavior',
+    explanation: 'Modifying an object that was originally declared as `const` through a pointer obtained via `const_cast` results in undefined behavior.',
+  },
+  {
+    id: 'op195',
+    title: 'JS `this` with `call`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `function greet() {
+  console.log(this.name);
+}
+const person = { name: "Alice" };
+greet.call(person);`,
+    question: 'What is the output?',
+    options: ['Alice', 'undefined', 'null', 'Error'],
+    correctAnswer: 'Alice',
+    explanation: 'The `.call()` method calls a function with a given `this` value and arguments provided individually.',
+  },
+  {
+    id: 'op196',
+    title: 'Python `__eq__` method',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `class Person:
+    def __init__(self, name):
+        self.name = name
+
+p1 = Person("A")
+p2 = Person("A")
+print(p1 == p2)`,
+    question: 'What is the output?',
+    options: ['True', 'False', 'Error', 'None'],
+    correctAnswer: 'False',
+    explanation: 'By default, `==` on custom objects compares object identity (like `is`). To compare based on content, you must implement the `__eq__` method.',
+  },
+  {
+    id: 'op197',
+    title: 'Java `synchronized` block',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `public void myMethod() {
+    synchronized(this) {
+        // critical section
+    }
+}`,
+    question: 'What does this synchronized block lock on?',
+    options: ['The class object', 'The current instance (`this`)', 'A static lock', 'Nothing'],
+    correctAnswer: 'The current instance (`this`)',
+    explanation: 'A `synchronized(this)` block acquires the intrinsic lock for the current object instance, preventing other threads from entering a synchronized block on the same object.',
+  },
+  {
+    id: 'op198',
+    title: 'C++ `std::string` concatenation',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `#include <iostream>
+#include <string>
+int main() {
+    std::string s1 = "a";
+    std::cout << s1 + 'b';
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['ab', 'a', 'Error', 'Undefined Behavior'],
+    correctAnswer: 'ab',
+    explanation: 'The `+` operator is overloaded for `std::string` to allow concatenation with characters and other strings.',
+  },
+  {
+    id: 'op199',
+    title: 'JS `{} + []`',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `console.log({} + []);`,
+    question: 'What is the output?',
+    options: ['"[object Object]"', '0', 'NaN', 'Error'],
+    correctAnswer: '0',
+    explanation: 'This is a tricky one. `{}` is interpreted as an empty code block, not an object literal. The expression becomes `+ []`, and the unary `+` coerces the empty array to a number, which is `0`.',
+  },
+  {
+    id: 'op200',
+    title: 'Python `for` loop variable scope',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `for i in range(3):
+    pass
+print(i)`,
+    question: 'What is the output?',
+    options: ['0', '1', '2', 'NameError'],
+    correctAnswer: '2',
+    explanation: 'In Python, the loop variable `i` "leaks" out of the loop and retains its last value after the loop finishes.',
+  },
+  {
+    id: 'op201',
+    title: 'JS Object Property Shorthand',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `const a = 1, b = 2;
+const obj = { a, b };
+console.log(obj.a);`,
+    question: 'What is the output?',
+    options: ['1', 'a', 'undefined', 'Error'],
+    correctAnswer: '1',
+    explanation: 'ES6 object property shorthand allows you to create a property in an object literal when the variable name and property name are the same.',
+  },
+  {
+    id: 'op202',
+    title: 'Python `datetime` formatting',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `from datetime import datetime
+now = datetime(2023, 1, 5)
+print(now.strftime("%Y-%m-%d"))`,
+    question: 'What is the output?',
+    options: ['2023-01-05', '2023-1-5', '23-1-5', 'Error'],
+    correctAnswer: '2023-01-05',
+    explanation: 'The `strftime` method formats a datetime object into a string according to the provided format codes. `%Y` is 4-digit year, `%m` is zero-padded month.',
+  },
+  {
+    id: 'op203',
+    title: 'Java `if-else`',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `int x = 10;
+if (x > 10) {
+    System.out.println("A");
+} else if (x == 10) {
+    System.out.println("B");
+} else {
+    System.out.println("C");
+}`,
+    question: 'What is the output?',
+    options: ['A', 'B', 'C', 'No output'],
+    correctAnswer: 'B',
+    explanation: 'The code follows the `if-else if-else` chain. Since `x == 10` is true, "B" is printed and the chain terminates.',
+  },
+  {
+    id: 'op204',
+    title: 'C++ `std::vector` `pop_back`',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `#include <iostream>
+#include <vector>
+int main() {
+    std::vector<int> v = {1, 2, 3};
+    v.pop_back();
+    std::cout << v.size();
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['1', '2', '3', 'Error'],
+    correctAnswer: '2',
+    explanation: '`pop_back()` removes the last element of the vector, reducing its size by one.',
+  },
+  {
+    id: 'op205',
+    title: 'JS `String.prototype.trim()`',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `const greeting = "   Hello world!   ";
+console.log(greeting.trim());`,
+    question: 'What is the output?',
+    options: ['"Hello world!"', '"   Hello world!   "', '"Helloworld!"', '""'],
+    correctAnswer: '"Hello world!"',
+    explanation: 'The `trim()` method removes whitespace from both ends of a string.',
+  },
+  {
+    id: 'op206',
+    title: 'Python `is` operator with small integers',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `a = 100
+b = 100
+print(a is b)`,
+    question: 'What is the output in CPython?',
+    options: ['True', 'False', 'Error', 'Depends on system'],
+    correctAnswer: 'True',
+    explanation: 'CPython pre-allocates and caches small integers (usually from -5 to 256). Since `100` is in this range, `a` and `b` point to the exact same object in memory.',
+  },
+  {
+    id: 'op207',
+    title: 'Java `try-with-resources`',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `import java.io.*;
+public class Main {
+    public static void main(String[] args) {
+        // What does try-with-resources ensure?
+        try (StringReader r = new StringReader("")) {
+            // use resource
+        }
+    }
+}`,
+    question: 'What is the primary benefit of `try-with-resources`?',
+    options: ['Catches all exceptions', 'Better performance', 'Automatic resource closing', 'Allows multiple resources'],
+    correctAnswer: 'Automatic resource closing',
+    explanation: 'The `try-with-resources` statement ensures that each resource is closed at the end of the statement, which helps prevent resource leaks.',
+  },
+  {
+    id: 'op208',
+    title: 'C++ `new[]` and `delete[]`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `int main() {
+    int* arr = new int[5];
+    // How should this memory be deallocated?
+    return 0;
+}`,
+    question: 'How should `arr` be deallocated?',
+    options: ['delete arr;', 'delete[] arr;', 'free(arr);', 'It is deallocated automatically'],
+    correctAnswer: 'delete[] arr;',
+    explanation: 'Memory allocated with `new[]` must be deallocated with `delete[]` to ensure the destructors for all elements in the array are called correctly.',
+  },
+  {
+    id: 'op209',
+    title: 'JS `Function.prototype.bind`',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `function log() { console.log(this.id); }
+const obj1 = { id: 1 };
+const obj2 = { id: 2 };
+const boundLog = log.bind(obj1);
+boundLog.call(obj2);`,
+    question: 'What is the output?',
+    options: ['1', '2', 'undefined', 'Error'],
+    correctAnswer: '1',
+    explanation: '`bind` creates a new function with a permanently bound `this` context. Subsequent calls using `call` or `apply` with a different context cannot override the original binding.',
+  },
+  {
+    id: 'op210',
+    title: 'Python `set` intersection',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `s1 = {1, 2, 3}
+s2 = {2, 3, 4}
+print(s1 & s2)`,
+    question: 'What is the output?',
+    options: ['{1, 2, 3, 4}', '{2, 3}', '{1, 4}', '{}'],
+    correctAnswer: '{2, 3}',
+    explanation: 'The `&` operator on sets computes their intersection, returning a new set with elements that are common to both.',
+  },
+  {
+    id: 'op211',
+    title: 'JS `let` Scoping',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `let x = 1;
+if (true) {
+  let x = 2;
+  console.log(x);
+}
+console.log(x);`,
+    question: 'What is the output?',
+    options: ['2, 2', '1, 1', '2, 1', '1, 2'],
+    correctAnswer: '2, 1',
+    explanation: '`let` is block-scoped. The `x` inside the `if` block is a completely separate variable from the `x` in the outer scope.',
+  },
+  {
+    id: 'op212',
+    title: 'Python `str.strip()`',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `s = "  hello  "
+print(len(s.strip()))`,
+    question: 'What is the output?',
+    options: ['5', '7', '9', 'Error'],
+    correctAnswer: '5',
+    explanation: 'The `strip()` method removes leading and trailing whitespace from a string.',
+  },
+  {
+    id: 'op213',
+    title: 'Java `static` vs `instance` method',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `public class MyClass {
+    int x = 5;
+    static int y = 10;
+    public void instanceMethod() {
+        System.out.println(x + y);
+    }
+    public static void staticMethod() {
+        // System.out.println(x + y); // Is this valid?
+    }
+}`,
+    question: 'Is the line in `staticMethod` valid?',
+    options: ['Yes', 'No, cannot access x', 'No, cannot access y', 'No, cannot access either'],
+    correctAnswer: 'No, cannot access x',
+    explanation: 'A `static` method belongs to the class, not an instance. It can access other static members (`y`), but it cannot access instance members (`x`) because there is no `this` instance.',
+  },
+  {
+    id: 'op214',
+    title: 'C++ `nullptr_t`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `#include <iostream>
+#include <cstddef>
+void func(int) { std::cout << "int"; }
+void func(int*) { std::cout << "int*"; }
+int main() {
+    func(nullptr);
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['int', 'int*', 'Compilation Error', '0'],
+    correctAnswer: 'int*',
+    explanation: '`nullptr` is of type `std::nullptr_t`, which is implicitly convertible to any pointer type. The overload resolution prefers the pointer version over converting to `int`.',
+  },
+  {
+    id: 'op215',
+    title: 'JS `function` declaration in `if`',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `if (true) {
+  function foo() { console.log("A"); }
+} else {
+  function foo() { console.log("B"); }
+}
+foo();`,
+    question: 'What is the output in a non-strict mode browser environment?',
+    options: ['A', 'B', 'Error', 'No output'],
+    correctAnswer: 'B',
+    explanation: 'This is a quirk. In non-strict mode, function declarations inside blocks are hoisted to the enclosing scope, but the one that "wins" is the last one encountered, which is the one in the `else` block.',
+  },
+  {
+    id: 'op216',
+    title: 'Python `dict` key overwriting',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `my_dict = {
+    'name': 'Alice',
+    'name': 'Bob'
+}
+print(my_dict['name'])`,
+    question: 'What is the output?',
+    options: ['Alice', 'Bob', 'Error', 'None'],
+    correctAnswer: 'Bob',
+    explanation: 'Dictionary keys must be unique. When a key is repeated in a literal, the last value provided for that key is used.',
+  },
+  {
+    id: 'op217',
+    title: 'Java `char` array `toString()`',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `char[] arr = {'a', 'b'};
+System.out.println(arr.toString());`,
+    question: 'What is the output?',
+    options: ['"ab"', '"[a, b]"', 'An object representation like "[C@..."', 'Error'],
+    correctAnswer: 'An object representation like "[C@..."',
+    explanation: 'Calling `toString()` on an array in Java does not print its contents. It prints the type (`[C` for char array) and its hash code.',
+  },
+  {
+    id: 'op218',
+    title: 'C++ `char` array initialization',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `#include <iostream>
+int main() {
+    char name[] = "C++";
+    std::cout << sizeof(name);
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['3', '4', '5', '8'],
+    correctAnswer: '4',
+    explanation: 'The char array is initialized from a string literal, which includes a hidden null terminator `\\0`. So the size of the array is 4 bytes.',
+  },
+  {
+    id: 'op219',
+    title: 'JS `Symbol` as object key',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `const id = Symbol('id');
+const obj = { [id]: 123 };
+console.log(Object.keys(obj).length);`,
+    question: 'What is the output?',
+    options: ['0', '1', 'undefined', 'Error'],
+    correctAnswer: '0',
+    explanation: 'Symbol-keyed properties are not enumerable and are ignored by methods like `Object.keys()` and `for...in` loops. You must use `Object.getOwnPropertySymbols()` to access them.',
+  },
+  {
+    id: 'op220',
+    title: 'Python list multiplication gotcha',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `matrix = [[]] * 3
+matrix[0].append(1)
+print(matrix)`,
+    question: 'What is the output?',
+    options: ['[[1], [], []]', '[[1], [1], [1]]', '[[], [], []]', 'Error'],
+    correctAnswer: '[[1], [1], [1]]',
+    explanation: '`[[]] * 3` creates a list containing three references to the *same* inner list. Modifying one of them modifies all of them.',
+  },
+  {
+    id: 'op221',
+    title: 'JS `Boolean` function',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `console.log(Boolean("false"));`,
+    question: 'What is the output?',
+    options: ['true', 'false', 'undefined', 'Error'],
+    correctAnswer: 'true',
+    explanation: 'The `Boolean()` function converts a value to its boolean equivalent. Any non-empty string, including the string `"false"`, is considered truthy.',
+  },
+  {
+    id: 'op222',
+    title: 'Python `round` function behavior',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `print(round(2.5), round(3.5))`,
+    question: 'What is the output in Python 3?',
+    options: ['3 4', '2 3', '2 4', '3 3'],
+    correctAnswer: '2 4',
+    explanation: 'Python 3 uses "round half to even" as its rounding strategy. 2.5 is rounded to 2, and 3.5 is rounded to 4.',
+  },
+  {
+    id: 'op223',
+    title: 'Java `==` with wrappers',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `Integer a = 1000, b = 1000;
+System.out.println(a == b);`,
+    question: 'What is the output?',
+    options: ['true', 'false', 'Compilation Error', 'Runtime Error'],
+    correctAnswer: 'false',
+    explanation: 'Java caches `Integer` objects for values from -128 to 127. Since 1000 is outside this range, `a` and `b` are two distinct objects, so `==` (reference comparison) returns false.',
+  },
+  {
+    id: 'op224',
+    title: 'C++ `&` on rvalue',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `int main() {
+    // int& ref = 5; // Is this line valid?
+    return 0;
+}`,
+    question: 'Is `int& ref = 5;` valid?',
+    options: ['Yes', 'No', 'Yes, if it\'s a const reference', 'Depends on compiler'],
+    correctAnswer: 'No',
+    explanation: 'You cannot bind a non-const lvalue reference (`int&`) to an rvalue (the literal `5`). You can, however, bind a const lvalue reference: `const int& ref = 5;`.',
+  },
+  {
+    id: 'op225',
+    title: 'JS `new Set` from string',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `const set = new Set("hello");
+console.log(set.size);`,
+    question: 'What is the output?',
+    options: ['1', '4', '5', 'Error'],
+    correctAnswer: '4',
+    explanation: 'When a string is passed to the `Set` constructor, it is treated as an iterable of characters. The unique characters are "h", "e", "l", and "o".',
+  },
+  {
+    id: 'op226',
+    title: 'Python `str` vs `repr`',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `import datetime
+today = datetime.datetime.now()
+print(str(today) == repr(today))`,
+    question: 'What is the output?',
+    options: ['True', 'False', 'Error', 'Sometimes True'],
+    correctAnswer: 'False',
+    explanation: '`str()` is meant to be readable, while `repr()` is meant to be unambiguous and ideally allow recreating the object. For datetime objects, they produce different string representations.',
+  },
+  {
+    id: 'op227',
+    title: 'Java Anonymous Class `this`',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `public class Main {
+    String name = "Outer";
+    void run() {
+        Runnable r = new Runnable() {
+            String name = "Inner";
+            public void run() {
+                System.out.println(this.name);
+            }
+        };
+        r.run();
+    }
+    public static void main(String[] args) { new Main().run(); }
+}`,
+    question: 'What is the output?',
+    options: ['Outer', 'Inner', 'Error', 'null'],
+    correctAnswer: 'Inner',
+    explanation: 'Inside the anonymous `Runnable` class, `this` refers to the instance of the anonymous class itself, not the outer `Main` class instance. So, `this.name` accesses the "Inner" field.',
+  },
+  {
+    id: 'op228',
+    title: 'C++ `friend` class',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `#include <iostream>
+class A {
+private:
+    int x = 5;
+    friend class B;
+};
+class B {
+public:
+    void show(A& a) { std::cout << a.x; }
+};
+int main() {
+    A a; B b; b.show(a);
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['5', '0', 'Compilation Error', 'Undefined Behavior'],
+    correctAnswer: '5',
+    explanation: 'Class `B` is declared as a `friend` of class `A`, which gives it access to `A`\'s private members.',
+  },
+  {
+    id: 'op229',
+    title: 'JS `Math.max()` vs `Math.min()`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `console.log(Math.max() > Math.min());`,
+    question: 'What is the output?',
+    options: ['true', 'false', 'NaN', 'Error'],
+    correctAnswer: 'false',
+    explanation: '`Math.max()` with no arguments returns `-Infinity`. `Math.min()` with no arguments returns `+Infinity`. `-Infinity` is not greater than `+Infinity`.',
+  },
+  {
+    id: 'op230',
+    title: 'Python `nonlocal` keyword',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `def outer():
+    x = "outer"
+    def inner():
+        nonlocal x
+        x = "inner"
+    inner()
+    print(x)
+outer()`,
+    question: 'What is the output?',
+    options: ['outer', 'inner', 'NameError', 'UnboundLocalError'],
+    correctAnswer: 'inner',
+    explanation: 'The `nonlocal` keyword allows the `inner` function to modify the variable `x` from the nearest enclosing scope (the `outer` function).',
+  },
+  {
+    id: 'op231',
+    title: 'Java `final` on reference',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `import java.util.ArrayList;
+import java.util.List;
+public class Main {
+    public static void main(String[] args) {
+        final List<String> list = new ArrayList<>();
+        list.add("Hello");
+        // list = new ArrayList<>(); // Is this line valid?
+        System.out.println(list.get(0));
+    }
+}`,
+    question: 'Is the commented line `list = new ArrayList<>();` valid?',
+    options: ['Yes', 'No', 'Yes, but it gives a warning', 'Only if the list is empty'],
+    correctAnswer: 'No',
+    explanation: 'A `final` reference variable cannot be reassigned to point to a different object after it has been initialized.',
+  },
+  {
+    id: 'op232',
+    title: 'C++ `explicit` constructor',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `class MyString {
+public:
+    explicit MyString(int n) {}
+};
+void printString(MyString s) {}
+int main() {
+    // printString(10); // Is this valid?
+    return 0;
+}`,
+    question: 'Is the call `printString(10)` valid?',
+    options: ['Yes', 'No', 'Only if the constructor is public', 'Depends on compiler'],
+    correctAnswer: 'No',
+    explanation: 'The `explicit` keyword prevents the constructor from being used for implicit conversions. You cannot implicitly convert the integer `10` to a `MyString` object.',
+  },
+  {
+    id: 'op233',
+    title: 'JS `typeof` function',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `function foo() {}
+console.log(typeof foo);`,
+    question: 'What is the output?',
+    options: ['"object"', '"function"', '"undefined"', '"string"'],
+    correctAnswer: '"function"',
+    explanation: 'Functions are a special type of object in JavaScript, and `typeof` has a special return value for them.',
+  },
+  {
+    id: 'op234',
+    title: 'Python `//` operator',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `print(7 // 2)`,
+    question: 'What is the output?',
+    options: ['3.5', '3', '4', 'Error'],
+    correctAnswer: '3',
+    explanation: 'The `//` operator performs floor division, which divides and rounds down to the nearest integer.',
+  },
+  {
+    id: 'op235',
+    title: 'Java `String` pool literal vs new',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `String s1 = "Hi";
+String s2 = "Hi";
+String s3 = new String("Hi");
+System.out.println(s1 == s2);
+System.out.println(s1 == s3);`,
+    question: 'What is the output?',
+    options: ['true, true', 'true, false', 'false, true', 'false, false'],
+    correctAnswer: 'true, false',
+    explanation: 'String literals are interned in the string pool, so `s1` and `s2` refer to the same object. `new String()` creates a new object on the heap, so `s3` is a different object.',
+  },
+  {
+    id: 'op236',
+    title: 'C++ `char` array vs `char*`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `#include <iostream>
+int main() {
+    char arr[] = "abc";
+    char* ptr = "abc";
+    std::cout << (sizeof(arr) == sizeof(ptr));
+    return 0;
+}`,
+    question: 'What is the likely output on a 64-bit system?',
+    options: ['1 (true)', '0 (false)', 'Compilation Error', 'Undefined Behavior'],
+    correctAnswer: '0 (false)',
+    explanation: '`sizeof(arr)` gives the size of the array (4 bytes: a, b, c, \\0). `sizeof(ptr)` gives the size of a pointer, which is 8 bytes on a 64-bit system.',
+  },
+  {
+    id: 'op237',
+    title: 'JS `null` vs `0`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `console.log(null > 0);
+console.log(null == 0);
+console.log(null >= 0);`,
+    question: 'What is the output?',
+    options: ['false, false, true', 'false, true, true', 'false, false, false', 'true, true, true'],
+    correctAnswer: 'false, false, true',
+    explanation: 'For relational comparisons (`>`, `>=`), `null` is converted to `0`. So `null > 0` is false, and `null >= 0` is true. For equality `==`, `null` is only equal to `null` or `undefined`, so `null == 0` is false.',
+  },
+  {
+    id: 'op238',
+    title: 'Python `zip_longest`',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `from itertools import zip_longest
+l1 = [1, 2]
+l2 = [3, 4, 5]
+result = list(zip_longest(l1, l2, fillvalue=0))
+print(result)`,
+    question: 'What is the output?',
+    options: ['[(1, 3), (2, 4)]', '[(1, 3), (2, 4), (0, 5)]', '[(1, 3), (2, 4), (None, 5)]', 'Error'],
+    correctAnswer: '[(1, 3), (2, 4), (0, 5)]',
+    explanation: '`zip_longest` continues until the longest iterable is exhausted, filling in missing values with the `fillvalue`.',
+  },
+  {
+    id: 'op239',
+    title: 'Java `static` variable initialization',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `public class Test {
+    static int i = getVal();
+    static int getVal() { return 10; }
+    public static void main(String[] args) {
+        System.out.println(i);
+    }
+}`,
+    question: 'What is the output?',
+    options: ['0', '10', 'Compilation Error', 'NullPointerException'],
+    correctAnswer: '10',
+    explanation: 'Static variables are initialized when the class is loaded. It is valid to call a static method to initialize a static variable, as long as it appears later in the code or is defined before use.',
+  },
+  {
+    id: 'op240',
+    title: 'C++ `mutable` keyword',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `#include <iostream>
+class MyClass {
+public:
+    mutable int counter = 0;
+    void func() const {
+        counter++;
+    }
+};
+int main() {
+    const MyClass obj;
+    obj.func();
+    std::cout << obj.counter;
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['0', '1', 'Compilation Error', 'Undefined Behavior'],
+    correctAnswer: '1',
+    explanation: 'The `mutable` keyword allows a member variable to be modified even within a `const` member function or on a `const` object.',
+  },
+  {
+    id: 'op241',
+    title: 'JS `new` keyword',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `function Car() {
+  this.make = "Ford";
+  return { make: "Toyota" };
+}
+const myCar = new Car();
+console.log(myCar.make);`,
+    question: 'What is the output?',
+    options: ['Ford', 'Toyota', 'undefined', 'Error'],
+    correctAnswer: 'Toyota',
+    explanation: 'If a constructor function returns an object, that object is the result of the `new` expression. If it returns a non-object, the newly created `this` object is returned instead.',
+  },
+  {
+    id: 'op242',
+    title: 'Python `__dict__`',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `class A:
+    x = 1
+obj = A()
+obj.y = 2
+print('x' in obj.__dict__)`,
+    question: 'What is the output?',
+    options: ['True', 'False', 'Error', 'None'],
+    correctAnswer: 'False',
+    explanation: '`obj.__dict__` contains attributes specific to the instance. `x` is a class attribute, not an instance attribute, so it is not in the instance\'s `__dict__`.',
+  },
+  {
+    id: 'op243',
+    title: 'Java `Double.NaN` comparison',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `double nan = Double.NaN;
+System.out.println(nan == nan);`,
+    question: 'What is the output?',
+    options: ['true', 'false', 'Compilation Error', 'Runtime Error'],
+    correctAnswer: 'false',
+    explanation: '`NaN` is the only value in Java that is not equal to itself. You must use `Double.isNaN()` to check for it.',
+  },
+  {
+    id: 'op244',
+    title: 'C++ `override` keyword',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `class Base { public: virtual void f(int); };
+class Derived : public Base { public: void f(float) override; };`,
+    question: 'What is the result of this code?',
+    options: ['No error', 'Warning', 'Compilation Error', 'Runtime Error'],
+    correctAnswer: 'Compilation Error',
+    explanation: 'The `override` keyword ensures that you are actually overriding a base class virtual function. Since the function signature `f(float)` does not match `f(int)`, the compiler will issue an error.',
+  },
+  {
+    id: 'op245',
+    title: 'JS `Array.prototype.flat`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `const arr = [1, [2, [3]]];
+console.log(arr.flat());`,
+    question: 'What is the output?',
+    options: ['[1, 2, [3]]', '[1, 2, 3]', '[1, [2, 3]]', 'Error'],
+    correctAnswer: '[1, 2, [3]]',
+    explanation: 'By default, `flat()` only flattens one level deep. To flatten all levels, you would use `arr.flat(Infinity)`.',
+  },
+  {
+    id: 'op246',
+    title: 'Python `is` vs `==` on lists',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `a = []
+b = []
+print(a == b)`,
+    question: 'What is the output?',
+    options: ['True', 'False', 'Error', 'None'],
+    correctAnswer: 'True',
+    explanation: 'The `==` operator compares the values of the two lists. Since both are empty, their contents are equal.',
+  },
+  {
+    id: 'op247',
+    title: 'Java `char` to `String`',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `char c = 'a';
+String s = c + "";
+System.out.println(s.equals("a"));`,
+    question: 'What is the output?',
+    options: ['true', 'false', 'Compilation Error', 'Runtime Error'],
+    correctAnswer: 'true',
+    explanation: 'Concatenating a `char` with an empty string is a common way to convert it to a `String`.',
+  },
+  {
+    id: 'op248',
+    title: 'C++ `std::string::size()` vs `length()`',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `#include <iostream>
+#include <string>
+int main() {
+    std::string s = "abc";
+    std::cout << (s.size() == s.length());
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['1 (true)', '0 (false)', 'Compilation Error', 'Undefined Behavior'],
+    correctAnswer: '1 (true)',
+    explanation: 'For `std::string`, the `size()` and `length()` member functions are synonymous and return the same value.',
+  },
+  {
+    id: 'op249',
+    title: 'JS `setTimeout` and `this`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `const obj = {
+  name: "MyObj",
+  logName: function() {
+    setTimeout(function() {
+      console.log(this.name);
+    }, 10);
+  }
+};
+obj.logName();`,
+    question: 'What is the output in a browser?',
+    options: ['MyObj', 'undefined', 'The window object name', 'Error'],
+    correctAnswer: 'The window object name',
+    explanation: 'A regular `function` callback passed to `setTimeout` has its `this` context set to the global object (`window` in browsers) by default, not the `obj` instance.',
+  },
+  {
+    id: 'op250',
+    title: 'Python `set` union',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `s1 = {1, 2}
+s2 = {2, 3}
+print(s1 | s2)`,
+    question: 'What is the output?',
+    options: ['{1, 2, 2, 3}', '{1, 2, 3}', '{2}', '{}'],
+    correctAnswer: '{1, 2, 3}',
+    explanation: 'The `|` operator computes the union of two sets, returning a new set with all unique elements from both.',
+  },
+  {
+    id: 'op251',
+    title: 'JS `function` expression vs declaration',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `console.log(typeof declaredFunc);
+// console.log(typeof expressionFunc); // This would cause an error
+function declaredFunc() {}
+var expressionFunc = function() {};`,
+    question: 'What is the output for `typeof declaredFunc`?',
+    options: ['"function"', '"undefined"', '"object"', 'ReferenceError'],
+    correctAnswer: '"function"',
+    explanation: 'Function declarations are hoisted completely (name and body). `var` declarations are hoisted, but their assignment is not, so `expressionFunc` would be `undefined` at that point.',
+  },
+  {
+    id: 'op252',
+    title: 'Python dictionary from `zip`',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `keys = ['a', 'b']
+values = [1]
+d = dict(zip(keys, values))
+print(d)`,
+    question: 'What is the output?',
+    options: ["{'a': 1}", "{'a': 1, 'b': None}", 'Error', "{'a': 1, 'b': ''}"],
+    correctAnswer: "{'a': 1}",
+    explanation: '`zip` stops creating pairs as soon as the shortest iterable is exhausted. It creates one pair `(\'a\', 1)`.',
+  },
+  {
+    id: 'op253',
+    title: 'Java pass-by-value with objects',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `public class Main {
+    static class MyInt { int val = 10; }
+    static void modify(MyInt i) {
+        i.val = 20;
+        i = new MyInt(); // i.val is 10 here
+    }
+    public static void main(String[] args) {
+        MyInt my = new MyInt();
+        modify(my);
+        System.out.println(my.val);
+    }
+}`,
+    question: 'What is the output?',
+    options: ['10', '20', '0', 'Error'],
+    correctAnswer: '20',
+    explanation: 'Java is pass-by-value. The `modify` function receives a copy of the reference to `my`. The line `i.val = 20` modifies the original object. The line `i = new MyInt()` only reassigns the local reference `i`.',
+  },
+  {
+    id: 'op254',
+    title: 'C++ `std::string` capacity growth',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `#include <iostream>
+#include <string>
+int main() {
+    std::string s;
+    std::cout << s.capacity() << " ";
+    s.push_back('a');
+    std::cout << s.capacity();
+    return 0;
+}`,
+    question: 'What is a possible output?',
+    options: ['0 1', '0 15', '1 2', 'Implementation-defined'],
+    correctAnswer: 'Implementation-defined',
+    explanation: 'The initial capacity of an empty string and its growth strategy are not specified by the standard and vary between implementations (e.g., libstdc++, libc++). A common strategy is to start small and grow exponentially.',
+  },
+  {
+    id: 'op255',
+    title: 'JS `+` with arrays',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `console.log([1] + [2]);`,
+    question: 'What is the output?',
+    options: ['3', '12', '[1, 2]', 'NaN'],
+    correctAnswer: '12',
+    explanation: 'The `+` operator triggers string conversion for arrays. `[1].toString()` is `"1"`, and `[2].toString()` is `"2"`. The result is the string concatenation `"1" + "2"`, which is `"12"`.',
+  },
+  {
+    id: 'op256',
+    title: 'Python `or` short-circuiting',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `def t():
+    print("t")
+    return True
+def f():
+    print("f")
+    return False
+result = t() or f()`,
+    question: 'What is the output?',
+    options: ['t', 'f', 'tf', 'ft'],
+    correctAnswer: 't',
+    explanation: 'The `or` operator short-circuits. Since `t()` returns `True`, the second part of the expression, `f()`, is never evaluated.',
+  },
+  {
+    id: 'op257',
+    title: 'Java `if` without braces',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `if (true)
+    System.out.println("A");
+    System.out.println("B");`,
+    question: 'What is the output?',
+    options: ['A', 'B', 'AB', 'Compilation Error'],
+    correctAnswer: 'AB',
+    explanation: 'Without curly braces `{}`, an `if` statement only controls the single next statement. The first `println` is conditional, but the second one is unconditional and will always execute.',
+  },
+  {
+    id: 'op258',
+    title: 'C++ `char` array `cout`',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `#include <iostream>
+int main() {
+    char arr[] = {'a', 'b', 'c'};
+    std::cout << arr;
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['abc', 'The address of the array', 'a', 'Undefined Behavior'],
+    correctAnswer: 'Undefined Behavior',
+    explanation: 'The `<<` operator is overloaded for `char*` to print a C-style string. However, the array `arr` is not null-terminated. `cout` will print "abc" and then continue reading memory until it happens to find a null byte, leading to undefined behavior.',
+  },
+  {
+    id: 'op259',
+    title: 'JS `Array.of()`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `const arr = Array.of(3);
+console.log(arr);`,
+    question: 'What is the output?',
+    options: ['[ , ,  ]', '[3]', '[]', 'Error'],
+    correctAnswer: '[3]',
+    explanation: '`Array.of()` creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments. This is different from `new Array(3)`, which would create an array with 3 empty slots.',
+  },
+  {
+    id: 'op260',
+    title: 'Python `a, b = b, a`',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `a = 1
+b = 2
+a, b = b, a
+print(a, b)`,
+    question: 'What is the output?',
+    options: ['1 2', '2 1', '1 1', '2 2'],
+    correctAnswer: '2 1',
+    explanation: 'This is the idiomatic way to swap two variables in Python. The right-hand side `(b, a)` is evaluated first, creating a tuple `(2, 1)`, which is then unpacked into `a` and `b`.',
+  },
+  {
+    id: 'op261',
+    title: 'Java `final` on a Collection',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `import java.util.List;
+import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        final List<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        System.out.println(list.size());
+    }
+}`,
+    question: 'What is the result of this code?',
+    options: ['0', '2', 'Compilation Error', 'Runtime Error'],
+    correctAnswer: '2',
+    explanation: 'Marking a reference variable `final` means the variable cannot be reassigned to point to another object. However, the object itself (the `ArrayList`) is still mutable and can be modified.',
+  },
+  {
+    id: 'op262',
+    title: 'C++ `const` pointer vs pointer to `const`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `int x = 10;
+int y = 20;
+int* const p = &x;
+// p = &y;         // Line 1
+// *p = 30;        // Line 2`,
+    question: 'Which line, if uncommented, would cause a compilation error?',
+    options: ['Line 1', 'Line 2', 'Both', 'Neither'],
+    correctAnswer: 'Line 1',
+    explanation: '`int* const p` declares a `const` pointer to an `int`. This means the pointer `p` itself cannot be changed to point to something else, but the value it points to can be modified.',
+  },
+  {
+    id: 'op263',
+    title: 'JS `String.prototype.padStart`',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `const str = '5';
+console.log(str.padStart(3, '0'));`,
+    question: 'What is the output?',
+    options: ['"500"', '"005"', '"50"', '"05"'],
+    correctAnswer: '"005"',
+    explanation: '`padStart` pads the current string with another string from the start until the resulting string reaches the given length.',
+  },
+  {
+    id: 'op264',
+    title: 'Python `for` loop with tuple unpacking',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `pairs = [(1, 'a'), (2, 'b')]
+for num, char in pairs:
+    print(char)`,
+    question: 'What is the output?',
+    options: ['1, 2', 'a, b', 'Error', '(1, \'a\'), (2, \'b\')'],
+    correctAnswer: 'a, b',
+    explanation: 'You can unpack items from a sequence (like a list of tuples) directly in the `for` loop statement.',
+  },
+  {
+    id: 'op265',
+    title: 'Java autoboxing and `==`',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `Integer i1 = 127;
+Integer i2 = 127;
+Integer i3 = 128;
+Integer i4 = 128;
+System.out.println(i1 == i2);
+System.out.println(i3 == i4);`,
+    question: 'What is the output?',
+    options: ['true, true', 'false, false', 'true, false', 'false, true'],
+    correctAnswer: 'true, false',
+    explanation: 'The JVM caches `Integer` objects for values from -128 to 127. `i1` and `i2` point to the same cached object. `i3` and `i4` are outside this range, so they are new, distinct objects.',
+  },
+  {
+    id: 'op266',
+    title: 'C++ `std::map` `[]` vs `at`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `#include <map>
+#include <iostream>
+int main() {
+    std::map<int, int> m;
+    // std::cout << m.at(5); // Line 1
+    // std::cout << m[5];   // Line 2
+}`,
+    question: 'Which line would throw an exception if the key does not exist?',
+    options: ['Line 1', 'Line 2', 'Both', 'Neither'],
+    correctAnswer: 'Line 1',
+    explanation: '`at()` performs bounds checking and throws `std::out_of_range` if the key is not found. `operator[]` will default-construct and insert the element instead.',
+  },
+  {
+    id: 'op267',
+    title: 'JS `Math.round`',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `console.log(Math.round(2.5));`,
+    question: 'What is the output?',
+    options: ['2', '3', '2.5', 'Error'],
+    correctAnswer: '3',
+    explanation: '`Math.round()` rounds to the nearest integer. If the fractional part is .5, it rounds up.',
+  },
+  {
+    id: 'op268',
+    title: 'Python `defaultdict`',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `from collections import defaultdict
+d = defaultdict(int)
+print(d['missing'])`,
+    question: 'What is the output?',
+    options: ['0', 'None', 'KeyError', 'Error'],
+    correctAnswer: '0',
+    explanation: 'A `defaultdict` is initialized with a factory function (here, `int()`, which returns 0). When a missing key is accessed, the factory is called to provide a default value.',
+  },
+  {
+    id: 'op269',
+    title: 'Java `interface` static method',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `interface MyInterface {
+    static void helper() {
+        System.out.println("Helper");
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        MyInterface.helper();
+    }
+}`,
+    question: 'What is the result of this code?',
+    options: ['No output', 'Helper', 'Compilation Error', 'Runtime Error'],
+    correctAnswer: 'Helper',
+    explanation: 'Since Java 8, interfaces can have `static` methods. They are called on the interface name itself, not on an instance of a class that implements it.',
+  },
+  {
+    id: 'op270',
+    title: 'C++ `char` vs `const char*`',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `#include <iostream>
+int main() {
+    // What is the type of 'a' and "a"?
+}`,
+    question: 'What are the types of `\'a\'` and `"a"`?',
+    options: ['char, char', 'char, const char*', 'string, string', 'char*, char*'],
+    correctAnswer: 'char, const char*',
+    explanation: 'Single quotes `\'a\'` create a character literal of type `char`. Double quotes `"a"` create a string literal of type `const char[2]` which decays to `const char*`.',
+  },
+  {
+    id: 'op271',
+    title: 'JS `this` with `new`',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `function C() {
+  this.a = 1;
+}
+const o1 = new C();
+const o2 = C();
+console.log(typeof o1.a, typeof o2);`,
+    question: 'What is the output?',
+    options: ['"number", "object"', '"number", "undefined"', '"undefined", "undefined"', 'Error'],
+    correctAnswer: '"number", "undefined"',
+    explanation: 'When called with `new`, `this` inside `C` is a new object, and that object is returned. When `C()` is called without `new`, `this` points to the global object, and the function implicitly returns `undefined`.',
+  },
+  {
+    id: 'op272',
+    title: 'Python list addition',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `l1 = [1, 2]
+l2 = [3, 4]
+l3 = l1 + l2
+print(l3)`,
+    question: 'What is the output?',
+    options: ['[1, 2, 3, 4]', '[4, 6]', 'Error', '[[1, 2], [3, 4]]'],
+    correctAnswer: '[1, 2, 3, 4]',
+    explanation: 'The `+` operator on lists performs concatenation, creating a new list containing the elements of both.',
+  },
+  {
+    id: 'op273',
+    title: 'Java `private` method in inheritance',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `class Parent {
+    private void f() { System.out.println("P"); }
+    public void run() { f(); }
+}
+class Child extends Parent {
+    private void f() { System.out.println("C"); }
+}
+public class Main {
+    public static void main(String[] args) {
+        new Child().run();
+    }
+}`,
+    question: 'What is the output?',
+    options: ['P', 'C', 'Compilation Error', 'Runtime Error'],
+    correctAnswer: 'P',
+    explanation: '`private` methods are not polymorphic and cannot be overridden. The `run()` method is inherited from `Parent`, and the call to `f()` within it is statically bound to `Parent.f()`.',
+  },
+  {
+    id: 'op274',
+    title: 'C++ `&` vs `&&`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `#include <iostream>
+int main() {
+    bool a = true, b = false;
+    if (a & b) { /* ... */ } // Line 1
+    if (a && b) { /* ... */ } // Line 2
+}`,
+    question: 'What is the difference between Line 1 and Line 2?',
+    options: ['No difference', 'Line 1 is bitwise AND, Line 2 is logical AND', 'Line 1 is logical, Line 2 is bitwise', 'Line 1 is an error'],
+    correctAnswer: 'Line 1 is bitwise AND, Line 2 is logical AND',
+    explanation: '`&` is the bitwise AND operator, which operates on the individual bits of its operands. `&&` is the logical AND operator, which operates on boolean values and short-circuits.',
+  },
+  {
+    id: 'op275',
+    title: 'JS `Function` constructor',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `const sum = new Function('a', 'b', 'return a + b');
+console.log(sum(2, 6));`,
+    question: 'What is the output?',
+    options: ['8', '"a + b"', 'undefined', 'Error'],
+    correctAnswer: '8',
+    explanation: 'The `Function` constructor creates a new `Function` object. The last argument is the function body as a string. It has global scope.',
+  },
+  {
+    id: 'op276',
+    title: 'Python `str.join()`',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `my_tuple = ("a", "b", "c")
+x = "-".join(my_tuple)
+print(x)`,
+    question: 'What is the output?',
+    options: ['"a-b-c"', '("a-b-c")', 'Error', '["a", "-", "b", "-", "c"]'],
+    correctAnswer: '"a-b-c"',
+    explanation: 'The `str.join()` method joins the elements of an iterable into a single string, with the string it was called on as a separator.',
+  },
+  {
+    id: 'op277',
+    title: 'Java `Object` `equals`',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `public class Main {
+    public static void main(String[] args) {
+        Object o1 = new Object();
+        Object o2 = new Object();
+        System.out.println(o1.equals(o2));
+    }
+}`,
+    question: 'What is the output?',
+    options: ['true', 'false', 'Compilation Error', 'Runtime Error'],
+    correctAnswer: 'false',
+    explanation: 'The default implementation of `equals()` in the `Object` class simply checks for reference equality (`==`). Since `o1` and `o2` are two different objects, it returns false.',
+  },
+  {
+    id: 'op278',
+    title: 'C++ `?:` Operator',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `#include <iostream>
+int main() {
+    int x = 0;
+    std::cout << (x ? "True" : "False");
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['True', 'False', '0', 'Error'],
+    correctAnswer: 'False',
+    explanation: 'In a boolean context, the integer `0` evaluates to false. Therefore, the ternary operator returns the second expression, "False".',
+  },
+  {
+    id: 'op279',
+    title: 'JS `Array.isArray()`',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `console.log(Array.isArray([]));`,
+    question: 'What is the output?',
+    options: ['true', 'false', '"object"', 'undefined'],
+    correctAnswer: 'true',
+    explanation: '`Array.isArray()` is the most reliable way to check if a value is an array. `typeof []` returns `"object"`, which can be misleading.',
+  },
+  {
+    id: 'op280',
+    title: 'Python `else` with `while` loop',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `i = 0
+while i < 3:
+    print(i)
+    i += 1
+else:
+    print("done")`,
+    question: 'What is the output?',
+    options: ['0, 1, 2, done', '0, 1, 2', 'done', 'Error'],
+    correctAnswer: '0, 1, 2, done',
+    explanation: 'Similar to `for` loops, `while` loops also have an `else` clause that executes when the loop condition becomes false (i.e., it finishes normally, without a `break`).',
+  },
+  {
+    id: 'op281',
+    title: 'JS `class` hoisting',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `const p = new Person();
+class Person {}`,
+    question: 'What is the result of this code?',
+    options: ['No error', 'ReferenceError', 'TypeError', 'SyntaxError'],
+    correctAnswer: 'ReferenceError',
+    explanation: 'Class declarations are hoisted, but they are not initialized until they are evaluated. Accessing a class before its declaration results in a `ReferenceError`.',
+  },
+  {
+    id: 'op282',
+    title: 'Python `bool` of `None`',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `print(bool(None))`,
+    question: 'What is the output?',
+    options: ['True', 'False', 'None', 'Error'],
+    correctAnswer: 'False',
+    explanation: '`None` is one of the few built-in objects that is considered falsy in Python.',
+  },
+  {
+    id: 'op283',
+    title: 'Java `String.format`',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `String name = "World";
+int num = 42;
+System.out.println(String.format("Hello, %s! The number is %d.", name, num));`,
+    question: 'What is the output?',
+    options: ['Hello, World! The number is 42.', 'Hello, %s! The number is %d.', 'Error', 'Hello, name! The number is num.'],
+    correctAnswer: 'Hello, World! The number is 42.',
+    explanation: '`String.format` works similarly to C\'s `printf`, replacing format specifiers like `%s` (string) and `%d` (decimal integer) with the provided arguments.',
+  },
+  {
+    id: 'op284',
+    title: 'C++ `using namespace`',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `#include <iostream>
+using namespace std;
+int main() {
+    cout << "Hello";
+    return 0;
+}`,
+    question: 'What does `using namespace std;` do?',
+    options: ['Includes the std library', 'Makes `std::` prefix optional for std members', 'Declares a new namespace', 'It is a comment'],
+    correctAnswer: 'Makes `std::` prefix optional for std members',
+    explanation: 'This directive brings all the names from the `std` namespace into the current scope, so you can write `cout` instead of `std::cout`. It is often discouraged in header files.',
+  },
+  {
+    id: 'op285',
+    title: 'JS `String.prototype.replace`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `const str = "a-b-c";
+console.log(str.replace("-", "_"));`,
+    question: 'What is the output?',
+    options: ['"a_b_c"', '"a_b-c"', '"a-b_c"', 'Error'],
+    correctAnswer: '"a_b-c"',
+    explanation: 'By default, `replace` with a string argument only replaces the first occurrence it finds.',
+  },
+  {
+    id: 'op286',
+    title: 'Python `f-string` expressions',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `x = 5
+print(f"The value is {x + 5}")`,
+    question: 'What is the output?',
+    options: ['The value is 10', 'The value is {x + 5}', 'Error', 'The value is 5 + 5'],
+    correctAnswer: 'The value is 10',
+    explanation: 'f-strings can contain any valid Python expression inside the curly braces `{}`.',
+  },
+  {
+    id: 'op287',
+    title: 'Java `toString()` on arrays',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `import java.util.Arrays;
+int[] arr = {1, 2, 3};
+System.out.println(Arrays.toString(arr));`,
+    question: 'What is the output?',
+    options: ['[1, 2, 3]', '"123"', 'An object reference', 'Error'],
+    correctAnswer: '[1, 2, 3]',
+    explanation: 'To get a readable string representation of an array\'s contents, you should use the `Arrays.toString()` helper method.',
+  },
+  {
+    id: 'op288',
+    title: 'C++ `char` literal type',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `#include <iostream>
+int main() {
+    std::cout << sizeof('a');
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['1', '4', 'Implementation-defined', 'Error'],
+    correctAnswer: 'Implementation-defined',
+    explanation: 'The type of a character literal like `\'a\'` is surprisingly `int` in C++, but `char` in C. `sizeof` will typically print 4 on most systems, but the standard allows it to be different.',
+  },
+  {
+    id: 'op289',
+    title: 'JS `Array.prototype.slice`',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `const arr = ['a', 'b', 'c'];
+const newArr = arr.slice(1);
+newArr[0] = 'x';
+console.log(arr);`,
+    question: 'What is the output?',
+    options: ["['a', 'b', 'c']", "['a', 'x', 'c']", "['x', 'c']", 'Error'],
+    correctAnswer: "['a', 'b', 'c']",
+    explanation: '`slice()` creates a shallow copy of a portion of an array. Modifying the new array does not affect the original.',
+  },
+  {
+    id: 'op290',
+    title: 'Python `sorted()` function',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `my_list = [3, 1, 2]
+sorted_list = sorted(my_list)
+print(my_list == sorted_list)`,
+    question: 'What is the output?',
+    options: ['True', 'False', 'Error', 'None'],
+    correctAnswer: 'False',
+    explanation: 'The `sorted()` function returns a new sorted list and does not modify the original. `list.sort()` sorts the list in-place.',
+  },
+  {
+    id: 'op291',
+    title: 'Java `char` vs. `String` concatenation',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `System.out.println('a' + 'b');`,
+    question: 'What is the output?',
+    options: ['ab', '195', 'a+b', 'Error'],
+    correctAnswer: '195',
+    explanation: 'When the `+` operator is used with two `char` primitives, it performs integer addition based on their ASCII values (97 for \'a\' + 98 for \'b\').',
+  },
+  {
+    id: 'op292',
+    title: 'C++ `struct` vs `class`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `struct S { int x; };
+class C { int y; };
+int main() {
+    S s; s.x = 1;
+    C c; // c.y = 1;
+    return 0;
+}`,
+    question: 'Why does `c.y = 1;` fail to compile?',
+    options: ['`class` members are private by default', '`struct` members are private by default', '`y` is not initialized', 'It does not fail'],
+    correctAnswer: '`class` members are private by default',
+    explanation: 'The only difference between `struct` and `class` in C++ is the default access specifier. For `struct` it is `public`, and for `class` it is `private`.',
+  },
+  {
+    id: 'op293',
+    title: 'JS `NaN` type',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `console.log(typeof NaN);`,
+    question: 'What is the output?',
+    options: ['"number"', '"NaN"', '"undefined"', '"object"'],
+    correctAnswer: '"number"',
+    explanation: '`NaN` (Not a Number) is paradoxically of the type "number".',
+  },
+  {
+    id: 'op294',
+    title: 'Python `split` and `join`',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `s = "a b c"
+parts = s.split(' ')
+result = "-".join(parts)
+print(result)`,
+    question: 'What is the output?',
+    options: ['"a-b-c"', '"a b c"', '"abc"', 'Error'],
+    correctAnswer: '"a-b-c"',
+    explanation: 'The code first splits the string into a list `[\'a\', \'b\', \'c\']` and then joins the elements of that list with a hyphen.',
+  },
+  {
+    id: 'op295',
+    title: 'Java `final` vs `finally` vs `finalize`',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `// What does 'finally' do?`,
+    question: 'What is the purpose of the `finally` keyword?',
+    options: ['Declares a constant', 'Guarantees code execution after try-catch', 'A method called before garbage collection', 'Prevents method overriding'],
+    correctAnswer: 'Guarantees code execution after try-catch',
+    explanation: '`finally` defines a block of code that is always executed. `final` is for constants. `finalize` is a deprecated method related to garbage collection.',
+  },
+  {
+    id: 'op296',
+    title: 'C++ `i++` vs `++i` performance',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `class MyInt {
+    MyInt& operator++(); // prefix
+    MyInt operator++(int); // postfix
+};`,
+    question: 'For complex types, which increment operator can be more efficient and why?',
+    options: ['Prefix, it can modify in-place', 'Postfix, it is simpler', 'They are always the same', 'Prefix, it does not create a temporary object'],
+    correctAnswer: 'Prefix, it does not create a temporary object',
+    explanation: 'The postfix operator `i++` needs to return the old value, which often requires creating a temporary copy of the object before incrementing. The prefix `++i` can increment in-place and return a reference to the modified object.',
+  },
+  {
+    id: 'op297',
+    title: 'JS `this` in a simple function call',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `function test() {
+  console.log(this);
+}
+test();`,
+    question: 'What is logged in a non-strict mode browser environment?',
+    options: ['The global `window` object', '`undefined`', 'The `test` function object', 'Error'],
+    correctAnswer: 'The global `window` object',
+    explanation: 'When a function is called as a simple function (not as a method, constructor, or via `call`/`apply`), `this` defaults to the global object in non-strict mode.',
+  },
+  {
+    id: 'op298',
+    title: 'Python `min` on a dictionary',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `d = {'b': 2, 'a': 1}
+print(min(d))`,
+    question: 'What is the output?',
+    options: ['a', 'b', '1', '2'],
+    correctAnswer: 'a',
+    explanation: 'When an aggregate function like `min` or `max` is used on a dictionary, it iterates over the keys.',
+  },
+  {
+    id: 'op299',
+    title: 'Java pass-by-value primitives',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `public class Main {
+    static void modify(int x) { x = 100; }
+    public static void main(String[] args) {
+        int val = 10;
+        modify(val);
+        System.out.println(val);
+    }
+}`,
+    question: 'What is the output?',
+    options: ['10', '100', '0', 'Error'],
+    correctAnswer: '10',
+    explanation: 'Java is strictly pass-by-value. The `modify` method receives a copy of the value of `val`. Changes to the copy inside the method do not affect the original.',
+  },
+  {
+    id: 'op300',
+    title: 'C++ `std::string` null terminator',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `#include <iostream>
+#include <string>
+int main() {
+    std::string s("a\\0b", 3);
+    std::cout << s.length();
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['1', '2', '3', 'Error'],
+    correctAnswer: '3',
+    explanation: 'Unlike C-style strings, `std::string` can contain embedded null characters. Its length is managed explicitly and is not determined by the first null character.',
+  },
+  {
+    id: 'op301',
+    title: 'JS `==` with booleans',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `console.log("1" == true);`,
+    question: 'What is the output?',
+    options: ['true', 'false', 'undefined', 'Error'],
+    correctAnswer: 'true',
+    explanation: 'When using loose equality `==` with a boolean, the boolean is converted to a number (`true` -> 1). The string is also converted to a number. `Number("1") == 1` is true.',
+  },
+  {
+    id: 'op302',
+    title: 'Python `+=` vs `+` on lists',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `a = [1, 2]
+b = a
+a = a + [3, 4]
+print(a is b)`,
+    question: 'What is the output?',
+    options: ['True', 'False', 'Error', 'Sometimes True'],
+    correctAnswer: 'False',
+    explanation: 'The `+` operator on lists creates a new list. The line `a = a + [3, 4]` reassigns the name `a` to this new list. The name `b` still refers to the original list.',
+  },
+  {
+    id: 'op303',
+    title: 'Java `static final` variable',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `public class Constants {
+    public static final String GREETING = "Hello";
+}`,
+    question: 'What do `static` and `final` mean for `GREETING`?',
+    options: ['Instance variable, can change', 'Class variable, can change', 'Instance variable, cannot change', 'Class variable, cannot change'],
+    correctAnswer: 'Class variable, cannot change',
+    explanation: '`static` means it belongs to the class, not an instance. `final` means it cannot be reassigned. This is the standard way to define a constant in Java.',
   }
 ];
