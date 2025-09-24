@@ -38,22 +38,22 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
             <Award className={isSuccess ? "text-yellow-400" : "text-destructive"} />
             {isSuccess ? "Challenge Complete!" : "Time's Up!"}
           </AlertDialogTitle>
-          <AlertDialogDescription className="pt-4 space-y-4">
+          <AlertDialogDescription>
             {isSuccess 
               ? `Great job! You completed the challenge and earned ${xpGained} XP.` 
               : "Good effort! You'll get it next time. Practice makes perfect."}
-            <div className="grid grid-cols-2 gap-4 text-center border rounded-lg p-4">
-              <div>
-                <p className="text-2xl font-bold">{wpm}</p>
-                <p className="text-sm text-muted-foreground">WPM</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold">{accuracy.toFixed(1)}%</p>
-                <p className="text-sm text-muted-foreground">Accuracy</p>
-              </div>
-            </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
+        <div className="grid grid-cols-2 gap-4 text-center border rounded-lg p-4">
+            <div>
+                <p className="text-2xl font-bold">{wpm}</p>
+                <p className="text-sm text-muted-foreground">WPM</p>
+            </div>
+            <div>
+                <p className="text-2xl font-bold">{accuracy.toFixed(1)}%</p>
+                <p className="text-sm text-muted-foreground">Accuracy</p>
+            </div>
+        </div>
         <AlertDialogFooter>
           <Button variant="outline" onClick={onRetry}>
             <Repeat className="mr-2 h-4 w-4" />
