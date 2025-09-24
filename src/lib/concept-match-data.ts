@@ -774,5 +774,657 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
             { codeId: '3', conceptId: '3' },
             { codeId: '4', conceptId: '4' },
         ]
+    },
+    {
+        id: 'cm33',
+        title: 'Python `*args` and `**kwargs`',
+        description: 'Match the syntax to its purpose in a Python function definition.',
+        difficulty: 'Intermediate',
+        xp: 40,
+        codeSnippets: [
+            { id: '1', language: 'python', code: 'def func(*args): ...' },
+            { id: '2', language: 'python', code: 'def func(**kwargs): ...' },
+            { id: '3', language: 'python', code: 'func(val1, val2)' },
+            { id: '4', language: 'python', code: 'func(key1="a", key2="b")' },
+        ],
+        concepts: [
+            { id: '1', name: 'Collects all positional arguments into a tuple.' },
+            { id: '2', name: 'Collects all keyword arguments into a dictionary.' },
+            { id: '3', name: 'Positional Arguments' },
+            { id: '4', name: 'Keyword Arguments' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm34',
+        title: 'CSS Box Model',
+        description: 'Match the CSS property to the part of the box model it controls.',
+        difficulty: 'Beginner',
+        xp: 30,
+        codeSnippets: [
+            { id: '1', language: 'css', code: 'The innermost part of the box, where the text and images appear.' },
+            { id: '2', language: 'css', code: 'Clears an area around the content. It is transparent.' },
+            { id: '3', language: 'css', code: 'Goes around the padding and content.' },
+            { id: '4', language: 'css', code: 'Clears an area outside the border. It is transparent.' },
+        ],
+        concepts: [
+            { id: '1', name: 'Content' },
+            { id: '2', name: 'Padding' },
+            { id: '3', name: 'Border' },
+            { id: '4', name: 'Margin' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm35',
+        title: 'Java Access Modifiers',
+        description: 'Match the access modifier to its visibility level.',
+        difficulty: 'Intermediate',
+        xp: 40,
+        codeSnippets: [
+            { id: '1', language: 'java', code: 'Visible to the class only.' },
+            { id: '2', language: 'java', code: 'Visible to the world.' },
+            { id: '3', language: 'java', code: 'Visible to the package and all subclasses.' },
+            { id: '4', language: 'java', code: 'Visible to the package only. (No modifier specified)' },
+        ],
+        concepts: [
+            { id: '1', name: 'private' },
+            { id: '2', name: 'public' },
+            { id: '3', name: 'protected' },
+            { id: '4', name: 'default (package-private)' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm36',
+        title: 'JavaScript `let`, `const`, `var`',
+        description: 'Match the variable declaration to its scope.',
+        difficulty: 'Beginner',
+        xp: 35,
+        codeSnippets: [
+            { id: '1', language: 'javascript', code: 'Function-scoped, can be re-declared and updated.' },
+            { id: '2', language: 'javascript', code: 'Block-scoped, can be updated but not re-declared.' },
+            { id: '3', language: 'javascript', code: 'Block-scoped, cannot be updated or re-declared.' },
+        ],
+        concepts: [
+            { id: '1', name: 'var' },
+            { id: '2', name: 'let' },
+            { id: '3', name: 'const' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm37',
+        title: 'More Design Patterns',
+        description: 'Match the pattern to its description.',
+        difficulty: 'Advanced',
+        xp: 75,
+        codeSnippets: [
+            { id: '1', language: 'generic', code: 'Allows incompatible interfaces to work together.' },
+            { id: '2', language: 'generic', code: 'Provides a simplified interface to a complex subsystem.' },
+            { id: '3', language: 'generic', code: 'Attaches additional responsibilities to an object dynamically.' },
+        ],
+        concepts: [
+            { id: '1', name: 'Adapter Pattern' },
+            { id: '2', name: 'Facade Pattern' },
+            { id: '3', name: 'Decorator Pattern' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm38',
+        title: 'Python Magic Methods',
+        description: 'Match the magic method to its purpose.',
+        difficulty: 'Intermediate',
+        xp: 45,
+        codeSnippets: [
+            { id: '1', language: 'python', code: '`__init__(self, ...)`' },
+            { id: '2', language: 'python', code: '`__str__(self)`' },
+            { id: '3', language: 'python', code: '`__add__(self, other)`' },
+        ],
+        concepts: [
+            { id: '1', name: 'Object constructor' },
+            { id: '2', name: 'Called by `str()` and `print()`' },
+            { id: '3', name: 'Implements the `+` operator' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm39',
+        title: 'CSS Display Properties',
+        description: 'Match the display value to its behavior.',
+        difficulty: 'Beginner',
+        xp: 30,
+        codeSnippets: [
+            { id: '1', language: 'css', code: 'Starts on a new line and takes up the full width available.' },
+            { id: '2', language: 'css', code: 'Does not start on a new line and only takes up as much width as necessary.' },
+            { id: '3', language: 'css', code: 'Enables a flex context for all its direct children.' },
+            { id: '4', language: 'css', code: 'The element is not displayed at all.' },
+        ],
+        concepts: [
+            { id: '1', name: '`display: block;`' },
+            { id: '2', name: '`display: inline;`' },
+            { id: '3', name: '`display: flex;`' },
+            { id: '4', name: '`display: none;`' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm40',
+        title: 'Java Collections',
+        description: 'Match the Java collection to its main characteristic.',
+        difficulty: 'Intermediate',
+        xp: 40,
+        codeSnippets: [
+            { id: '1', language: 'java', code: 'An ordered collection that allows duplicate elements.' },
+            { id: '2', language: 'java', code: 'A collection that contains no duplicate elements.' },
+            { id: '3', language: 'java', code: 'An object that maps keys to values. Cannot contain duplicate keys.' },
+        ],
+        concepts: [
+            { id: '1', name: 'List' },
+            { id: '2', name: 'Set' },
+            { id: '3', name: 'Map' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm41',
+        title: 'C++ `const` Positions',
+        description: 'Match the `const` placement to what it makes constant.',
+        difficulty: 'Advanced',
+        xp: 65,
+        codeSnippets: [
+            { id: '1', language: 'cpp', code: '`const int * p`' },
+            { id: '2', language: 'cpp', code: '`int * const p`' },
+            { id: '3', language: 'cpp', code: '`const int * const p`' },
+            { id: '4', language: 'cpp', code: '`void func() const`' },
+        ],
+        concepts: [
+            { id: '1', name: 'Pointer to a constant integer (value cannot be changed).' },
+            { id: '2', name: 'Constant pointer to an integer (pointer address cannot be changed).' },
+            { id: '3', name: 'Constant pointer to a constant integer (neither can be changed).' },
+            { id: '4', name: 'A member function that does not modify the object.' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm42',
+        title: 'JavaScript Data Type Coercion',
+        description: 'Match the expression to its resulting value due to type coercion.',
+        difficulty: 'Intermediate',
+        xp: 45,
+        codeSnippets: [
+            { id: '1', language: 'javascript', code: '`"5" - 3`' },
+            { id: '2', language: 'javascript', code: '`"5" + 3`' },
+            { id: '3', language: 'javascript', code: '`null == undefined`' },
+            { id: '4', language: 'javascript', code: '`5 + true`' },
+        ],
+        concepts: [
+            { id: '1', name: '2 (number)' },
+            { id: '2', name: '"53" (string)' },
+            { id: '3', name: 'true' },
+            { id: '4', name: '6 (number)' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm43',
+        title: 'Database Keys',
+        description: 'Match the database key to its definition.',
+        difficulty: 'Intermediate',
+        xp: 40,
+        codeSnippets: [
+            { id: '1', language: 'generic', code: 'A column (or set of columns) in a table that uniquely identifies each row.' },
+            { id: '2', language: 'generic', code: 'A column (or set of columns) in a table that refers to the primary key of another table.' },
+            { id: '3', language: 'generic', code: 'A column that has a unique constraint, but is not the primary key.' },
+        ],
+        concepts: [
+            { id: '1', name: 'Primary Key' },
+            { id: '2', name: 'Foreign Key' },
+            { id: '3', name: 'Unique Key' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm44',
+        title: 'More Git Commands',
+        description: 'Match the Git command to its purpose.',
+        difficulty: 'Intermediate',
+        xp: 40,
+        codeSnippets: [
+            { id: '1', language: 'generic', code: '`git fetch` followed by `git merge`' },
+            { id: '2', language: 'generic', code: 'Create a new branch' },
+            { id: '3', language: 'generic', code: 'Switch branches or restore working tree files' },
+            { id: '4', language: 'generic', code: 'Join two or more development histories together' },
+        ],
+        concepts: [
+            { id: '1', name: '`git pull`' },
+            { id: '2', name: '`git branch <name>`' },
+            { id: '3', name: '`git checkout`' },
+            { id: '4', name: '`git merge`' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm45',
+        title: 'Regular Expression Symbols',
+        description: 'Match the regex symbol to what it matches.',
+        difficulty: 'Beginner',
+        xp: 35,
+        codeSnippets: [
+            { id: '1', language: 'generic', code: '`.`' },
+            { id: '2', language: 'generic', code: '`*`' },
+            { id: '3', language: 'generic', code: '`^`' },
+            { id: '4', language: 'generic', code: '`\\d`' },
+        ],
+        concepts: [
+            { id: '1', name: 'Any single character' },
+            { id: '2', name: 'Zero or more occurrences of the preceding element' },
+            { id: '3', name: 'Start of a string' },
+            { id: '4', name: 'Any digit' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm46',
+        title: 'CI/CD Concepts',
+        description: 'Match the term to its definition in CI/CD pipelines.',
+        difficulty: 'Advanced',
+        xp: 60,
+        codeSnippets: [
+            { id: '1', language: 'generic', code: 'The practice of merging all developers\' working copies to a shared mainline several times a day.' },
+            { id: '2', language: 'generic', code: 'Automatically releasing the application to a production environment.' },
+            { id: '3', language: 'generic', code: 'A server that automates the build, test, and deployment processes.' },
+        ],
+        concepts: [
+            { id: '1', name: 'Continuous Integration (CI)' },
+            { id: '2', name: 'Continuous Deployment (CD)' },
+            { id: '3', name: 'Build Server (e.g., Jenkins, GitLab CI)' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm47',
+        title: 'C++ Standard Template Library (STL)',
+        description: 'Match the STL component to its category.',
+        difficulty: 'Intermediate',
+        xp: 45,
+        codeSnippets: [
+            { id: '1', language: 'cpp', code: '`std::vector`, `std::list`, `std::map`' },
+            { id: '2', language: 'cpp', code: '`std::sort`, `std::find`, `std::copy`' },
+            { id: '3', language: 'cpp', code: '`std::vector<int>::iterator`' },
+        ],
+        concepts: [
+            { id: '1', name: 'Containers' },
+            { id: '2', name: 'Algorithms' },
+            { id: '3', name: 'Iterators' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm48',
+        title: 'Exception Handling Keywords',
+        description: 'Match the keyword to its role in exception handling.',
+        difficulty: 'Beginner',
+        xp: 30,
+        codeSnippets: [
+            { id: '1', language: 'generic', code: 'Encloses a block of code in which an exception can occur.' },
+            { id: '2', language: 'generic', code: 'Catches and handles an exception thrown from the preceding block.' },
+            { id: '3', language: 'generic', code: 'Specifies a block of code that is always executed, regardless of whether an exception occurred.' },
+            { id: '4', language: 'generic', code: 'Used to signal that an exceptional condition has occurred.' },
+        ],
+        concepts: [
+            { id: '1', name: '`try`' },
+            { id: '2', name: '`catch` / `except`' },
+            { id: '3', name: '`finally`' },
+            { id: '4', name: '`throw` / `raise`' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm49',
+        title: 'Java `Stream` API Operations',
+        description: 'Match the stream operation to its purpose.',
+        difficulty: 'Advanced',
+        xp: 60,
+        codeSnippets: [
+            { id: '1', language: 'java', code: 'Transforms each element of the stream.' },
+            { id: '2', language: 'java', code: 'Removes elements based on a predicate.' },
+            { id: '3', language: 'java', code: 'Performs a reduction on the elements of the stream.' },
+            { id: '4', language: 'java', code: 'A terminal operation that gathers the stream elements into a collection.' },
+        ],
+        concepts: [
+            { id: '1', name: '`map`' },
+            { id: '2', name: '`filter`' },
+            { id: '3', name: '`reduce`' },
+            { id: '4', name: '`collect`' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm50',
+        title: 'JavaScript Promise States',
+        description: 'Match the state to its meaning for a JavaScript Promise.',
+        difficulty: 'Intermediate',
+        xp: 40,
+        codeSnippets: [
+            { id: '1', language: 'generic', code: 'The initial state; neither fulfilled nor rejected.' },
+            { id: '2', language: 'generic', code: 'The operation completed successfully.' },
+            { id: '3', language: 'generic', code: 'The operation failed.' },
+        ],
+        concepts: [
+            { id: '1', name: 'Pending' },
+            { id: '2', name: 'Fulfilled' },
+            { id: '3', name: 'Rejected' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm51',
+        title: 'Python File Modes',
+        description: 'Match the file mode character to its function.',
+        difficulty: 'Beginner',
+        xp: 25,
+        codeSnippets: [
+            { id: '1', language: 'python', code: 'Opens a file for reading. (default)' },
+            { id: '2', language: 'python', code: 'Opens a file for writing, creates the file if it does not exist.' },
+            { id: '3', language: 'python', code: 'Opens a file for appending, creates the file if it does not exist.' },
+            { id: '4', language: 'python', code: 'Opens a file in binary mode.' },
+        ],
+        concepts: [
+            { id: '1', name: '`r`' },
+            { id: '2', name: '`w`' },
+            { id: '3', name: '`a`' },
+            { id: '4', name: '`b`' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm52',
+        title: 'React Component Lifecycle (Class)',
+        description: 'Match the lifecycle method to when it is called.',
+        difficulty: 'Advanced',
+        xp: 65,
+        codeSnippets: [
+            { id: '1', language: 'javascript', code: 'Called after the component is rendered for the first time.' },
+            { id: '2', language: 'javascript', code: 'Called just before a component is unmounted and destroyed.' },
+            { id: '3', language: 'javascript', code: 'Called after a component is updated. Not called on initial render.' },
+        ],
+        concepts: [
+            { id: '1', name: '`componentDidMount`' },
+            { id: '2', name: '`componentWillUnmount`' },
+            { id: '3', name: '`componentDidUpdate`' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm53',
+        title: 'C++ Keywords',
+        description: 'Match the C++ keyword to its purpose.',
+        difficulty: 'Beginner',
+        xp: 30,
+        codeSnippets: [
+            { id: '1', language: 'cpp', code: '`auto`' },
+            { id: '2', language: 'cpp', code: '`nullptr`' },
+            { id: '3', language: 'cpp', code: '`virtual`' },
+        ],
+        concepts: [
+            { id: '1', name: 'Deduces the type of a variable from its initializer.' },
+            { id: '2', name: 'Represents a null pointer value.' },
+            { id: '3', name: 'Indicates a member function can be overridden by a subclass.' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm54',
+        title: 'HTTP Request/Response',
+        description: 'Match the term to its place in an HTTP transaction.',
+        difficulty: 'Intermediate',
+        xp: 40,
+        codeSnippets: [
+            { id: '1', language: 'generic', code: '`GET /index.html HTTP/1.1`' },
+            { id: '2', language: 'generic', code: '`Content-Type: text/html`' },
+            { id: '3', language: 'generic', code: '`<html>...</html>`' },
+            { id: '4', language: 'generic', code: '`200 OK`' },
+        ],
+        concepts: [
+            { id: '1', name: 'Request Line' },
+            { id: '2', name: 'Header' },
+            { id: '3', name: 'Body' },
+            { id: '4', name: 'Status Line' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm55',
+        title: 'JSON Data Types',
+        description: 'Match the example to the JSON data type.',
+        difficulty: 'Beginner',
+        xp: 25,
+        codeSnippets: [
+            { id: '1', language: 'json', code: '`"value"`' },
+            { id: '2', language: 'json', code: '`123.45`' },
+            { id: '3', language: 'json', code: '`[ "a", "b" ]`' },
+            { id: '4', language: 'json', code: '`{ "key": "value" }`' },
+        ],
+        concepts: [
+            { id: '1', name: 'String' },
+            { id: '2', name: 'Number' },
+            { id: '3', name: 'Array' },
+            { id: '4', name: 'Object' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+            { codeId: '4', conceptId: '4' },
+        ]
+    },
+    {
+        id: 'cm56',
+        title: 'Dynamic vs. Static Typing',
+        description: 'Match the language to its primary typing discipline.',
+        difficulty: 'Beginner',
+        xp: 30,
+        codeSnippets: [
+            { id: '1', language: 'generic', code: '`let x = 5;\nx = "hello";`' },
+            { id: '2', language: 'generic', code: '`int x = 5;\nx = "hello"; // Error`' },
+        ],
+        concepts: [
+            { id: '1', name: 'Dynamic Typing (e.g., Python, JavaScript)' },
+            { id: '2', name: 'Static Typing (e.g., Java, C++)' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+        ]
+    },
+    {
+        id: 'cm57',
+        title: 'Hashing Concepts',
+        description: 'Match the hashing term to its description.',
+        difficulty: 'Advanced',
+        xp: 60,
+        codeSnippets: [
+            { id: '1', language: 'generic', code: 'Two different inputs produce the same hash output.' },
+            { id: '2', language: 'generic', code: 'Random data added to an input before hashing, used to prevent rainbow table attacks.' },
+            { id: '3', language: 'generic', code: 'A data structure that maps keys to values for highly efficient lookup.' },
+        ],
+        concepts: [
+            { id: '1', name: 'Collision' },
+            { id: '2', name: 'Salt' },
+            { id: '3', name: 'Hash Table' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm58',
+        title: 'Java `static` vs. `final`',
+        description: 'Match the keyword combination to its meaning.',
+        difficulty: 'Intermediate',
+        xp: 45,
+        codeSnippets: [
+            { id: '1', language: 'java', code: 'A variable that belongs to the class, not an instance.' },
+            { id: '2', language: 'java', code: 'A variable that cannot be reassigned.' },
+            { id: '3', language: 'java', code: 'A class-level constant shared by all instances.' },
+        ],
+        concepts: [
+            { id: '1', name: '`static`' },
+            { id: '2', name: '`final`' },
+            { id: '3', name: '`static final`' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm59',
+        title: 'Binary Search',
+        description: 'Match the concept to its role in the binary search algorithm.',
+        difficulty: 'Intermediate',
+        xp: 50,
+        codeSnippets: [
+            { id: '1', language: 'generic', code: 'The array must be in this state for the algorithm to work.' },
+            { id: '2', language: 'generic', code: 'The core principle of the algorithm.' },
+            { id: '3', language: 'generic', code: 'The time complexity of the algorithm.' },
+        ],
+        concepts: [
+            { id: '1', name: 'Sorted' },
+            { id: '2', name: 'Repeatedly divide the search interval in half.' },
+            { id: '3', name: 'O(log n)' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
+    },
+    {
+        id: 'cm60',
+        title: 'State Management in React',
+        description: 'Match the state management solution to its description.',
+        difficulty: 'Advanced',
+        xp: 65,
+        codeSnippets: [
+            { id: '1', language: 'javascript', code: 'Built-in React hook for managing local component state.' },
+            { id: '2', language: 'javascript', code: 'Built-in React hook for passing state down through the component tree without prop drilling.' },
+            { id: '3', language: 'javascript', code: 'A popular external library for managing global application state in a predictable container.' },
+        ],
+        concepts: [
+            { id: '1', name: '`useState`' },
+            { id: '2', name: '`useContext`' },
+            { id: '3', name: 'Redux' },
+        ],
+        pairs: [
+            { codeId: '1', conceptId: '1' },
+            { codeId: '2', conceptId: '2' },
+            { codeId: '3', conceptId: '3' },
+        ]
     }
 ];

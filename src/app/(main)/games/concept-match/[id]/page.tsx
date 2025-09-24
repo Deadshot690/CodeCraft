@@ -176,11 +176,9 @@ export default function ConceptMatchArenaPage() {
             <RefreshCw className="mr-2 h-4 w-4" />
             Reset
           </Button>
-          {isComplete && (
-            <Button size="sm" onClick={handleNextChallenge}>
-              Next Challenge <SkipForward className="ml-2 h-4 w-4" />
-            </Button>
-          )}
+          <Button size="sm" onClick={handleNextChallenge}>
+            Next Challenge <SkipForward className="ml-2 h-4 w-4" />
+          </Button>
         </div>
       </header>
 

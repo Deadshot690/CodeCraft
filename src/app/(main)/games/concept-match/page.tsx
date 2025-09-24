@@ -16,21 +16,34 @@ import type { ConceptMatchChallenge } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Search, BrainCircuit } from "lucide-react";
+
+type Difficulty = ConceptMatchChallenge['difficulty'] | 'all';
 
 export default function ConceptMatchLobbyPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('all');
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
+  const difficulties = useMemo(() => ['all', ...Array.from(new Set(conceptMatchChallenges.map(q => q.difficulty)))], []);
+
   const filteredChallenges = useMemo(() => conceptMatchChallenges.filter((challenge) => {
+    const matchesDifficulty = selectedDifficulty === 'all' || challenge.difficulty === selectedDifficulty;
     const matchesSearch = challenge.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           challenge.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesSearch;
-  }), [searchQuery]);
+    return matchesDifficulty && matchesSearch;
+  }), [searchQuery, selectedDifficulty]);
 
   const difficultyVariant = (difficulty: ConceptMatchChallenge['difficulty']): "default" | "secondary" | "destructive" | "outline" => {
     switch (difficulty) {
@@ -66,6 +79,18 @@ export default function ConceptMatchLobbyPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
+          </div>
+          <div className="flex gap-4">
+            <Select onValueChange={(value: Difficulty) => setSelectedDifficulty(value)} defaultValue="all">
+              <SelectTrigger className="w-full md:w-[180px]">
+                <SelectValue placeholder="All Difficulties" />
+              </SelectTrigger>
+              <SelectContent>
+                {difficulties.map(difficulty => (
+                    <SelectItem key={difficulty} value={difficulty}>{difficulty === 'all' ? 'All Difficulties' : difficulty}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <div className="border rounded-lg">
