@@ -39,11 +39,9 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
             {isSuccess ? "Challenge Complete!" : "Time's Up!"}
           </AlertDialogTitle>
           <AlertDialogDescription className="pt-4 space-y-4">
-            <p>
-              {isSuccess 
-                ? `Great job! You completed the challenge and earned ${xpGained} XP.` 
-                : "Good effort! You'll get it next time. Practice makes perfect."}
-            </p>
+            {isSuccess 
+              ? `Great job! You completed the challenge and earned ${xpGained} XP.` 
+              : "Good effort! You'll get it next time. Practice makes perfect."}
             <div className="grid grid-cols-2 gap-4 text-center border rounded-lg p-4">
               <div>
                 <p className="text-2xl font-bold">{wpm}</p>
