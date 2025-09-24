@@ -105,4 +105,16 @@ export type CodeTyperChallenge = {
   snippet: string;
 };
 
+export type OutputPredictionChallenge = {
+  id: string;
+  title: string;
+  language: 'python' | 'javascript' | 'java' | 'cpp';
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  xp: number;
+  codeSnippet: string;
+  question: string;
+  options: string[];
+  correctAnswer: string;
+  explanation: string;
+};
 

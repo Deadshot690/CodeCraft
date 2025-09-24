@@ -10,6 +10,7 @@ import { games } from './games-data';
 import { monsters, battleQuestions, playerDialogues } from './monster-battle-data';
 import { debugChallenges } from './debug-hunt-data';
 import { codeTyperChallenges } from './code-typer-data';
+import { outputPredictionChallenges } from './output-prediction-data';
 
 export {
     tasks,
@@ -19,5 +20,6 @@ export {
     battleQuestions,
     playerDialogues,
     debugChallenges,
-    codeTyperChallenges
+    codeTyperChallenges,
+    outputPredictionChallenges
 };
