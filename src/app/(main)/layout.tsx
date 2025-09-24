@@ -17,9 +17,10 @@ export default function MainLayout({
   const router = useRouter();
 
   useEffect(() => {
+    if (loading) return; // Do nothing while loading
     // If auth has finished loading and there is NO user, redirect to login.
-    if (!loading && !user) {
-      router.push("/login");
+    if (!user) {
+      router.replace("/login");
     }
   }, [user, loading, router]);
 
@@ -48,7 +49,7 @@ export default function MainLayout({
   }
 
   // If loading is complete and there's no user, the useEffect is handling the redirect.
-  // Show a loader to prevent any content from flashing.
+  // Show a loader to prevent any content from flashing while redirecting.
   return (
       <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />

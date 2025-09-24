@@ -15,9 +15,10 @@ export default function AuthLayout({
   const router = useRouter();
 
   useEffect(() => {
+    if (loading) return; // Do nothing while loading.
     // If auth is not loading and a user IS logged in, redirect to dashboard.
-    if (!loading && user) {
-      router.push("/dashboard");
+    if (user) {
+      router.replace("/dashboard");
     }
   }, [user, loading, router]);
 
