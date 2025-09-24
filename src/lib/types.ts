@@ -84,3 +84,13 @@ export type DebugChallenge = {
     explanation?: string;
   }[];
 };
+
+export type CodeJigsawChallenge = {
+  id: string;
+  title: string;
+  description: string;
+  language: 'python' | 'javascript' | 'java' | 'cpp';
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  xp: number;
+  lines: string[];
+};

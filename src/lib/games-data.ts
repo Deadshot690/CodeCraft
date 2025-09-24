@@ -4,7 +4,7 @@ import { Swords, Bug, Puzzle, Keyboard, Eye, BrainCircuit, Gamepad2, Castle } fr
 export const games: Game[] = [
     { id: '1', title: 'Monster Battle', description: 'Answer coding trivia to defeat monsters in a turn-based RPG.', icon: Swords, href: '/games/monster-battle' },
     { id: '2', title: 'Debug Hunt', description: 'Find and fix bugs in code snippets against the clock.', icon: Bug, href: '/games/debug-hunt' },
-    { id: '3', title: 'Code Jigsaw', description: 'Reassemble scrambled code blocks into a working program.', icon: Puzzle, href: '#' },
+    { id: '3', title: 'Code Jigsaw', description: 'Reassemble scrambled code blocks into a working program.', icon: Puzzle, href: '/games/code-jigsaw' },
     { id: '4', title: 'Code Typer', description: 'Improve your typing speed and accuracy.', icon: Keyboard, href: '#' },
     { id: '5', title: 'Output Prediction', description: 'Test your code comprehension.', icon: Eye, href: '#' },
     { id: '6', 'title': 'Concept Match', 'description': 'Match code to programming concepts.', 'icon': BrainCircuit, 'href': '#' },
