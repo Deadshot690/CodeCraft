@@ -35,15 +35,13 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
     return codeJigsawChallenges.find((c) => c.id === resolvedParams.id);
   }, [resolvedParams.id]);
 
-  const [scrambledLines, setScrambledLines] = useState<string[]>([]);
-  const [solutionLines, setSolutionLines] = useState<string[]>([]);
+  const [puzzleLines, setPuzzleLines] = useState<string[]>([]);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   useEffect(() => {
     setIsClient(true);
     if (challenge) {
-      setScrambledLines(shuffleArray(challenge.lines));
-      setSolutionLines([]);
+      setPuzzleLines(shuffleArray(challenge.lines));
       setIsCorrect(null);
     }
   }, [challenge]);
@@ -55,33 +53,22 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
+    // If dropped outside of any droppable area
     if (!destination) {
       return;
     }
-
-    let newScrambledLines = [...scrambledLines];
-    let newSolutionLines = [...solutionLines];
-
-    if (source.droppableId === 'scrambled' && destination.droppableId === 'solution') {
-      const [moved] = newScrambledLines.splice(source.index, 1);
-      newSolutionLines.splice(destination.index, 0, moved);
-    } else if (source.droppableId === 'solution' && destination.droppableId === 'scrambled') {
-      const [moved] = newSolutionLines.splice(source.index, 1);
-      newScrambledLines.splice(destination.index, 0, moved);
-    } else if (source.droppableId === 'solution' && destination.droppableId === 'solution') {
-      const [moved] = newSolutionLines.splice(source.index, 1);
-      newSolutionLines.splice(destination.index, 0, moved);
-    } else if (source.droppableId === 'scrambled' && destination.droppableId === 'scrambled') {
-       const [moved] = newScrambledLines.splice(source.index, 1);
-       newScrambledLines.splice(destination.index, 0, moved);
-    }
     
-    setScrambledLines(newScrambledLines);
-    setSolutionLines(newSolutionLines);
+    // Reorder logic for a single list
+    const newLines = Array.from(puzzleLines);
+    const [reorderedItem] = newLines.splice(source.index, 1);
+    newLines.splice(destination.index, 0, reorderedItem);
+
+    setPuzzleLines(newLines);
   };
 
   const checkSolution = () => {
-    if (JSON.stringify(solutionLines) === JSON.stringify(challenge.lines)) {
+    // Compare the reordered lines with the original correct lines
+    if (JSON.stringify(puzzleLines) === JSON.stringify(challenge.lines)) {
       setIsCorrect(true);
     } else {
       setIsCorrect(false);
@@ -109,7 +96,7 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
       </header>
 
       <div className="flex-1 overflow-auto p-4 md:p-6">
-          <Card className="mb-6">
+          <Card className="mb-6 max-w-4xl mx-auto">
               <CardHeader>
                   <CardTitle className="font-headline">{challenge.title}</CardTitle>
                    <CardDescription className="flex items-center gap-4 pt-2">
@@ -127,57 +114,25 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
           
           {isClient && (
             <DragDropContext onDragEnd={onDragEnd}>
-                <div className="grid gap-6 lg:grid-cols-2">
-                    {/* Scrambled blocks */}
+                <div className="max-w-4xl mx-auto">
+                    {/* The only droppable area */}
                     <div className="flex flex-col gap-4">
-                        <h2 className="font-headline text-lg font-semibold">Scrambled Lines</h2>
-                        <Droppable droppableId="scrambled">
+                        <h2 className="font-headline text-lg font-semibold">Arrange the Code</h2>
+                        <Droppable droppableId="puzzle">
                             {(provided, snapshot) => (
                                 <Card 
                                     ref={provided.innerRef} 
                                     {...provided.droppableProps}
                                     className={`min-h-[200px] p-4 transition-colors ${snapshot.isDraggingOver ? 'bg-accent' : ''}`}
                                 >
-                                    {scrambledLines.map((line, index) => (
-                                        <Draggable key={`scrambled-${line}-${index}`} draggableId={`scrambled-${line}-${index}`} index={index}>
+                                    {puzzleLines.map((line, index) => (
+                                        <Draggable key={`line-${index}`} draggableId={`line-${line}-${index}`} index={index}>
                                             {(provided, snapshot) => (
                                                 <div
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
                                                     className={`mb-2 flex items-center gap-2 rounded-md p-3 font-code text-sm shadow-sm transition-shadow ${snapshot.isDragging ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}
-                                                >
-                                                    <GripVertical className="h-5 w-5 text-muted-foreground" />
-                                                    <pre className="whitespace-pre-wrap">{line}</pre>
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
-                                    {scrambledLines.length === 0 && <p className="text-center text-muted-foreground p-4">Drop lines back here</p>}
-                                </Card>
-                            )}
-                        </Droppable>
-                    </div>
-
-                    {/* Solution Area */}
-                    <div className="flex flex-col gap-4">
-                         <h2 className="font-headline text-lg font-semibold">Your Solution</h2>
-                        <Droppable droppableId="solution">
-                            {(provided, snapshot) => (
-                                <Card 
-                                    ref={provided.innerRef} 
-                                    {...provided.droppableProps}
-                                    className={`min-h-[200px] p-4 transition-colors ${snapshot.isDraggingOver ? 'bg-green-500/10' : ''}`}
-                                >
-                                    {solutionLines.map((line, index) => (
-                                        <Draggable key={`solution-${line}-${index}`} draggableId={`solution-${line}-${index}`} index={index}>
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    className={`mb-2 flex items-center gap-2 rounded-md p-3 font-code text-sm shadow-sm transition-shadow ${snapshot.isDragging ? 'bg-primary text-primary-foreground' : 'bg-background border'}`}
                                                 >
                                                     <GripVertical className="h-5 w-5 text-muted-foreground" />
                                                     <span className="w-6 text-muted-foreground">{index + 1}.</span>
@@ -187,7 +142,7 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
                                         </Draggable>
                                     ))}
                                     {provided.placeholder}
-                                    {solutionLines.length === 0 && <p className="text-center text-muted-foreground p-4">Drag lines here</p>}
+                                    {puzzleLines.length === 0 && <p className="text-center text-muted-foreground p-4">Loading puzzle...</p>}
                                 </Card>
                             )}
                         </Droppable>
@@ -197,7 +152,7 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
           )}
           
           <div className="mt-6 flex flex-col items-center gap-4">
-              <Button onClick={checkSolution} disabled={solutionLines.length === 0}>
+              <Button onClick={checkSolution} disabled={puzzleLines.length === 0}>
                   <Check className="mr-2 h-4 w-4" />
                   Check Answer
               </Button>
