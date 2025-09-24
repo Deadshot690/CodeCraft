@@ -22,6 +22,7 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 
 export default function CodeJigsawArenaPage({ params }: { params: { id: string } }) {
   const router = useRouter();
+  const resolvedParams = use(params);
 
   const [isClient, setIsClient] = useState(false);
   const [scrambledLines, setScrambledLines] = useState<string[]>([]);
@@ -29,8 +30,8 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const challenge = useMemo(() => {
-    return codeJigsawChallenges.find((c) => c.id === params.id);
-  }, [params.id]);
+    return codeJigsawChallenges.find((c) => c.id === resolvedParams.id);
+  }, [resolvedParams.id]);
 
 
   useEffect(() => {
