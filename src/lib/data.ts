@@ -86,7 +86,7 @@ export const tasks: Task[] = [
             {
                 input: 'root = [5,1,4,null,null,3,6]',
                 output: 'false',
-                explanation: "The root node\'s value is 5 but its right child\'s value is 4."
+                explanation: "The root node\\'s value is 5 but its right child\\'s value is 4."
             }
         ],
         constraints: ['The number of nodes in the tree is in the range [1, 104].', '-231 <= Node.val <= 231 - 1']
@@ -934,7 +934,7 @@ export const battleQuestions: BattleQuestion[] = [
     { id: 'bq293', "question": "Which keyword is used for pattern matching in Rust?", "answer": "match", "difficulty": "Intermediate", "xp": 30, "category": "Rust" },
     { id: 'bq294', "question": "In Swift, what is an `optional`?", "answer": "A type that can hold either a value or no value", "difficulty": "Intermediate", "xp": 30, "category": "Swift" },
     { id: 'bq295', "question": "What is `Combine` in the Apple ecosystem?", "answer": "A framework for processing values over time", "difficulty": "Advanced", "xp": 50, "category": "Swift" },
-    { id: 'bq296', "question": "What are `coroutines` in Kotlin?", "answer": "A concurrency design pattern for simplifying async code", "difficulty": "Advanced", "xp": 50, "category": "Kotlin" },
+    { id: 'bq296', "question": "What are `coroutines` in Kotlin?", answer: "A concurrency design pattern for simplifying async code", difficulty: "Advanced", xp: 50, category: "Kotlin" },
     { id: 'bq297', "question": "What is the purpose of the `yield` keyword in C#?", "answer": "To provide custom iteration without creating a temporary collection", "difficulty": "Advanced", "xp": 50, "category": "C#" },
     { id: 'bq298', "question": "What is `LINQ` in C#?", "answer": "Language-Integrated Query", "difficulty": "Advanced", "xp": 45, "category": "C#" },
     { id: 'bq299', "question": "What is `OTP` in Elixir/Erlang?", "answer": "Open Telecom Platform, a set of libraries for building robust systems", "difficulty": "Expert", "xp": 70, "category": "Elixir" },
@@ -966,12 +966,11 @@ export const debugChallenges: DebugChallenge[] = [
     number + total
   return total
 `,
-    fixedCode: `def calculate_sum(numbers):
-  total = 0
-  for number in numbers:
-    total = total + number
-  return total
-`
+    testCases: [
+        { input: '[1, 2, 3]', expectedOutput: '6' },
+        { input: '[-1, 1, 10]', expectedOutput: '10' },
+        { input: '[]', expectedOutput: '0' },
+    ]
   },
   {
     id: 'db2',
@@ -983,9 +982,10 @@ export const debugChallenges: DebugChallenge[] = [
     buggyCode: `function greet(name) {
   "Hello, " + name + "!"
 }`,
-    fixedCode: `function greet(name) {
-  return "Hello, " + name + "!";
-}`
+    testCases: [
+        { input: '"World"', expectedOutput: 'Hello, World!' },
+        { input: '"Alice"', expectedOutput: 'Hello, Alice!' },
+    ]
   },
   {
     id: 'db3',
@@ -1012,22 +1012,9 @@ function Counter() {
   );
 }
 `,
-    fixedCode: `import { useState } from 'react';
-
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  const handleClick = () => {
-    setCount(count + 1);
-  };
-
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={handleClick}>Increment</button>
-    </div>
-  );
-}
-`
+    testCases: [
+        { input: 'User clicks button once', expectedOutput: 'Count: 1' },
+        { input: 'User clicks button three times', expectedOutput: 'Count: 3' },
+    ]
   }
 ];

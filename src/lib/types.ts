@@ -78,5 +78,9 @@ export type DebugChallenge = {
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   xp: number;
   buggyCode: string;
-  fixedCode: string;
+  testCases: {
+    input: string;
+    expectedOutput: string;
+    explanation?: string;
+  }[];
 };
