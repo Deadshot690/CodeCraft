@@ -64,13 +64,14 @@ export default function CodeTyperArenaPage() {
             setStatus('playing');
         }
         
-        // Check for new errors
-        if (value.length > userInput.length) { // Only check on new characters
-            const newCharIndex = value.length - 1;
-            if (challenge && value[newCharIndex] !== challenge.snippet[newCharIndex]) {
-                setErrors(errors + 1);
+        // Check for new errors by comparing the current input with the source snippet
+        let errorCount = 0;
+        for (let i = 0; i < value.length; i++) {
+            if (value[i] !== challenge?.snippet[i]) {
+                errorCount++;
             }
         }
+        setErrors(errorCount);
 
         setUserInput(value);
 
@@ -94,8 +95,8 @@ export default function CodeTyperArenaPage() {
     const { snippet } = challenge;
     const typedChars = userInput.length;
     const totalChars = snippet.length;
-    const accuracy = totalChars > 0 ? Math.max(0, ((totalChars - errors) / totalChars) * 100) : 100;
-    const wpm = getWPM(typedChars, (challenge.duration || 60) - timer);
+    const accuracy = typedChars > 0 ? Math.max(0, ((typedChars - errors) / typedChars) * 100) : 100;
+    const wpm = getWPM(typedChars - errors, (challenge.duration || 60) - timer);
     const progress = (typedChars / totalChars) * 100;
 
     const renderSnippet = () => {
@@ -148,7 +149,7 @@ export default function CodeTyperArenaPage() {
                                 <span className="text-xs text-muted-foreground">WPM</span>
                             </div>
                              <div className="flex flex-col items-center gap-1">
-                                <span className="text-2xl font-bold">{errors}</span>
+                                <span className="text-2xl font-bold text-destructive">{errors}</span>
                                 <span className="text-xs text-muted-foreground">Errors</span>
                             </div>
                         </div>
