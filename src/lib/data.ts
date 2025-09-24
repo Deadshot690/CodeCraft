@@ -9,6 +9,7 @@ import { user } from './user-data';
 import { games } from './games-data';
 import { monsters, battleQuestions, playerDialogues } from './monster-battle-data';
 import { debugChallenges } from './debug-hunt-data';
+import { codeTyperChallenges } from './code-typer-data';
 
 export {
     tasks,
@@ -17,5 +18,6 @@ export {
     monsters,
     battleQuestions,
     playerDialogues,
-    debugChallenges
+    debugChallenges,
+    codeTyperChallenges
 };

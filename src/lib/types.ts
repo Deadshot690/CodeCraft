@@ -94,3 +94,12 @@ export type CodeJigsawChallenge = {
   xp: number;
   lines: string[];
 };
+
+export type CodeTyperChallenge = {
+  id: string;
+  title: string;
+  language: 'python' | 'javascript' | 'java' | 'cpp';
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  xp: number;
+  snippet: string;
+};
