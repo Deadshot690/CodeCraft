@@ -185,7 +185,7 @@ export default function ConceptMatchArenaPage() {
                 <CardHeader>
                   <CardTitle className="font-headline text-lg text-center">{columns[colId].title}</CardTitle>
                 </CardHeader>
-                <Droppable droppableId={colId} isDropDisabled={true}>
+                <Droppable droppableId={colId} isDropDisabled={true} isCombineEnabled={false}>
                   {(provided, snapshot) => (
                     <CardContent
                       ref={provided.innerRef}
@@ -220,7 +220,7 @@ export default function ConceptMatchArenaPage() {
               <CardHeader>
                 <CardTitle className="font-headline text-lg text-center">{allMatched ? "Complete!" : "Drop Matches Here"}</CardTitle>
               </CardHeader>
-              <Droppable droppableId="col-matched">
+              <Droppable droppableId="col-matched" isCombineEnabled={false}>
                 {(provided, snapshot) => (
                   <CardContent
                     ref={provided.innerRef}
