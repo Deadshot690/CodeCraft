@@ -48,6 +48,7 @@ export type Game = {
 export type Monster = {
   id: string;
   name: string;
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
   imageUrl: string;
   imageHint: string;
   maxHealth: number;
@@ -60,11 +61,11 @@ export type Monster = {
   };
 };
 
-export type BattleTrivia = {
+export type BattleQuestion = {
   id: string;
   question: string;
   answer: string;
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
   xp: number;
   category: string;
 };
