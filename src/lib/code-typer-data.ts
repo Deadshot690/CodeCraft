@@ -1800,5 +1800,1043 @@ if __name__ == '__main__':
 });
 const obj = {};
 registry.register(obj, "some value");`
+  },
+  {
+    id: 'ct151',
+    title: 'Python `heapq` module',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 50,
+    snippet: `import heapq
+heap = []
+heapq.heappush(heap, 4)
+heapq.heappush(heap, 1)
+heapq.heappop(heap) # returns 1`
+  },
+  {
+    id: 'ct152',
+    title: 'JavaScript `for...of` loop',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    snippet: `const array = ['a', 'b', 'c'];
+for (const element of array) {
+  console.log(element);
+}`
+  },
+  {
+    id: 'ct153',
+    title: 'Java `String.join`',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 25,
+    snippet: `String[] elements = {"Java", "is", "cool"};
+String message = String.join(" ", elements);`
+  },
+  {
+    id: 'ct154',
+    title: 'C++ `std::accumulate`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 40,
+    snippet: `#include <vector>
+#include <numeric>
+std::vector<int> v = {1, 2, 3, 4, 5};
+int sum = std::accumulate(v.begin(), v.end(), 0);`
+  },
+  {
+    id: 'ct155',
+    title: 'Python `collections.ChainMap`',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 55,
+    snippet: `from collections import ChainMap
+dict1 = {'a': 1, 'b': 2}
+dict2 = {'b': 3, 'c': 4}
+chain = ChainMap(dict1, dict2)`
+  },
+  {
+    id: 'ct156',
+    title: 'JavaScript `Reflect` API',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `const duck = { name: 'Maurice' };
+if (Reflect.has(duck, 'name')) {
+  console.log('Property found');
+}`
+  },
+  {
+    id: 'ct157',
+    title: 'Java `CountDownLatch`',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 70,
+    snippet: `CountDownLatch latch = new CountDownLatch(3);
+latch.countDown();
+latch.await();`
+  },
+  {
+    id: 'ct158',
+    title: 'C++ `std::find_if`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 45,
+    snippet: `#include <vector>
+#include <algorithm>
+std::vector<int> v = {1, 2, 3, 4};
+auto it = std::find_if(v.begin(), v.end(), [](int i){return i % 2 == 0;});`
+  },
+  {
+    id: 'ct159',
+    title: 'Python `__eq__` and `__hash__`',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 60,
+    snippet: `class Point:
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+    def __hash__(self):
+        return hash((self.x, self.y))`
+  },
+  {
+    id: 'ct160',
+    title: 'JavaScript `globalThis`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 35,
+    snippet: `// Access the global object in any environment
+globalThis.myGlobal = 'hello';`
+  },
+  {
+    id: 'ct161',
+    title: 'Java `StampedLock`',
+    language: 'java',
+    difficulty: 'Expert',
+    xp: 85,
+    snippet: `StampedLock lock = new StampedLock();
+long stamp = lock.writeLock();
+try {
+  // ...
+} finally {
+  lock.unlockWrite(stamp);
+}`
+  },
+  {
+    id: 'ct162',
+    title: 'C++ `SFINAE`',
+    language: 'cpp',
+    difficulty: 'Expert',
+    xp: 90,
+    snippet: `template <typename T>
+typename std::enable_if<std::is_integral<T>::value>::type
+foo(T t) { /* ... */ }`
+  },
+  {
+    id: 'ct163',
+    title: 'Python `async for`',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `async for item in async_iterable:
+    print(item)`
+  },
+  {
+    id: 'ct164',
+    title: 'JavaScript `Atomics` object',
+    language: 'javascript',
+    difficulty: 'Expert',
+    xp: 80,
+    snippet: `const sab = new SharedArrayBuffer(16);
+const int32 = new Int32Array(sab);
+Atomics.add(int32, 0, 2);`
+  },
+  {
+    id: 'ct165',
+    title: 'Java `Phaser`',
+    language: 'java',
+    difficulty: 'Expert',
+    xp: 80,
+    snippet: `Phaser phaser = new Phaser(1);
+phaser.arriveAndAwaitAdvance();`
+  },
+  {
+    id: 'ct166',
+    title: 'C++ Three-Way Comparison `<=>`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 70,
+    snippet: `struct Point {
+    int x, y;
+    auto operator<=>(const Point&) const = default;
+};`
+  },
+  {
+    id: 'ct167',
+    title: 'Python Metaclasses',
+    language: 'python',
+    difficulty: 'Expert',
+    xp: 85,
+    snippet: `class MyMeta(type):
+    def __new__(cls, name, bases, dct):
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=MyMeta):
+    pass`
+  },
+  {
+    id: 'ct168',
+    title: 'JavaScript `Object.groupBy`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 45,
+    snippet: `const inventory = [ { name: 'asparagus', type: 'vegetables' } ];
+const result = Object.groupBy(inventory, ({ type }) => type);`
+  },
+  {
+    id: 'ct169',
+    title: 'Java `VarHandle`',
+    language: 'java',
+    difficulty: 'Expert',
+    xp: 90,
+    snippet: `VarHandle VH = MethodHandles.lookup()
+    .findVarHandle(Point.class, "x", int.class);`
+  },
+  {
+    id: 'ct170',
+    title: 'C++ `std::span`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `void print_array(std::span<int> data) {
+    for (int x : data) {
+        std::cout << x << ' ';
+    }
+}`
+  },
+  {
+    id: 'ct171',
+    title: 'Python `__init__.py`',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    snippet: `# This file makes Python treat directories containing it as packages.
+# It can be empty.`
+  },
+  {
+    id: 'ct172',
+    title: 'JavaScript `Array.toReversed()`',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 25,
+    snippet: `const original = [1, 2, 3];
+const reversed = original.toReversed(); // Non-mutating`
+  },
+  {
+    id: 'ct173',
+    title: 'Java `Fork/Join` Framework',
+    language: 'java',
+    difficulty: 'Expert',
+    xp: 85,
+    snippet: `class MyRecursiveTask extends RecursiveTask<Long> {
+    @Override
+    protected Long compute() {
+        // ...
+    }
+}`
+  },
+  {
+    id: 'ct174',
+    title: 'C++ `std::source_location`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 70,
+    snippet: `void log(const std::source_location& loc = std::source_location::current()) {
+    std::cout << loc.file_name() << ':' << loc.line();
+}`
+  },
+  {
+    id: 'ct175',
+    title: 'Python Descriptor Protocol',
+    language: 'python',
+    difficulty: 'Expert',
+    xp: 80,
+    snippet: `class Ten:
+    def __get__(self, obj, objtype=None):
+        return 10`
+  },
+  {
+    id: 'ct176',
+    title: 'JavaScript `with` statement (discouraged)',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 30,
+    snippet: `// Avoid using this in new code.
+with (Math) {
+  console.log(PI * pow(2, 3));
+}`
+  },
+  {
+    id: 'ct177',
+    title: 'Java `System.arraycopy`',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 40,
+    snippet: `int[] src = {1, 2, 3};
+int[] dest = new int[3];
+System.arraycopy(src, 0, dest, 0, 3);`
+  },
+  {
+    id: 'ct178',
+    title: 'C++ `std::bitset`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 45,
+    snippet: `#include <bitset>
+std::bitset<8> b(42);
+std::cout << b.to_string();`
+  },
+  {
+    id: 'ct179',
+    title: 'Python `__call__` method',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 50,
+    snippet: `class Adder:
+    def __call__(self, x, y):
+        return x + y
+add = Adder()
+result = add(5, 3)`
+  },
+  {
+    id: 'ct180',
+    title: 'JavaScript `URLSearchParams`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 40,
+    snippet: `const params = new URLSearchParams('key=value');
+params.append('key2', 'value2');`
+  },
+  {
+    id: 'ct181',
+    title: 'Java `transient` vs `volatile`',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 70,
+    snippet: `// transient: not serialized
+// volatile: visible across threads`
+  },
+  {
+    id: 'ct182',
+    title: 'C++ `extern "C"`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `extern "C" {
+    int c_style_function(int);
+}`
+  },
+  {
+    id: 'ct183',
+    title: 'Python `slice` object',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 40,
+    snippet: `my_slice = slice(1, 5, 2)
+my_list = [0, 1, 2, 3, 4, 5]
+print(my_list[my_slice])`
+  },
+  {
+    id: 'ct184',
+    title: 'JavaScript `label` statement',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 45,
+    snippet: `outer: for (let i = 0; i < 3; i++) {
+  for (let j = 0; j < 3; j++) {
+    if (i === 1) continue outer;
+  }
+}`
+  },
+  {
+    id: 'ct185',
+    title: 'Java `Annotation`',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 60,
+    snippet: `@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface MyAnnotation {
+}`
+  },
+  {
+    id: 'ct186',
+    title: 'C++ `std::initializer_list`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 50,
+    snippet: `void print_all(std::initializer_list<int> numbers) {
+    for (int n : numbers) {
+        std::cout << n << ' ';
+    }
+}`
+  },
+  {
+    id: 'ct187',
+    title: 'Python `super()`',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 40,
+    snippet: `class Child(Base):
+    def __init__(self):
+        super().__init__()`
+  },
+  {
+    id: 'ct188',
+    title: 'JavaScript `Object.seal()`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 45,
+    snippet: `const obj = { prop: 'val' };
+Object.seal(obj);
+obj.prop = 'new val'; // OK
+delete obj.prop; // Fails`
+  },
+  {
+    id: 'ct189',
+    title: 'Java Reflection API',
+    language: 'java',
+    difficulty: 'Expert',
+    xp: 80,
+    snippet: `Class<?> clazz = String.class;
+Method[] methods = clazz.getDeclaredMethods();`
+  },
+  {
+    id: 'ct190',
+    title: 'C++ `reinterpret_cast`',
+    language: 'cpp',
+    difficulty: 'Expert',
+    xp: 80,
+    snippet: `int i = 42;
+void* v = &i;
+int* p = reinterpret_cast<int*>(v);`
+  },
+  {
+    id: 'ct191',
+    title: 'Python `__dict__` attribute',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 45,
+    snippet: `class MyClass:
+    def __init__(self):
+        self.a = 1
+obj = MyClass()
+print(obj.__dict__)`
+  },
+  {
+    id: 'ct192',
+    title: 'JavaScript `SharedArrayBuffer`',
+    language: 'javascript',
+    difficulty: 'Expert',
+    xp: 85,
+    snippet: `// Requires cross-origin isolation
+const buffer = new SharedArrayBuffer(1024);`
+  },
+  {
+    id: 'ct193',
+    title: 'Java `CyclicBarrier`',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 75,
+    snippet: `CyclicBarrier barrier = new CyclicBarrier(2);
+// Thread 1
+barrier.await();
+// Thread 2
+barrier.await();`
+  },
+  {
+    id: 'ct194',
+    title: 'C++ ADL (Argument-Dependent Lookup)',
+    language: 'cpp',
+    difficulty: 'Expert',
+    xp: 85,
+    snippet: `namespace N { struct S{}; void f(S); }
+N::S s;
+f(s); // Finds N::f`
+  },
+  {
+    id: 'ct195',
+    title: 'Python `operator` module',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 50,
+    snippet: `from operator import add
+result = add(1, 2)`
+  },
+  {
+    id: 'ct196',
+    title: 'JavaScript `Temporal` API (proposal)',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 60,
+    snippet: `const date = Temporal.PlainDate.from('2024-01-01');
+const duration = Temporal.Duration.from({ days: 5 });`
+  },
+  {
+    id: 'ct197',
+    title: 'Java `MethodHandle`',
+    language: 'java',
+    difficulty: 'Expert',
+    xp: 90,
+    snippet: `MethodHandles.Lookup lookup = MethodHandles.lookup();
+MethodHandle mh = lookup.findVirtual(String.class, "length", MethodType.methodType(int.class));`
+  },
+  {
+    id: 'ct198',
+    title: 'C++ `std::function`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `#include <functional>
+std::function<int(int)> func = [](int i){ return i+1; };`
+  },
+  {
+    id: 'ct199',
+    title: 'Python `weakref` module',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `import weakref
+class MyClass: pass
+a = MyClass()
+r = weakref.ref(a)`
+  },
+  {
+    id: 'ct200',
+    title: 'JavaScript Top-level `await`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 50,
+    snippet: `// In an ES module
+const data = await fetch(url).then(r => r.json());`
+  },
+  {
+    id: 'ct201',
+    title: 'Java `Exchanger`',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 75,
+    snippet: `Exchanger<String> exchanger = new Exchanger<>();
+// Thread 1
+String msg1 = exchanger.exchange("from thread 1");`
+  },
+  {
+    id: 'ct202',
+    title: 'C++ `CRTP` (Curiously Recurring Template Pattern)',
+    language: 'cpp',
+    difficulty: 'Expert',
+    xp: 90,
+    snippet: `template <class T> struct Base { void interface() { static_cast<T*>(this)->implementation(); } };
+struct Derived : Base<Derived> { void implementation(); };`
+  },
+  {
+    id: 'ct203',
+    title: 'Python `__new__` vs `__init__`',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `class MyClass:
+    def __new__(cls):
+        # Runs before __init__
+        return super().__new__(cls)
+    def __init__(self):
+        # Initializes the instance`
+  },
+  {
+    id: 'ct204',
+    title: 'JavaScript `Object.is()`',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 30,
+    snippet: `Object.is(NaN, NaN); // true
+Object.is(-0, +0);   // false`
+  },
+  {
+    id: 'ct205',
+    title: 'Java `enum` with methods',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 45,
+    snippet: `public enum Planet {
+    EARTH(5.976e+24);
+    private final double mass;
+    Planet(double mass) { this.mass = mass; }
+}`
+  },
+  {
+    id: 'ct206',
+    title: 'C++ `std::forward_list`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 50,
+    snippet: `#include <forward_list>
+std::forward_list<int> flist = {1, 2, 3};
+flist.push_front(0);`
+  },
+  {
+    id: 'ct207',
+    title: 'Python `functools.partial`',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 60,
+    snippet: `from functools import partial
+basetwo = partial(int, base=2)
+print(basetwo('10010'))`
+  },
+  {
+    id: 'ct208',
+    title: 'JavaScript `String.prototype.matchAll`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 45,
+    snippet: `const regexp = /t(e)(st(\\d?))/g;
+const str = 'test1test2';
+const array = [...str.matchAll(regexp)];`
+  },
+  {
+    id: 'ct209',
+    title: 'Java `ServiceLoader`',
+    language: 'java',
+    difficulty: 'Expert',
+    xp: 85,
+    snippet: `ServiceLoader<MyService> loader = ServiceLoader.load(MyService.class);
+for (MyService service : loader) {
+    service.doSomething();
+}`
+  },
+  {
+    id: 'ct210',
+    title: 'C++ `std::tuple`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 50,
+    snippet: `#include <tuple>
+auto my_tuple = std::make_tuple(10, "Test");
+int my_int = std::get<0>(my_tuple);`
+  },
+  {
+    id: 'ct211',
+    title: 'Python `async def`',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 55,
+    snippet: `import asyncio
+async def main():
+    print('Hello')
+    await asyncio.sleep(1)
+    print('world')`
+  },
+  {
+    id: 'ct212',
+    title: 'JavaScript `FormData`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 40,
+    snippet: `const formData = new FormData();
+formData.append('username', 'Chris');
+fetch('/api', { method: 'POST', body: formData });`
+  },
+  {
+    id: 'ct213',
+    title: 'Java `toCharArray`',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 20,
+    snippet: `String str = "hello";
+char[] chars = str.toCharArray();`
+  },
+  {
+    id: 'ct214',
+    title: 'C++ `std::mutex`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `#include <mutex>
+std::mutex m;
+m.lock();
+// critical section
+m.unlock();`
+  },
+  {
+    id: 'ct215',
+    title: 'Python `__repr__`',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 45,
+    snippet: `class Point:
+    def __repr__(self):
+        return f'Point({self.x}, {self.y})'`
+  },
+  {
+    id: 'ct216',
+    title: 'JavaScript `AbortController`',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 60,
+    snippet: `const controller = new AbortController();
+const signal = controller.signal;
+fetch(url, { signal });
+controller.abort();`
+  },
+  {
+    id: 'ct217',
+    title: 'Java `Double Brace Initialization` (anti-pattern)',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 40,
+    snippet: `Set<String> set = new HashSet<>() {{
+    add("a");
+    add("b");
+}};`
+  },
+  {
+    id: 'ct218',
+    title: 'C++ `std::chrono`',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 55,
+    snippet: `#include <chrono>
+auto start = std::chrono::high_resolution_clock::now();
+// ...
+auto end = std::chrono::high_resolution_clock::now();`
+  },
+  {
+    id: 'ct219',
+    title: 'Python list slicing',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    snippet: `my_list = [0, 1, 2, 3, 4, 5]
+sub_list = my_list[1:4]
+reversed_list = my_list[::-1]`
+  },
+  {
+    id: 'ct220',
+    title: 'JavaScript `console.table`',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    snippet: `const data = [{ item: 'A' }, { item: 'B' }];
+console.table(data);`
+  },
+  {
+    id: 'ct221',
+    title: 'Java `Collections.unmodifiableList`',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 45,
+    snippet: `List<String> mutable = new ArrayList<>();
+List<String> immutable = Collections.unmodifiableList(mutable);`
+  },
+  {
+    id: 'ct222',
+    title: 'C++ `std::condition_variable`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 80,
+    snippet: `std::condition_variable cv;
+std::mutex m;
+std::unique_lock<std::mutex> lock(m);
+cv.wait(lock);`
+  },
+  {
+    id: 'ct223',
+    title: 'Python `functools.wraps`',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 60,
+    snippet: `from functools import wraps
+def my_decorator(f):
+    @wraps(f)
+    def wrapper(*args, **kwds):
+        return f(*args, **kwds)
+    return wrapper`
+  },
+  {
+    id: 'ct224',
+    title: 'JavaScript `Geolocation` API',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 45,
+    snippet: `navigator.geolocation.getCurrentPosition(pos => {
+  console.log(pos.coords.latitude);
+});`
+  },
+  {
+    id: 'ct225',
+    title: 'Java `ArrayDeque`',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 45,
+    snippet: `Deque<Integer> deque = new ArrayDeque<>();
+deque.addFirst(1);
+deque.addLast(2);`
+  },
+  {
+    id: 'ct226',
+    title: 'C++ `std::regex`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `#include <regex>
+std::string s = "subject";
+std::regex e ("(sub)(.*)");
+std::smatch m;
+std::regex_search(s, m, e);`
+  },
+  {
+    id: 'ct227',
+    title: 'Python `__getitem__`',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 60,
+    snippet: `class MyList:
+    def __getitem__(self, index):
+        return index * 10`
+  },
+  {
+    id: 'ct228',
+    title: 'JavaScript `postMessage` API',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `// In window A
+otherWindow.postMessage('Hello', 'http://example.com');
+// In window B
+window.addEventListener('message', event => { ... });`
+  },
+  {
+    id: 'ct229',
+    title: 'Java `TreeMap`',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 50,
+    snippet: `// Sorted map
+Map<String, Integer> map = new TreeMap<>();
+map.put("c", 1);
+map.put("a", 2);`
+  },
+  {
+    id: 'ct230',
+    title: 'C++ `using` for type aliases',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 30,
+    snippet: `using IntVector = std::vector<int>;
+IntVector v;`
+  },
+  {
+    id: 'ct231',
+    title: 'Python `__enter__` and `__exit__`',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `class MyContext:
+    def __enter__(self):
+        # Setup code
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        # Teardown code`
+  },
+  {
+    id: 'ct232',
+    title: 'JavaScript `IntersectionObserver`',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 60,
+    snippet: `let observer = new IntersectionObserver(callback, options);
+observer.observe(target);`
+  },
+  {
+    id: 'ct233',
+    title: 'Java `LinkedHashMap`',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 50,
+    snippet: `// Maintains insertion order
+Map<String, Integer> map = new LinkedHashMap<>();`
+  },
+  {
+    id: 'ct234',
+    title: 'C++ `std::atomic` flag',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 75,
+    snippet: `#include <atomic>
+std::atomic_flag lock = ATOMIC_FLAG_INIT;
+while (lock.test_and_set(std::memory_order_acquire)) {}`
+  },
+  {
+    id: 'ct235',
+    title: 'Python `abc` module',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `from abc import ABC, abstractmethod
+class MyABC(ABC):
+    @abstractmethod
+    def my_method(self):
+        pass`
+  },
+  {
+    id: 'ct236',
+    title: 'JavaScript `MutationObserver`',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 70,
+    snippet: `const observer = new MutationObserver(mutations => {});
+observer.observe(targetNode, config);`
+  },
+  {
+    id: 'ct237',
+    title: 'Java `PriorityQueue`',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 55,
+    snippet: `Queue<Integer> pq = new PriorityQueue<>();
+pq.add(10);
+pq.add(1);`
+  },
+  {
+    id: 'ct238',
+    title: 'C++ `std::future` and `std::promise`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 85,
+    snippet: `std::promise<int> p;
+std::future<int> f = p.get_future();
+p.set_value(42);`
+  },
+  {
+    id: 'ct239',
+    title: 'Python `shutil` module',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 40,
+    snippet: `import shutil
+shutil.copyfile('src.txt', 'dst.txt');
+shutil.rmtree('my_dir');`
+  },
+  {
+    id: 'ct240',
+    title: 'JavaScript `Proxy` traps',
+    language: 'javascript',
+    difficulty: 'Expert',
+    xp: 80,
+    snippet: `const handler = {
+  get: function(target, prop, receiver) {
+    return 'intercepted';
+  }
+};`
+  },
+  {
+    id: 'ct241',
+    title: 'Java `ThreadLocal`',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 70,
+    snippet: `private static final ThreadLocal<Integer> userContext = new ThreadLocal<>();
+userContext.set(123);`
+  },
+  {
+    id: 'ct242',
+    title: 'C++ `decltype`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `int i;
+decltype(i) j = 0; // j is an int`
+  },
+  {
+    id: 'ct243',
+    title: 'Python `argparse` module',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 55,
+    snippet: `import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("echo")
+args = parser.parse_args()`
+  },
+  {
+    id: 'ct244',
+    title: 'JavaScript `CustomEvent`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 50,
+    snippet: `const event = new CustomEvent('build', { detail: elem.dataset.time });
+elem.dispatchEvent(event);`
+  },
+  {
+    id: 'ct245',
+    title: 'Java `Comparator.comparing`',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 50,
+    snippet: `users.sort(Comparator.comparing(User::getName)
+                    .thenComparing(User::getAge));`
+  },
+  {
+    id: 'ct246',
+    title: 'C++ `std::bind`',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 70,
+    snippet: `using namespace std::placeholders;
+auto bound_func = std::bind(my_func, _1, 5);
+bound_func(10);`
+  },
+  {
+    id: 'ct247',
+    title: 'Python `logging` module',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 35,
+    snippet: `import logging
+logging.basicConfig(level=logging.INFO)
+logging.info('This is an info message')`
+  },
+  {
+    id: 'ct248',
+    title: 'JavaScript `requestAnimationFrame`',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 55,
+    snippet: `function animate() {
+  // animation code
+  requestAnimationFrame(animate);
+}`
+  },
+  {
+    id: 'ct249',
+    title: 'Java `ConcurrentHashMap`',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 65,
+    snippet: `Map<String, String> map = new ConcurrentHashMap<>();
+map.put("key", "value");`
+  },
+  {
+    id: 'ct250',
+    title: 'C++ `std::enable_shared_from_this`',
+    language: 'cpp',
+    difficulty: 'Expert',
+    xp: 90,
+    snippet: `struct Good : std::enable_shared_from_this<Good> {
+    std::shared_ptr<Good> getptr() {
+        return shared_from_this();
+    }
+};`
   }
 ];
