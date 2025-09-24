@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from "react";
-import CodeMirror from "@uiw/react-codemirror";
+import CodeMirror, { EditorView } from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { python } from "@codemirror/lang-python";
 import { java, javaLanguage } from "@codemirror/lang-java";
@@ -27,6 +27,24 @@ const languageExtensions = {
   cpp: [cpp()],
 };
 
+const transparentTheme = EditorView.theme({
+  '&': {
+    backgroundColor: 'transparent !important',
+    color: 'transparent',
+    caretColor: 'hsl(var(--primary))',
+  },
+  '.cm-content': {
+    caretColor: 'hsl(var(--primary))',
+  },
+  '.cm-gutters': {
+      backgroundColor: 'transparent',
+      border: 'none',
+  },
+  '.cm-line': {
+      color: 'transparent',
+  }
+});
+
 
 export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, onCodeChange, transparentBg = false }) => {
   const [code, setCode] = useState(initialCode);
@@ -37,20 +55,23 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, o
       onCodeChange(value);
     }
   };
+  
+  const extensions = languageExtensions[language];
+  if (transparentBg) {
+      extensions.push(transparentTheme);
+  }
 
   return (
     <CodeMirror
       value={code}
       height="100%"
-      extensions={languageExtensions[language]}
+      extensions={extensions}
       theme={transparentBg ? 'none' : okaidia}
       onChange={handleOnChange}
       className={cn(
         "flex-grow rounded-md overflow-hidden text-base border",
-        transparentBg && "bg-transparent"
+        transparentBg ? "bg-transparent" : "bg-muted"
         )}
     />
   );
 };
-
-    

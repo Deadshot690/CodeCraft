@@ -6,7 +6,7 @@ import { useRouter, notFound, useParams } from 'next/navigation';
 import { codeTyperChallenges } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChevronLeft, RefreshCw, TimerIcon, Crosshair, Target, SkipForward } from 'lucide-react';
+import { ChevronLeft, RefreshCw, TimerIcon, Crosshair, Target, SkipForward, AlertCircle } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { CompletionModal } from '@/components/games/completion-modal';
 import { cn } from '@/lib/utils';
@@ -90,11 +90,11 @@ export default function CodeTyperArenaPage() {
             setStartTime(new Date());
         }
 
-        const isMistake = value.length > userInput.length && value[value.length-1] !== challenge?.snippet[value.length-1];
+        const isMistake = value.length > userInput.length && value[value.length - 1] !== challenge?.snippet[value.length - 1];
         if (isMistake) {
             setTotalErrors((prev) => prev + 1);
         }
-        
+
         let currentErrorCount = 0;
         for (let i = 0; i < value.length; i++) {
             if (value[i] !== challenge?.snippet[i]) {
@@ -108,7 +108,7 @@ export default function CodeTyperArenaPage() {
             setStatus('finished');
         }
     };
-    
+
     if (!isClient) return null;
 
     if (!challenge) {
@@ -118,7 +118,7 @@ export default function CodeTyperArenaPage() {
     const { snippet, language } = challenge;
     const typedChars = userInput.length;
     const totalChars = snippet.length;
-    const accuracy = typedChars > 0 ? Math.max(0, ((typedChars - errors) / typedChars) * 100) : 100;
+    const accuracy = totalChars > 0 ? Math.max(0, ((totalChars - totalErrors) / totalChars) * 100) : 100;
     
     const elapsedSeconds = startTime ? (new Date().getTime() - startTime.getTime()) / 1000 : 0;
     const wpm = getWPM(typedChars - errors, elapsedSeconds);
@@ -133,7 +133,11 @@ export default function CodeTyperArenaPage() {
             if (index === typedChars) {
                 className = 'animate-pulse bg-primary/50 rounded-sm'
             }
-            return <span key={index} className={cn('transition-colors duration-150', className)}>{char === '\n' ? '↵\n' : char}</span>
+            // Handle newlines correctly for display
+            if (char === '\n') {
+                return <span key={index} className={cn('transition-colors duration-150', className)}>↵<br/></span>;
+            }
+            return <span key={index} className={cn('transition-colors duration-150', className)}>{char}</span>;
         })
     };
 
@@ -153,7 +157,7 @@ export default function CodeTyperArenaPage() {
                         <RefreshCw className="mr-2 h-4 w-4" />
                         Reset
                     </Button>
-                    <Button size="sm" onClick={handleNextChallenge}>
+                     <Button size="sm" onClick={handleNextChallenge}>
                         Next Challenge
                         <SkipForward className="ml-2 h-4 w-4" />
                     </Button>
@@ -180,6 +184,7 @@ export default function CodeTyperArenaPage() {
                                 <span className="text-xs text-muted-foreground">WPM</span>
                             </div>
                              <div className="flex flex-col items-center gap-1">
+                                 <AlertCircle className="h-6 w-6 text-destructive" />
                                 <span className="text-2xl font-bold text-destructive">{totalErrors}</span>
                                 <span className="text-xs text-muted-foreground">Errors</span>
                             </div>
@@ -192,15 +197,15 @@ export default function CodeTyperArenaPage() {
                         <CardTitle className="font-headline text-lg">Type the code</CardTitle>
                     </CardHeader>
                     <CardContent className="flex-grow flex flex-col">
-                        <div className="relative h-full">
-                            <div className="absolute top-0 left-0 w-full h-full p-4 bg-muted rounded-md pointer-events-none">
-                                <pre className="text-base text-transparent font-code whitespace-pre-wrap select-none">
+                        <div className="relative h-full font-code text-base">
+                            <div className="absolute inset-0 p-4 bg-muted rounded-md overflow-auto pointer-events-none">
+                                <pre className="whitespace-pre-wrap select-none">
                                     <code>
                                         {renderSnippet()}
                                     </code>
                                 </pre>
                             </div>
-                            <CodeEditor
+                             <CodeEditor
                                 key={challenge.id}
                                 initialCode=""
                                 language={language}
@@ -224,7 +229,3 @@ export default function CodeTyperArenaPage() {
         </div>
     );
 }
-
-    
-
-    
