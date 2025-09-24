@@ -225,36 +225,3 @@ export default function MonsterBattlePage() {
     </div>
   );
 }
-
-// Custom progress bar indicator class
-declare module 'react' {
-  interface ComponentProps<T> {
-    indicatorClassName?: string;
-  }
-}
-Progress.defaultProps = {
-  indicatorClassName: 'bg-primary'
-};
-
-const OriginalProgress = Progress;
-const ProgressWithIndicator = React.forwardRef<
-  React.ElementRef<typeof Progress>,
-  React.ComponentProps<typeof Progress>
->(({ className, value, indicatorClassName, ...props }, ref) => (
-  <OriginalProgress
-    ref={ref}
-    className={className}
-    value={value}
-    {...props}
-    // @ts-expect-error
-    style={{'--indicator-color': 'hsl(var(--primary))'}}
-  >
-    {/* @ts-expect-error */}
-    <Progress.Indicator
-      className={cn("h-full w-full flex-1 transition-all", indicatorClassName)}
-      style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
-    />
-  </OriginalProgress>
-));
-ProgressWithIndicator.displayName = 'Progress';
-Object.assign(Progress, { Root: OriginalProgress.Root, Indicator: ProgressWithIndicator });
