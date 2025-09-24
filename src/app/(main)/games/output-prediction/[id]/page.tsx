@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, use } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import { outputPredictionChallenges } from '@/lib/data';
 import { CodeEditor } from '@/components/code-editor';
@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils';
 type GameState = 'playing' | 'answered';
 
 export default function OutputPredictionArenaPage({ params }: { params: { id: string } }) {
+  const resolvedParams = use(params);
   const router = useRouter();
   
   const [gameState, setGameState] = useState<GameState>('playing');
@@ -23,8 +24,8 @@ export default function OutputPredictionArenaPage({ params }: { params: { id: st
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const challenge = useMemo(() => {
-    return outputPredictionChallenges.find((c) => c.id === params.id);
-  }, [params.id]);
+    return outputPredictionChallenges.find((c) => c.id === resolvedParams.id);
+  }, [resolvedParams.id]);
 
   if (!challenge) {
     notFound();
