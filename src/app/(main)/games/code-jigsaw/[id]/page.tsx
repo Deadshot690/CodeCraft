@@ -23,16 +23,15 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 export default function CodeJigsawArenaPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const resolvedParams = use(params);
-
   const [isClient, setIsClient] = useState(false);
-  const [scrambledLines, setScrambledLines] = useState<string[]>([]);
-  const [solutionLines, setSolutionLines] = useState<string[]>([]);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const challenge = useMemo(() => {
     return codeJigsawChallenges.find((c) => c.id === resolvedParams.id);
   }, [resolvedParams.id]);
 
+  const [scrambledLines, setScrambledLines] = useState<string[]>([]);
+  const [solutionLines, setSolutionLines] = useState<string[]>([]);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -92,11 +91,6 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
     const nextChallenge = codeJigsawChallenges[(currentIndex + 1) % codeJigsawChallenges.length];
     router.push(`/games/code-jigsaw/${nextChallenge.id}`);
   };
-
-  if (!isClient) {
-    // Render a skeleton or loading state on the server
-    return <div className="flex h-screen w-full items-center justify-center">Loading...</div>;
-  }
   
   return (
     <div className="flex flex-col h-screen">
@@ -129,74 +123,76 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
               </CardContent>
           </Card>
           
-          <DragDropContext onDragEnd={onDragEnd}>
-              <div className="grid gap-6 lg:grid-cols-2">
-                  {/* Scrambled blocks */}
-                  <div className="flex flex-col gap-4">
-                      <h2 className="font-headline text-lg font-semibold">Scrambled Lines</h2>
-                      <Droppable droppableId="scrambled">
-                          {(provided, snapshot) => (
-                              <Card 
-                                  ref={provided.innerRef} 
-                                  {...provided.droppableProps}
-                                  className={`min-h-[200px] p-4 transition-colors ${snapshot.isDraggingOver ? 'bg-accent' : ''}`}
-                              >
-                                  {scrambledLines.map((line, index) => (
-                                      <Draggable key={`scrambled-${line}-${index}`} draggableId={`scrambled-${line}-${index}`} index={index}>
-                                          {(provided, snapshot) => (
-                                              <div
-                                                  ref={provided.innerRef}
-                                                  {...provided.draggableProps}
-                                                  {...provided.dragHandleProps}
-                                                  className={`mb-2 flex items-center gap-2 rounded-md p-3 font-code text-sm shadow-sm transition-shadow ${snapshot.isDragging ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}
-                                              >
-                                                  <GripVertical className="h-5 w-5 text-muted-foreground" />
-                                                  <pre className="whitespace-pre-wrap">{line}</pre>
-                                              </div>
-                                          )}
-                                      </Draggable>
-                                  ))}
-                                  {provided.placeholder}
-                                  {scrambledLines.length === 0 && <p className="text-center text-muted-foreground p-4">Drop lines back here</p>}
-                              </Card>
-                          )}
-                      </Droppable>
-                  </div>
+          {isClient && (
+            <DragDropContext onDragEnd={onDragEnd}>
+                <div className="grid gap-6 lg:grid-cols-2">
+                    {/* Scrambled blocks */}
+                    <div className="flex flex-col gap-4">
+                        <h2 className="font-headline text-lg font-semibold">Scrambled Lines</h2>
+                        <Droppable droppableId="scrambled">
+                            {(provided, snapshot) => (
+                                <Card 
+                                    ref={provided.innerRef} 
+                                    {...provided.droppableProps}
+                                    className={`min-h-[200px] p-4 transition-colors ${snapshot.isDraggingOver ? 'bg-accent' : ''}`}
+                                >
+                                    {scrambledLines.map((line, index) => (
+                                        <Draggable key={`scrambled-${line}-${index}`} draggableId={`scrambled-${line}-${index}`} index={index}>
+                                            {(provided, snapshot) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    className={`mb-2 flex items-center gap-2 rounded-md p-3 font-code text-sm shadow-sm transition-shadow ${snapshot.isDragging ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}
+                                                >
+                                                    <GripVertical className="h-5 w-5 text-muted-foreground" />
+                                                    <pre className="whitespace-pre-wrap">{line}</pre>
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                    {scrambledLines.length === 0 && <p className="text-center text-muted-foreground p-4">Drop lines back here</p>}
+                                </Card>
+                            )}
+                        </Droppable>
+                    </div>
 
-                  {/* Solution Area */}
-                  <div className="flex flex-col gap-4">
-                       <h2 className="font-headline text-lg font-semibold">Your Solution</h2>
-                      <Droppable droppableId="solution">
-                          {(provided, snapshot) => (
-                              <Card 
-                                  ref={provided.innerRef} 
-                                  {...provided.droppableProps}
-                                  className={`min-h-[200px] p-4 transition-colors ${snapshot.isDraggingOver ? 'bg-green-500/10' : ''}`}
-                              >
-                                  {solutionLines.map((line, index) => (
-                                      <Draggable key={`solution-${line}-${index}`} draggableId={`solution-${line}-${index}`} index={index}>
-                                          {(provided, snapshot) => (
-                                              <div
-                                                  ref={provided.innerRef}
-                                                  {...provided.draggableProps}
-                                                  {...provided.dragHandleProps}
-                                                  className={`mb-2 flex items-center gap-2 rounded-md p-3 font-code text-sm shadow-sm transition-shadow ${snapshot.isDragging ? 'bg-primary text-primary-foreground' : 'bg-background border'}`}
-                                              >
-                                                  <GripVertical className="h-5 w-5 text-muted-foreground" />
-                                                  <span className="w-6 text-muted-foreground">{index + 1}.</span>
-                                                  <pre className="whitespace-pre-wrap">{line}</pre>
-                                              </div>
-                                          )}
-                                      </Draggable>
-                                  ))}
-                                  {provided.placeholder}
-                                  {solutionLines.length === 0 && <p className="text-center text-muted-foreground p-4">Drag lines here</p>}
-                              </Card>
-                          )}
-                      </Droppable>
-                  </div>
-              </div>
-          </DragDropContext>
+                    {/* Solution Area */}
+                    <div className="flex flex-col gap-4">
+                         <h2 className="font-headline text-lg font-semibold">Your Solution</h2>
+                        <Droppable droppableId="solution">
+                            {(provided, snapshot) => (
+                                <Card 
+                                    ref={provided.innerRef} 
+                                    {...provided.droppableProps}
+                                    className={`min-h-[200px] p-4 transition-colors ${snapshot.isDraggingOver ? 'bg-green-500/10' : ''}`}
+                                >
+                                    {solutionLines.map((line, index) => (
+                                        <Draggable key={`solution-${line}-${index}`} draggableId={`solution-${line}-${index}`} index={index}>
+                                            {(provided, snapshot) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    className={`mb-2 flex items-center gap-2 rounded-md p-3 font-code text-sm shadow-sm transition-shadow ${snapshot.isDragging ? 'bg-primary text-primary-foreground' : 'bg-background border'}`}
+                                                >
+                                                    <GripVertical className="h-5 w-5 text-muted-foreground" />
+                                                    <span className="w-6 text-muted-foreground">{index + 1}.</span>
+                                                    <pre className="whitespace-pre-wrap">{line}</pre>
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                    {solutionLines.length === 0 && <p className="text-center text-muted-foreground p-4">Drag lines here</p>}
+                                </Card>
+                            )}
+                        </Droppable>
+                    </div>
+                </div>
+            </DragDropContext>
+          )}
           
           <div className="mt-6 flex flex-col items-center gap-4">
               <Button onClick={checkSolution} disabled={solutionLines.length === 0}>
