@@ -1811,7 +1811,7 @@ registry.register(obj, "some value");`
 heap = []
 heapq.heappush(heap, 4)
 heapq.heappush(heap, 1)
-heapq.heappop(heap) # returns 1`
+heapq.heappop(heap) // returns 1`
   },
   {
     id: 'ct152',
@@ -3055,6 +3055,184 @@ class Trie:
 }`
   },
   {
+    id: 'ct261',
+    title: 'Java: Depth First Search (DFS)',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 65,
+    snippet: `import java.util.*;
+class Graph {
+    private int V;
+    private LinkedList<Integer> adj[];
+    void DFSUtil(int v, boolean visited[]) {
+        visited[v] = true;
+        System.out.print(v + " ");
+        Iterator<Integer> i = adj[v].listIterator();
+        while (i.hasNext()) {
+            int n = i.next();
+            if (!visited[n])
+                DFSUtil(n, visited);
+        }
+    }
+}`
+  },
+  {
+    id: 'ct262',
+    title: 'C++: Merge Sort Implementation',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 80,
+    snippet: `void merge(int arr[], int l, int m, int r) {
+    // Merge logic here
+}
+void mergeSort(int arr[], int l, int r) {
+    if (l < r) {
+        int m = l + (r - l) / 2;
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        merge(arr, l, m, r);
+    }
+}`
+  },
+  {
+    id: 'ct263',
+    title: 'Python: QuickSelect Algorithm',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 85,
+    snippet: `import random
+def quickselect(arr, k):
+    if not arr: return None
+    pivot = random.choice(arr)
+    left = [x for x in arr if x < pivot]
+    mid = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    if k < len(left):
+        return quickselect(left, k)
+    elif k < len(left) + len(mid):
+        return mid[0]
+    else:
+        return quickselect(right, k - len(left) - len(mid))`
+  },
+  {
+    id: 'ct264',
+    title: 'JavaScript: Implement Curry Function',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 75,
+    snippet: `function curry(fn) {
+    return function curried(...args) {
+        if (args.length >= fn.length) {
+            return fn.apply(this, args);
+        } else {
+            return function(...args2) {
+                return curried.apply(this, args.concat(args2));
+            }
+        }
+    };
+}`
+  },
+  {
+    id: 'ct265',
+    title: 'Java: Factory Design Pattern',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 70,
+    snippet: `interface Shape { void draw(); }
+class Rectangle implements Shape { public void draw() { System.out.println("Rectangle"); } }
+class Circle implements Shape { public void draw() { System.out.println("Circle"); } }
+class ShapeFactory {
+    public Shape getShape(String shapeType) {
+        if (shapeType.equalsIgnoreCase("CIRCLE")) return new Circle();
+        else if (shapeType.equalsIgnoreCase("RECTANGLE")) return new Rectangle();
+        return null;
+    }
+}`
+  },
+  {
+    id: 'ct266',
+    title: 'C++: Rule of Five',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 90,
+    snippet: `class MyResource {
+public:
+    MyResource(); // default constructor
+    ~MyResource(); // destructor
+    MyResource(const MyResource&); // copy constructor
+    MyResource& operator=(const MyResource&); // copy assignment
+    MyResource(MyResource&&); // move constructor
+    MyResource& operator=(MyResource&&); // move assignment
+};`
+  },
+  {
+    id: 'ct267',
+    title: 'Python: Asyncio Web Server',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 85,
+    snippet: `import asyncio
+async def handle_echo(reader, writer):
+    data = await reader.read(100)
+    message = data.decode()
+    addr = writer.get_extra_info('peername')
+    writer.write(data)
+    await writer.drain()
+    writer.close()
+
+async def main():
+    server = await asyncio.start_server(handle_echo, '127.0.0.1', 8888)
+    async with server:
+        await server.serve_forever()`
+  },
+  {
+    id: 'ct268',
+    title: 'JavaScript: WebSockets Client',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 60,
+    snippet: `const socket = new WebSocket('ws://localhost:8080');
+socket.addEventListener('open', function (event) {
+    socket.send('Hello Server!');
+});
+socket.addEventListener('message', function (event) {
+    console.log('Message from server ', event.data);
+});`
+  },
+  {
+    id: 'ct269',
+    title: 'Java: Object Serialization',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 60,
+    snippet: `import java.io.*;
+class Demo implements java.io.Serializable {
+    public int a;
+    public String b;
+}
+// To serialize:
+FileOutputStream file = new FileOutputStream(filename);
+ObjectOutputStream out = new ObjectOutputStream(file);
+out.writeObject(object);`
+  },
+  {
+    id: 'ct270',
+    title: 'C++: Operator Overloading',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 65,
+    snippet: `class Box {
+public:
+   Box operator+(const Box& b) {
+      Box box;
+      box.length = this->length + b.length;
+      return box;
+   }
+private:
+   double length;
+};`
+  },
+  {
     id: 'ct304',
     title: 'Python: Bellman-Ford Algorithm',
     language: 'python',
@@ -3544,5 +3722,121 @@ onmessage = function(e) {
   const result = e.data[0] * e.data[1];
   postMessage(result);
 }`
+  },
+  {
+    id: 'ct405',
+    title: 'Java: Prim\'s Algorithm (MST)',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 95,
+    snippet: `class Prims {
+    private void prim(int V, List<List<Node>> adj) {
+        int[] key = new int[V];
+        boolean[] mstSet = new boolean[V];
+        int[] parent = new int[V];
+        for (int i = 0; i < V; i++) {
+            key[i] = Integer.MAX_VALUE;
+            mstSet[i] = false;
+        }
+        PriorityQueue<Node> pq = new PriorityQueue<>(V, Comparator.comparingInt(o -> o.getKey()));
+        key[0] = 0;
+        parent[0] = -1;
+        pq.add(new Node(0, key[0]));
+        // Algorithm continues...
+    }
+}`
+  },
+  {
+    id: 'ct406',
+    title: 'C++: SFINAE Example',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 90,
+    snippet: `template <typename T>
+struct has_serialize {
+    template <typename C>
+    static char test(decltype(&C::serialize));
+
+    template <typename C>
+    static int test(...);
+    
+    enum { value = sizeof(test<T>(0)) == sizeof(char) };
+};`
+  },
+  {
+    id: 'ct407',
+    title: 'Python: Disjoint Set Union (DSU)',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 80,
+    snippet: `class DSU:
+    def __init__(self, n):
+        self.parent = list(range(n))
+    def find(self, i):
+        if self.parent[i] == i:
+            return i
+        self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
+    def union(self, i, j):
+        root_i = self.find(i)
+        root_j = self.find(j)
+        if root_i != root_j:
+            self.parent[root_i] = root_j`
+  },
+  {
+    id: 'ct408',
+    title: 'JavaScript: Implement Memoization',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 75,
+    snippet: `function memoize(fn) {
+  const cache = {};
+  return function(...args) {
+    const key = JSON.stringify(args);
+    if (cache[key]) {
+      return cache[key];
+    } else {
+      const result = fn.apply(this, args);
+      cache[key] = result;
+      return result;
+    }
+  };
+}`
+  },
+  {
+    id: 'ct409',
+    title: 'Java: Custom Annotation Processing',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 100,
+    snippet: `import javax.annotation.processing.*;
+import javax.lang.model.element.Element;
+import java.util.Set;
+
+@SupportedAnnotationTypes("com.example.MyAnnotation")
+public class MyProcessor extends AbstractProcessor {
+    @Override
+    public boolean process(Set<? extends Element> annotations, RoundEnvironment roundEnv) {
+        // processing logic here
+        return true;
+    }
+}`
+  },
+  {
+    id: 'ct410',
+    title: 'C++: CRTP for Static Polymorphism',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 90,
+    snippet: `template <typename Derived>
+struct Base {
+    void interface() {
+        static_cast<Derived*>(this)->implementation();
+    }
+};
+
+struct Derived : Base<Derived> {
+    void implementation() { /* ... */ }
+};`
   }
 ];
