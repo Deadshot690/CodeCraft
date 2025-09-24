@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, use } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import type { DropResult } from "react-beautiful-dnd";
@@ -15,18 +15,25 @@ import { Badge } from "@/components/ui/badge";
 
 // Helper function to shuffle an array
 const shuffleArray = <T,>(array: T[]): T[] => {
-  return array.map(value => ({ value, sort: Math.random() }))
-               .sort((a, b) => a.sort - b.sort)
-               .map(({ value }) => value);
+  // Guard against shuffling a single-item array into the same order
+  if (array.length <= 1) return [...array];
+  
+  let shuffled;
+  do {
+    shuffled = [...array].sort(() => Math.random() - 0.5);
+  } while (JSON.stringify(shuffled) === JSON.stringify(array));
+  
+  return shuffled;
 };
 
 export default function CodeJigsawArenaPage({ params }: { params: { id: string } }) {
+  const resolvedParams = use(params);
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
 
   const challenge = useMemo(() => {
-    return codeJigsawChallenges.find((c) => c.id === params.id);
-  }, [params.id]);
+    return codeJigsawChallenges.find((c) => c.id === resolvedParams.id);
+  }, [resolvedParams.id]);
 
   const [scrambledLines, setScrambledLines] = useState<string[]>([]);
   const [solutionLines, setSolutionLines] = useState<string[]>([]);
@@ -35,13 +42,7 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
   useEffect(() => {
     setIsClient(true);
     if (challenge) {
-      // Ensure we don't shuffle into the correct order by chance on first load
-      let shuffled;
-      do {
-        shuffled = shuffleArray([...challenge.lines]);
-      } while (JSON.stringify(shuffled) === JSON.stringify(challenge.lines) && challenge.lines.length > 1);
-
-      setScrambledLines(shuffled);
+      setScrambledLines(shuffleArray(challenge.lines));
       setSolutionLines([]);
       setIsCorrect(null);
     }
@@ -58,23 +59,25 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
       return;
     }
 
-    const sourceList = source.droppableId === 'scrambled' ? [...scrambledLines] : [...solutionLines];
-    const destList = destination.droppableId === 'scrambled' ? [...scrambledLines] : [...solutionLines];
-    
-    const [removed] = sourceList.splice(source.index, 1);
-    destList.splice(destination.index, 0, removed);
+    let newScrambledLines = [...scrambledLines];
+    let newSolutionLines = [...solutionLines];
 
     if (source.droppableId === 'scrambled' && destination.droppableId === 'solution') {
-      setScrambledLines(sourceList);
-      setSolutionLines(destList);
+      const [moved] = newScrambledLines.splice(source.index, 1);
+      newSolutionLines.splice(destination.index, 0, moved);
     } else if (source.droppableId === 'solution' && destination.droppableId === 'scrambled') {
-       setSolutionLines(sourceList);
-       setScrambledLines(destList);
+      const [moved] = newSolutionLines.splice(source.index, 1);
+      newScrambledLines.splice(destination.index, 0, moved);
     } else if (source.droppableId === 'solution' && destination.droppableId === 'solution') {
-       setSolutionLines(destList);
+      const [moved] = newSolutionLines.splice(source.index, 1);
+      newSolutionLines.splice(destination.index, 0, moved);
     } else if (source.droppableId === 'scrambled' && destination.droppableId === 'scrambled') {
-      setScrambledLines(destList);
+       const [moved] = newScrambledLines.splice(source.index, 1);
+       newScrambledLines.splice(destination.index, 0, moved);
     }
+    
+    setScrambledLines(newScrambledLines);
+    setSolutionLines(newSolutionLines);
   };
 
   const checkSolution = () => {
