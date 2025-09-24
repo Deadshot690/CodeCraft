@@ -21,13 +21,16 @@ export default function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
 
-  const form = useForm({ resolver: zodResolver(formSchema), defaultValues: { email: "", password: "" } });
+  const form = useForm<z.infer<typeof formSchema>>({ 
+    resolver: zodResolver(formSchema), 
+    defaultValues: { email: "", password: "" } 
+  });
 
-  async function onSubmit(values) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
-      // AuthLayout will handle redirect automatically.
-    } catch (error) {
+      router.replace("/dashboard");
+    } catch (error: any) {
       toast({ title: "Login Failed", description: error.message || "An unexpected error occurred.", variant: "destructive" });
     }
   }
