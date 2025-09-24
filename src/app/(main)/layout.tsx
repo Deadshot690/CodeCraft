@@ -24,7 +24,7 @@ export default function MainLayout({
     }
   }, [firebaseUser, loading, router]);
 
-  // While authentication is loading, show a full-screen loader.
+  // While authentication is loading, or if we are about to redirect, or if the full user profile hasn't loaded yet, show a loader.
   if (loading || !firebaseUser || !user) {
     return (
       <div className="flex h-screen items-center justify-center">

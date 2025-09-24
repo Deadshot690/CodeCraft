@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 
+// This is the initial entry point of the app.
+// It will determine if the user is logged in and redirect accordingly.
 export default function LandingPage() {
   const { firebaseUser, loading } = useAuth();
   const router = useRouter();
