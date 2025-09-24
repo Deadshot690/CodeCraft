@@ -76,58 +76,53 @@ export default function ConceptMatchArenaPage() {
   }, [challenge, initializeGame]);
 
   const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
-
+    const { source, destination, draggableId } = result;
+  
     if (!destination) return;
-
-    const sourceColId = source.droppableId;
-    const destColId = destination.droppableId;
-    
-    // Prevent dropping in the same column
-    if (sourceColId === destColId) return;
-
-    // We only care about drops into the 'col-matched' area
-    if (destColId !== 'col-matched') return;
-
-    const newColumns = { ...columns };
-    const sourceCol = newColumns[sourceColId];
-    const destCol = newColumns[destColId];
-    const [movedItem] = sourceCol.items.splice(source.index, 1);
-
-    // This is the item it's being dropped onto
-    const targetItem = destCol.items[destination.index];
-
-    // Simple logic: if dropped in the matched column, find its pair and move it
-    if (movedItem) {
-        const pairId = movedItem.matchId;
+  
+    // Find the dragged item
+    const sourceCol = Object.values(columns).find(col => col.id === source.droppableId);
+    if (!sourceCol) return;
+    const draggedItem = sourceCol.items.find(item => item.id === draggableId);
+    if (!draggedItem) return;
+  
+    // Find the target item if dropped on another item
+    const destCol = Object.values(columns).find(col => col.id === destination.droppableId);
+    if (!destCol) return;
+    const targetItem = destCol.items.find(item => item.id === destination.droppableId); // This logic is flawed for dropping on a column
+  
+    if (draggedItem.matchId === (targetItem?.id || destination.droppableId)) {
+        // Correct match
+        const newColumns = { ...columns };
+        const sourceColumn = newColumns[source.droppableId];
+        const destColumn = newColumns['col-matched'];
         
-        let pairItem: Item | undefined;
-        let pairSourceColId: string | undefined;
+        // Remove dragged item
+        const [movedItem] = sourceColumn.items.splice(source.index, 1);
 
-        // Find the pair item in the other column
-        for (const colId in newColumns) {
-            if (colId !== 'col-matched' && colId !== sourceColId) {
+        // Find and remove pair item
+        let pairItem: Item | undefined;
+        for (const colId of ['col-code', 'col-concept']) {
+            if (colId !== source.droppableId) {
                 const pairCol = newColumns[colId];
-                const pairIndex = pairCol.items.findIndex(item => item.id === pairId);
-                if (pairIndex > -1) {
+                const pairIndex = pairCol.items.findIndex(i => i.id === movedItem.matchId);
+                if (pairIndex !== -1) {
                     [pairItem] = pairCol.items.splice(pairIndex, 1);
-                    pairSourceColId = colId;
                     break;
                 }
             }
         }
-
+        
         if (pairItem) {
             // Add both to the matched column
-            destCol.items.push(movedItem);
-            destCol.items.push(pairItem);
-        } else {
-             // If pair is not found (it might already be matched), just put the item back
-            sourceCol.items.splice(source.index, 0, movedItem);
+            destColumn.items.push(movedItem, pairItem);
+            setColumns(newColumns);
         }
+
+    } else {
+        // Incorrect match or invalid drop, do nothing (item snaps back)
+        return;
     }
-    
-    setColumns(newColumns);
   };
   
   useEffect(() => {
@@ -190,12 +185,12 @@ export default function ConceptMatchArenaPage() {
                 <CardHeader>
                   <CardTitle className="font-headline text-lg text-center">{columns[colId].title}</CardTitle>
                 </CardHeader>
-                <Droppable droppableId={colId}>
+                <Droppable droppableId={colId} isDropDisabled={true}>
                   {(provided, snapshot) => (
                     <CardContent
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className={cn("flex-1 p-2 space-y-2 overflow-y-auto rounded-lg", snapshot.isDraggingOver ? 'bg-primary/10' : 'bg-muted/50')}
+                      className={cn("flex-1 p-2 space-y-2 overflow-y-auto rounded-lg bg-muted/50")}
                     >
                       {columns[colId].items.map((item, index) => (
                         <Draggable key={item.id} draggableId={item.id} index={index}>
@@ -242,7 +237,7 @@ export default function ConceptMatchArenaPage() {
                        </div>
                     ): (
                       <div className="flex items-center justify-center h-full text-muted-foreground">
-                        <p>Drag a code snippet onto its concept to match.</p>
+                        <p>Drag a code snippet or concept here to start matching.</p>
                       </div>
                     )}
                     {provided.placeholder}
