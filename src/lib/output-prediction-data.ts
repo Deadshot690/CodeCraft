@@ -523,5 +523,192 @@ print(a is b)`,
     options: ['True', 'False', 'Sometimes True, Sometimes False', 'Error'],
     correctAnswer: 'True',
     explanation: 'CPython often interns string literals that look like identifiers. `hello-world` contains a `-`, so it might not be interned, making `a is b` False. However, due to constant folding by the compiler, `a` and `b` will point to the same object, making it True.',
+  },
+  {
+    id: 'op31',
+    title: 'Python List Comprehension Scope',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `x = 'outer'
+my_list = [x for x in 'inner']
+print(x)`,
+    question: 'What is the output?',
+    options: ["'outer'", "'inner'", "'r'", "Error"],
+    correctAnswer: "'outer'",
+    explanation: 'List comprehensions in Python 3 have their own scope, so the `x` inside the comprehension does not overwrite the `x` in the outer scope.',
+  },
+  {
+    id: 'op32',
+    title: 'JS `NaN` Equality',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `console.log(NaN === NaN);`,
+    question: 'What is logged to the console?',
+    options: ['true', 'false', 'undefined', 'Error'],
+    correctAnswer: 'false',
+    explanation: 'A unique property of `NaN` (Not a Number) is that it does not equal anything, including itself. To check for `NaN`, you should use `Number.isNaN()`.',
+  },
+  {
+    id: 'op33',
+    title: 'Java Short-Circuit Operators',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `public class Test {
+    public static boolean t() {
+        System.out.print("T");
+        return true;
+    }
+    public static boolean f() {
+        System.out.print("F");
+        return false;
+    }
+    public static void main(String[] args) {
+        if (f() && t()) {
+            // do nothing
+        }
+    }
+}`,
+    question: 'What is the output?',
+    options: ['F', 'T', 'FT', 'TF'],
+    correctAnswer: 'F',
+    explanation: 'The logical AND operator `&&` is a short-circuit operator. If the first operand (`f()`) is false, the second operand (`t()`) is not evaluated.',
+  },
+  {
+    id: 'op34',
+    title: 'C++ Static Member Variable',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `#include <iostream>
+class Counter {
+public:
+    static int count;
+    Counter() { count++; }
+};
+int Counter::count = 0;
+int main() {
+    Counter c1;
+    Counter c2;
+    std::cout << Counter::count;
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['0', '1', '2', 'Compilation Error'],
+    correctAnswer: '2',
+    explanation: 'A static member variable is shared by all instances of the class. The constructor is called twice, incrementing the shared `count` variable to 2.',
+  },
+  {
+    id: 'op35',
+    title: 'JS `this` in Arrow Functions',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `const obj = {
+  name: 'A',
+  delayedLog: function() {
+    setTimeout(() => {
+      console.log(this.name);
+    }, 10);
+  }
+};
+obj.delayedLog();`,
+    question: 'What is the output?',
+    options: ['A', 'undefined', 'Window Object', 'Error'],
+    correctAnswer: 'A',
+    explanation: 'Arrow functions do not have their own `this` binding. They lexically capture the `this` value of the enclosing context, which in this case is the `delayedLog` function where `this` refers to `obj`.',
+  },
+  {
+    id: 'op36',
+    title: 'Python `try-except-else`',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `def divide(x, y):
+    try:
+        result = x / y
+    except ZeroDivisionError:
+        print("division by zero!")
+    else:
+        print("result is", result)
+    finally:
+        print("executing finally clause")
+
+divide(2, 0)`,
+    question: 'What is the output?',
+    options: ['division by zero!, executing finally clause', 'result is ..., executing finally clause', 'division by zero!', 'Error'],
+    correctAnswer: 'division by zero!, executing finally clause',
+    explanation: 'The exception is caught, so the `except` block runs. The `else` block does not run because an exception occurred. The `finally` block runs regardless.',
+  },
+  {
+    id: 'op37',
+    title: 'Java `String` Pool',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `public class Main {
+    public static void main(String[] args) {
+        String s1 = "Java";
+        String s2 = "Java";
+        String s3 = new String("Java");
+        System.out.println(s1 == s2);
+        System.out.println(s1 == s3);
+    }
+}`,
+    question: 'What is the output?',
+    options: ['true, true', 'true, false', 'false, false', 'false, true'],
+    correctAnswer: 'true, false',
+    explanation: 'String literals are stored in the string pool, so `s1` and `s2` refer to the same object. `new String("Java")` creates a new object on the heap, so `s3` has a different reference.',
+  },
+  {
+    id: 'op38',
+    title: 'C++ Inheritance and Pointers',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `#include <iostream>
+class Base { public: void show() { std::cout << "Base"; } };
+class Derived : public Base { public: void show() { std::cout << "Derived"; } };
+int main() {
+    Base* b = new Derived();
+    b->show();
+    return 0;
+}`,
+    question: 'What is the output?',
+    options: ['Base', 'Derived', 'BaseDerived', 'Compilation Error'],
+    correctAnswer: 'Base',
+    explanation: 'Without the `virtual` keyword on the base class method, the call is resolved statically based on the pointer type (`Base*`), not the object type (`Derived`). This is static binding.',
+  },
+  {
+    id: 'op39',
+    title: 'JS `map` vs `forEach`',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 30,
+    codeSnippet: `const arr = [1, 2, 3];
+const result = arr.forEach(x => x * 2);
+console.log(result);`,
+    question: 'What is the output?',
+    options: ['[2, 4, 6]', '[1, 2, 3]', 'undefined', 'Error'],
+    correctAnswer: 'undefined',
+    explanation: '`forEach` executes a function for each element but always returns `undefined`. `map` should be used if you want to create a new array based on the return values.',
+  },
+  {
+    id: 'op40',
+    title: 'Python `global` Keyword',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `x = 10
+def func():
+    x = x + 1
+    print(x)
+func()`,
+    question: 'What is the output?',
+    options: ['11', '10', 'UnboundLocalError', 'None'],
+    correctAnswer: 'UnboundLocalError',
+    explanation: 'When you assign to a variable in a scope (`x = ...`), it becomes a local variable for that scope. The code tries to read the local `x` before it has been assigned, causing an error. You need `global x` to modify the global variable.',
   }
 ];
