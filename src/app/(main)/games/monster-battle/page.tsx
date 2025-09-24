@@ -45,6 +45,7 @@ export default function MonsterBattleLobbyPage() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-[80px]">Sr.No.</TableHead>
                   <TableHead>Challenge</TableHead>
                   <TableHead className="hidden md:table-cell">Category</TableHead>
                   <TableHead>Difficulty</TableHead>
@@ -53,8 +54,9 @@ export default function MonsterBattleLobbyPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {battleQuestions.map((question) => (
+                {battleQuestions.map((question, index) => (
                   <TableRow key={question.id}>
+                    <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell className="font-medium">{question.question}</TableCell>
                     <TableCell className="hidden md:table-cell text-muted-foreground">{question.category}</TableCell>
                     <TableCell>
