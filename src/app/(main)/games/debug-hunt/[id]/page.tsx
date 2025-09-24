@@ -44,7 +44,7 @@ export default function DebugHuntArenaPage({ params }: { params: { id: string } 
     startTransition(() => {
       if (!challenge) return;
       // Simple string comparison instead of AI call
-      const isCorrect = normalizeAnswer(userCode) === normalizeAnswer(challenge.fixedCode);
+      const isCorrect = normalizeAnswer(userCode, true) === normalizeAnswer(challenge.fixedCode, true);
       
       setSubmissionResult({
         isCorrect: isCorrect,
