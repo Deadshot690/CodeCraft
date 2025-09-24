@@ -10,7 +10,6 @@ import { ChevronLeft, RefreshCw, TimerIcon, Crosshair, Target, SkipForward, Aler
 import { Progress } from '@/components/ui/progress';
 import { CompletionModal } from '@/components/games/completion-modal';
 import { cn } from '@/lib/utils';
-import { CodeEditor } from '@/components/code-editor';
 
 type GameStatus = 'waiting' | 'playing' | 'finished';
 
@@ -44,7 +43,6 @@ export default function CodeTyperArenaPage() {
     const [userInput, setUserInput] = useState('');
     const [status, setStatus] = useState<GameStatus>('waiting');
     const [timer, setTimer] = useState(challengeDuration);
-    const [errors, setErrors] = useState(0);
     const [totalErrors, setTotalErrors] = useState(0);
     const [isClient, setIsClient] = useState(false);
     const [startTime, setStartTime] = useState<Date | null>(null);
@@ -59,7 +57,6 @@ export default function CodeTyperArenaPage() {
     const resetGame = useCallback(() => {
         setStatus('waiting');
         setUserInput('');
-        setErrors(0);
         setTotalErrors(0);
         setTimer(challengeDuration);
         setStartTime(null);
@@ -82,26 +79,20 @@ export default function CodeTyperArenaPage() {
         return () => clearInterval(interval);
     }, [status, timer]);
 
-    const handleCodeChange = (value: string) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = e.target.value;
         if (status === 'finished') return;
 
         if (status === 'waiting' && value.length > 0) {
             setStatus('playing');
             setStartTime(new Date());
         }
-
-        const isMistake = value.length > userInput.length && value[value.length - 1] !== challenge?.snippet[value.length - 1];
+        
+        const isMistake = value.length > userInput.length && value[value.length-1] !== challenge?.snippet[value.length-1];
         if (isMistake) {
             setTotalErrors((prev) => prev + 1);
         }
 
-        let currentErrorCount = 0;
-        for (let i = 0; i < value.length; i++) {
-            if (value[i] !== challenge?.snippet[i]) {
-                currentErrorCount++;
-            }
-        }
-        setErrors(currentErrorCount);
         setUserInput(value);
 
         if (challenge && value === challenge.snippet) {
@@ -115,13 +106,13 @@ export default function CodeTyperArenaPage() {
         notFound();
     }
 
-    const { snippet, language } = challenge;
+    const { snippet } = challenge;
     const typedChars = userInput.length;
     const totalChars = snippet.length;
     const accuracy = totalChars > 0 ? Math.max(0, ((totalChars - totalErrors) / totalChars) * 100) : 100;
     
     const elapsedSeconds = startTime ? (new Date().getTime() - startTime.getTime()) / 1000 : 0;
-    const wpm = getWPM(typedChars - errors, elapsedSeconds);
+    const wpm = getWPM(typedChars, elapsedSeconds);
     const progress = (typedChars / totalChars) * 100;
 
     const renderSnippet = () => {
@@ -205,12 +196,15 @@ export default function CodeTyperArenaPage() {
                                     </code>
                                 </pre>
                             </div>
-                             <CodeEditor
-                                key={challenge.id}
-                                initialCode=""
-                                language={language}
-                                onCodeChange={handleCodeChange}
-                                transparentBg={true}
+                           <textarea
+                                value={userInput}
+                                onChange={handleInputChange}
+                                className="absolute inset-0 p-4 w-full h-full bg-transparent text-transparent caret-primary resize-none border-none outline-none overflow-auto whitespace-pre-wrap font-code text-base"
+                                spellCheck="false"
+                                autoCorrect="off"
+                                autoComplete="off"
+                                autoCapitalize="off"
+                                autoFocus
                             />
                         </div>
                         <Progress value={progress} className="mt-4 h-2" />
