@@ -36,21 +36,24 @@ export default function MonsterBattleArenaPage({ params }: { params: { id: strin
   
   const question = useMemo(() => battleQuestions.find(q => q.id === resolvedParams.id), [resolvedParams.id]);
   
-  const [monster, setMonster] = useState<Monster | null>(() => {
-    if (!question) return null;
-    const possibleMonsters = monsters.filter(m => m.difficulty === question.difficulty);
-    return getRandomItem(possibleMonsters.length > 0 ? possibleMonsters : monsters);
-  });
+  const [monster, setMonster] = useState<Monster | null>(null);
 
   useEffect(() => {
-    if (monster) {
-      setMonsterHealth(monster.maxHealth);
-      setMonsterDialogue(getRandomItem(monster.dialogues.intro));
+    if (question) {
+      const possibleMonsters = monsters.filter(m => m.difficulty === question.difficulty);
+      const selectedMonster = getRandomItem(possibleMonsters.length > 0 ? possibleMonsters : monsters);
+      setMonster(selectedMonster);
+      setMonsterHealth(selectedMonster.maxHealth);
+      setMonsterDialogue(getRandomItem(selectedMonster.dialogues.intro));
     }
-  }, [monster]);
+  }, [question]);
 
-  if (!question || !monster) {
+  if (!question) {
     notFound();
+  }
+
+  if (!monster) {
+    return <div className="flex h-screen w-full items-center justify-center bg-gray-900/90 text-white"><Loader2 className="h-16 w-16 animate-spin text-primary" /></div>;
   }
 
   const handleAnswerSubmit = (e: React.FormEvent) => {
