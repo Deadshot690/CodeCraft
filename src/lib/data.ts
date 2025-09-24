@@ -1,5 +1,5 @@
 
-import type { User, Task, Game, Badge } from '@/lib/types';
+import type { User, Task, Game, Badge, Monster, BattleTrivia } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Swords, Bug, Puzzle, Keyboard, Eye, BrainCircuit, Gamepad2, Castle } from 'lucide-react';
 
@@ -20,6 +20,96 @@ export const user: User = {
   ],
   completedTasks: [],
 };
+
+export const playerDialogues = {
+    attack: [
+        "Take this!",
+        "Let's see you handle this one!",
+        "Here comes the pain!",
+        "My code is stronger!"
+    ],
+    hit: [
+        "A direct hit!",
+        "Gotcha!",
+        "That's gotta hurt!",
+        "Bullseye!"
+    ],
+    miss: [
+        "Darn, I missed!",
+        "Almost had it!",
+        "I need to focus!",
+        "My logic was flawed..."
+    ],
+    defeat: [
+        "I... I can't go on...",
+        "You were too strong...",
+        "I'll be back... stronger than ever."
+    ]
+}
+
+export const monsters: Monster[] = [
+    {
+        id: '1',
+        name: 'Syntax-Slinker',
+        imageUrl: 'https://picsum.photos/seed/monster1/200/200',
+        imageHint: 'green monster',
+        maxHealth: 100,
+        dialogues: {
+            intro: ["Hiss... another coder dares to face me?", "You'll never find your missing semicolon!"],
+            taunt: ["My syntax is impeccable!", "You write spaghetti code!"],
+            attack: ["Feel the wrath of my infinite loop!", "Runtime error incoming!"],
+            hit: ["Gah! A minor compilation error...", "You got lucky!"],
+            defeat: ["Hisss... my logic... undone..."]
+        }
+    },
+    {
+        id: '2',
+        name: 'Null-Pointer-Naga',
+        imageUrl: 'https://picsum.photos/seed/monster2/200/200',
+        imageHint: 'snake monster',
+        maxHealth: 120,
+        dialogues: {
+            intro: ["You trespass in the memory domain!", "I hope you like segmentation faults."],
+            taunt: ["Your pointers are weak.", "You reference nothing!"],
+            attack: ["Behold, a null exception!", "Memory leak initiated!"],
+            hit: ["My struct! It's been compromised!", "A mere flesh wound!"],
+            defeat: ["My pointers... return to the void..."]
+        }
+    },
+    {
+        id: '3',
+        name: 'Callback-Chimera',
+        imageUrl: 'https://picsum.photos/seed/monster3/200/200',
+        imageHint: 'chimera monster',
+        maxHealth: 150,
+        dialogues: {
+            intro: ["Welcome to callback hell!", "I hope you're not afraid of promises."],
+            taunt: ["Your code isn't asynchronous enough!", "This isn't even my final form!"],
+            attack: ["Nested callback barrage!", "Promise.reject()!"],
+            hit: ["My event loop... is stuttering!", "I'll await my revenge!"],
+            defeat: ["My stack... it's... overflowing..."]
+        }
+    }
+];
+
+export const battleTrivia: BattleTrivia[] = [
+    { id: 'bt1', question: "In JavaScript, what keyword is used to declare a variable that cannot be reassigned?", answer: "const", difficulty: "Beginner", xp: 15, category: "JavaScript" },
+    { id: 'bt2', question: "What does CSS stand for?", answer: "Cascading Style Sheets", difficulty: "Beginner", xp: 15, category: "Web Development" },
+    { id: 'bt3', question: "What data structure uses a 'First-In, First-Out' (FIFO) approach?", answer: "Queue", difficulty: "Beginner", xp: 20, category: "Data Structures" },
+    { id: 'bt4', question: "In Python, what method is used to add an element to the end of a list?", answer: ".append()", difficulty: "Beginner", xp: 15, category: "Python" },
+    { id: 'bt5', question: "What is the name of the object that holds the return values of an async function?", answer: "Promise", difficulty: "Intermediate", xp: 25, category: "JavaScript" },
+    { id: 'bt6', question: "In CSS Flexbox, what property do you use on the container to align items along the main axis?", answer: "justify-content", difficulty: "Intermediate", xp: 30, category: "Web Development" },
+    { id: 'bt7', question: "What is the time complexity of a binary search algorithm?", answer: "O(log n)", difficulty: "Intermediate", xp: 35, category: "Algorithms" },
+    { id: 'bt8', question: "What Python keyword is used to handle exceptions?", answer: "try", difficulty: "Beginner", xp: 20, category: "Python" },
+    { id: 'bt9', question: "In SQL, what clause is used to filter results based on a specified condition?", answer: "WHERE", difficulty: "Beginner", xp: 20, category: "Databases" },
+    { id: 'bt10', question: "Which hook in React is used for managing state in a functional component?", answer: "useState", difficulty: "Beginner", xp: 20, category: "React" },
+    { id: 'bt11', question: "What type of join in SQL returns all records from the left table, and the matched records from the right table?", answer: "LEFT JOIN", difficulty: "Intermediate", xp: 30, category: "Databases" },
+    { id: 'bt12', question: "What algorithm is commonly used to find the shortest path in an unweighted graph?", answer: "BFS", difficulty: "Advanced", xp: 40, category: "Algorithms" },
+    { id: 'bt13', question: "In JavaScript, what does the `===` operator check for?", answer: "value and type", difficulty: "Beginner", xp: 20, category: "JavaScript" },
+    { id: 'bt14', question: "What is the process of a function calling itself known as?", answer: "Recursion", difficulty: "Intermediate", xp: 25, category: "Concepts" },
+    { id: 'bt15', question: "In Git, what is the command to create a new branch and switch to it simultaneously?", answer: "git checkout -b", difficulty: "Intermediate", xp: 30, category: "Tools" }
+];
+
 
 export const tasks: Task[] = [
     {
@@ -2282,7 +2372,7 @@ export const tasks: Task[] = [
       python: 'def alien_order(words):\n  # Your code here\n  pass',
       javascript: 'function alienOrder(words) {\n  // Your code here\n}',
       java: 'class Solution {\n  public String alienOrder(String[] words) {\n    // Your code here\n  }\n}',
-      cpp: 'class Solution {\npublic:\n    string alienOrder(vector<string>& words) {\n        // Your code here\n    }\n};',
+      cpp: 'class Solution {\npublic:\n    string alienOrder(string s, vector<string>& words) {\n        // Your code here\n    }\n};',
     },
     examples: [
       { input: 'words = ["wrt","wrf","er","ett","rftt"]', output: '"wertf"' },
@@ -3584,7 +3674,6 @@ export const tasks: Task[] = [
       cpp: 'class Solution {\npublic:\n    bool containsNearbyAlmostDuplicate(vector<int>& nums, int indexDiff, int valueDiff) {\n        // Your code here\n    }\n};',
     },
     examples: [
-      { input: 'nums = [1,2,3,1], indexDiff = 3, valueDiff = 0', output: 'true' },
       { input: 'nums = [1,5,9,1,5,9], indexDiff = 2, valueDiff = 3', output: 'false' },
     ],
     constraints: ['2 <= nums.length <= 10^5', '-2^31 <= nums[i] <= 2^31 - 1', '1 <= indexDiff <= nums.length', '0 <= valueDiff <= 2^31 - 1'],

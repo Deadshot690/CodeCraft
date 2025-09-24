@@ -44,3 +44,27 @@ export type Game = {
   icon: LucideIcon;
   href: string;
 };
+
+export type Monster = {
+  id: string;
+  name: string;
+  imageUrl: string;
+  imageHint: string;
+  maxHealth: number;
+  dialogues: {
+    intro: string[];
+    taunt: string[];
+    attack: string[];
+    hit: string[];
+    defeat: string[];
+  };
+};
+
+export type BattleTrivia = {
+  id: string;
+  question: string;
+  answer: string;
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  xp: number;
+  category: string;
+};
