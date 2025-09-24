@@ -24,7 +24,6 @@ export default function LandingPage() {
   }, [user, loading, router]);
 
   // Show a loader while we determine the user's auth state.
-  // This prevents any "flash" of content before the redirect can happen.
   return (
     <div className="flex h-screen items-center justify-center">
       <Loader2 className="h-12 w-12 animate-spin text-primary" />

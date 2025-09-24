@@ -34,7 +34,6 @@ export default function MainLayout({
   }
 
   // If loading is complete and we have a user, show the main application.
-  // This check prevents a flash of unauthenticated content.
   if (user) {
     return (
       <SidebarProvider>
@@ -48,8 +47,7 @@ export default function MainLayout({
     );
   }
 
-  // If loading is complete and there's no user, the useEffect is handling the redirect.
-  // Show a loader to prevent any content from flashing while redirecting.
+  // If loading is complete and there's no user, we are redirecting. Show a loader.
   return (
       <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />

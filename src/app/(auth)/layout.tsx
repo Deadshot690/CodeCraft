@@ -22,8 +22,8 @@ export default function AuthLayout({
     }
   }, [user, loading, router]);
 
-  // While checking auth state, show a full-screen loader.
-  if (loading) {
+  // While checking auth state, or if we are about to redirect, show a loader.
+  if (loading || user) {
     return (
       <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -32,15 +32,5 @@ export default function AuthLayout({
   }
   
   // If not loading and there is NO user, show the login/signup page.
-  // This prevents a flash of the login page for an already logged-in user.
-  if (!user) {
-    return <>{children}</>;
-  }
-
-  // If there is a user, we're in the process of redirecting. Show a loader to prevent content flash.
-  return (
-    <div className="flex h-screen items-center justify-center">
-      <Loader2 className="h-12 w-12 animate-spin text-primary" />
-    </div>
-  );
+  return <>{children}</>;
 }
