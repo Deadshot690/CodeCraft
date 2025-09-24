@@ -10,6 +10,7 @@ import { ChevronLeft, RefreshCw, TimerIcon, Crosshair, Target, SkipForward } fro
 import { Progress } from '@/components/ui/progress';
 import { CompletionModal } from '@/components/games/completion-modal';
 import { cn } from '@/lib/utils';
+import { CodeEditor } from '@/components/code-editor';
 
 type GameStatus = 'waiting' | 'playing' | 'finished';
 
@@ -44,6 +45,7 @@ export default function CodeTyperArenaPage() {
     const [status, setStatus] = useState<GameStatus>('waiting');
     const [timer, setTimer] = useState(challengeDuration);
     const [errors, setErrors] = useState(0);
+    const [totalErrors, setTotalErrors] = useState(0);
     const [isClient, setIsClient] = useState(false);
     const [startTime, setStartTime] = useState<Date | null>(null);
 
@@ -58,6 +60,7 @@ export default function CodeTyperArenaPage() {
         setStatus('waiting');
         setUserInput('');
         setErrors(0);
+        setTotalErrors(0);
         setTimer(challengeDuration);
         setStartTime(null);
     }, [challengeDuration]);
@@ -79,21 +82,26 @@ export default function CodeTyperArenaPage() {
         return () => clearInterval(interval);
     }, [status, timer]);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const { value } = e.target;
-        if (status === 'waiting') {
+    const handleCodeChange = (value: string) => {
+        if (status === 'finished') return;
+
+        if (status === 'waiting' && value.length > 0) {
             setStatus('playing');
             setStartTime(new Date());
         }
+
+        const isMistake = value.length > userInput.length && value[value.length-1] !== challenge?.snippet[value.length-1];
+        if (isMistake) {
+            setTotalErrors((prev) => prev + 1);
+        }
         
-        let errorCount = 0;
+        let currentErrorCount = 0;
         for (let i = 0; i < value.length; i++) {
             if (value[i] !== challenge?.snippet[i]) {
-                errorCount++;
+                currentErrorCount++;
             }
         }
-        setErrors(errorCount);
-
+        setErrors(currentErrorCount);
         setUserInput(value);
 
         if (challenge && value === challenge.snippet) {
@@ -107,7 +115,7 @@ export default function CodeTyperArenaPage() {
         notFound();
     }
 
-    const { snippet } = challenge;
+    const { snippet, language } = challenge;
     const typedChars = userInput.length;
     const totalChars = snippet.length;
     const accuracy = typedChars > 0 ? Math.max(0, ((typedChars - errors) / typedChars) * 100) : 100;
@@ -172,7 +180,7 @@ export default function CodeTyperArenaPage() {
                                 <span className="text-xs text-muted-foreground">WPM</span>
                             </div>
                              <div className="flex flex-col items-center gap-1">
-                                <span className="text-2xl font-bold text-destructive">{errors}</span>
+                                <span className="text-2xl font-bold text-destructive">{totalErrors}</span>
                                 <span className="text-xs text-muted-foreground">Errors</span>
                             </div>
                         </div>
@@ -185,18 +193,18 @@ export default function CodeTyperArenaPage() {
                     </CardHeader>
                     <CardContent className="flex-grow flex flex-col">
                         <div className="relative h-full">
-                            <pre className="p-4 w-full h-full bg-muted rounded-md text-base text-foreground overflow-auto font-code whitespace-pre-wrap select-none">
-                                <code>
-                                    {renderSnippet()}
-                                </code>
-                            </pre>
-                            <textarea
-                                value={userInput}
-                                onChange={handleInputChange}
-                                className="absolute top-0 left-0 w-full h-full p-4 bg-transparent text-transparent caret-primary font-code text-base whitespace-pre-wrap border-none outline-none resize-none"
-                                spellCheck="false"
-                                disabled={status === 'finished'}
-                                autoFocus
+                            <div className="absolute top-0 left-0 w-full h-full p-4 bg-muted rounded-md pointer-events-none">
+                                <pre className="text-base text-transparent font-code whitespace-pre-wrap select-none">
+                                    <code>
+                                        {renderSnippet()}
+                                    </code>
+                                </pre>
+                            </div>
+                            <CodeEditor
+                                key={challenge.id}
+                                initialCode=""
+                                language={language}
+                                onCodeChange={handleCodeChange}
                             />
                         </div>
                         <Progress value={progress} className="mt-4 h-2" />
@@ -215,3 +223,5 @@ export default function CodeTyperArenaPage() {
         </div>
     );
 }
+
+    
