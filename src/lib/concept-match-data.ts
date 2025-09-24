@@ -1426,5 +1426,971 @@ export const conceptMatchChallenges: ConceptMatchChallenge[] = [
             { codeId: '2', conceptId: '2' },
             { codeId: '3', conceptId: '3' },
         ]
+    },
+    {
+        id: 'cm61',
+        title: 'Dynamic vs Static Typing',
+        description: 'Match the language to its typing discipline.',
+        difficulty: 'Beginner',
+        xp: 25,
+        codeSnippets: [
+            { id: 'cm61-c1', language: 'python', code: 'x = 5\nx = "hello"' },
+            { id: 'cm61-c2', language: 'java', code: 'int x = 5;\nx = "hello"; // Compile Error' },
+        ],
+        concepts: [
+            { id: 'cm61-p1', name: 'Dynamic Typing' },
+            { id: 'cm61-p2', name: 'Static Typing' },
+        ],
+        pairs: [
+            { codeId: 'cm61-c1', conceptId: 'cm61-p1' },
+            { codeId: 'cm61-c2', conceptId: 'cm61-p2' },
+        ]
+    },
+    {
+        id: 'cm62',
+        title: 'Hashing Concepts',
+        description: 'Match the term to its definition.',
+        difficulty: 'Intermediate',
+        xp: 45,
+        codeSnippets: [
+            { id: 'cm62-c1', language: 'generic', code: 'A function that converts input data of any size into a fixed-size string of bytes.' },
+            { id: 'cm62-c2', language: 'generic', code: 'When two different inputs produce the same hash output.' },
+            { id: 'cm62-c3', language: 'generic', code: 'Random data added to an input before hashing to prevent rainbow table attacks.' },
+        ],
+        concepts: [
+            { id: 'cm62-p1', name: 'Hash Function' },
+            { id: 'cm62-p2', name: 'Collision' },
+            { id: 'cm62-p3', name: 'Salt' },
+        ],
+        pairs: [
+            { codeId: 'cm62-c1', conceptId: 'cm62-p1' },
+            { codeId: 'cm62-c2', conceptId: 'cm62-p2' },
+            { codeId: 'cm62-c3', conceptId: 'cm62-p3' },
+        ]
+    },
+    {
+        id: 'cm63',
+        title: 'CSS Positioning',
+        description: 'Match the CSS position value to its behavior.',
+        difficulty: 'Intermediate',
+        xp: 40,
+        codeSnippets: [
+            { id: 'cm63-c1', language: 'css', code: 'The element is positioned relative to the normal flow of the document.' },
+            { id: 'cm63-c2', language: 'css', code: 'The element is positioned relative to its nearest positioned ancestor.' },
+            { id: 'cm63-c3', language: 'css', code: 'The element is positioned relative to the viewport, meaning it always stays in the same place even if the page is scrolled.' },
+            { id: 'cm63-c4', language: 'css', code: 'The element is positioned based on the user\'s scroll position.' },
+        ],
+        concepts: [
+            { id: 'cm63-p1', name: 'position: relative;' },
+            { id: 'cm63-p2', name: 'position: absolute;' },
+            { id: 'cm63-p3', name: 'position: fixed;' },
+            { id: 'cm63-p4', name: 'position: sticky;' },
+        ],
+        pairs: [
+            { codeId: 'cm63-c1', conceptId: 'cm63-p1' },
+            { codeId: 'cm63-c2', conceptId: 'cm63-p2' },
+            { codeId: 'cm63-c3', conceptId: 'cm63-p3' },
+            { codeId: 'cm63-c4', conceptId: 'cm63-p4' },
+        ]
+    },
+    {
+        id: 'cm64',
+        title: 'Python `*args` and `**kwargs` in calling',
+        description: 'Match the syntax to its purpose when calling a Python function.',
+        difficulty: 'Intermediate',
+        xp: 45,
+        codeSnippets: [
+            { id: 'cm64-c1', language: 'python', code: 'my_list = [1, 2, 3]\nmy_func(*my_list)' },
+            { id: 'cm64-c2', language: 'python', code: 'my_dict = {"a": 1, "b": 2}\nmy_func(**my_dict)' },
+        ],
+        concepts: [
+            { id: 'cm64-p1', name: 'Unpacks a list or tuple into positional arguments.' },
+            { id: 'cm64-p2', name: 'Unpacks a dictionary into keyword arguments.' },
+        ],
+        pairs: [
+            { codeId: 'cm64-c1', conceptId: 'cm64-p1' },
+            { codeId: 'cm64-c2', conceptId: 'cm64-p2' },
+        ]
+    },
+    {
+        id: 'cm65',
+        title: 'Common Network Protocols',
+        description: 'Match the protocol to its primary use.',
+        difficulty: 'Beginner',
+        xp: 35,
+        codeSnippets: [
+            { id: 'cm65-c1', language: 'generic', code: 'The foundation of data communication for the World Wide Web.' },
+            { id: 'cm65-c2', language: 'generic', code: 'Used for sending e-mails.' },
+            { id: 'cm65-c3', language: 'generic', code: 'Used to transfer computer files between a client and server on a computer network.' },
+            { id: 'cm65-c4', language: 'generic', code: 'Provides reliable, ordered, and error-checked delivery of a stream of octets between applications.' },
+        ],
+        concepts: [
+            { id: 'cm65-p1', name: 'HTTP' },
+            { id: 'cm65-p2', name: 'SMTP' },
+            { id: 'cm65-p3', name: 'FTP' },
+            { id: 'cm65-p4', name: 'TCP' },
+        ],
+        pairs: [
+            { codeId: 'cm65-c1', conceptId: 'cm65-p1' },
+            { codeId: 'cm65-c2', conceptId: 'cm65-p2' },
+            { codeId: 'cm65-c3', conceptId: 'cm65-p3' },
+            { codeId: 'cm65-c4', conceptId: 'cm65-p4' },
+        ]
+    },
+    {
+        id: 'cm66',
+        title: 'JavaScript Scope Chain',
+        description: 'Match the term to its definition in JavaScript scoping.',
+        difficulty: 'Advanced',
+        xp: 65,
+        codeSnippets: [
+            { id: 'cm66-c1', language: 'generic', code: 'The scope where a variable is physically located in the code.' },
+            { id: 'cm66-c2', language: 'generic', code: 'The set of all variables and functions that are accessible at a given point in the code.' },
+            { id: 'cm66-c3', language: 'generic', code: 'A function bundled together with references to its surrounding state (the lexical environment).' },
+        ],
+        concepts: [
+            { id: 'cm66-p1', name: 'Lexical Scope' },
+            { id: 'cm66-p2', name: 'Scope' },
+            { id: 'cm66-p3', name: 'Closure' },
+        ],
+        pairs: [
+            { codeId: 'cm66-c1', conceptId: 'cm66-p1' },
+            { codeId: 'cm66-c2', conceptId: 'cm66-p2' },
+            { codeId: 'cm66-c3', conceptId: 'cm66-p3' },
+        ]
+    },
+    {
+        id: 'cm67',
+        title: 'SQL Constraints',
+        description: 'Match the SQL constraint to its function.',
+        difficulty: 'Intermediate',
+        xp: 40,
+        codeSnippets: [
+            { id: 'cm67-c1', language: 'sql', code: 'Ensures that a column cannot have a NULL value.' },
+            { id: 'cm67-c2', language: 'sql', code: 'Ensures that all values in a column are different.' },
+            { id: 'cm67-c3', language: 'sql', code: 'A combination of a NOT NULL and UNIQUE constraint.' },
+            { id: 'cm67-c4', language: 'sql', code: 'Prevents actions that would destroy links between tables.' },
+        ],
+        concepts: [
+            { id: 'cm67-p1', name: 'NOT NULL' },
+            { id: 'cm67-p2', name: 'UNIQUE' },
+            { id: 'cm67-p3', name: 'PRIMARY KEY' },
+            { id: 'cm67-p4', name: 'FOREIGN KEY' },
+        ],
+        pairs: [
+            { codeId: 'cm67-c1', conceptId: 'cm67-p1' },
+            { codeId: 'cm67-c2', conceptId: 'cm67-p2' },
+            { codeId: 'cm67-c3', conceptId: 'cm67-p3' },
+            { codeId: 'cm67-c4', conceptId: 'cm67-p4' },
+        ]
+    },
+    {
+        id: 'cm68',
+        title: 'CSS Flexbox Properties',
+        description: 'Match the Flexbox property to its effect.',
+        difficulty: 'Intermediate',
+        xp: 45,
+        codeSnippets: [
+            { id: 'cm68-c1', language: 'css', code: 'Defines the direction flex items are placed in the flex container.' },
+            { id: 'cm68-c2', language: 'css', code: 'Aligns flex items along the main axis of the current line of the flex container.' },
+            { id: 'cm68-c3', language: 'css', code: 'Aligns flex items along the cross axis of the current line of the flex container.' },
+            { id: 'cm68-c4', language: 'css', code: 'Specifies how flex items are placed in the flex container, defining the main axis and direction.' },
+        ],
+        concepts: [
+            { id: 'cm68-p1', name: 'flex-direction' },
+            { id: 'cm68-p2', name: 'justify-content' },
+            { id: 'cm68-p3', name: 'align-items' },
+            { id: 'cm68-p4', name: 'flex-flow' },
+        ],
+        pairs: [
+            { codeId: 'cm68-c1', conceptId: 'cm68-p1' },
+            { codeId: 'cm68-c2', conceptId: 'cm68-p2' },
+            { codeId: 'cm68-c3', conceptId: 'cm68-p3' },
+            { codeId: 'cm68-c4', conceptId: 'cm68-p4' },
+        ]
+    },
+    {
+        id: 'cm69',
+        title: 'React `useReducer` Hook',
+        description: 'Match the term to its role in the `useReducer` hook.',
+        difficulty: 'Advanced',
+        xp: 60,
+        codeSnippets: [
+            { id: 'cm69-c1', language: 'javascript', code: 'A function that specifies how the state changes in response to an action.' },
+            { id: 'cm69-c2', language: 'javascript', code: 'An object that describes what happened.' },
+            { id: 'cm69-c3', language: 'javascript', code: 'A function that sends an action to the reducer.' },
+        ],
+        concepts: [
+            { id: 'cm69-p1', name: 'Reducer' },
+            { id: 'cm69-p2', name: 'Action' },
+            { id: 'cm69-p3', name: 'Dispatch' },
+        ],
+        pairs: [
+            { codeId: 'cm69-c1', conceptId: 'cm69-p1' },
+            { codeId: 'cm69-c2', conceptId: 'cm69-p2' },
+            { codeId: 'cm69-c3', conceptId: 'cm69-p3' },
+        ]
+    },
+    {
+        id: 'cm70',
+        title: 'Java `static` Keyword',
+        description: 'Match the `static` keyword use to its effect.',
+        difficulty: 'Intermediate',
+        xp: 45,
+        codeSnippets: [
+            { id: 'cm70-c1', language: 'java', code: 'A variable that belongs to the class, rather than any object instance.' },
+            { id: 'cm70-c2', language: 'java', code: 'A method that belongs to the class and can be called without creating an object.' },
+            { id: 'cm70-c3', language: 'java', code: 'A block of code that is executed once when the class is first loaded.' },
+        ],
+        concepts: [
+            { id: 'cm70-p1', name: 'Static Variable' },
+            { id: 'cm70-p2', name: 'Static Method' },
+            { id: 'cm70-p3', name: 'Static Block' },
+        ],
+        pairs: [
+            { codeId: 'cm70-c1', conceptId: 'cm70-p1' },
+            { codeId: 'cm70-c2', conceptId: 'cm70-p2' },
+            { codeId: 'cm70-c3', conceptId: 'cm70-p3' },
+        ]
+    },
+    {
+        id: 'cm71',
+        title: 'Python Generators',
+        description: 'Match the concept to its definition related to Python generators.',
+        difficulty: 'Advanced',
+        xp: 60,
+        codeSnippets: [
+            { id: 'cm71-c1', language: 'python', code: 'A function that returns an iterator that produces a sequence of values when iterated over.' },
+            { id: 'cm71-c2', language: 'python', code: 'A keyword used to produce a value from a generator.' },
+            { id: 'cm71-c3', language: 'python', code: '(x*x for x in range(10))' },
+        ],
+        concepts: [
+            { id: 'cm71-p1', name: 'Generator Function' },
+            { id: 'cm71-p2', name: '`yield`' },
+            { id: 'cm71-p3', name: 'Generator Expression' },
+        ],
+        pairs: [
+            { codeId: 'cm71-c1', conceptId: 'cm71-p1' },
+            { codeId: 'cm71-c2', conceptId: 'cm71-p2' },
+            { codeId: 'cm71-c3', conceptId: 'cm71-p3' },
+        ]
+    },
+    {
+        id: 'cm72',
+        title: 'C++ `RAII`',
+        description: 'Match the term to its role in Resource Acquisition Is Initialization.',
+        difficulty: 'Advanced',
+        xp: 75,
+        codeSnippets: [
+            { id: 'cm72-c1', language: 'cpp', code: 'Resource is acquired in the object\'s constructor.' },
+            { id: 'cm72-c2', language: 'cpp', code: 'Resource is released in the object\'s destructor.' },
+            { id: 'cm72-c3', language: 'cpp', code: 'Smart pointers like `std::unique_ptr` and `std::shared_ptr`.' },
+        ],
+        concepts: [
+            { id: 'cm72-p1', name: 'Acquisition' },
+            { id: 'cm72-p2', name: 'Release' },
+            { id: 'cm72-p3', name: 'RAII examples' },
+        ],
+        pairs: [
+            { codeId: 'cm72-c1', conceptId: 'cm72-p1' },
+            { codeId: 'cm72-c2', conceptId: 'cm72-p2' },
+            { codeId: 'cm72-c3', conceptId: 'cm72-p3' },
+        ]
+    },
+    {
+        id: 'cm73',
+        title: 'More Linux Commands',
+        description: 'Match the command to its function.',
+        difficulty: 'Beginner',
+        xp: 30,
+        codeSnippets: [
+            { id: 'cm73-c1', language: 'generic', code: 'Display the contents of a file.' },
+            { id: 'cm73-c2', language: 'generic', code: 'Move or rename a file.' },
+            { id: 'cm73-c3', language: 'generic', code: 'Copy a file.' },
+            { id: 'cm73-c4', language: 'generic', code: 'Remove a file.' },
+        ],
+        concepts: [
+            { id: 'cm73-p1', name: '`cat`' },
+            { id: 'cm73-p2', name: '`mv`' },
+            { id: 'cm73-p3', name: '`cp`' },
+            { id: 'cm73-p4', name: '`rm`' },
+        ],
+        pairs: [
+            { codeId: 'cm73-c1', conceptId: 'cm73-p1' },
+            { codeId: 'cm73-c2', conceptId: 'cm73-p2' },
+            { codeId: 'cm73-c3', conceptId: 'cm73-p3' },
+            { codeId: 'cm73-c4', conceptId: 'cm73-p4' },
+        ]
+    },
+    {
+        id: 'cm74',
+        title: 'JavaScript Truthiness/Falsiness',
+        description: 'Match the value to whether it is "truthy" or "falsy".',
+        difficulty: 'Beginner',
+        xp: 30,
+        codeSnippets: [
+            { id: 'cm74-c1', language: 'javascript', code: '`0`' },
+            { id: 'cm74-c2', language: 'javascript', code: '`"0"`' },
+            { id: 'cm74-c3', language: 'javascript', code: '`[]` (an empty array)' },
+            { id: 'cm74-c4', language: 'javascript', code: '`{}` (an empty object)' },
+        ],
+        concepts: [
+            { id: 'cm74-p1', name: 'Falsy' },
+            { id: 'cm74-p2', name: 'Truthy' },
+        ],
+        pairs: [
+            { codeId: 'cm74-c1', conceptId: 'cm74-p1' },
+            { codeId: 'cm74-c2', conceptId: 'cm74-p2' },
+            { codeId: 'cm74-c3', conceptId: 'cm74-p2' },
+            { codeId: 'cm74-c4', conceptId: 'cm74-p2' },
+        ]
+    },
+    {
+        id: 'cm75',
+        title: 'NoSQL Database Types',
+        description: 'Match the NoSQL database type to its data model.',
+        difficulty: 'Advanced',
+        xp: 65,
+        codeSnippets: [
+            { id: 'cm75-c1', language: 'generic', code: 'Stores data in JSON-like documents. (e.g., MongoDB)' },
+            { id: 'cm75-c2', language: 'generic', code: 'Uses nodes and edges to represent and store data. (e.g., Neo4j)' },
+            { id: 'cm75-c3', language: 'generic', code: 'Uses a simple key for storage and retrieval. (e.g., Redis)' },
+            { id: 'cm75-c4', language: 'generic', code: 'Stores data in tables with rows and dynamic columns. (e.g., Cassandra)' },
+        ],
+        concepts: [
+            { id: 'cm75-p1', name: 'Document Database' },
+            { id: 'cm75-p2', name: 'Graph Database' },
+            { id: 'cm75-p3', name: 'Key-Value Store' },
+            { id: 'cm75-p4', name: 'Wide-Column Store' },
+        ],
+        pairs: [
+            { codeId: 'cm75-c1', conceptId: 'cm75-p1' },
+            { codeId: 'cm75-c2', conceptId: 'cm75-p2' },
+            { codeId: 'cm75-c3', conceptId: 'cm75-p3' },
+            { codeId: 'cm75-c4', conceptId: 'cm75-p4' },
+        ]
+    },
+    {
+        id: 'cm76',
+        title: 'Java `abstract` vs `interface`',
+        description: 'Match the feature to the correct Java construct.',
+        difficulty: 'Intermediate',
+        xp: 50,
+        codeSnippets: [
+            { id: 'cm76-c1', language: 'java', code: 'Can have constructors.' },
+            { id: 'cm76-c2', language: 'java', code: 'A class can implement multiple of these.' },
+            { id: 'cm76-c3', language: 'java', code: 'Can contain non-final variables.' },
+            { id: 'cm76-c4', language: 'java', code: 'All methods are implicitly `public`.' },
+        ],
+        concepts: [
+            { id: 'cm76-p1', name: 'Abstract Class' },
+            { id: 'cm76-p2', name: 'Interface' },
+        ],
+        pairs: [
+            { codeId: 'cm76-c1', conceptId: 'cm76-p1' },
+            { codeId: 'cm76-c2', conceptId: 'cm76-p2' },
+            { codeId: 'cm76-c3', conceptId: 'cm76-p1' },
+            { codeId: 'cm76-c4', conceptId: 'cm76-p2' },
+        ]
+    },
+    {
+        id: 'cm77',
+        title: 'Python Decorators',
+        description: 'Match the syntax to its role in creating a Python decorator.',
+        difficulty: 'Advanced',
+        xp: 65,
+        codeSnippets: [
+            { id: 'cm77-c1', language: 'python', code: '`@my_decorator`' },
+            { id: 'cm77-c2', language: 'python', code: 'A function that takes another function as an argument and returns a new function.' },
+            { id: 'cm77-c3', language: 'python', code: 'The new function returned by the decorator, which usually adds functionality before or after calling the original function.' },
+        ],
+        concepts: [
+            { id: 'cm77-p1', name: 'Syntactic Sugar' },
+            { id: 'cm77-p2', name: 'Decorator Function' },
+            { id: 'cm77-p3', name: 'Wrapper Function' },
+        ],
+        pairs: [
+            { codeId: 'cm77-c1', conceptId: 'cm77-p1' },
+            { codeId: 'cm77-c2', conceptId: 'cm77-p2' },
+            { codeId: 'cm77-c3', conceptId: 'cm77-p3' },
+        ]
+    },
+    {
+        id: 'cm78',
+        title: 'C++ `new` vs `malloc`',
+        description: 'Match the memory allocation function to its characteristic.',
+        difficulty: 'Intermediate',
+        xp: 50,
+        codeSnippets: [
+            { id: 'cm78-c1', language: 'cpp', code: 'Calls constructors for objects.' },
+            { id: 'cm78-c2', language: 'cpp', code: 'Is an operator, not a function.' },
+            { id: 'cm78-c3', language: 'cpp', code: 'Returns a `void*` pointer that must be cast.' },
+            { id: 'cm78-c4', language: 'cpp', 'code': 'Should be paired with `free()`.' },
+        ],
+        concepts: [
+            { id: 'cm78-p1', name: '`new`' },
+            { id: 'cm78-p2', name: '`malloc`' },
+        ],
+        pairs: [
+            { codeId: 'cm78-c1', conceptId: 'cm78-p1' },
+            { codeId: 'cm78-c2', conceptId: 'cm78-p1' },
+            { codeId: 'cm78-c3', conceptId: 'cm78-p2' },
+            { codeId: 'cm78-c4', conceptId: 'cm78-p2' },
+        ]
+    },
+    {
+        id: 'cm79',
+        title: 'JavaScript `null` vs `undefined`',
+        description: 'Match the value to its meaning.',
+        difficulty: 'Beginner',
+        xp: 30,
+        codeSnippets: [
+            { id: 'cm79-c1', language: 'javascript', code: 'Represents the intentional absence of any object value.' },
+            { id: 'cm79-c2', language: 'javascript', code: 'A variable that has been declared but has not yet been assigned a value.' },
+        ],
+        concepts: [
+            { id: 'cm79-p1', name: '`null`' },
+            { id: 'cm79-p2', name: '`undefined`' },
+        ],
+        pairs: [
+            { codeId: 'cm79-c1', conceptId: 'cm79-p1' },
+            { codeId: 'cm79-c2', conceptId: 'cm79-p2' },
+        ]
+    },
+    {
+        id: 'cm80',
+        title: 'Regular Expression Quantifiers',
+        description: 'Match the regex quantifier to its meaning.',
+        difficulty: 'Intermediate',
+        xp: 40,
+        codeSnippets: [
+            { id: 'cm80-c1', language: 'generic', code: '`+`' },
+            { id: 'cm80-c2', language: 'generic', code: '`?`' },
+            { id: 'cm80-c3', language: 'generic', code: '`{3}`' },
+            { id: 'cm80-c4', language: 'generic', code: '`{2,4}`' },
+        ],
+        concepts: [
+            { id: 'cm80-p1', name: 'One or more occurrences.' },
+            { id: 'cm80-p2', name: 'Zero or one occurrence.' },
+            { id: 'cm80-p3', name: 'Exactly three occurrences.' },
+            { id: 'cm80-p4', name: 'Between two and four occurrences.' },
+        ],
+        pairs: [
+            { codeId: 'cm80-c1', conceptId: 'cm80-p1' },
+            { codeId: 'cm80-c2', conceptId: 'cm80-p2' },
+            { codeId: 'cm80-c3', conceptId: 'cm80-p3' },
+            { codeId: 'cm80-c4', conceptId: 'cm80-p4' },
+        ]
+    },
+    {
+        id: 'cm81',
+        title: 'React Higher-Order Component vs. Hook',
+        description: 'Match the description to the correct React pattern.',
+        difficulty: 'Advanced',
+        xp: 65,
+        codeSnippets: [
+            { id: 'cm81-c1', language: 'javascript', code: 'A function that takes a component and returns a new component.' },
+            { id: 'cm81-c2', language: 'javascript', code: 'A function that lets you "hook into" React state and lifecycle features from function components.' },
+        ],
+        concepts: [
+            { id: 'cm81-p1', name: 'Higher-Order Component (HOC)' },
+            { id: 'cm81-p2', name: 'Hook' },
+        ],
+        pairs: [
+            { codeId: 'cm81-c1', conceptId: 'cm81-p1' },
+            { codeId: 'cm81-c2', conceptId: 'cm81-p2' },
+        ]
+    },
+    {
+        id: 'cm82',
+        title: 'SQL Aggregate Functions',
+        description: 'Match the SQL function to its purpose.',
+        difficulty: 'Beginner',
+        xp: 30,
+        codeSnippets: [
+            { id: 'cm82-c1', language: 'sql', code: 'Returns the number of rows.' },
+            { id: 'cm82-c2', language: 'sql', code: 'Returns the total sum of a numeric column.' },
+            { id: 'cm82-c3', language: 'sql', code: 'Returns the average value of a numeric column.' },
+            { id: 'cm82-c4', language: 'sql', code: 'Returns the smallest value of the selected column.' },
+        ],
+        concepts: [
+            { id: 'cm82-p1', name: '`COUNT()`' },
+            { id: 'cm82-p2', name: '`SUM()`' },
+            { id: 'cm82-p3', name: '`AVG()`' },
+            { id: 'cm82-p4', name: '`MIN()`' },
+        ],
+        pairs: [
+            { codeId: 'cm82-c1', conceptId: 'cm82-p1' },
+            { codeId: 'cm82-c2', conceptId: 'cm82-p2' },
+            { codeId: 'cm82-c3', conceptId: 'cm82-p3' },
+            { codeId: 'cm82-c4', conceptId: 'cm82-p4' },
+        ]
+    },
+    {
+        id: 'cm83',
+        title: 'JavaScript `==` vs `===`',
+        description: 'Match the equality operator to its behavior.',
+        difficulty: 'Beginner',
+        xp: 35,
+        codeSnippets: [
+            { id: 'cm83-c1', language: 'javascript', code: 'Compares for equality after performing any necessary type conversions.' },
+            { id: 'cm83-c2', language: 'javascript', code: 'Compares for equality without type conversion.' },
+            { id: 'cm83-c3', language: 'javascript', code: 'Which operator returns `true` for `5 == "5"`?' },
+            { id: 'cm83-c4', language: 'javascript', code: 'Which operator returns `false` for `5 === "5"`?' },
+        ],
+        concepts: [
+            { id: 'cm83-p1', name: 'Loose Equality (`==`)' },
+            { id: 'cm83-p2', name: 'Strict Equality (`===`)' },
+        ],
+        pairs: [
+            { codeId: 'cm83-c1', conceptId: 'cm83-p1' },
+            { codeId: 'cm83-c2', conceptId: 'cm83-p2' },
+            { codeId: 'cm83-c3', conceptId: 'cm83-p1' },
+            { codeId: 'cm83-c4', conceptId: 'cm83-p2' },
+        ]
+    },
+    {
+        id: 'cm84',
+        title: 'C++ `const` and Pointers Deep Dive',
+        description: 'Match the declaration to its meaning.',
+        difficulty: 'Advanced',
+        xp: 70,
+        codeSnippets: [
+            { id: 'cm84-c1', language: 'cpp', code: '`int const * p`' },
+            { id: 'cm84-c2', language: 'cpp', code: '`int * const p`' },
+        ],
+        concepts: [
+            { id: 'cm84-p1', name: 'Pointer to a constant integer (value is constant).' },
+            { id: 'cm84-p2', name: 'Constant pointer to an integer (pointer is constant).' },
+        ],
+        pairs: [
+            { codeId: 'cm84-c1', conceptId: 'cm84-p1' },
+            { codeId: 'cm84-c2', conceptId: 'cm84-p2' },
+        ]
+    },
+    {
+        id: 'cm85',
+        title: 'Python `copy` vs `deepcopy`',
+        description: 'Match the copy function to its behavior.',
+        difficulty: 'Advanced',
+        xp: 65,
+        codeSnippets: [
+            { id: 'cm85-c1', language: 'python', code: 'Creates a new object but inserts references to the objects found in the original.' },
+            { id: 'cm85-c2', language: 'python', code: 'Creates a new object and recursively copies all objects found in the original.' },
+        ],
+        concepts: [
+            { id: 'cm85-p1', name: 'Shallow Copy (`copy.copy()`)' },
+            { id: 'cm85-p2', name: 'Deep Copy (`copy.deepcopy()`)' },
+        ],
+        pairs: [
+            { codeId: 'cm85-c1', conceptId: 'cm85-p1' },
+            { codeId: 'cm85-c2', conceptId: 'cm85-p2' },
+        ]
+    },
+    {
+        id: 'cm86',
+        title: 'DOM vs. Virtual DOM',
+        description: 'Match the concept to its description.',
+        difficulty: 'Advanced',
+        xp: 60,
+        codeSnippets: [
+            { id: 'cm86-c1', language: 'generic', code: 'The browser\'s programming interface for HTML and XML documents. Direct manipulation can be slow.' },
+            { id: 'cm86-c2', language: 'generic', code: 'A programming concept where a representation of a UI is kept in memory and synced with the "real" one. Used by libraries like React.' },
+        ],
+        concepts: [
+            { id: 'cm86-p1', name: 'DOM (Document Object Model)' },
+            { id: 'cm86-p2', name: 'Virtual DOM' },
+        ],
+        pairs: [
+            { codeId: 'cm86-c1', conceptId: 'cm86-p1' },
+            { codeId: 'cm86-c2', conceptId: 'cm86-p2' },
+        ]
+    },
+    {
+        id: 'cm87',
+        title: 'Process vs. Thread',
+        description: 'Match the term to its characteristic.',
+        difficulty: 'Intermediate',
+        xp: 50,
+        codeSnippets: [
+            { id: 'cm87-c1', language: 'generic', code: 'An instance of a program in execution. Has its own memory space.' },
+            { id: 'cm87-c2', language: 'generic', code: 'The smallest unit of execution within a process. Shares memory space with other units in the same process.' },
+        ],
+        concepts: [
+            { id: 'cm87-p1', name: 'Process' },
+            { id: 'cm87-p2', name: 'Thread' },
+        ],
+        pairs: [
+            { codeId: 'cm87-c1', conceptId: 'cm87-p1' },
+            { codeId: 'cm87-c2', conceptId: 'cm87-p2' },
+        ]
+    },
+    {
+        id: 'cm88',
+        title: 'Finalizer/Destructor Concepts',
+        description: 'Match the language-specific concept for object cleanup.',
+        difficulty: 'Advanced',
+        xp: 70,
+        codeSnippets: [
+            { id: 'cm88-c1', language: 'java', code: 'A method called by the garbage collector just before an object is garbage collected. (Deprecated and unreliable)' },
+            { id: 'cm88-c2', language: 'cpp', code: 'A special member function that is called automatically when an object goes out of scope or is explicitly deleted.' },
+            { id: 'cm88-c3', language: 'python', code: 'A method called when an object\'s reference count drops to zero. (Not guaranteed to be called)' },
+        ],
+        concepts: [
+            { id: 'cm88-p1', name: 'Java `finalize()`' },
+            { id: 'cm88-p2', name: 'C++ Destructor `~ClassName()`' },
+            { id: 'cm88-p3', name: 'Python `__del__()`' },
+        ],
+        pairs: [
+            { codeId: 'cm88-c1', conceptId: 'cm88-p1' },
+            { codeId: 'cm88-c2', conceptId: 'cm88-p2' },
+            { codeId: 'cm88-c3', conceptId: 'cm88-p3' },
+        ]
+    },
+    {
+        id: 'cm89',
+        title: 'JavaScript Prototype Chain',
+        description: 'Match the term to its role in prototypal inheritance.',
+        difficulty: 'Advanced',
+        xp: 70,
+        codeSnippets: [
+            { id: 'cm89-c1', language: 'javascript', code: 'An internal property of an object that links to another object.' },
+            { id: 'cm89-c2', language: 'javascript', code: 'A property on a constructor function that defines what will become the `[[Prototype]]` of instances created by that constructor.' },
+        ],
+        concepts: [
+            { id: 'cm89-p1', name: '`[[Prototype]]` (accessible via `__proto__`)' },
+            { id: 'cm89-p2', name: '`.prototype` property' },
+        ],
+        pairs: [
+            { codeId: 'cm89-c1', conceptId: 'cm89-p1' },
+            { codeId: 'cm89-c2', conceptId: 'cm89-p2' },
+        ]
+    },
+    {
+        id: 'cm90',
+        title: 'Compiler vs. Interpreter',
+        description: 'Match the term to its execution model.',
+        difficulty: 'Intermediate',
+        xp: 40,
+        codeSnippets: [
+            { id: 'cm90-c1', language: 'generic', code: 'Translates the entire source code into machine code before execution. (e.g., C++, Java)' },
+            { id: 'cm90-c2', language: 'generic', code: 'Translates and executes the source code line-by-line. (e.g., Python, JavaScript)' },
+        ],
+        concepts: [
+            { id: 'cm90-p1', name: 'Compiler' },
+            { id: 'cm90-p2', name: 'Interpreter' },
+        ],
+        pairs: [
+            { codeId: 'cm90-c1', conceptId: 'cm90-p1' },
+            { codeId: 'cm90-c2', conceptId: 'cm90-p2' },
+        ]
+    },
+    {
+        id: 'cm91',
+        title: 'ACID Properties',
+        description: 'Match the ACID property to its meaning in database transactions.',
+        difficulty: 'Advanced',
+        xp: 80,
+        codeSnippets: [
+            { id: 'cm91-c1', language: 'generic', code: 'Transactions are all-or-nothing.' },
+            { id: 'cm91-c2', language: 'generic', code: 'A transaction brings the database from one valid state to another.' },
+            { id: 'cm91-c3', language: 'generic', code: 'Concurrent execution of transactions results in a system state that would be obtained if transactions were executed serially.' },
+            { id: 'cm91-c4', language: 'generic', code: 'Once a transaction has been committed, it will remain so, even in the event of power loss.' },
+        ],
+        concepts: [
+            { id: 'cm91-p1', name: 'Atomicity' },
+            { id: 'cm91-p2', name: 'Consistency' },
+            { id: 'cm91-p3', name: 'Isolation' },
+            { id: 'cm91-p4', name: 'Durability' },
+        ],
+        pairs: [
+            { codeId: 'cm91-c1', conceptId: 'cm91-p1' },
+            { codeId: 'cm91-c2', conceptId: 'cm91-p2' },
+            { codeId: 'cm91-c3', conceptId: 'cm91-p3' },
+            { codeId: 'cm91-c4', conceptId: 'cm91-p4' },
+        ]
+    },
+    {
+        id: 'cm92',
+        title: 'CAP Theorem',
+        description: 'Match the CAP theorem property to its meaning for distributed systems.',
+        difficulty: 'Advanced',
+        xp: 80,
+        codeSnippets: [
+            { id: 'cm92-c1', language: 'generic', code: 'Every read receives the most recent write or an error.' },
+            { id: 'cm92-c2', language: 'generic', code: 'Every request receives a (non-error) response, without the guarantee that it contains the most recent write.' },
+            { id: 'cm92-c3', language: 'generic', code: 'The system continues to operate despite an arbitrary number of messages being dropped by the network between nodes.' },
+        ],
+        concepts: [
+            { id: 'cm92-p1', name: 'Consistency' },
+            { id: 'cm92-p2', name: 'Availability' },
+            { id: 'cm92-p3', name: 'Partition Tolerance' },
+        ],
+        pairs: [
+            { codeId: 'cm92-c1', conceptId: 'cm92-p1' },
+            { codeId: 'cm92-c2', conceptId: 'cm92-p2' },
+            { codeId: 'cm92-c3', conceptId: 'cm92-p3' },
+        ]
+    },
+    {
+        id: 'cm93',
+        title: 'Authentication vs. Authorization',
+        description: 'Match the security concept to its definition.',
+        difficulty: 'Intermediate',
+        xp: 45,
+        codeSnippets: [
+            { id: 'cm93-c1', language: 'generic', code: 'The process of verifying who a user is.' },
+            { id: 'cm93-c2', language: 'generic', code: 'The process of verifying what a user has access to.' },
+        ],
+        concepts: [
+            { id: 'cm93-p1', name: 'Authentication (AuthN)' },
+            { id: 'cm93-p2', name: 'Authorization (AuthZ)' },
+        ],
+        pairs: [
+            { codeId: 'cm93-c1', conceptId: 'cm93-p1' },
+            { codeId: 'cm93-c2', conceptId: 'cm93-p2' },
+        ]
+    },
+    {
+        id: 'cm94',
+        title: 'Java `final` vs `finally` vs `finalize`',
+        description: 'Match the Java keyword/method to its purpose.',
+        difficulty: 'Advanced',
+        xp: 70,
+        codeSnippets: [
+            { id: 'cm94-c1', language: 'java', code: 'A keyword used to declare constants, prevent method overriding, and prevent class inheritance.' },
+            { id: 'cm94-c2', language: 'java', code: 'A block of code in a try-catch statement that is always executed.' },
+            { id: 'cm94-c3', language: 'java', code: 'A method called by the garbage collector before an object is reclaimed. (Deprecated)' },
+        ],
+        concepts: [
+            { id: 'cm94-p1', name: '`final`' },
+            { id: 'cm94-p2', name: '`finally`' },
+            { id: 'cm94-p3', name: '`finalize()`' },
+        ],
+        pairs: [
+            { codeId: 'cm94-c1', conceptId: 'cm94-p1' },
+            { codeId: 'cm94-c2', conceptId: 'cm94-p2' },
+            { codeId: 'cm94-c3', conceptId: 'cm94-p3' },
+        ]
+    },
+    {
+        id: 'cm95',
+        title: 'C++ `struct` vs `class`',
+        description: 'Match the keyword to its default member access.',
+        difficulty: 'Beginner',
+        xp: 30,
+        codeSnippets: [
+            { id: 'cm95-c1', language: 'cpp', code: 'Default member access is `public`.' },
+            { id: 'cm95-c2', language: 'cpp', code: 'Default member access is `private`.' },
+        ],
+        concepts: [
+            { id: 'cm95-p1', name: '`struct`' },
+            { id: 'cm95-p2', name: '`class`' },
+        ],
+        pairs: [
+            { codeId: 'cm95-c1', conceptId: 'cm95-p1' },
+            { codeId: 'cm95-c2', conceptId: 'cm95-p2' },
+        ]
+    },
+    {
+        id: 'cm96',
+        title: 'SQL vs NoSQL',
+        description: 'Match the database type to its characteristic.',
+        difficulty: 'Intermediate',
+        xp: 45,
+        codeSnippets: [
+            { id: 'cm96-c1', language: 'generic', code: 'Relational databases with a predefined schema.' },
+            { id: 'cm96-c2', language: 'generic', code: 'Non-relational databases with dynamic schemas for unstructured data.' },
+        ],
+        concepts: [
+            { id: 'cm96-p1', name: 'SQL (e.g., MySQL, PostgreSQL)' },
+            { id: 'cm96-p2', name: 'NoSQL (e.g., MongoDB, Cassandra)' },
+        ],
+        pairs: [
+            { codeId: 'cm96-c1', conceptId: 'cm96-p1' },
+            { codeId: 'cm96-c2', conceptId: 'cm96-p2' },
+        ]
+    },
+    {
+        id: 'cm97',
+        title: 'Concurrency vs Parallelism',
+        description: 'Match the term to its definition.',
+        difficulty: 'Advanced',
+        xp: 70,
+        codeSnippets: [
+            { id: 'cm97-c1', language: 'generic', code: 'Multiple tasks making progress over time, often by interleaving (task switching).' },
+            { id: 'cm97-c2', language: 'generic', code: 'Multiple tasks running at the exact same time, requiring multiple CPU cores.' },
+        ],
+        concepts: [
+            { id: 'cm97-p1', name: 'Concurrency' },
+            { id: 'cm97-p2', name: 'Parallelism' },
+        ],
+        pairs: [
+            { codeId: 'cm97-c1', conceptId: 'cm97-p1' },
+            { codeId: 'cm97-c2', conceptId: 'cm97-p2' },
+        ]
+    },
+    {
+        id: 'cm98',
+        title: 'JavaScript `slice` vs `splice`',
+        description: 'Match the array method to its behavior.',
+        difficulty: 'Intermediate',
+        xp: 45,
+        codeSnippets: [
+            { id: 'cm98-c1', language: 'javascript', code: 'Returns a shallow copy of a portion of an array into a new array object. Does not modify the original array.' },
+            { id: 'cm98-c2', language: 'javascript', code: 'Changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.' },
+        ],
+        concepts: [
+            { id: 'cm98-p1', name: '`.slice()`' },
+            { id: 'cm98-p2', name: '`.splice()`' },
+        ],
+        pairs: [
+            { codeId: 'cm98-c1', conceptId: 'cm98-p1' },
+            { codeId: 'cm98-c2', conceptId: 'cm98-p2' },
+        ]
+    },
+    {
+        id: 'cm99',
+        title: 'Heaps',
+        description: 'Match the type of heap to its property.',
+        difficulty: 'Advanced',
+        xp: 60,
+        codeSnippets: [
+            { id: 'cm99-c1', language: 'generic', code: 'The value of each node is greater than or equal to the value of its children.' },
+            { id: 'cm99-c2', language: 'generic', code: 'The value of each node is less than or equal to the value of its children.' },
+        ],
+        concepts: [
+            { id: 'cm99-p1', name: 'Max-Heap' },
+            { id: 'cm99-p2', name: 'Min-Heap' },
+        ],
+        pairs: [
+            { codeId: 'cm99-c1', conceptId: 'cm99-p1' },
+            { codeId: 'cm99-c2', conceptId: 'cm99-p2' },
+        ]
+    },
+    {
+        id: 'cm100',
+        title: 'TCP vs UDP',
+        description: 'Match the transport layer protocol to its characteristic.',
+        difficulty: 'Intermediate',
+        xp: 50,
+        codeSnippets: [
+            { id: 'cm100-c1', language: 'generic', code: 'Connection-oriented, reliable, ordered delivery. Used for web browsing, email.' },
+            { id: 'cm100-c2', language: 'generic', code: 'Connectionless, unreliable, faster delivery. Used for video streaming, online gaming.' },
+        ],
+        concepts: [
+            { id: 'cm100-p1', name: 'TCP (Transmission Control Protocol)' },
+            { id: 'cm100-p2', name: 'UDP (User Datagram Protocol)' },
+        ],
+        pairs: [
+            { codeId: 'cm100-c1', conceptId: 'cm100-p1' },
+            { codeId: 'cm100-c2', conceptId: 'cm100-p2' },
+        ]
+    },
+    {
+        id: 'cm101',
+        title: 'JavaScript Equality Quirks',
+        description: 'Match the expression to its boolean result.',
+        difficulty: 'Advanced',
+        xp: 60,
+        codeSnippets: [
+            { id: 'cm101-c1', language: 'javascript', code: '`NaN === NaN`' },
+            { id: 'cm101-c2', language: 'javascript', code: '`[] == ![]`' },
+            { id: 'cm101-c3', language: 'javascript', code: '`"5" == 5`' },
+        ],
+        concepts: [
+            { id: 'cm101-p1', name: '`false`' },
+            { id: 'cm101-p2', name: '`true`' },
+        ],
+        pairs: [
+            { codeId: 'cm101-c1', conceptId: 'cm101-p1' },
+            { codeId: 'cm101-c2', conceptId: 'cm101-p2' },
+            { codeId: 'cm101-c3', conceptId: 'cm101-p2' },
+        ]
+    },
+    {
+        id: 'cm102',
+        title: 'Python List vs Tuple',
+        description: 'Match the data type to its characteristic.',
+        difficulty: 'Beginner',
+        xp: 25,
+        codeSnippets: [
+            { id: 'cm102-c1', language: 'python', code: 'Mutable (can be changed after creation).' },
+            { id: 'cm102-c2', language: 'python', code: 'Immutable (cannot be changed after creation).' },
+        ],
+        concepts: [
+            { id: 'cm102-p1', name: 'List' },
+            { id: 'cm102-p2', name: 'Tuple' },
+        ],
+        pairs: [
+            { codeId: 'cm102-c1', conceptId: 'cm102-p1' },
+            { codeId: 'cm102-c2', conceptId: 'cm102-p2' },
+        ]
+    },
+    {
+        id: 'cm103',
+        title: 'Java Synchronization',
+        description: 'Match the synchronization mechanism to its purpose.',
+        difficulty: 'Advanced',
+        xp: 75,
+        codeSnippets: [
+            { id: 'cm103-c1', language: 'java', code: 'A keyword that provides lock-based synchronization on an object or method.' },
+            { id: 'cm103-c2', language: 'java', code: 'A keyword ensuring that changes to a variable are always visible to other threads.' },
+            { id: 'cm103-c3', language: 'java', code: 'A class providing lock-free, thread-safe operations on a single variable.' },
+        ],
+        concepts: [
+            { id: 'cm103-p1', name: '`synchronized`' },
+            { id: 'cm103-p2', name: '`volatile`' },
+            { id: 'cm103-p3', name: '`java.util.concurrent.atomic` classes' },
+        ],
+        pairs: [
+            { codeId: 'cm103-c1', conceptId: 'cm103-p1' },
+            { codeId: 'cm103-c2', conceptId: 'cm103-p2' },
+            { codeId: 'cm103-c3', conceptId: 'cm103-p3' },
+        ]
+    },
+    {
+        id: 'cm104',
+        title: 'C++ Move Semantics',
+        description: 'Match the concept to its role in move semantics.',
+        difficulty: 'Advanced',
+        xp: 80,
+        codeSnippets: [
+            { id: 'cm104-c1', language: 'cpp', code: 'An expression that refers to a temporary object that can be moved from.' },
+            { id: 'cm104-c2', language: 'cpp', code: 'A cast that unconditionally converts its argument to an rvalue.' },
+            { id: 'cm104-c3', language: 'cpp', code: 'A constructor that "steals" resources from a temporary object.' },
+        ],
+        concepts: [
+            { id: 'cm104-p1', name: 'Rvalue' },
+            { id: 'cm104-p2', name: '`std::move`' },
+            { id: 'cm104-p3', name: 'Move Constructor' },
+        ],
+        pairs: [
+            { codeId: 'cm104-c1', conceptId: 'cm104-p1' },
+            { codeId: 'cm104-c2', conceptId: 'cm104-p2' },
+            { codeId: 'cm104-c3', conceptId: 'cm104-p3' },
+        ]
+    },
+    {
+        id: 'cm105',
+        title: 'Git Merge Strategies',
+        description: 'Match the merge strategy to its outcome.',
+        difficulty: 'Advanced',
+        xp: 70,
+        codeSnippets: [
+            { id: 'cm105-c1', language: 'generic', code: 'Creates a new commit with two parents, preserving the history of both branches.' },
+            { id: 'cm105-c2', language: 'generic', code: 'Moves or combines a sequence of commits to a new base commit, creating a linear history.' },
+            { id: 'cm105-c3', language: 'generic', code: 'Combines multiple commits into a single commit before merging.' },
+        ],
+        concepts: [
+            { id: 'cm105-p1', name: 'Merge Commit' },
+            { id: 'cm105-p2', name: 'Rebase' },
+            { id: 'cm105-p3', name: 'Squash' },
+        ],
+        pairs: [
+            { codeId: 'cm105-c1', conceptId: 'cm105-p1' },
+            { codeId: 'cm105-c2', conceptId: 'cm105-p2' },
+            { codeId: 'cm105-c3', conceptId: 'cm105-p3' },
+        ]
     }
 ];
