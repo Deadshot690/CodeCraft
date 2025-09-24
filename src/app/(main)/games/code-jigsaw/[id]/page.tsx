@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, use } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import type { DropResult } from "react-beautiful-dnd";
@@ -25,13 +25,12 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 export default function CodeJigsawArenaPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
+  const [puzzleLines, setPuzzleLines] = useState<string[]>([]);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const challenge = useMemo(() => {
     return codeJigsawChallenges.find((c) => c.id === params.id);
   }, [params.id]);
-
-  const [puzzleLines, setPuzzleLines] = useState<string[]>([]);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -54,6 +53,7 @@ export default function CodeJigsawArenaPage({ params }: { params: { id: string }
     newLines.splice(destination.index, 0, reorderedItem);
 
     setPuzzleLines(newLines);
+    setIsCorrect(null);
   };
 
   const checkSolution = () => {
