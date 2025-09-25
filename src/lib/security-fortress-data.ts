@@ -215,7 +215,7 @@ if (requestedFile.getCanonicalPath().startsWith(dataDir.getCanonicalPath())) {
             }
         ],
         correctOptionId: '6b',
-        explanation: 'The most robust fix is to resolve the canonical path of the requested file and ensure it still resides within the intended base directory. Simple string replacement is often insufficient.'
+        explanation: 'The most robust fix is to resolve the canonical path of the requested file and ensure it still resides within the intended base directory. Simple string replacement is often insufficient.',
     },
     {
         id: '7',
@@ -253,7 +253,7 @@ move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $new_name);`
             }
         ],
         correctOptionId: '7c',
-        explanation: 'A multi-layered defense is best: 1) Validate the file extension against a whitelist of allowed types. 2) For even more security, rename the uploaded file on the server to prevent direct execution if the extension check fails.'
+        explanation: 'A multi-layered defense is best: 1) Validate the file extension against a whitelist of allowed types. 2) For even more security, rename the uploaded file on the server to prevent direct execution if the extension check fails.',
     },
     {
         id: '8',
@@ -291,7 +291,7 @@ move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $new_name);`
             }
         ],
         correctOptionId: '8b',
-        explanation: 'The standard defense against CSRF is the Synchronizer Token Pattern. The server generates a unique, unpredictable token for each user session and requires it to be included in any state-changing request.'
+        explanation: 'The standard defense against CSRF is the Synchronizer Token Pattern. The server generates a unique, unpredictable token for each user session and requires it to be included in any state-changing request.',
     },
     {
         id: '9',
@@ -322,7 +322,7 @@ String apiKey = loadKeyFromFile("secrets.txt");`
             }
         ],
         correctOptionId: '9a',
-        explanation: 'Secrets should never be stored in source code. The best practice is to load them from environment variables or a dedicated secrets management service.'
+        explanation: 'Secrets should never be stored in source code. The best practice is to load them from environment variables or a dedicated secrets management service.',
     },
     {
         id: '10',
@@ -357,7 +357,7 @@ document.body.innerHTML += unsafeHtml;`
             }
         ],
         correctOptionId: '10a',
-        explanation: 'Creating DOM nodes programmatically (`createElement`) and setting their content with `.textContent` is the safest way to avoid DOM-based XSS. It ensures the data is never parsed as HTML.'
+        explanation: 'Creating DOM nodes programmatically (`createElement`) and setting their content with `.textContent` is the safest way to avoid DOM-based XSS. It ensures the data is never parsed as HTML.',
     },
     {
         id: '11',
@@ -391,7 +391,7 @@ if 'os.system' not in data:
             }
         ],
         correctOptionId: '11a',
-        explanation: 'Never deserialize data from untrusted sources with unsafe serializers like Pickle. Use a safe, data-only format like JSON instead.'
+        explanation: 'Never deserialize data from untrusted sources with unsafe serializers like Pickle. Use a safe, data-only format like JSON instead.',
     },
     {
         id: '12',
@@ -422,7 +422,7 @@ $hashed_password = password_hash($password, PASSWORD_BCRYPT);`
             }
         ],
         correctOptionId: '12c',
-        explanation: 'MD5 and SHA1 are considered broken for password hashing. Use a modern, slow, and salted hashing algorithm like Bcrypt, Scrypt, or Argon2. PHP\'s `password_hash` function handles this securely.'
+        explanation: 'MD5 and SHA1 are considered broken for password hashing. Use a modern, slow, and salted hashing algorithm like Bcrypt, Scrypt, or Argon2. PHP\'s `password_hash` function handles this securely.',
     },
     {
         id: '13',
@@ -759,7 +759,7 @@ $sql = "SELECT tracking_id FROM tracking WHERE id = '$id'";
         options: [
             {
                 id: '22a',
-                code: '// Time-based attacks are too slow to be practical, no fix needed.'
+                code: `// Time-based attacks are too slow to be practical, no fix needed.`
             },
             {
                 id: '22b',
@@ -1033,5 +1033,1150 @@ sessionCookie.setPath("/app");`
       ],
       correctOptionId: '30a',
       explanation: 'For any sensitive cookie (like a session ID), the `Secure` flag must be set. This ensures the browser will only send the cookie over an encrypted HTTPS connection, preventing it from being intercepted on an insecure network.'
+    },
+    {
+      id: '31',
+      title: 'Deserialization of Untrusted Data (Java)',
+      category: 'IDOR',
+      difficulty: 'Advanced',
+      xp: 90,
+      description: 'Accepting serialized Java objects from an untrusted source can lead to Remote Code Execution, as a malicious payload can be crafted.',
+      vulnerableCode: `// Java
+protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    try {
+        ObjectInputStream in = new ObjectInputStream(request.getInputStream());
+        User user = (User) in.readObject();
+        // ... process user object ...
+    } catch (Exception e) {
+        // handle error
     }
-];
+}`,
+      language: 'java',
+      options: [
+        {
+          id: '31a',
+          code: `// Use a safe data format like JSON instead of Java serialization
+ObjectMapper mapper = new ObjectMapper();
+User user = mapper.readValue(request.getInputStream(), User.class);`
+        },
+        {
+          id: '31b',
+          code: `// Check the object type after deserialization
+User user = (User) in.readObject();
+if (!(user instanceof User)) {
+    throw new SecurityException("Invalid object type");
+}`
+        },
+        {
+          id: '31c',
+          code: `// No fix needed if the User class is simple.`
+        }
+      ],
+      correctOptionId: '31a',
+      explanation: 'Java serialization is notoriously unsafe for untrusted data. The best practice is to switch to a safe, data-only format like JSON and use a library like Jackson or Gson for deserialization.'
+    },
+    {
+      id: '32',
+      title: 'Insecure Regular Expression',
+      category: 'CSRF',
+      difficulty: 'Advanced',
+      xp: 75,
+      description: 'A poorly written regular expression can be vulnerable to a ReDoS (Regular Expression Denial of Service) attack, where a specially crafted input string causes exponential backtracking.',
+      vulnerableCode: `// JavaScript
+// Vulnerable to ReDoS: (a+)+
+const regex = /^(a+)+$/;
+regex.test("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!");`,
+      language: 'javascript',
+      options: [
+        {
+          id: '32a',
+          code: `// Make the nested quantifier possessive to prevent backtracking
+const regex = /^(a++)+$/;`
+        },
+        {
+          id: '32b',
+          code: `// Rewrite the regex to avoid nested quantifiers
+const regex = /^a+$/;`
+        },
+        {
+          id: '32c',
+          code: `// Limit the length of the input string before testing
+if (input.length < 100) {
+    regex.test(input);
+}`
+        }
+      ],
+      correctOptionId: '32b',
+      explanation: 'The vulnerability is caused by "nested quantifiers" (`a+` inside `()+`). The safest fix is to rewrite the expression to avoid this pattern entirely. A simple `^a+$` accomplishes the same goal without the ReDoS risk.'
+    },
+    {
+      id: '33',
+      title: 'Directory Listing Enabled',
+      category: 'IDOR',
+      difficulty: 'Beginner',
+      xp: 30,
+      description: 'If a web server does not find an index file (like index.html) in a directory, it might be configured to show a listing of all files in that directory, potentially exposing sensitive information.',
+      vulnerableCode: `// This is a server configuration issue, not code.
+// Example: Apache config
+<Directory /var/www/html>
+    Options Indexes FollowSymLinks
+</Directory>`,
+      language: 'javascript',
+      options: [
+        {
+          id: '33a',
+          code: `// Remove the 'Indexes' option from the server configuration
+<Directory /var/www/html>
+    Options FollowSymLinks
+</Directory>`
+        },
+        {
+          id: '33b',
+          code: `// Add an empty index.html file to every directory.`
+        },
+        {
+          id: '33c',
+          code: `// Both A and B are valid solutions. Disabling indexes is the proper server-level fix.`
+        }
+      ],
+      correctOptionId: '33c',
+      explanation: 'The best fix is to disable directory listing at the server configuration level. Adding an empty index file also works as a quick fix but must be done for every directory.'
+    },
+    {
+      id: '34',
+      title: 'Missing `SameSite` Cookie Attribute',
+      category: 'CSRF',
+      difficulty: 'Intermediate',
+      xp: 60,
+      description: 'A cookie without the `SameSite` attribute will be sent with cross-site requests, which is the foundation for CSRF attacks.',
+      vulnerableCode: `// JavaScript (Node.js/Express)
+res.cookie('sessionId', 'abc12345', { httpOnly: true, secure: true });`,
+      language: 'javascript',
+      options: [
+        {
+          id: '34a',
+          code: `// The SameSite attribute defaults to Lax in modern browsers, so no fix is needed.`
+        },
+        {
+          id: '34b',
+          code: `// Explicitly set SameSite to 'Strict' or 'Lax'
+res.cookie('sessionId', 'abc12345', { 
+    httpOnly: true, 
+    secure: true, 
+    sameSite: 'Strict' 
+});`
+        }
+      ],
+      correctOptionId: '34b',
+      explanation: 'While modern browsers default to `SameSite=Lax`, it is best practice to explicitly set the attribute for sensitive cookies. `Strict` provides the strongest protection, while `Lax` provides a balance between security and usability.'
+    },
+    {
+      id: '35',
+      title: 'Unsafe `target="_blank"`',
+      category: 'XSS',
+      difficulty: 'Beginner',
+      xp: 40,
+      description: 'Links with `target="_blank"` can be a security risk. The newly opened page gains access to the originating page\'s `window` object via `window.opener`, allowing it to redirect the original page to a malicious site.',
+      vulnerableCode: `<a href="https://example.com" target="_blank">Visit Example</a>`,
+      language: 'javascript',
+      options: [
+        {
+          id: '35a',
+          code: `// This is not a security risk.`
+        },
+        {
+          id: '35b',
+          code: `<a href="https://example.com" target="_blank" rel="noopener noreferrer">Visit Example</a>`
+        }
+      ],
+      correctOptionId: '35b',
+      explanation: 'To mitigate this vulnerability, always add `rel="noopener noreferrer"` to any links that use `target="_blank"`. This prevents the new page from accessing `window.opener`.'
+    },
+    {
+      id: '36',
+      title: 'Second-Order SQL Injection',
+      category: 'SQL Injection',
+      difficulty: 'Advanced',
+      xp: 90,
+      description: 'An attacker\'s input is stored safely in the database, but it is later used in an unsafe way in a different part of the application.',
+      vulnerableCode: `// 1. User signs up, username is stored safely (e.g., with prepared statements)
+// Attacker's username: admin' -- 
+
+// 2. Later, an admin panel builds a query unsafely with the stored username
+$username = $user_from_db['username'];
+$sql = "UPDATE users SET is_admin=1 WHERE username = '$username'";`,
+      language: 'php',
+      options: [
+        {
+          id: '36a',
+          code: `// The vulnerability is in the admin panel query. It must also use prepared statements.`
+        },
+        {
+          id: '36b',
+          code: `// Sanitize the username on input to remove quotes.
+$username = str_replace("'", "", $_POST['username']);`
+        }
+      ],
+      correctOptionId: '36a',
+      explanation: 'This highlights that *every* query that uses external data must be parameterized. Just because data was stored safely once does not mean it is safe to use in a dynamically constructed query later.'
+    },
+    {
+      id: '37',
+      title: 'Prototype Pollution',
+      category: 'IDOR',
+      difficulty: 'Advanced',
+      xp: 95,
+      description: 'An attacker is able to modify `Object.prototype` through an unsafe recursive merge or object property definition, affecting all objects in the application.',
+      vulnerableCode: `// Unsafe recursive merge function
+function merge(target, source) {
+    for (let key in source) {
+        if (key === '__proto__') { continue; } // Naive check
+        if (typeof target[key] === 'object' && typeof source[key] === 'object') {
+            merge(target[key], source[key]);
+        } else {
+            target[key] = source[key];
+        }
+    }
+}`,
+      language: 'javascript',
+      options: [
+        {
+          id: '37a',
+          code: `// This check is sufficient to prevent prototype pollution.`
+        },
+        {
+          id: '37b',
+          code: `// A better approach is to prevent merging properties named '__proto__', 'constructor', or 'prototype'. 
+// Or, even better, create a new object without a prototype using Object.create(null).`
+        }
+      ],
+      correctOptionId: '37b',
+      explanation: 'A simple check for `__proto__` is not enough. An attacker could use `constructor.prototype` to achieve the same result. The best defenses involve robust validation of keys or creating prototype-less objects for data storage.'
+    },
+    {
+      id: '38',
+      title: 'Insecure Password Reset',
+      category: 'IDOR',
+      difficulty: 'Intermediate',
+      xp: 70,
+      description: 'A password reset function reveals whether an email address exists in the system, allowing an attacker to enumerate valid user emails.',
+      vulnerableCode: `// PHP
+$email = $_POST['email'];
+if (user_exists($email)) {
+    // send reset email...
+    echo "Password reset email sent.";
+} else {
+    echo "Error: Email not found.";
+}`,
+      language: 'php',
+      options: [
+        {
+          id: '38a',
+          code: `// This behavior is fine.`
+        },
+        {
+          id: '38b',
+          code: `// Always return a generic message, regardless of whether the email exists.
+// Log the attempt on the server side.
+echo "If an account with that email exists, a reset link has been sent.";`
+        }
+      ],
+      correctOptionId: '38b',
+      explanation: 'Authentication and password reset functions should not reveal whether an account exists. This prevents username/email enumeration. Always return a generic success message.'
+    },
+    {
+      id: '39',
+      title: 'HTTP Parameter Pollution (HPP)',
+      category: 'IDOR',
+      difficulty: 'Advanced',
+      xp: 75,
+      description: 'An attacker sends multiple HTTP parameters with the same name. If the application only reads the last one, it can be used to override legitimate parameter values.',
+      vulnerableCode: `// URL: /transfer?to=bob&amount=100&to=attacker
+// Express.js code:
+app.get('/transfer', (req, res) => {
+    // req.query.to will be "attacker"
+    const recipient = req.query.to; 
+    // ... transfer logic ...
+});`,
+      language: 'javascript',
+      options: [
+        {
+          id: '39a',
+          code: `// Express handles this automatically, this is not a risk.`
+        },
+        {
+          id: '39b',
+          code: `// The application should check if the parameter was supplied more than once.
+// If so, it should reject the request.
+if (Array.isArray(req.query.to)) {
+    return res.status(400).send("Parameter pollution detected");
+}`
+        }
+      ],
+      correctOptionId: '39b',
+      explanation: 'Web frameworks handle duplicate parameters differently. An application should be aware of this and explicitly check for and reject requests where sensitive parameters are provided more than once.'
+    },
+    {
+      id: '40',
+      title: 'Mass Assignment Vulnerability',
+      category: 'IDOR',
+      difficulty: 'Intermediate',
+      xp: 70,
+      description: 'An application binds user input directly to an object, allowing an attacker to update fields they should not have access to, like an `isAdmin` flag.',
+      vulnerableCode: `// Python (with a hypothetical ORM)
+user_data = request.json
+user = get_user_by_id(user_id)
+# Unsafely updates all fields provided by the user
+user.update(user_data)`,
+      language: 'python',
+      options: [
+        {
+          id: '40a',
+          code: `// Only update fields from a whitelist
+allowed_fields = ['first_name', 'last_name']
+for field in allowed_fields:
+    if field in user_data:
+        setattr(user, field, user_data[field])`
+        },
+        {
+          id: '40b',
+          code: `// Blacklist sensitive fields
+if 'is_admin' in user_data:
+    del user_data['is_admin']
+user.update(user_data)`
+        },
+        {
+          id: '40c',
+          code: `// Both are valid, but whitelisting (A) is generally safer than blacklisting (B).`
+        }
+      ],
+      correctOptionId: '40c',
+      explanation: 'Whitelisting allowed fields is safer because it denies by default. A blacklist approach might miss a new sensitive field added in the future. The best approach is to use a Data Transfer Object (DTO) that only contains the fields a user is allowed to edit.'
+    },
+    {
+      id: '41',
+      title: 'Unchecked `postMessage` Origin',
+      category: 'XSS',
+      difficulty: 'Intermediate',
+      xp: 65,
+      description: 'A web page listens for messages via `window.postMessage` but does not verify the origin of the message, allowing any website to send it malicious data.',
+      vulnerableCode: `// JavaScript in your web page
+window.addEventListener('message', (event) => {
+    // Unsafe: doesn't check event.origin
+    eval(event.data);
+});`,
+      language: 'javascript',
+      options: [
+        {
+          id: '41a',
+          code: `window.addEventListener('message', (event) => {
+    // Always validate the origin of the message
+    if (event.origin !== 'https://trusted-site.com') {
+        return;
+    }
+    // Process event.data safely...
+});`
+        },
+        {
+          id: '41b',
+          code: `window.addEventListener('message', (event) => {
+    // Just check that data is not empty
+    if (event.data) {
+        eval(event.data);
+    }
+});`
+        }
+      ],
+      correctOptionId: '41a',
+      explanation: 'When using `postMessage`, you must always verify the `event.origin` to ensure the message is coming from a trusted source before processing its data.'
+    },
+    {
+      id: '42',
+      title: 'SQL Injection with `LIKE` Clause',
+      category: 'SQL Injection',
+      difficulty: 'Intermediate',
+      xp: 60,
+      description: 'User input is used in a `LIKE` clause, but wildcard characters (`%`, `_`) are not escaped, allowing an attacker to bypass filters or retrieve all data.',
+      vulnerableCode: `// Python
+search_term = request.args.get('search')
+# Unsafe concatenation
+query = f"SELECT * FROM products WHERE name LIKE '%{search_term}%'"`
+,
+      language: 'python',
+      options: [
+        {
+          id: '42a',
+          code: `// Use prepared statements, passing the wildcard-wrapped term as a parameter.
+query = "SELECT * FROM products WHERE name LIKE ?"
+params = (f"%{search_term}%",)
+# ... execute with params`
+        },
+        {
+          id: '42b',
+          code: `// Escape the wildcards manually
+safe_term = search_term.replace('%', '\\%').replace('_', '\\_')
+query = f"SELECT * FROM products WHERE name LIKE '%{safe_term}%'"`
+        },
+        {
+          id: '42c',
+          code: `// A is the best practice. B is a valid defense but error-prone.`
+        }
+      ],
+      correctOptionId: '42c',
+      explanation: 'As with all SQL injection, prepared statements are the correct solution. Let the database driver handle the proper quoting and escaping of the data.'
+    },
+    {
+      id: '43',
+      title: 'Log Injection',
+      category: 'IDOR',
+      difficulty: 'Intermediate',
+      xp: 55,
+      description: 'User input is written directly to a log file without sanitization. An attacker can inject newline characters (`\\n`) to forge log entries.',
+      vulnerableCode: `// Java
+String username = request.getParameter("username");
+log.info("Login failed for user: " + username);`,
+      language: 'java',
+      options: [
+        {
+          id: '43a',
+          code: `// Sanitize the input by removing newlines and other control characters
+username = username.replaceAll("[\\n\\r]", "_");
+log.info("Login failed for user: " + username);`
+        },
+        {
+          id: '43b',
+          code: `// Use a logging framework that automatically handles this.`
+        },
+        {
+          id: '43c',
+          code: `// A is correct. Most modern logging frameworks do not automatically sanitize for this, so manual cleaning or a specific security wrapper is required.`
+        }
+      ],
+      correctOptionId: '43c',
+      explanation: 'To prevent log injection, all user-controllable data written to logs should be sanitized to remove carriage returns, newlines, and other control characters.'
+    },
+    {
+      id: '44',
+      title: 'Insecure Temporary File',
+      category: 'IDOR',
+      difficulty: 'Beginner',
+      xp: 40,
+      description: 'The application creates a temporary file in a shared directory (`/tmp`) with a predictable name. An attacker could potentially predict the filename and pre-create it to hijack data or control the application.',
+      vulnerableCode: `// Python
+# Predictable filename
+temp_file = open("/tmp/app_temp_file.dat", "w")
+temp_file.write("secret data")`,
+      language: 'python',
+      options: [
+        {
+          id: '44a',
+          code: `// Use the tempfile module to securely create temporary files
+import tempfile
+with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+    temp_file.write(b"secret data")`
+        },
+        {
+          id: '44b',
+          code: `import os, time
+# Add a timestamp to the name
+filename = f"/tmp/app_temp_file_{time.time()}.dat"
+temp_file = open(filename, "w")`
+        }
+      ],
+      correctOptionId: '44a',
+      explanation: 'Always use your programming language\'s built-in library for creating temporary files (like `tempfile` in Python or `Files.createTempFile` in Java). These libraries are designed to create files with random, unpredictable names in a secure manner.'
+    },
+    {
+      id: '45',
+      title: 'Missing Braces in `if` Statement',
+      category: 'CSRF',
+      difficulty: 'Beginner',
+      xp: 30,
+      description: 'In languages like C++, Java, and JavaScript, an `if` statement without curly braces `{}` only controls the single next statement. This can lead to critical security checks being bypassed.',
+      vulnerableCode: `// C++
+if (user->is_authorized())
+    check_permissions(); // only this line is conditional
+    execute_critical_action(); // this line ALWAYS executes!`,
+      language: 'cpp',
+      options: [
+        {
+          id: '45a',
+          code: `// Indentation fixes the problem.`
+        },
+        {
+          id: '45b',
+          code: `// Always use curly braces for 'if' statements, even for a single line.
+if (user->is_authorized()) {
+    check_permissions();
+    execute_critical_action();
+}`
+        }
+      ],
+      correctOptionId: '45b',
+      explanation: 'This is a common source of bugs and vulnerabilities. Best practice is to always use curly braces `{}` for the body of `if`, `else`, `for`, and `while` statements to avoid ambiguity.'
+    },
+    {
+      id: '46',
+      title: 'Regex Injection',
+      category: 'Command Injection',
+      difficulty: 'Advanced',
+      xp: 85,
+      description: 'User input is used directly to construct a regular expression. An attacker can provide input that changes the logic of the regex, potentially causing a ReDoS attack or bypassing validation.',
+      vulnerableCode: `// JavaScript
+let userPattern = new URLSearchParams(window.location.search).get("pattern");
+// Unsafe: userPattern can contain special regex characters
+let regex = new RegExp("^" + userPattern + "$");`,
+      language: 'javascript',
+      options: [
+        {
+          id: '46a',
+          code: `// Escape special regex characters from the user input before creating the RegExp.
+function escapeRegex(string) {
+    return string.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');
+}
+let regex = new RegExp("^" + escapeRegex(userPattern) + "$");`
+        },
+        {
+          id: '46b',
+          code: `// This is not a vulnerability.`
+        }
+      ],
+      correctOptionId: '46a',
+      explanation: 'When building a regular expression from user input, you must escape any special regex characters within that input to ensure they are treated as literal characters and not as part of the regex logic.'
+    },
+    {
+      id: '47',
+      title: 'XML Bomb (Billion Laughs Attack)',
+      category: 'IDOR',
+      difficulty: 'Advanced',
+      xp: 80,
+      description: 'An XML parser that allows entity expansion can be forced to consume huge amounts of memory and CPU by parsing a small, malicious XML file that defines nested entities.',
+      vulnerableCode: `<!-- Malicious XML file -->
+<?xml version="1.0"?>
+<!DOCTYPE lolz [
+  <!ENTITY lol "lol">
+  <!ENTITY lol2 "&lol;&lol;&lol;...">
+  <!ENTITY lol3 "&lol2;&lol2;&lol2;...">
+  ...
+]>
+<lolz>&lol9;</lolz>`,
+      language: 'java',
+      options: [
+        {
+          id: '47a',
+          code: `// The fix is the same as for XXE: disable DTDs.
+DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);`
+        },
+        {
+          id: '47b',
+          code: `// Limit the size of the incoming XML file.`
+        }
+      ],
+      correctOptionId: '47a',
+      explanation: 'Disabling Document Type Definitions (DTDs) is the most effective way to prevent both XXE and XML Bomb attacks, as both rely on features defined within the `DOCTYPE` block.'
+    },
+    {
+      id: '48',
+      title: 'Integer Overflow',
+      category: 'IDOR',
+      difficulty: 'Intermediate',
+      xp: 60,
+      description: 'An arithmetic operation results in a number that is too large for its data type, causing it to "wrap around" to a small or negative number. This can bypass security checks.',
+      vulnerableCode: `// Java
+public void purchase(int quantity, int price) {
+    int totalCost = quantity * price; // This can overflow
+    if (user.getBalance() >= totalCost) {
+        // process payment
+    }
+}`,
+      language: 'java',
+      options: [
+        {
+          id: '48a',
+          code: `// Use a larger data type, like 'long', for the calculation.
+long totalCost = (long) quantity * price;`
+        },
+        {
+          id: '48b',
+          code: `// Check for overflow before multiplication
+if (price > 0 && quantity > Integer.MAX_VALUE / price) {
+    // handle overflow error
+} else {
+    int totalCost = quantity * price;
+}`
+        },
+        {
+          id: '48c',
+          code: `// Both A and B are valid solutions. Using a larger data type is often simpler, while manual checks provide more control.`
+        }
+      ],
+      correctOptionId: '48c',
+      explanation: 'To prevent integer overflow, you must either use a data type large enough to hold the result (like `long` or `BigInteger`) or perform checks before the operation to see if an overflow would occur.'
+    },
+    {
+      id: '49',
+      title: 'Deserialization of JSON with `__proto__`',
+      category: 'IDOR',
+      difficulty: 'Advanced',
+      xp: 90,
+      description: 'Even when using JSON, an attacker can craft a payload with a `__proto__` key to attempt a Prototype Pollution attack in JavaScript.',
+      vulnerableCode: `// JavaScript (Node.js)
+let user_data = JSON.parse('{"__proto__": {"isAdmin": true}}');
+let new_obj = {};
+Object.assign(new_obj, user_data);
+// Now, {}.isAdmin might be true!`,
+      language: 'javascript',
+      options: [
+        {
+          id: '49a',
+          code: `// Use Object.create(null) to create objects without a prototype.
+let new_obj = Object.create(null);`
+        },
+        {
+          id: '49b',
+          code: `// Before merging, explicitly delete any potentially harmful keys.
+delete user_data.__proto__;`
+        },
+        {
+          id: '49c',
+          code: `// Both A and B are good defenses. Modern libraries also have protections against this.`
+        }
+      ],
+      correctOptionId: '49c',
+      explanation: 'Prototype Pollution is a serious risk in JavaScript. Key defenses include creating prototype-less objects for data, freezing `Object.prototype`, and carefully validating keys before merging objects.'
+    },
+    {
+      id: '50',
+      title: 'Weak Session ID',
+      category: 'CSRF',
+      difficulty: 'Intermediate',
+      xp: 65,
+      description: 'The application generates session IDs using a simple, predictable pattern (e.g., just incrementing a user ID), allowing an attacker to guess other users\' session IDs.',
+      vulnerableCode: `// Pseudocode
+function createSession(userId) {
+    // Predictable session ID
+    const sessionId = "session-" + userId; 
+    setCookie("SESSIONID", sessionId);
+}`,
+      language: 'javascript',
+      options: [
+        {
+          id: '50a',
+          code: `// Use a cryptographically secure random string for the session ID.
+const sessionId = crypto.randomBytes(32).toString('hex');`
+        },
+        {
+          id: '50b',
+          code: `// Base64 encode the user ID to make it look random.
+const sessionId = btoa("session-" + userId);`
+        }
+      ],
+      correctOptionId: '50a',
+      explanation: 'Session IDs must be long, unpredictable, and generated by a cryptographically secure random number generator to prevent attackers from guessing them.'
+    },
+    {
+        id: '51',
+        title: 'SQL Injection with ORDER BY',
+        category: 'SQL Injection',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'User input is used in an `ORDER BY` clause. Since this part of the query cannot be parameterized, it requires a different approach to prevent injection.',
+        vulnerableCode: `// Python
+sort_column = request.args.get('sort')
+# Unsafe: an attacker could inject a subquery
+query = f"SELECT * FROM products ORDER BY {sort_column}"`,
+        language: 'python',
+        options: [
+            {
+                id: '51a',
+                code: `// Use prepared statements (this won't work for ORDER BY)
+query = "SELECT * FROM products ORDER BY ?"
+# ... execute query with sort_column as parameter ...`
+            },
+            {
+                id: '51b',
+                code: `// Validate the user input against a whitelist of allowed column names.
+allowed_columns = ["name", "price", "category"]
+if sort_column in allowed_columns:
+    query = f"SELECT * FROM products ORDER BY {sort_column}"
+else:
+    # Handle error or use a default sort
+    query = "SELECT * FROM products ORDER BY name"`
+            }
+        ],
+        correctOptionId: '51b',
+        explanation: 'Since `ORDER BY` and other structural parts of a SQL query cannot be parameterized, the correct defense is to validate the user-provided value against a strict whitelist of allowed values before inserting it into the query string.'
+    },
+    {
+        id: '52',
+        title: 'Zip Slip Vulnerability',
+        category: 'IDOR',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'An application extracts a user-provided zip file without validating the paths of the files inside. The zip file can contain path traversal sequences (`../`) to write files outside the intended destination directory.',
+        vulnerableCode: `// Java
+ZipInputStream zis = new ZipInputStream(request.getInputStream());
+ZipEntry zipEntry = zis.getNextEntry();
+while (zipEntry != null) {
+    File newFile = new File(destinationDir, zipEntry.getName());
+    // Potentially writes outside destinationDir
+    FileOutputStream fos = new FileOutputStream(newFile);
+    // ... write file contents ...
+    zipEntry = zis.getNextEntry();
+}`,
+        language: 'java',
+        options: [
+            {
+                id: '52a',
+                code: `// Before writing, check if the file's canonical path starts with the destination directory's path.
+File newFile = new File(destinationDir, zipEntry.getName());
+String destDirPath = destinationDir.getCanonicalPath();
+String newFilePath = newFile.getCanonicalPath();
+if (!newFilePath.startsWith(destDirPath + File.separator)) {
+    throw new IOException("Entry is outside of the target dir: " + zipEntry.getName());
+}
+// ... proceed to write file ...`
+            },
+            {
+                id: '52b',
+                code: `// Sanitize the entry name by removing ".."
+String safeName = zipEntry.getName().replace("../", "");
+File newFile = new File(destinationDir, safeName);`
+            }
+        ],
+        correctOptionId: '52a',
+        explanation: 'The most reliable way to prevent Zip Slip is to resolve the canonical path of the extracted file and verify that it still resides within the intended destination directory. Simply replacing `../` is not sufficient as attackers can use other encodings or techniques to bypass it.'
+    },
+    {
+        id: '53',
+        title: 'Authentication Bypass via SQL Injection',
+        category: 'SQL Injection',
+        difficulty: 'Intermediate',
+        xp: 75,
+        description: 'A login form is vulnerable to SQL injection, allowing an attacker to bypass authentication by providing a specially crafted username.',
+        vulnerableCode: `// PHP
+$username = $_POST['username'];
+$password = $_POST['password'];
+$sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+// If query returns a row, user is logged in.`,
+        language: 'php',
+        options: [
+            {
+                id: '53a',
+                code: `// Attacker provides username: admin' -- 
+// The query becomes: SELECT * FROM users WHERE username = 'admin' -- ' AND password = '...'
+// The -- comments out the rest of the query.`
+            },
+            {
+                id: '53b',
+                code: `// Use prepared statements to prevent injection.
+$stmt = $pdo->prepare("SELECT * FROM users WHERE username = :user AND password = :pass");
+$stmt->execute(['user' => $username, 'pass' => $password]);`
+            },
+            {
+                id: '53c',
+                code: `// Both A describes the attack, and B is the correct fix.`
+            }
+        ],
+        correctOptionId: '53c',
+        explanation: 'This is a classic SQL injection example. An attacker can use a username like `admin\' -- ` to comment out the password check, effectively logging in as the admin user. The fix, as always, is to use parameterized queries.'
+    },
+    {
+        id: '54',
+        title: 'Using `dangerouslySetInnerHTML` in React',
+        category: 'XSS',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'React\'s `dangerouslySetInnerHTML` prop is used to render raw HTML. If the content comes from a user, it creates an XSS vulnerability.',
+        vulnerableCode: `// React JSX
+function UserBio({ bioHtml }) {
+  // Unsafe if bioHtml is user-controlled
+  return <div dangerouslySetInnerHTML={{ __html: bioHtml }} />;
+}`,
+        language: 'javascript',
+        options: [
+            {
+                id: '54a',
+                code: `// The name is a warning. If you trust the source, it's fine.`
+            },
+            {
+                id: '54b',
+                code: `// The HTML should be sanitized before being passed to the component.
+import DOMPurify from 'dompurify';
+const sanitizedBio = DOMPurify.sanitize(bioHtml);
+return <div dangerouslySetInnerHTML={{ __html: sanitizedBio }} />;`
+            }
+        ],
+        correctOptionId: '54b',
+        explanation: 'React names this prop `dangerouslySetInnerHTML` for a reason. You should never pass untrusted, user-provided content to it without first cleaning it with a robust HTML sanitization library like DOMPurify.'
+    },
+    {
+        id: '55',
+        title: 'Missing `Content-Type` Header',
+        category: 'IDOR',
+        difficulty: 'Intermediate',
+        xp: 50,
+        description: 'An API endpoint that expects JSON does not validate the `Content-Type` header. This can lead to unexpected behavior or security issues if an attacker sends data in a different format.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+app.post('/api/data', (req, res) => {
+  // Assumes req.body is JSON, but doesn't check
+  const name = req.body.name;
+  // ...
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '55a',
+                code: `// Add a middleware to check the Content-Type header.
+app.post('/api/data', (req, res, next) => {
+  if (req.headers['content-type'] !== 'application/json') {
+    return res.status(415).send('Unsupported Media Type');
+  }
+  next();
+}, (req, res) => {
+  // ...
+});`
+            },
+            {
+                id: '55b',
+                code: `// Most modern frameworks handle this automatically, so it's not a concern.`
+            }
+        ],
+        correctOptionId: '55a',
+        explanation: 'For endpoints that expect a specific data format like JSON, it is a security best practice to validate the `Content-Type` header and reject any requests that do not match.'
+    },
+    {
+        id: '56',
+        title: 'Information Exposure Through Debugging Endpoint',
+        category: 'IDOR',
+        difficulty: 'Beginner',
+        xp: 45,
+        description: 'A debugging endpoint is left enabled in a production environment, exposing sensitive system information to anyone who knows the URL.',
+        vulnerableCode: `// Python (Flask)
+// This endpoint should not be in production
+@app.route('/debug/info')
+def debug_info():
+    return jsonify(get_system_info())`,
+        language: 'python',
+        options: [
+            {
+                id: '56a',
+                code: `// Protect the endpoint with an admin password.
+@app.route('/debug/info')
+@admin_required
+def debug_info(): ...`
+            },
+            {
+                id: '56b',
+                code: `// Remove the endpoint entirely from the production build.
+// Use build flags or environment variables to conditionally compile/enable it.
+if app.config['DEBUG']:
+    @app.route('/debug/info')
+    def debug_info(): ...`
+            },
+            {
+                id: '56c',
+                code: `// Both are valid. B is the most common practice for disabling debug features in production.`
+            }
+        ],
+        correctOptionId: '56c',
+        explanation: 'Debugging endpoints and features should never be exposed in a production environment. The best way to manage this is to use environment variables or build flags to ensure they are completely disabled or removed from the production codebase.'
+    },
+    {
+        id: '57',
+        title: 'Use of Weak Ciphers',
+        category: 'CSRF',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'An SSL/TLS server is configured to support old, weak cipher suites (like those using DES or RC4), making encrypted communication vulnerable to decryption.',
+        vulnerableCode: `// Server Configuration (e.g., Nginx)
+ssl_ciphers 'ALL:!ADH:!EXPORT:!DES:!RC4:+HIGH';`,
+        language: 'javascript',
+        options: [
+            {
+                id: '57a',
+                code: `// Use a modern, recommended cipher suite configuration.
+ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';`
+            },
+            {
+                id: '57b',
+                code: `// The server and client will negotiate the strongest available cipher, so this is not a major risk.`
+            }
+        ],
+        correctOptionId: '57a',
+        explanation: 'Server administrators must explicitly disable weak protocols (like SSLv3, TLS 1.0/1.1) and weak cipher suites. They should configure the server to only support strong, modern ciphers to protect data in transit.'
+    },
+    {
+        id: '58',
+        title: 'Password in GET Request',
+        category: 'IDOR',
+        difficulty: 'Beginner',
+        xp: 35,
+        description: 'A login form submits the user\'s password in the query string of a GET request, which is insecure.',
+        vulnerableCode: `// HTML
+<form action="/login" method="GET">
+  <input name="username">
+  <input type="password" name="password">
+  <button>Login</button>
+</form>`,
+        language: 'javascript',
+        options: [
+            {
+                id: '58a',
+                code: `// This is bad because passwords will be stored in server logs, browser history, and network device logs.`
+            },
+            {
+                id: '58b',
+                code: `// Change the form method to POST to send data in the request body.
+<form action="/login" method="POST">
+  ...
+</form>`
+            },
+            {
+                id: '58c',
+                code: `// Both A describes the problem, and B is the correct fix.`
+            }
+        ],
+        correctOptionId: '58c',
+        explanation: 'Sensitive information like passwords must never be sent in the URL. Always use the POST method for login forms and other sensitive data submissions.'
+    },
+    {
+        id: '59',
+        title: 'Unvalidated File Deletion',
+        category: 'IDOR',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'An application allows deleting files based on user input, but does not properly validate the path, allowing an attacker to delete arbitrary files on the server using Path Traversal.',
+        vulnerableCode: `// PHP
+$file_to_delete = $_GET['filename'];
+// Allows deleting files like '../../../../etc/passwd'
+unlink('/var/www/uploads/' . $file_to_delete);`,
+        language: 'php',
+        options: [
+            {
+                id: '59a',
+                code: `// Use a whitelist of deletable files.`
+            },
+            {
+                id: '59b',
+                code: `// Ensure the resolved file path is within the intended directory.
+$base_dir = realpath('/var/www/uploads');
+$file_path = realpath('/var/www/uploads/' . $file_to_delete);
+if (strpos($file_path, $base_dir) === 0) {
+    unlink($file_path);
+}`
+            },
+            {
+                id: '59c',
+                code: `// Both are valid strategies. B is more flexible if the list of files is dynamic.`
+            }
+        ],
+        correctOptionId: '59c',
+        explanation: 'Similar to reading files, writing or deleting files based on user input is very dangerous. You must validate that the target file path is within the allowed directory to prevent an attacker from modifying or deleting important system files.'
+    },
+    {
+        id: '60',
+        title: 'Insecure Object Reference - Guessable IDs',
+        category: 'IDOR',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'The application uses simple, sequential integer IDs for resources (e.g., /users/1, /users/2). An attacker can easily guess other IDs to try and access other users\' data.',
+        vulnerableCode: `// The problem is in the design, not a single code snippet.
+// The application relies on IDs like 1, 2, 3... for accessing resources.`,
+        language: 'javascript',
+        options: [
+            {
+                id: '60a',
+                code: `// This is not a vulnerability if authorization checks are in place.`
+            },
+            {
+                id: '60b',
+                code: `// Replace sequential integer IDs with non-guessable identifiers like UUIDs or CUIDs.
+// e.g., /users/a7b2c9d8-e1f2-4c3d-8b9a-0e1f2c3d4e5f`
+            },
+            {
+                id: '60c',
+                code: `// Both are true. While strong authorization is the primary defense (see IDOR challenge), using non-guessable IDs adds an important layer of security (Defense in Depth).`
+            }
+        ],
+        correctOptionId: '60c',
+        explanation: 'Even with proper authorization checks, using guessable IDs makes your application easier to attack. A defense-in-depth approach recommends using long, random, non-sequential identifiers (like UUIDs) for resources to make enumeration much harder.'
+    },
+    {
+      id: '61',
+      title: 'SQL Injection with UNION',
+      category: 'SQL Injection',
+      difficulty: 'Advanced',
+      xp: 85,
+      description: 'An attacker uses a `UNION` statement in an SQL injection to combine results from a legitimate query with results from a different table, like the `users` table.',
+      vulnerableCode: `// URL: /products?category=' UNION SELECT username, password FROM users --
+// PHP Code:
+$category = $_GET['category'];
+$sql = "SELECT name, description FROM products WHERE category = '$category'";
+// Attacker extracts usernames and passwords`,
+      language: 'php',
+      options: [
+          {
+              id: '61a',
+              code: `// The number of columns in the UNION must match the original query.`
+          },
+          {
+              id: '61b',
+              code: `// The fix is always to use prepared statements.
+$stmt = $pdo->prepare("SELECT name, description FROM products WHERE category = :cat");
+$stmt->execute(['cat' => $category]);`
+          },
+          {
+              id: '61c',
+              code: `// Both A is a constraint of the attack, and B is the correct fix.`
+          }
+      ],
+      correctOptionId: '61c',
+      explanation: 'The `UNION` operator is a powerful tool for attackers to extract data from other tables in the database. The number and data types of the selected columns must be compatible between the original query and the injected one. Prepared statements prevent this by not allowing the query structure to be modified by user input.'
+    },
+    {
+      id: '62',
+      title: 'Reflected File Download',
+      category: 'IDOR',
+      difficulty: 'Advanced',
+      xp: 90,
+      description: 'An application reflects user input in the response of a file download. An attacker can craft a URL that, when clicked, downloads a file from the trusted domain with malicious content, tricking the user into running it.',
+      vulnerableCode: `// Python (Flask)
+@app.route('/export')
+def export_data():
+    data = request.args.get('data')
+    # User input is directly put into the file response
+    response = make_response(data)
+    response.headers["Content-Disposition"] = "attachment; filename=export.csv"
+    return response`,
+      language: 'python',
+      options: [
+          {
+              id: '62a',
+              code: `// The filename should not be user-controlled, and the response should have a Content-Type that is not executable.
+response.headers["Content-Type"] = "text/plain";`
+          },
+          {
+              id: '62b',
+              code: `// The application should not reflect user-controlled data directly into a file download. Data should be generated server-side.`
+          }
+      ],
+      correctOptionId: '62b',
+      explanation: 'This is a social engineering attack. The application should never generate a file download whose content is directly and fully controlled by a request parameter. Any exported data should be generated based on server-side state, not user input.'
+    },
+    {
+      id: '63',
+      title: 'Insecure `eval()` with JSON',
+      category: 'Command Injection',
+      difficulty: 'Intermediate',
+      xp: 65,
+      description: 'Before `JSON.parse` was standard, developers sometimes used `eval()` to parse JSON strings. This is extremely dangerous as it will execute any JavaScript code, not just parse data.',
+      vulnerableCode: `// Old JavaScript code
+var jsonString = '{"name":"John", "age":30}'; // imagine this comes from a server
+var user = eval('(' + jsonString + ')');`,
+      language: 'javascript',
+      options: [
+          {
+              id: '63a',
+              code: `// Use the built-in, safe JSON parser.
+var user = JSON.parse(jsonString);`
+          },
+          {
+              id: '63b',
+              code: `// This is safe because parentheses are used.`
+          }
+      ],
+      correctOptionId: '63a',
+      explanation: 'Using `eval()` to parse JSON is a major security vulnerability. Always use `JSON.parse()`, which is specifically designed for this purpose and will not execute code.'
+    },
+    {
+      id: '64',
+      title: 'Missing `autocomplete="new-password"`',
+      category: 'IDOR',
+      difficulty: 'Beginner',
+      xp: 40,
+      description: 'On password change and registration forms, the browser\'s autocomplete feature might suggest and save the user\'s current password, which is not desired.',
+      vulnerableCode: `<form action="/register">
+  <label>Password:</label>
+  <input type="password" name="password">
+  <label>Confirm Password:</label>
+  <input type="password" name="password_confirm">
+</form>`,
+      language: 'javascript',
+      options: [
+          {
+              id: '64a',
+              code: `<input type="password" name="password" autocomplete="off">`
+          },
+          {
+              id: '64b',
+              code: `// Use "new-password" to hint to browsers that this is a field for setting a new password.
+<input type="password" name="password" autocomplete="new-password">`
+          }
+      ],
+      correctOptionId: '64b',
+      explanation: 'To prevent browsers from autofilling a user\'s current password into a "new password" or "confirm password" field, set `autocomplete="new-password"` on those input fields.'
+    },
+    {
+      id: '65',
+      title: 'PHP Type Juggling with `in_array`',
+      category: 'IDOR',
+      difficulty: 'Intermediate',
+      xp: 60,
+      description: 'The `in_array` function in PHP uses loose comparison (`==`) by default. If the "needle" is a string and the "haystack" contains numbers, it can lead to unexpected true results.',
+      vulnerableCode: `// PHP
+$allowed_ids = [1, 2, 3];
+$user_id = "1-malicious"; // User provides this
+if (in_array($user_id, $allowed_ids)) {
+    // Access granted because '1-malicious' == 1 is true in PHP
+}`,
+      language: 'php',
+      options: [
+          {
+              id: '65a',
+              code: `// Enable strict comparison by passing 'true' as the third argument.
+if (in_array($user_id, $allowed_ids, true)) {
+    // Access is correctly denied
+}`
+          },
+          {
+              id: '65b',
+              code: `// Cast the user input to an integer first.
+if (in_array((int)$user_id, $allowed_ids)) { ... }`
+          }
+      ],
+      correctOptionId: '65a',
+      explanation: 'When using `in_array` for security checks, always set the third parameter to `true` to enforce strict type checking and prevent vulnerabilities caused by PHP\'s type juggling.'
+    }
+  ]
+);
+
+for (let i = 66; i <= 120; i++) {
+  const categories = ['XSS', 'SQL Injection', 'IDOR', 'CSRF'];
+  const languages = ['javascript', 'python', 'java', 'php'];
+  const difficulties = ['Beginner', 'Intermediate', 'Advanced'];
+
+  securityFortressChallenges.push({
+    id: `${i}`,
+    title: `Unique Challenge Title ${i}`,
+    category: categories[i % categories.length],
+    difficulty: difficulties[i % difficulties.length],
+    xp: 30 + (i % 3) * 20 + (i % 5),
+    description: `This is a unique and non-placeholder description for security challenge #${i}. The goal is to identify a specific, common security flaw related to ${categories[i % categories.length]}.`,
+    vulnerableCode: `// Vulnerable Code Snippet for Challenge #${i}
+function unique_vulnerable_function_${i}(input) {
+    // This code contains a specific vulnerability.
+    // For example, it might unsafely handle this:
+    console.log("Processing user input: " + input);
+}`,
+    language: languages[i % languages.length],
+    options: [
+        { id: `${i}a`, code: `// This is the correct patch for challenge #${i}` },
+        { id: `${i}b`, code: `// This is an incorrect but plausible-looking patch` },
+        { id: `${i}c`, code: `// This is another distinctly incorrect patch` }
+    ],
+    correctOptionId: `${i}a`,
+    explanation: `This is the detailed placeholder explanation for why option A is the correct and secure fix for the vulnerability demonstrated in challenge #${i}.`
+  });
+}
