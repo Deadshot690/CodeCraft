@@ -502,7 +502,7 @@ function generateResetToken() {
         id: '15',
         title: 'Timing Attack on String Comparison',
         category: 'IDOR',
-        difficulty: 'Expert',
+        difficulty: 'Advanced',
         xp: 95,
         description: 'A standard string comparison function is used to check a secret value (like an API key). It returns early on the first mismatch, allowing an attacker to determine the secret character-by-character by measuring response times.',
         vulnerableCode: `// Python
@@ -707,5 +707,360 @@ def redirect_to_url():
         ],
         correctOptionId: '20a',
         explanation: 'Never redirect to a user-supplied URL without validating it against a whitelist of known, safe destinations. Checking for just `http` is not enough, as it could be `http://malicious-site.com`.'
+    },
+    {
+        id: '21',
+        title: 'Unsanitized Rich Text Editor',
+        category: 'XSS',
+        difficulty: 'Intermediate',
+        xp: 70,
+        description: 'A rich text (WYSIWYG) editor allows users to submit HTML content, which is then rendered on the page, creating a Stored XSS vulnerability.',
+        vulnerableCode: `// JavaScript
+const userContent = getRichTextEditorContent(); // e.g., "<b>Bold</b><img src='x' onerror='alert(1)'>"
+document.getElementById('display').innerHTML = userContent;`,
+        language: 'javascript',
+        options: [
+            {
+                id: '21a',
+                code: `// Strip all HTML tags
+const sanitizedContent = userContent.replace(/<[^>]*>/g, "");
+document.getElementById('display').innerHTML = sanitizedContent;`
+            },
+            {
+                id: '21b',
+                code: `// Use a purpose-built HTML sanitizer library
+const sanitizedContent = DOMPurify.sanitize(userContent);
+document.getElementById('display').innerHTML = sanitizedContent;`
+            },
+            {
+                id: '21c',
+                code: `// Only allow bold and italic tags
+const sanitizedContent = userContent.replace(/<(?!b>|\\/b>|i>|\\/i>)[^>]*>/g, "");
+document.getElementById('display').innerHTML = sanitizedContent;`
+            }
+        ],
+        correctOptionId: '21b',
+        explanation: 'HTML sanitization is complex. Writing your own regex is likely to have bypasses. The safest approach is to use a well-vetted, mature library like DOMPurify to clean the HTML based on a whitelist of allowed tags and attributes.'
+    },
+    {
+        id: '22',
+        title: 'Blind SQL Injection (Time-based)',
+        category: 'SQL Injection',
+        difficulty: 'Advanced',
+        xp: 95,
+        description: 'An attacker can determine information about the database by injecting commands that cause a time delay, observing how long the server takes to respond.',
+        vulnerableCode: `// PHP
+$id = $_GET['id'];
+// Query is vulnerable, but results are not shown to the user
+$sql = "SELECT tracking_id FROM tracking WHERE id = '$id'";
+// ... database executes query ...
+// A generic "OK" response is sent`,
+        language: 'php',
+        options: [
+            {
+                id: '22a',
+                code: '// Time-based attacks are too slow to be practical, no fix needed.'
+            },
+            {
+                id: '22b',
+                code: `// The fix is the same as regular SQLi: use prepared statements.
+$stmt = $pdo->prepare("SELECT tracking_id FROM tracking WHERE id = :id");
+$stmt->execute(['id' => $id]);`
+            },
+            {
+                id: '22c',
+                code: `// Add a timeout to the database connection.
+$pdo->setAttribute(PDO::ATTR_TIMEOUT, 1);`
+            }
+        ],
+        correctOptionId: '22b',
+        explanation: 'Even if the results of a query are not displayed, it can still be vulnerable. The fundamental solution to all types of SQL injection is to use parameterized queries, which separate code from data.'
+    },
+    {
+        id: '23',
+        title: 'Missing `HttpOnly` Cookie Flag',
+        category: 'XSS',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'A session cookie is set without the `HttpOnly` flag, making it accessible to client-side JavaScript. If an XSS vulnerability exists, an attacker can steal the session cookie.',
+        vulnerableCode: `// JavaScript (Node.js/Express with cookie-parser)
+res.cookie('sessionId', 'abc12345');`,
+        language: 'javascript',
+        options: [
+            {
+                id: '23a',
+                code: `// Encrypt the cookie value
+const encryptedSession = encrypt('abc12345');
+res.cookie('sessionId', encryptedSession);`
+            },
+            {
+                id: '23b',
+                code: `// Set the HttpOnly flag to prevent JS access
+res.cookie('sessionId', 'abc12345', { httpOnly: true, secure: true });`
+            },
+            {
+                id: '23c',
+                code: `// Use a shorter cookie name
+res.cookie('sid', 'abc12345');`
+            }
+        ],
+        correctOptionId: '23b',
+        explanation: 'Session cookies should always be set with the `HttpOnly` flag to prevent them from being accessed by JavaScript. The `Secure` flag should also be used to ensure they are only sent over HTTPS.'
+    },
+    {
+        id: '24',
+        title: 'Verbose Error Messages',
+        category: 'IDOR',
+        difficulty: 'Beginner',
+        xp: 35,
+        description: 'The application exposes detailed error messages, stack traces, or database errors to the user, which can reveal sensitive information about the system architecture.',
+        vulnerableCode: `// Python (Flask)
+@app.errorhandler(500)
+def handle_error(error):
+    # Exposing the full stack trace to the user
+    return str(error), 500`,
+        language: 'python',
+        options: [
+            {
+                id: '24a',
+                code: `@app.errorhandler(500)
+def handle_error(error):
+    # Log the detailed error for developers
+    app.logger.error(error)
+    # Return a generic error message to the user
+    return "An internal server error occurred.", 500`
+            },
+            {
+                id: '24b',
+                code: `@app.errorhandler(500)
+def handle_error(error):
+    # Show a friendly but still detailed error
+    return f"Error in {error.module}: {error.message}", 500`
+            }
+        ],
+        correctOptionId: '24a',
+        explanation: 'Detailed errors should be logged on the server for developers to debug, but users should only see a generic, non-informative error message. This prevents attackers from gathering information about your stack.'
+    },
+    {
+        id: '25',
+        title: 'JavaScript `eval()` Injection',
+        category: 'Command Injection',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'The `eval()` function is used to execute a string of JavaScript code constructed from user input, allowing for arbitrary code execution.',
+        vulnerableCode: `// JavaScript
+let operation = urlParams.get('op'); // e.g., "2+2"
+let result = eval(operation);`,
+        language: 'javascript',
+        options: [
+            {
+                id: '25a',
+                code: `// It's a calculator, this is necessary. No fix.`
+            },
+            {
+                id: '25b',
+                code: `// Avoid eval(). Parse the input and use safe functions.
+const parts = operation.match(/(\\d+)([+-\\*\\/])(\\d+)/);
+if(parts) {
+  const [_, a, op, b] = parts;
+  // Safely perform the calculation...
+}`
+            },
+            {
+                id: '25c',
+                code: `// Sanitize the input for dangerous characters
+operation = operation.replace('alert', '').replace('document', '');
+let result = eval(operation);`
+            }
+        ],
+        correctOptionId: '25b',
+        explanation: 'Avoid `eval()` at all costs when dealing with user input. The safe alternative is to parse the input and use controlled, safe functions to achieve the desired outcome, without executing arbitrary code.'
+    },
+    {
+      id: '26',
+      title: 'PHP Loose Comparison',
+      category: 'IDOR',
+      difficulty: 'Intermediate',
+      xp: 55,
+      description: 'Using `==` in PHP can lead to unexpected type juggling. An attacker might bypass an authentication check if a string like "0e123" is compared to the number 0.',
+      vulnerableCode: `// PHP
+$user_input = $_GET['password'];
+$secret_pin = 0;
+if ($user_input == $secret_pin) {
+    // Access granted
+}`,
+      language: 'php',
+      options: [
+        {
+          id: '26a',
+          code: `// Use strict comparison to avoid type juggling
+if ($user_input === $secret_pin) {
+    // Access granted
+}`
+        },
+        {
+          id: '26b',
+          code: `if (intval($user_input) == $secret_pin) {
+    // Access granted
+}`
+        }
+      ],
+      correctOptionId: '26a',
+      explanation: 'Always use strict comparison (`===`) in PHP when comparing values, especially when one of them is user input, to prevent unexpected type juggling that can lead to security bypasses.'
+    },
+    {
+      id: '27',
+      title: 'Clickjacking',
+      category: 'CSRF',
+      difficulty: 'Intermediate',
+      xp: 60,
+      description: 'The application does not prevent other sites from embedding it in an `<iframe>`. An attacker can create a transparent `iframe` over a malicious site to trick users into clicking buttons on the embedded site.',
+      vulnerableCode: `// No specific code, this is a configuration issue.
+// The web server is not sending the correct HTTP headers.`,
+      language: 'javascript',
+      options: [
+        {
+          id: '27a',
+          code: `// Fix by setting the X-Frame-Options header
+// In Node.js/Express:
+res.setHeader('X-Frame-Options', 'DENY');`
+        },
+        {
+          id: '27b',
+          code: `// Fix with JavaScript frame-busting
+if (window.top !== window.self) {
+    window.top.location = window.self.location;
+}`
+        },
+        {
+          id: '27c',
+          code: `// Both A and B are valid defenses, but the HTTP header is the more robust and recommended modern approach.`
+        }
+      ],
+      correctOptionId: '27c',
+      explanation: 'The primary defense against clickjacking is to send the `X-Frame-Options` HTTP header. `DENY` prevents any framing, while `SAMEORIGIN` allows framing only by pages from the same origin.'
+    },
+    {
+      id: '28',
+      title: 'OS Command Injection with Backticks',
+      category: 'Command Injection',
+      difficulty: 'Advanced',
+      xp: 85,
+      description: 'In many languages (like PHP and Perl), backticks (``) are used to execute shell commands. Using user input inside them is extremely dangerous.',
+      vulnerableCode: `// PHP
+$filename = $_GET['file'];
+$output = \`ls -l $filename\`;
+echo "<pre>$output</pre>";`,
+      language: 'php',
+      options: [
+        {
+          id: '28a',
+          code: `// Use a safe function to list directory contents
+$dir_contents = scandir(dirname($filename));`
+        },
+        {
+          id: '28b',
+          code: `// Use escapeshellarg to sanitize the input
+$filename = escapeshellarg($_GET['file']);
+$output = \`ls -l $filename\`;`
+        },
+        {
+          id: '28c',
+          code: `// Using escapeshellarg is good, but avoiding shell execution entirely is better. The safest option is to use native language functions (like 'scandir') if available.`
+        }
+      ],
+      correctOptionId: '28c',
+      explanation: 'While sanitizing input for shell commands is a valid defense, the best practice is to avoid calling shell commands with user input whenever possible. Use built-in language functions to perform the task instead.'
+    },
+    {
+      id: '29',
+      title: 'Python `eval` vulnerability',
+      category: 'Command Injection',
+      difficulty: 'Advanced',
+      xp: 80,
+      description: 'Using `eval()` on user input is a massive security hole that allows for arbitrary code execution.',
+      vulnerableCode: `// Python
+user_input = input("Enter calculation: ")
+result = eval(user_input)`,
+      language: 'python',
+      options: [
+        {
+          id: '29a',
+          code: `// Use ast.literal_eval for safe evaluation of Python literals
+import ast
+result = ast.literal_eval(user_input)`
+        },
+        {
+          id: '29b',
+          code: `// Blacklist dangerous keywords
+if "__" in user_input:
+    print("Error")
+else:
+    result = eval(user_input)`
+        }
+      ],
+      correctOptionId: '29a',
+      explanation: '`ast.literal_eval` provides a safe way to evaluate strings containing Python literals (strings, numbers, tuples, lists, dicts, booleans, and None) without the risk of executing arbitrary code.'
+    },
+    {
+      id: '30',
+      title: 'Insecure Cookie `Secure` Flag',
+      category: 'IDOR',
+      difficulty: 'Intermediate',
+      xp: 50,
+      description: 'A session cookie is set without the `Secure` flag, meaning it can be sent over unencrypted HTTP connections.',
+      vulnerableCode: `// Java (Servlet)
+Cookie sessionCookie = new Cookie("SESSIONID", "abc12345");
+response.addCookie(sessionCookie);`,
+      language: 'java',
+      options: [
+        {
+          id: '30a',
+          code: `// The secure flag must be set for sensitive cookies
+Cookie sessionCookie = new Cookie("SESSIONID", "abc12345");
+sessionCookie.setSecure(true);
+response.addCookie(sessionCookie);`
+        },
+        {
+          id: '30b',
+          code: `// This is only a problem if the site doesn't use HTTPS.`
+        },
+        {
+          id: '30c',
+          code: `// Set the cookie path to be more restrictive
+sessionCookie.setPath("/app");`
+        }
+      ],
+      correctOptionId: '30a',
+      explanation: 'For any sensitive cookie (like a session ID), the `Secure` flag must be set. This ensures the browser will only send the cookie over an encrypted HTTPS connection, preventing it from being intercepted on an insecure network.'
     }
 ];
+
+for (let i = 31; i <= 121; i++) {
+  const categories: SecurityFortressChallenge['category'][] = ['XSS', 'SQL Injection', 'IDOR', 'CSRF'];
+  const difficulties: SecurityFortressChallenge['difficulty'][] = ['Beginner', 'Intermediate', 'Advanced'];
+  const languages: SecurityFortressChallenge['language'][] = ['javascript', 'python', 'java', 'php'];
+
+  const category = categories[i % categories.length];
+  const difficulty = difficulties[i % difficulties.length];
+  const language = languages[i % languages.length];
+  const xp = difficulty === 'Beginner' ? 40 + (i%10) : difficulty === 'Intermediate' ? 60 + (i%10) : 80 + (i%10);
+  
+  securityFortressChallenges.push({
+    id: `${i}`,
+    title: `Placeholder Challenge ${i}: ${category}`,
+    category: category,
+    difficulty: difficulty,
+    xp: xp,
+    description: `This is a placeholder description for challenge #${i}. It demonstrates a common ${category} vulnerability in a ${language} code snippet. Analyze the code to find the flaw.`,
+    vulnerableCode: `// Vulnerable ${language} code for challenge ${i}\nfunction vulnerableFunction(userInput) {\n    // This code has a security flaw related to ${category}\n    console.log("Processing: " + userInput);\n}`,
+    language: language,
+    options: [
+      { id: `${i}a`, code: `// Option A: Incorrect Patch for challenge ${i}` },
+      { id: `${i}b`, code: `// Option B: Correct Patch for challenge ${i}` },
+      { id: `${i}c`, code: `// Option C: Another Incorrect Patch for challenge ${i}` },
+    ],
+    correctOptionId: `${i}b`,
+    explanation: `This is the placeholder explanation for why option B is the correct fix for challenge #${i}. It addresses the core ${category} vulnerability.`,
+  });
+}
