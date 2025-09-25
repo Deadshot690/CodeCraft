@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -10,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { tasks } from "@/lib/data";
+import { algoArenaTasks } from "@/lib/data";
 import type { Task } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -37,7 +38,7 @@ export default function AlgoArenaLobbyPage() {
     setIsClient(true);
   }, []);
 
-  const filteredTasks = useMemo(() => tasks.filter((task) => {
+  const filteredTasks = useMemo(() => algoArenaTasks.filter((task) => {
     const matchesCategory = selectedCategory === 'all' || task.category === selectedCategory;
     const matchesDifficulty = selectedDifficulty === 'all' || task.difficulty === selectedDifficulty;
     const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -158,3 +159,5 @@ export default function AlgoArenaLobbyPage() {
     </div>
   );
 }
+
+    

@@ -12,6 +12,7 @@ import { debugChallenges } from './debug-hunt-data';
 import { codeTyperChallenges } from './code-typer-data';
 import { outputPredictionChallenges } from './output-prediction-data';
 import { conceptMatchChallenges } from './concept-match-data';
+import { algoArenaTasks } from './algo-arena-data';
 
 export {
     tasks,
@@ -23,5 +24,8 @@ export {
     debugChallenges,
     codeTyperChallenges,
     outputPredictionChallenges,
-    conceptMatchChallenges
+    conceptMatchChallenges,
+    algoArenaTasks
 };
+
+    

@@ -1,6 +1,7 @@
+
 "use client";
 
-import { tasks } from "@/lib/data";
+import { algoArenaTasks } from "@/lib/data";
 import Link from "next/link";
 import { notFound, useRouter } from "next/navigation";
 import { useState, use, useTransition, useMemo } from "react";
@@ -37,11 +38,11 @@ export default function AlgoArenaPage({ params }: { params: { id: string } }) {
   const [runResult, setRunResult] = useState<RunCodeOutput | null>(null);
 
   const { task, currentTaskIndex } = useMemo(() => {
-    const foundTask = tasks.find((t) => t.id === resolvedParams.id);
+    const foundTask = algoArenaTasks.find((t) => t.id === resolvedParams.id);
     if (!foundTask) {
       return { task: null, currentTaskIndex: -1 };
     }
-    const index = tasks.findIndex(t => t.id === foundTask.id);
+    const index = algoArenaTasks.findIndex(t => t.id === foundTask.id);
     return { task: foundTask, currentTaskIndex: index };
   }, [resolvedParams.id]);
 
@@ -69,8 +70,8 @@ export default function AlgoArenaPage({ params }: { params: { id: string } }) {
     });
   }
 
-  const prevTask = tasks[currentTaskIndex - 1];
-  const nextTask = tasks[currentTaskIndex + 1];
+  const prevTask = algoArenaTasks[currentTaskIndex - 1];
+  const nextTask = algoArenaTasks[currentTaskIndex + 1];
   
   const allTestsPassed = runResult?.testResults.every(r => r.success);
 
@@ -254,3 +255,5 @@ export default function AlgoArenaPage({ params }: { params: { id: string } }) {
     </div>
   );
 }
+
+    
