@@ -133,19 +133,17 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
                     <Label
                         key={option.id}
                         className={cn(
-                          "block rounded-md border p-4 cursor-pointer transition-all hover:bg-accent has-[.radio-item:checked]:bg-accent",
+                          "flex items-start gap-4 rounded-md border p-4 cursor-pointer transition-all hover:bg-accent has-[input:checked]:bg-accent",
                           getOptionClass(option.id)
                         )}
                     >
-                        <div className="flex items-start gap-4">
-                            <RadioGroupItem value={option.id} id={option.id} className="mt-1 radio-item" />
-                            <div className="flex-1">
-                                <CodeEditor
-                                    initialCode={option.code}
-                                    language={challenge.language as any}
-                                    readOnly
-                                />
-                            </div>
+                        <RadioGroupItem value={option.id} id={option.id} className="mt-1" />
+                        <div className="flex-1">
+                            <CodeEditor
+                                initialCode={option.code}
+                                language={challenge.language as any}
+                                readOnly
+                            />
                         </div>
                     </Label>
                     ))}

@@ -17,7 +17,6 @@ interface CodeEditorProps {
   initialCode: string;
   language: Language;
   onCodeChange?: (code: string) => void;
-  transparentBg?: boolean;
   readOnly?: boolean;
 }
 
@@ -29,26 +28,7 @@ const languageExtensions = {
   php: [javascript({ jsx: true })], // Using JS for PHP syntax highlighting
 };
 
-const transparentTheme = EditorView.theme({
-  '&': {
-    backgroundColor: 'transparent !important',
-    color: 'transparent',
-    caretColor: 'hsl(var(--primary))',
-  },
-  '.cm-content': {
-    caretColor: 'hsl(var(--primary))',
-  },
-  '.cm-gutters': {
-      backgroundColor: 'transparent',
-      border: 'none',
-  },
-  '.cm-line': {
-      color: 'transparent',
-  }
-});
-
-
-export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, onCodeChange, transparentBg = false, readOnly = false }) => {
+export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, onCodeChange, readOnly = false }) => {
   const [code, setCode] = useState(initialCode);
 
   const handleOnChange = (value: string) => {
@@ -59,23 +39,16 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, o
   };
   
   const extensions = languageExtensions[language] || [javascript()];
-  if (transparentBg) {
-      extensions.push(transparentTheme);
-  }
 
   return (
     <CodeMirror
       value={code}
       height="auto"
-      minHeight="50px"
       readOnly={readOnly}
       extensions={extensions}
-      theme={transparentBg ? 'none' : okaidia}
+      theme={okaidia}
       onChange={handleOnChange}
-      className={cn(
-        "flex-grow rounded-md overflow-hidden text-base border",
-        transparentBg ? "bg-transparent" : "bg-muted"
-        )}
+      className={cn("flex-grow rounded-md overflow-hidden text-base border bg-muted")}
     />
   );
 };
