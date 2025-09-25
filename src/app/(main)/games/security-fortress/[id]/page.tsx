@@ -102,6 +102,7 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
                 initialCode={challenge.vulnerableCode}
                 language={challenge.language as any}
                 onCodeChange={() => {}}
+                readOnly
               />
             </CardContent>
           </Card>
@@ -142,7 +143,7 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
                                 <CodeEditor
                                     initialCode={option.code}
                                     language={challenge.language as any}
-                                    onCodeChange={()=>{}}
+                                    readOnly
                                 />
                             </div>
                         </div>

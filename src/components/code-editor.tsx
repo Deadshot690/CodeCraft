@@ -11,13 +11,14 @@ import { okaidia } from '@uiw/codemirror-theme-okaidia';
 import { cn } from "@/lib/utils";
 
 
-type Language = 'javascript' | 'python' | 'java' | 'cpp';
+type Language = 'javascript' | 'python' | 'java' | 'cpp' | 'php';
 
 interface CodeEditorProps {
   initialCode: string;
   language: Language;
   onCodeChange?: (code: string) => void;
   transparentBg?: boolean;
+  readOnly?: boolean;
 }
 
 const languageExtensions = {
@@ -25,6 +26,7 @@ const languageExtensions = {
   python: [python()],
   java: [java()],
   cpp: [cpp()],
+  php: [javascript({ jsx: true })], // Using JS for PHP syntax highlighting
 };
 
 const transparentTheme = EditorView.theme({
@@ -46,7 +48,7 @@ const transparentTheme = EditorView.theme({
 });
 
 
-export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, onCodeChange, transparentBg = false }) => {
+export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, onCodeChange, transparentBg = false, readOnly = false }) => {
   const [code, setCode] = useState(initialCode);
 
   const handleOnChange = (value: string) => {
@@ -56,7 +58,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, o
     }
   };
   
-  const extensions = languageExtensions[language];
+  const extensions = languageExtensions[language] || [javascript()];
   if (transparentBg) {
       extensions.push(transparentTheme);
   }
@@ -64,7 +66,9 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, o
   return (
     <CodeMirror
       value={code}
-      height="100%"
+      height="auto"
+      minHeight="50px"
+      readOnly={readOnly}
       extensions={extensions}
       theme={transparentBg ? 'none' : okaidia}
       onChange={handleOnChange}
