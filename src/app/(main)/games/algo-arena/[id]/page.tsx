@@ -4,7 +4,7 @@
 import { algoArenaTasks } from "@/lib/data";
 import Link from "next/link";
 import { notFound, useRouter } from "next/navigation";
-import { useState, use, useTransition, useMemo } from "react";
+import { useState, use, useTransition, useMemo, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -22,12 +22,24 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle, CheckCircle, ChevronLeft, ChevronRight, Loader2, Terminal, Gamepad2 } from "lucide-react";
+import { AlertCircle, CheckCircle, ChevronLeft, ChevronRight, Loader2, Terminal, Gamepad2, TimerIcon } from "lucide-react";
 import { CodeEditor } from "@/components/code-editor";
 import { runCode, RunCodeOutput } from "@/ai/flows/run-code-flow";
 import type { Task } from "@/lib/types";
+import { CompletionModal } from "@/components/games/completion-modal";
 
 type Language = 'javascript' | 'python' | 'java' | 'cpp';
+type GameStatus = 'waiting' | 'playing' | 'finished';
+
+const getChallengeDuration = (difficulty: Task['difficulty']): number => {
+  switch (difficulty) {
+    case 'Beginner': return 300; // 5 minutes
+    case 'Intermediate': return 600; // 10 minutes
+    case 'Advanced': return 900; // 15 minutes
+    case 'Expert': return 1200; // 20 minutes
+    default: return 600;
+  }
+};
 
 export default function AlgoArenaPage({ params }: { params: { id: string } }) {
   const resolvedParams = use(params);
@@ -36,7 +48,7 @@ export default function AlgoArenaPage({ params }: { params: { id: string } }) {
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('javascript');
   const [isPending, startTransition] = useTransition();
   const [runResult, setRunResult] = useState<RunCodeOutput | null>(null);
-
+  
   const { task, currentTaskIndex } = useMemo(() => {
     const foundTask = algoArenaTasks.find((t) => t.id === resolvedParams.id);
     if (!foundTask) {
@@ -45,15 +57,34 @@ export default function AlgoArenaPage({ params }: { params: { id: string } }) {
     const index = algoArenaTasks.findIndex(t => t.id === foundTask.id);
     return { task: foundTask, currentTaskIndex: index };
   }, [resolvedParams.id]);
+  
+  const challengeDuration = useMemo(() => task ? getChallengeDuration(task.difficulty) : 300, [task]);
 
   const [code, setCode] = useState(task?.starterCode[selectedLanguage] || "");
+  const [status, setStatus] = useState<GameStatus>('waiting');
+  const [timer, setTimer] = useState(challengeDuration);
 
-  useMemo(() => {
+  // Reset game state when challenge or language changes
+  useEffect(() => {
     if (task) {
       setCode(task.starterCode[selectedLanguage]);
       setRunResult(null);
+      setStatus('waiting');
+      setTimer(challengeDuration);
     }
-  }, [task, selectedLanguage]);
+  }, [task, selectedLanguage, challengeDuration]);
+
+  // Timer countdown effect
+  useEffect(() => {
+    if (status !== 'playing' || timer <= 0) {
+      if (timer <= 0) setStatus('finished');
+      return;
+    }
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [status, timer]);
   
   if (!task) {
     notFound();
@@ -62,18 +93,43 @@ export default function AlgoArenaPage({ params }: { params: { id: string } }) {
   const handleLanguageChange = (lang: Language) => {
     setSelectedLanguage(lang);
   }
+
+  const handleCodeChange = (newCode: string) => {
+    if (status === 'waiting' && newCode.length > 0) {
+      setStatus('playing');
+    }
+    setCode(newCode);
+  };
   
-  const handleRunCode = () => {
+  const handleSubmitCode = () => {
     startTransition(async () => {
       const result = await runCode({ code, language: selectedLanguage, task: task as Task });
       setRunResult(result);
+      setStatus('finished');
     });
   }
+
+  const handleNextChallenge = () => {
+    if (nextTask) {
+      router.push(`/games/algo-arena/${nextTask.id}`);
+    } else {
+      router.push('/games/algo-arena');
+    }
+  };
+
+  const resetGame = () => {
+    setStatus('waiting');
+    setTimer(challengeDuration);
+    setRunResult(null);
+    setCode(task.starterCode[selectedLanguage]);
+  };
 
   const prevTask = algoArenaTasks[currentTaskIndex - 1];
   const nextTask = algoArenaTasks[currentTaskIndex + 1];
   
   const allTestsPassed = runResult?.testResults.every(r => r.success);
+  const minutes = Math.floor(timer / 60);
+  const seconds = timer % 60;
 
   return (
     <div className="flex flex-col h-screen">
@@ -162,7 +218,13 @@ export default function AlgoArenaPage({ params }: { params: { id: string } }) {
         <div className="flex flex-col gap-6">
           <Card className="flex-grow flex flex-col">
             <CardHeader className="flex-row items-center justify-between">
-              <CardTitle className="font-headline text-lg">Solution</CardTitle>
+              <div className="flex flex-col gap-1">
+                 <CardTitle className="font-headline text-lg">Solution</CardTitle>
+                 <div className="flex items-center gap-2 text-muted-foreground">
+                    <TimerIcon className="h-5 w-5 text-primary" />
+                    <span className="text-lg font-mono font-semibold tabular-nums">{`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}</span>
+                 </div>
+              </div>
               <Select 
                 defaultValue={selectedLanguage}
                 onValueChange={(value) => handleLanguageChange(value as Language)}
@@ -183,51 +245,31 @@ export default function AlgoArenaPage({ params }: { params: { id: string } }) {
                   key={selectedLanguage}
                   initialCode={code}
                   language={selectedLanguage} 
-                  onCodeChange={setCode}
+                  onCodeChange={handleCodeChange}
               />
               <div className="mt-4 flex justify-end gap-2">
-                <Button variant="outline" onClick={() => handleLanguageChange(selectedLanguage)}>Reset</Button>
-                <Button onClick={handleRunCode} disabled={isPending}>
+                <Button variant="outline" onClick={resetGame}>Reset</Button>
+                <Button onClick={handleSubmitCode} disabled={isPending || status === 'finished'}>
                   {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                  Run Code
-                </Button>
-                 <Button 
-                  onClick={handleRunCode} 
-                  disabled={isPending || !runResult || runResult.testResults.length === 0}
-                  className={allTestsPassed ? "bg-green-600 hover:bg-green-700" : ""}
-                 >
-                  {isPending && runResult ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                  {allTestsPassed ? "Passed!" : "Submit"}
+                  Submit
                 </Button>
               </div>
             </CardContent>
           </Card>
           
-          <Tabs defaultValue="output" className="w-full">
+          <Tabs defaultValue="test-cases" className="w-full">
             <TabsList>
-              <TabsTrigger value="output">Output</TabsTrigger>
               <TabsTrigger value="test-cases">Test Cases</TabsTrigger>
+              <TabsTrigger value="output">Console</TabsTrigger>
             </TabsList>
-            <TabsContent value="output">
-              <Card>
-                <CardHeader>
-                    <CardTitle className="text-lg flex items-center gap-2"><Terminal /> Console</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <pre className="p-4 bg-muted rounded-md h-32 text-sm text-foreground overflow-auto font-code">
-                      {isPending ? "Running code..." : runResult?.output || 'Click "Run Code" to see the output.'}
-                  </pre>
-                </CardContent>
-              </Card>
-            </TabsContent>
             <TabsContent value="test-cases">
                <Card>
                    <CardHeader>
                     <CardTitle className="text-lg flex items-center gap-2"><AlertCircle/> Test Results</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="p-4 bg-muted rounded-md h-32 text-sm text-muted-foreground overflow-auto">
-                      {isPending ? "Running tests..." : !runResult ? "Run your code to see test results." : (
+                  <div className="p-4 bg-muted rounded-md min-h-[128px] text-sm text-muted-foreground overflow-auto">
+                      {isPending ? "Running tests..." : !runResult ? "Submit your code to see test results." : (
                         <div className="space-y-4">
                           {runResult.testResults.length === 0 && <p>No test cases ran. Check your code for errors.</p>}
                           {runResult.testResults.map((result, index) => (
@@ -249,11 +291,30 @@ export default function AlgoArenaPage({ params }: { params: { id: string } }) {
                 </CardContent>
               </Card>
             </TabsContent>
+            <TabsContent value="output">
+              <Card>
+                <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2"><Terminal /> Console</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <pre className="p-4 bg-muted rounded-md min-h-[128px] text-sm text-foreground overflow-auto font-code">
+                      {isPending ? "Running code..." : runResult?.output || 'Submit your code to see the console output.'}
+                  </pre>
+                </CardContent>
+              </Card>
+            </TabsContent>
           </Tabs>
         </div>
       </div>
+      {status === 'finished' && (
+        <CompletionModal 
+          xpGained={allTestsPassed ? task.xp : 0}
+          wpm={0} // WPM not applicable here
+          accuracy={runResult?.testResults.length ? (runResult.testResults.filter(r => r.success).length / runResult.testResults.length) * 100 : 0}
+          onRetry={resetGame}
+          onNext={handleNextChallenge}
+        />
+      )}
     </div>
   );
 }
-
-    

@@ -28,7 +28,8 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
   onRetry,
   onNext,
 }) => {
-  const isSuccess = accuracy >= 80; // Example success condition
+  const isSuccess = accuracy >= 100;
+  const showWpm = wpm > 0;
 
   return (
     <AlertDialog open={true}>
@@ -40,18 +41,20 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
           </AlertDialogTitle>
           <AlertDialogDescription>
             {isSuccess 
-              ? `Great job! You completed the challenge and earned ${xpGained} XP.` 
-              : "Good effort! You'll get it next time. Practice makes perfect."}
+              ? `Great job! You passed all test cases and earned ${xpGained} XP.` 
+              : "Good effort! Not all test cases passed. Keep trying!"}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div className="grid grid-cols-2 gap-4 text-center border rounded-lg p-4">
-            <div>
-                <p className="text-2xl font-bold">{wpm}</p>
-                <p className="text-sm text-muted-foreground">WPM</p>
-            </div>
-            <div>
+            {showWpm && (
+              <div>
+                  <p className="text-2xl font-bold">{wpm}</p>
+                  <p className="text-sm text-muted-foreground">WPM</p>
+              </div>
+            )}
+            <div className={showWpm ? '' : 'col-span-2'}>
                 <p className="text-2xl font-bold">{accuracy.toFixed(1)}%</p>
-                <p className="text-sm text-muted-foreground">Accuracy</p>
+                <p className="text-sm text-muted-foreground">{showWpm ? 'Accuracy' : 'Tests Passed'}</p>
             </div>
         </div>
         <AlertDialogFooter>
