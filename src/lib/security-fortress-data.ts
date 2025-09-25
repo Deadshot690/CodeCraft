@@ -1035,32 +1035,3 @@ sessionCookie.setPath("/app");`
       explanation: 'For any sensitive cookie (like a session ID), the `Secure` flag must be set. This ensures the browser will only send the cookie over an encrypted HTTPS connection, preventing it from being intercepted on an insecure network.'
     }
 ];
-
-for (let i = 31; i <= 121; i++) {
-  const categories: SecurityFortressChallenge['category'][] = ['XSS', 'SQL Injection', 'IDOR', 'CSRF'];
-  const difficulties: SecurityFortressChallenge['difficulty'][] = ['Beginner', 'Intermediate', 'Advanced'];
-  const languages: SecurityFortressChallenge['language'][] = ['javascript', 'python', 'java', 'php'];
-
-  const category = categories[i % categories.length];
-  const difficulty = difficulties[i % difficulties.length];
-  const language = languages[i % languages.length];
-  const xp = difficulty === 'Beginner' ? 40 + (i%10) : difficulty === 'Intermediate' ? 60 + (i%10) : 80 + (i%10);
-  
-  securityFortressChallenges.push({
-    id: `${i}`,
-    title: `Placeholder Challenge ${i}: ${category}`,
-    category: category,
-    difficulty: difficulty,
-    xp: xp,
-    description: `This is a placeholder description for challenge #${i}. It demonstrates a common ${category} vulnerability in a ${language} code snippet. Analyze the code to find the flaw.`,
-    vulnerableCode: `// Vulnerable ${language} code for challenge ${i}\nfunction vulnerableFunction(userInput) {\n    // This code has a security flaw related to ${category}\n    console.log("Processing: " + userInput);\n}`,
-    language: language,
-    options: [
-      { id: `${i}a`, code: `// Option A: Incorrect Patch for challenge ${i}` },
-      { id: `${i}b`, code: `// Option B: Correct Patch for challenge ${i}` },
-      { id: `${i}c`, code: `// Option C: Another Incorrect Patch for challenge ${i}` },
-    ],
-    correctOptionId: `${i}b`,
-    explanation: `This is the placeholder explanation for why option B is the correct fix for challenge #${i}. It addresses the core ${category} vulnerability.`,
-  });
-}
