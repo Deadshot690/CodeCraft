@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, use } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import { securityFortressChallenges } from '@/lib/data';
 import { CodeEditor } from '@/components/code-editor';
@@ -17,6 +17,7 @@ import Confetti from 'react-dom-confetti';
 type GameState = 'playing' | 'answered';
 
 export default function SecurityFortressArenaPage({ params }: { params: { id: string } }) {
+  const resolvedParams = use(params);
   const router = useRouter();
   
   const [gameState, setGameState] = useState<GameState>('playing');
@@ -25,8 +26,8 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
   const [showConfetti, setShowConfetti] = useState(false);
 
   const challenge = useMemo(() => {
-    return securityFortressChallenges.find((c) => c.id === params.id);
-  }, [params.id]);
+    return securityFortressChallenges.find((c) => c.id === resolvedParams.id);
+  }, [resolvedParams.id]);
 
   if (!challenge) {
     notFound();
