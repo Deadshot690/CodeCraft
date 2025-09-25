@@ -128,7 +128,7 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
                     )}
                 >
                     <RadioGroupItem value={option.id} id={option.id} className="mt-1 flex-shrink-0" />
-                    <div className="flex-1 flex flex-col">
+                    <div className="flex-1">
                       <CodeEditor
                           initialCode={option.code}
                           language={challenge.language as any}

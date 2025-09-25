@@ -48,7 +48,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, o
       extensions={extensions}
       theme={okaidia}
       onChange={handleOnChange}
-      className={cn("flex-grow rounded-md overflow-hidden text-base border bg-muted")}
+      className={cn("rounded-md overflow-hidden text-base border bg-muted")}
     />
   );
 };
