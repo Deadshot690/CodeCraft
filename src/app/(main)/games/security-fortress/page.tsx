@@ -112,7 +112,7 @@ export default function SecurityFortressLobbyPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[80px]">ID</TableHead>
+                  <TableHead className="w-[80px]">Sr. No.</TableHead>
                   <TableHead>Challenge</TableHead>
                   <TableHead className="hidden md:table-cell">Category</TableHead>
                   <TableHead>Difficulty</TableHead>
@@ -121,9 +121,9 @@ export default function SecurityFortressLobbyPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredChallenges.map((challenge) => (
+                {filteredChallenges.map((challenge, index) => (
                   <TableRow key={challenge.id}>
-                    <TableCell className="font-medium">{challenge.id}</TableCell>
+                    <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell className="font-medium">{challenge.title}</TableCell>
                     <TableCell className="hidden md:table-cell text-muted-foreground">{challenge.category}</TableCell>
                     <TableCell>
@@ -154,3 +154,4 @@ export default function SecurityFortressLobbyPage() {
     </div>
   );
 }
+
