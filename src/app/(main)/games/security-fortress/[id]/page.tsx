@@ -86,7 +86,7 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
         </div>
       </header>
 
-      <main className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-auto p-4 md:p-6 relative">
+      <main className="flex-1 grid grid-cols-1 gap-6 overflow-auto p-4 md:p-6 relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <Confetti active={showConfetti} config={{ spread: 120, elementCount: 200, startVelocity: 30 }} />
         </div>
@@ -102,7 +102,6 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
                 key={challenge.id}
                 initialCode={challenge.vulnerableCode}
                 language={challenge.language as any}
-                onCodeChange={() => {}}
                 readOnly
               />
             </CardContent>
@@ -117,7 +116,7 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
           </Card>
         </div>
 
-        <div className="flex flex-col gap-6 lg:col-span-1">
+        <div className="flex flex-col gap-6">
           {gameState === 'answered' && (
             <Card>
               <CardContent className="p-6">
@@ -142,7 +141,7 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
             </Card>
           )}
         </div>
-         <div className="lg:col-span-2">
+         <div>
            <Card>
             <CardHeader>
             <CardTitle className="font-headline text-lg">Select the Correct Patch</CardTitle>
