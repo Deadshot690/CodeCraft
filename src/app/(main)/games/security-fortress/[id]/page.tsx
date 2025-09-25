@@ -86,11 +86,11 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
         </div>
       </header>
 
-      <main className="flex-1 grid gap-6 lg:grid-cols-2 overflow-auto p-4 md:p-6 relative">
+      <main className="flex-1 grid gap-6 lg:grid-cols-5 overflow-auto p-4 md:p-6 relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <Confetti active={showConfetti} config={{ spread: 120, elementCount: 200, startVelocity: 30 }} />
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 lg:col-span-3">
           <Card className="flex-grow flex flex-col">
             <CardHeader>
               <CardTitle className="font-headline text-lg">Vulnerable Code</CardTitle>
@@ -123,8 +123,8 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
                 <Label
                     key={option.id}
                     className={cn(
-                    "flex items-start gap-4 rounded-md border p-4 cursor-pointer transition-all hover:bg-accent has-[input:checked]:bg-accent",
-                    getOptionClass(option.id)
+                      "flex items-start gap-4 rounded-md border p-4 cursor-pointer transition-all hover:bg-accent has-[input:checked]:bg-accent",
+                      getOptionClass(option.id)
                     )}
                 >
                     <RadioGroupItem value={option.id} id={option.id} className="mt-1 flex-shrink-0" />
@@ -145,7 +145,7 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
           </Card>
         </div>
 
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 lg:col-span-2">
             <Card>
              <CardHeader>
                 <CardTitle>Description</CardTitle>
