@@ -106,52 +106,53 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
               />
             </CardContent>
           </Card>
+          
           <Card>
+            <CardHeader>
+            <CardTitle className="font-headline text-lg">Select the Correct Patch</CardTitle>
+            <CardDescription>Which of these options correctly fixes the vulnerability?</CardDescription>
+            </CardHeader>
+            <CardContent>
+            <RadioGroup
+                value={selectedOptionId || undefined}
+                onValueChange={setSelectedOptionId}
+                disabled={gameState === 'answered'}
+                className="space-y-3"
+            >
+                {challenge.options.map((option) => (
+                <Label
+                    key={option.id}
+                    className={cn(
+                    "flex items-start gap-4 rounded-md border p-4 cursor-pointer transition-all hover:bg-accent has-[input:checked]:bg-accent",
+                    getOptionClass(option.id)
+                    )}
+                >
+                    <RadioGroupItem value={option.id} id={option.id} className="mt-1 flex-shrink-0" />
+                    <div className="flex-1 flex flex-col">
+                      <CodeEditor
+                          initialCode={option.code}
+                          language={challenge.language as any}
+                          readOnly
+                      />
+                    </div>
+                </Label>
+                ))}
+            </RadioGroup>
+            <Button onClick={handleAnswerSubmit} disabled={gameState === 'answered' || selectedOptionId === null} className="mt-4 w-full">
+                Fortify
+            </Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="flex flex-col gap-6">
+            <Card>
              <CardHeader>
                 <CardTitle>Description</CardTitle>
              </CardHeader>
              <CardContent>
                 <p className="text-muted-foreground">{challenge.description}</p>
              </CardContent>
-          </Card>
-        </div>
-
-        <div className="flex flex-col gap-6">
-            <Card>
-                <CardHeader>
-                <CardTitle className="font-headline text-lg">Select the Correct Patch</CardTitle>
-                <CardDescription>Which of these options correctly fixes the vulnerability?</CardDescription>
-                </CardHeader>
-                <CardContent>
-                <RadioGroup
-                    value={selectedOptionId || undefined}
-                    onValueChange={setSelectedOptionId}
-                    disabled={gameState === 'answered'}
-                    className="space-y-3"
-                >
-                    {challenge.options.map((option) => (
-                    <Label
-                        key={option.id}
-                        className={cn(
-                        "flex items-start gap-4 rounded-md border p-4 cursor-pointer transition-all hover:bg-accent has-[input:checked]:bg-accent",
-                        getOptionClass(option.id)
-                        )}
-                    >
-                        <RadioGroupItem value={option.id} id={option.id} className="mt-1 flex-shrink-0" />
-                        <div className="flex-1 flex flex-col">
-                          <CodeEditor
-                              initialCode={option.code}
-                              language={challenge.language as any}
-                              readOnly
-                          />
-                        </div>
-                    </Label>
-                    ))}
-                </RadioGroup>
-                <Button onClick={handleAnswerSubmit} disabled={gameState === 'answered' || selectedOptionId === null} className="mt-4 w-full">
-                    Fortify
-                </Button>
-                </CardContent>
             </Card>
 
             {gameState === 'answered' && (
