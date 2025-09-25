@@ -93,7 +93,7 @@ export type CodeJigsawChallenge = {
   language: 'python' | 'javascript' | 'java' | 'cpp';
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   xp: number;
-  lines: string[];
+  codeSnippet: string;
 };
 
 export type CodeTyperChallenge = {
@@ -143,4 +143,19 @@ export type ConceptMatchChallenge = {
   concepts: Concept[];
 };
 
-    
+export type SecurityFortressChallenge = {
+  id: string;
+  title: string;
+  category: 'XSS' | 'SQL Injection' | 'IDOR' | 'CSRF';
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  xp: number;
+  description: string;
+  vulnerableCode: string;
+  language: 'javascript' | 'python' | 'java' | 'php';
+  options: {
+    id: string;
+    code: string;
+  }[];
+  correctOptionId: string;
+  explanation: string;
+};

@@ -12,7 +12,8 @@ import { debugChallenges } from './debug-hunt-data';
 import { codeTyperChallenges } from './code-typer-data';
 import { outputPredictionChallenges } from './output-prediction-data';
 import { conceptMatchChallenges } from './concept-match-data';
-import { algoArenaTasks } from './algo-arena-data';
+import { codeJigsawChallenges } from './code-jigsaw-data';
+import { securityFortressChallenges } from './security-fortress-data';
 
 export {
     tasks,
@@ -25,7 +26,6 @@ export {
     codeTyperChallenges,
     outputPredictionChallenges,
     conceptMatchChallenges,
-    algoArenaTasks
+    codeJigsawChallenges,
+    securityFortressChallenges
 };
-
-    
