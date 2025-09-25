@@ -47,6 +47,11 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
     const currentIndex = securityFortressChallenges.findIndex(c => c.id === challenge.id);
     const nextChallenge = securityFortressChallenges[(currentIndex + 1) % securityFortressChallenges.length];
     router.push(`/games/security-fortress/${nextChallenge.id}`);
+    // Reset state for the next challenge
+    setGameState('playing');
+    setSelectedOptionId(null);
+    setIsCorrect(null);
+    setShowConfetti(false);
   };
 
   const resetGame = () => {
@@ -127,16 +132,20 @@ export default function SecurityFortressArenaPage({ params }: { params: { id: st
                     <Label
                         key={option.id}
                         className={cn(
-                        "flex items-start gap-4 rounded-md border p-4 cursor-pointer transition-all hover:bg-accent",
-                        getOptionClass(option.id)
+                          "block rounded-md border p-4 cursor-pointer transition-all hover:bg-accent has-[.radio-item:checked]:bg-accent",
+                          getOptionClass(option.id)
                         )}
                     >
-                        <RadioGroupItem value={option.id} id={option.id} className="mt-1" />
-                        <CodeEditor
-                            initialCode={option.code}
-                            language={challenge.language as any}
-                            onCodeChange={()=>{}}
-                        />
+                        <div className="flex items-start gap-4">
+                            <RadioGroupItem value={option.id} id={option.id} className="mt-1 radio-item" />
+                            <div className="flex-1">
+                                <CodeEditor
+                                    initialCode={option.code}
+                                    language={challenge.language as any}
+                                    onCodeChange={()=>{}}
+                                />
+                            </div>
+                        </div>
                     </Label>
                     ))}
                 </RadioGroup>
