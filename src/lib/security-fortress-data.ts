@@ -1348,7 +1348,7 @@ user.update(user_data)`
             },
             {
                 id: '40c',
-                code: `// Both are valid, but whitelisting (A) is generally safer than blacklisting (B).`
+                code: `// Both are valid, but whitelisting (A) is safer than blacklisting (B).`
             }
         ],
         correctOptionId: '40c',
@@ -1532,7 +1532,7 @@ let regex = new RegExp("^" + userPattern + "$");`,
                 id: '46a',
                 code: `// Escape special regex characters from the user input before creating the RegExp.
 function escapeRegex(string) {
-    return string.replace(/[.*+?^${}()|[\\]\\/]/g, '\\\\$&');
+    return string.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');
 }
 let regex = new RegExp("^" + escapeRegex(userPattern) + "$");`
             },
@@ -2148,6 +2148,696 @@ if (in_array((int)$user_id, $allowed_ids)) { ... }`
         ],
         correctOptionId: '65a',
         explanation: 'When using `in_array` for security checks, always set the third parameter to `true` to enforce strict type checking and prevent vulnerabilities caused by PHP\'s type juggling.'
+    },
+    {
+        id: '66',
+        title: 'Python `pickle` Deserialization',
+        language: 'python',
+        difficulty: 'Advanced',
+        category: 'IDOR',
+        xp: 90,
+        description: 'Deserializing data with `pickle` from an untrusted source can lead to arbitrary code execution.',
+        vulnerableCode: `import pickle
+# data is from an untrusted network source
+untrusted_data = b'...' 
+deserialized_object = pickle.loads(untrusted_data)`,
+        options: [
+            { id: '66a', code: '// It\'s safe if the data is base64 encoded first.' },
+            { id: '66b', code: '// Use a safe data format like JSON for untrusted data.\nimport json\ndeserialized_object = json.loads(untrusted_data.decode())' },
+            { id: '66c', code: '// Check for bad keywords before unpickling.\nif b"system" in untrusted_data:\n    raise ValueError("Unsafe")' }
+        ],
+        correctOptionId: '66b',
+        explanation: 'The `pickle` module is not secure against erroneous or maliciously constructed data. Never unpickle data received from an unauthenticated or untrusted source. Use safer formats like JSON.'
+    },
+    {
+        id: '67',
+        title: 'Java `ProcessBuilder` Command Injection',
+        language: 'java',
+        difficulty: 'Advanced',
+        category: 'Command Injection',
+        xp: 85,
+        description: 'Using `ProcessBuilder` with a command string that includes user input can lead to command injection.',
+        vulnerableCode: `String command = "ping -c 1 " + request.getParameter("host");
+// This is vulnerable if host is "example.com; ls"
+ProcessBuilder pb = new ProcessBuilder(command);
+pb.start();`,
+        options: [
+            { id: '67a', code: '// Pass command and arguments as a list to the constructor.\nProcessBuilder pb = new ProcessBuilder("ping", "-c", "1", request.getParameter("host"));' },
+            { id: '67b', code: '// Validate the host parameter with a regex.\nif (host.matches("^[a-zA-Z0-9.-]+$")) { ... }' },
+            { id: '67c', code: '// Both A and B are valid solutions, but A is generally safer as it avoids the shell entirely.' }
+        ],
+        correctOptionId: '67c',
+        explanation: 'When using `ProcessBuilder`, passing the command and its arguments as separate elements in a list prevents the shell from interpreting metacharacters in the arguments. This is the most robust way to prevent command injection.'
+    },
+    {
+        id: '68',
+        title: 'Reflected XSS in `<a>` tag `href`',
+        language: 'javascript',
+        difficulty: 'Intermediate',
+        category: 'XSS',
+        xp: 60,
+        description: 'A URL parameter is used to construct the `href` attribute of a link, allowing an attacker to inject `javascript:` pseudo-protocol.',
+        vulnerableCode: `const continueUrl = new URLSearchParams(window.location.search).get("continue");
+// Attacker can set continueUrl to "javascript:alert(1)"
+document.getElementById('link').href = continueUrl;`,
+        options: [
+            { id: '68a', code: '// Validate the URL to ensure it starts with http or https.\nif (continueUrl.startsWith("http")) {\n    document.getElementById(\'link\').href = continueUrl;\n}' },
+            { id: '68b', code: '// URL encode the parameter.\ndocument.getElementById(\'link\').href = encodeURIComponent(continueUrl);' },
+            { id: '68c', code: '// No fix needed, browsers block this.' }
+        ],
+        correctOptionId: '68a',
+        explanation: 'When reflecting user input into an `href` attribute, you must validate that the URL has an expected protocol (like `http:`, `https:`, or `mailto:`). A simple whitelist check is an effective defense.'
+    },
+    {
+        id: '69',
+        title: 'C++ `strcpy` Buffer Overflow',
+        language: 'cpp',
+        difficulty: 'Beginner',
+        category: 'IDOR',
+        xp: 45,
+        description: 'The `strcpy` function does not perform bounds checking, which can lead to a buffer overflow if the source string is larger than the destination buffer.',
+        vulnerableCode: `#include <cstring>
+void copy_name(char* user_input) {
+    char buffer[16];
+    // Vulnerable if user_input is > 15 chars
+    strcpy(buffer, user_input);
+}`,
+        options: [
+            { id: '69a', code: '// Use a safer, bounded function like strncpy.\nstrncpy(buffer, user_input, sizeof(buffer) - 1);\nbuffer[sizeof(buffer) - 1] = \'\\0\';' },
+            { id: '69b', code: '// Increase the buffer size.\nchar buffer[256];' },
+            { id: '69c', code: '// Use std::string, which handles memory automatically.\nstd::string buffer = user_input;' }
+        ],
+        correctOptionId: '69c',
+        explanation: 'The best solution in C++ is to avoid manual memory management with C-style strings and use `std::string` instead. If you must use C-style strings, `strncpy` is safer than `strcpy`, but requires careful handling of the null terminator.'
+    },
+    {
+        id: '70',
+        title: 'Improper Asset Management',
+        language: 'javascript', // Generic concept
+        difficulty: 'Beginner',
+        category: 'IDOR',
+        xp: 30,
+        description: 'A `.git` directory is exposed to the web in a production environment, allowing attackers to download the entire source code history.',
+        vulnerableCode: `// Server misconfiguration.
+// The web root is the same as the git repository root,
+// and the server doesn't block access to the .git directory.
+// http://example.com/.git/config is accessible.`,
+        options: [
+            { id: '70a', code: '// This is not a risk, as git objects are hashed.' },
+            { id: '70b', code: '// Configure the web server (e.g., Nginx, Apache) to deny access to the .git directory.' },
+            { id: '70c', code: '// Both B and ensuring the web root is not the repository root are correct fixes.' }
+        ],
+        correctOptionId: '70c',
+        explanation: 'Never expose your version control directory (`.git`, `.svn`, etc.) to the web. Configure your web server to block access to these directories, and/or deploy your application from a clean checkout without the version control folder.'
+    },
+    {
+        id: '71',
+        title: 'Sensitive Data in `localStorage`',
+        language: 'javascript',
+        difficulty: 'Intermediate',
+        category: 'XSS',
+        xp: 50,
+        description: 'Storing sensitive data like session tokens or API keys in `localStorage` makes them accessible to any JavaScript code running on the page, including malicious scripts from an XSS attack.',
+        vulnerableCode: `// User logs in, gets a JWT
+const jwt = response.data.token;
+// Storing the token in localStorage is vulnerable to XSS
+localStorage.setItem('session_token', jwt);`,
+        options: [
+            { id: '71a', code: '// Store the token in an HttpOnly, Secure cookie instead. The server should set this cookie.' },
+            { id: '71b', code: '// Encrypt the token before putting it in localStorage.' },
+            { id: '71c', code: '// Use sessionStorage instead of localStorage.' }
+        ],
+        correctOptionId: '71a',
+        explanation: 'Sensitive session data should be stored in `HttpOnly` cookies. This prevents any client-side JavaScript from accessing the cookie, providing a strong defense against session theft via XSS.'
+    },
+    {
+        id: '72',
+        title: 'Username Enumeration',
+        language: 'php',
+        difficulty: 'Beginner',
+        category: 'IDOR',
+        xp: 45,
+        description: 'A login form gives different error messages for "user not found" versus "invalid password", allowing an attacker to discover valid usernames.',
+        vulnerableCode: `// PHP login logic
+$user = find_user_by_name($username);
+if (!$user) {
+    return "Error: User not found.";
+}
+if (!password_verify($password, $user->password_hash)) {
+    return "Error: Invalid password.";
+}
+// Login successful...`,
+        options: [
+            { id: '72a', code: '// Use the same generic error message for both cases.\nreturn "Error: Invalid username or password.";' },
+            { id: '72b', code: '// Add rate limiting to the login page.' },
+            { id: '72c', code: '// Both A and B are important. A prevents enumeration, and B prevents brute-force attacks.' }
+        ],
+        correctOptionId: '72c',
+        explanation: 'To prevent username enumeration, always return a generic error message for login failures. Additionally, implementing rate limiting is crucial to protect against brute-force guessing of both usernames and passwords.'
+    },
+    {
+        id: '73',
+        title: 'Missing `break` in `switch` (PHP)',
+        language: 'php',
+        difficulty: 'Beginner',
+        category: 'CSRF',
+        xp: 30,
+        description: 'Forgetting a `break` statement in a PHP `switch` statement causes "fallthrough", where code from the next case also executes.',
+        vulnerableCode: `<?php
+$level = 1;
+switch ($level) {
+    case 1:
+        echo "Level 1 access. ";
+    case 2:
+        echo "Level 2 access. ";
+    case 3:
+        echo "Level 3 access. ";
+}
+?>`,
+        options: [
+            { id: '73a', code: `// The output will be: Level 1 access. ` },
+            { id: '73b', code: `// The output will be: Level 1 access. Level 2 access. Level 3 access. ` },
+            { id: '73c', code: `// Add a break statement to each case to prevent fallthrough.\ncase 1:\n    echo "Level 1 access. ";\n    break;` }
+        ],
+        correctOptionId: '73c',
+        explanation: 'Unless fallthrough is intentional, each `case` in a `switch` statement should end with a `break` to prevent unexpected execution of subsequent cases.'
+    },
+    {
+        id: '74',
+        title: 'Use of `goto` in PHP',
+        language: 'php',
+        difficulty: 'Beginner',
+        category: 'IDOR',
+        xp: 25,
+        description: 'While `goto` is a valid language construct, its use can lead to spaghetti code that is difficult to read, debug, and secure.',
+        vulnerableCode: `<?php
+if ($error) {
+    goto end;
+}
+// ... more logic ...
+end:
+echo "Finished.";
+?>`,
+        options: [
+            { id: '74a', code: '// `goto` is fine for error handling.' },
+            { id: '74b', code: '// Refactor the code to use standard control structures like functions and if/else blocks instead of `goto`.' }
+        ],
+        correctOptionId: '74b',
+        explanation: 'The use of `goto` is heavily discouraged in modern programming as it makes program flow hard to follow. Structured control flow (loops, functions, if/else) almost always provides a cleaner and more maintainable solution.'
+    },
+    {
+        id: '75',
+        title: 'Python `assert` Statement',
+        language: 'python',
+        difficulty: 'Intermediate',
+        category: 'IDOR',
+        xp: 40,
+        description: 'The `assert` statement is used for internal debugging checks. It can be disabled globally, so it should not be used for security-critical input validation.',
+        vulnerableCode: `def process_user_input(user):
+    # Unsafe for security checks
+    assert user.is_admin, "User must be an admin"
+    # ... perform critical action ...`,
+        options: [
+            { id: '75a', code: '// Use a proper conditional check and raise an exception for security validation.\nif not user.is_admin:\n    raise PermissionError("User must be an admin")' },
+            { id: '75b', code: '// `assert` is fine for this purpose.' }
+        ],
+        correctOptionId: '75a',
+        explanation: '`assert` statements are for debugging and can be disabled when Python is run with the `-O` (optimize) flag. For validating data and enforcing security, you must use explicit conditional statements that will always be executed.'
+    },
+    {
+        id: '76',
+        title: 'Java `public` fields',
+        language: 'java',
+        difficulty: 'Beginner',
+        category: 'IDOR',
+        xp: 30,
+        description: 'Making class fields `public` violates the principle of encapsulation and allows other parts of the code to put the object into an invalid state.',
+        vulnerableCode: `public class User {
+    public String username;
+    public int age;
+}`,
+        options: [
+            { id: '76a', code: '// Make fields private and provide public getter and setter methods.\nprivate String username;\npublic String getUsername() { return username; }\npublic void setUsername(String name) { this.username = name; }' },
+            { id: '76b', code: '// This is fine for simple data objects.' }
+        ],
+        correctOptionId: '76a',
+        explanation: 'To properly encapsulate data, fields should be `private`. Access should be controlled through `public` methods (getters and setters), which allows you to add validation or logic later without changing the class\'s public interface.'
+    },
+    {
+        id: '77',
+        title: 'Insecure `Content-Sniffing`',
+        language: 'javascript',
+        difficulty: 'Intermediate',
+        category: 'XSS',
+        xp: 55,
+        description: 'If a server response is missing a `Content-Type` header, some browsers will try to guess the content type. This can lead to the browser misinterpreting a file (e.g., plain text) as HTML, enabling XSS.',
+        vulnerableCode: `// Server sends a response with user-controllable data
+// but does not set the Content-Type header.
+// res.setHeader('Content-Type', 'text/plain'); <-- This is missing`,
+        options: [
+            { id: '77a', code: '// Set the `X-Content-Type-Options: nosniff` header to prevent the browser from guessing the content type.' },
+            { id: '77b', code: '// Always set an accurate `Content-Type` header for all responses.' },
+            { id: '77c', code: '// Both A and B are crucial for preventing content-sniffing vulnerabilities.' }
+        ],
+        correctOptionId: '77c',
+        explanation: 'There are two key defenses: 1) Always send an accurate `Content-Type` header. 2) Send the `X-Content-Type-Options: nosniff` header, which is an explicit instruction to the browser to never guess the content type and to trust the one you provided.'
+    },
+    {
+        id: '78',
+        title: 'JavaScript `with` Statement',
+        language: 'javascript',
+        difficulty: 'Beginner',
+        category: 'CSRF',
+        xp: 35,
+        description: 'The `with` statement is deprecated and forbidden in strict mode. It adds properties from an object to the global scope, which can lead to confusing and hard-to-debug code.',
+        vulnerableCode: `// Bad practice
+with (Math) {
+  var x = PI * pow(2, 3); // PI and pow are from Math
+}`,
+        options: [
+            { id: '78a', code: '// Refactor to access properties directly on the object.\nvar x = Math.PI * Math.pow(2, 3);' },
+            { id: '78b', code: '// The `with` statement is a useful shortcut.' }
+        ],
+        correctOptionId: '78a',
+        explanation: 'The `with` statement makes code unpredictable and hard to optimize. It should never be used. Always access object properties directly.'
+    },
+    {
+        id: '79',
+        title: 'PHP `register_globals` (historical)',
+        language: 'php',
+        difficulty: 'Advanced',
+        category: 'IDOR',
+        xp: 70,
+        description: 'A very old and dangerous feature in PHP where request parameters were automatically turned into global variables. An attacker could overwrite any uninitialized variable.',
+        vulnerableCode: `// In an old PHP environment with register_globals=on
+// Attacker visits: /index.php?authorized=1
+
+if (check_login($user, $pass)) {
+    $authorized = 1;
+}
+
+if ($authorized) { // Attacker bypasses the login check
+    // show secret data
+}`,
+        options: [
+            { id: '79a', code: '// The fix is to disable `register_globals` and always access request data from the superglobal arrays ($_GET, $_POST). This feature is removed in modern PHP.' }
+        ],
+        correctOptionId: '79a',
+        explanation: '`register_globals` was one of PHP\'s biggest historical security flaws. It was deprecated and later removed entirely. The correct practice is to always access request data explicitly from the `$_GET`, `$_POST`, and `$_COOKIE` superglobal arrays.'
+    },
+    {
+        id: '80',
+        title: 'Ruby `eval`',
+        language: 'python', // Assuming 'ruby' isn't an option, 'python' is closest for a scripting language
+        difficulty: 'Advanced',
+        category: 'Command Injection',
+        xp: 80,
+        description: 'Using `eval` with user input in Ruby allows for arbitrary code execution, just like in other languages.',
+        vulnerableCode: `# Ruby
+user_code = gets.chomp
+eval(user_code)`,
+        options: [
+            { id: '80a', code: '# Never use `eval` with untrusted input. Find a safer way to accomplish the goal without executing arbitrary code.' }
+        ],
+        correctOptionId: '80a',
+        explanation: 'The `eval` function is dangerous in any language. It should be avoided whenever possible, especially when dealing with any data that originated from a user.'
+    },
+    {
+        id: '81',
+        title: 'SQL Injection with `LIMIT` clause',
+        language: 'php',
+        difficulty: 'Advanced',
+        category: 'SQL Injection',
+        xp: 80,
+        description: 'User input is used in a `LIMIT` clause. While it seems numeric, it can still be exploited in some database engines.',
+        vulnerableCode: `// PHP
+$limit = $_GET['limit'];
+$offset = $_GET['offset'];
+// Vulnerable if $offset is e.g., "0; DROP TABLE users"
+$sql = "SELECT * FROM products LIMIT $limit OFFSET $offset";`,
+        options: [
+            { id: '81a', code: '// The fix is to cast the values to integers before using them in the query.\n$limit = (int)$_GET[\'limit\'];\n$offset = (int)$_GET[\'offset\'];' },
+            { id: '81b', code: '// Prepared statements can also be used for LIMIT/OFFSET clauses.\n$stmt = $pdo->prepare("... LIMIT :limit OFFSET :offset");' }
+        ],
+        correctOptionId: '81a',
+        explanation: 'For `LIMIT` and `OFFSET` clauses, which require literal numbers, the best defense is to strictly validate and cast the user input to integers. Some database drivers do not support parameterizing these clauses.'
+    },
+    {
+        id: '82',
+        title: 'Cross-Origin Resource Sharing (CORS) Misconfiguration',
+        language: 'javascript',
+        difficulty: 'Intermediate',
+        category: 'IDOR',
+        xp: 65,
+        description: 'A server responds with `Access-Control-Allow-Origin: *`, allowing any website to make requests to it and read the responses.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+app.use((req, res, next) => {
+  // Unsafe for APIs that handle sensitive data
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+});`,
+        options: [
+            { id: '82a', code: '// This is required for public APIs.' },
+            { id: '82b', code: '// The origin should be reflected or validated against a whitelist.\nconst origin = req.headers.origin;\nif (ALLOWED_ORIGINS.includes(origin)) {\n  res.setHeader(\'Access-Control-Allow-Origin\', origin);\n}' }
+        ],
+        correctOptionId: '82b',
+        explanation: 'Using a wildcard (`*`) for `Access-Control-Allow-Origin` is dangerous if the endpoint is not public. The server should validate the `Origin` header from the incoming request against a whitelist of allowed domains.'
+    },
+    {
+        id: '83',
+        title: 'Java `clone()` and `final` fields',
+        language: 'java',
+        difficulty: 'Advanced',
+        category: 'IDOR',
+        xp: 75,
+        description: 'Cloning an object does not typically run a constructor, which can lead to issues with `final` fields that are expected to be initialized.',
+        vulnerableCode: `class MyData implements Cloneable {
+    private final String name;
+    public MyData(String name) { this.name = name; }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        // This shallow copy is often insufficient for complex objects
+        return super.clone(); 
+    }
+}`,
+        options: [
+            { id: '83a', code: '// The default `super.clone()` handles this correctly.' },
+            { id: '83b', code: '// A better approach is to use a "copy constructor" instead of `clone()`.\npublic MyData(MyData other) {\n    this.name = other.name;\n}' }
+        ],
+        correctOptionId: '83b',
+        explanation: 'The `clone()` method in Java is notoriously difficult to implement correctly. A "copy constructor" or a static factory method are often safer and clearer alternatives for creating copies of an object.'
+    },
+    {
+        id: '84',
+        title: 'Python `os.system()` vs `subprocess`',
+        language: 'python',
+        difficulty: 'Intermediate',
+        category: 'Command Injection',
+        xp: 60,
+        description: '`os.system()` is simple but less secure and flexible than the `subprocess` module, as it invokes a shell.',
+        vulnerableCode: `import os
+# Less secure, invokes a shell
+os.system("my_command --arg1")`,
+        options: [
+            { id: '84a', code: '// Use the `subprocess` module for more control and security.\nimport subprocess\nsubprocess.run(["my_command", "--arg1"])' }
+        ],
+        correctOptionId: '84a',
+        explanation: 'The `subprocess` module is the modern and recommended way to run external commands in Python. It provides greater control over I/O, error handling, and security by avoiding a shell by default when arguments are passed as a list.'
+    },
+    {
+        id: '85',
+        title: 'Unsafe `pickle.loads`',
+        language: 'python',
+        difficulty: 'Advanced',
+        category: 'IDOR',
+        xp: 90,
+        description: '`pickle.loads` can execute arbitrary code and should never be used on data from an untrusted source.',
+        vulnerableCode: `import pickle
+# data is from a user-controlled cookie
+deserialized = pickle.loads(data)`,
+        options: [
+            { id: '85a', code: '// It is safe if the class being deserialized is simple.' },
+            { id: '85b', code: '// The only safe approach is to use a secure data format like JSON for untrusted data.' }
+        ],
+        correctOptionId: '85b',
+        explanation: 'There is no way to make `pickle` safe when the data comes from an untrusted source. An attacker can craft a pickle payload that executes arbitrary commands on your server. Always use a safe format like JSON.'
+    },
+    {
+        id: '86',
+        title: 'PHP `eval()`',
+        language: 'php',
+        difficulty: 'Advanced',
+        category: 'Command Injection',
+        xp: 80,
+        description: 'PHP\'s `eval()` function is a language construct that executes a string as PHP code. It is extremely dangerous if used with user input.',
+        vulnerableCode: `$code = $_GET['code'];
+eval($code);`,
+        options: [
+            { id: '86a', code: '// There is almost never a good reason to use eval(). The code should be refactored to avoid it entirely.' },
+            { id: '86b', code: '// Sanitize the input first.\n$code = str_replace("system", "", $code);\neval($code);' }
+        ],
+        correctOptionId: '86a',
+        explanation: 'Blacklist-based sanitization is fragile and easily bypassed. The `eval()` construct is so dangerous that the only truly safe solution is to refactor the code to achieve the goal without executing strings as code.'
+    },
+    {
+        id: '87',
+        title: 'C++ `gets()` Function',
+        language: 'cpp',
+        difficulty: 'Beginner',
+        category: 'IDOR',
+        xp: 45,
+        description: 'The C-style function `gets()` is notoriously insecure because it does not perform any bounds checking, leading to classic buffer overflows.',
+        vulnerableCode: `#include <cstdio>
+int main() {
+    char buf[20];
+    printf("Enter name: ");
+    gets(buf); // Extremely dangerous!
+    return 0;
+}`,
+        options: [
+            { id: '87a', code: '// `gets` has been removed from the C++ standard and should never be used. Use `std::getline` with `std::string` instead.\nstd::string name;\nstd::getline(std::cin, name);' }
+        ],
+        correctOptionId: '87a',
+        explanation: 'The `gets()` function is so dangerous it has been removed from recent C and C++ standards. The safe and standard way to read a line of input in C++ is to use `std::getline` with a `std::string` object, which handles memory management for you.'
+    },
+    {
+        id: '88',
+        title: 'JavaScript `document.write` after page load',
+        language: 'javascript',
+        difficulty: 'Intermediate',
+        category: 'XSS',
+        xp: 50,
+        description: 'Calling `document.write()` after the page has finished loading will implicitly call `document.open()`, which clears the entire page.',
+        vulnerableCode: `window.onload = function() {
+  document.write("Hello again!");
+};`,
+        options: [
+            { id: '88a', code: '// This is not a security issue, just bad practice.' },
+            { id: '88b', code: '// This can be a security issue if the string comes from user input, as it can be used to inject scripts into a cleared page (DOM Clobbering). The fix is to manipulate the DOM using safe methods like `createElement` and `textContent`.' }
+        ],
+        correctOptionId: '88b',
+        explanation: '`document.write()` is a legacy method with dangerous side effects. It should be avoided in modern web development. Use safe DOM manipulation methods to add or change content on the page.'
+    },
+    {
+        id: '89',
+        title: 'Regex with `.` not matching newlines',
+        language: 'javascript',
+        difficulty: 'Beginner',
+        category: 'CSRF',
+        xp: 35,
+        description: 'By default, the `.` character in most regex engines does not match newline characters. This can cause validation to fail unexpectedly.',
+        vulnerableCode: `const text = "first line\\nsecond line";
+const regex = /.+/;
+console.log(regex.exec(text)[0]);`,
+        options: [
+            { id: '89a', code: '// The output will be "first line".' },
+            { id: '89b', code: '// Use the "s" (dotAll) flag to make "." match newlines.\nconst regex = /.+/s;' }
+        ],
+        correctOptionId: '89b',
+        explanation: 'The `s` (dotAll) flag was introduced in ES2018 to make the `.` special character match any character, including line terminators. Without it, `.` matches any character except newline characters.'
+    },
+    {
+        id: '90',
+        title: 'Java `finalize()` Method',
+        language: 'java',
+        difficulty: 'Advanced',
+        category: 'IDOR',
+        xp: 70,
+        description: 'Relying on the `finalize()` method for cleaning up resources is a bad practice because there is no guarantee when, or even if, it will be called by the garbage collector.',
+        vulnerableCode: `public class MyResource {
+    @Override
+    protected void finalize() throws Throwable {
+        // Unreliable cleanup logic
+        closeResource();
+    }
+}`,
+        options: [
+            { id: '90a', code: '// This is a reliable way to clean up resources.' },
+            { id: '90b', code: '// The correct approach is to use `try-with-resources` or explicit `close()` methods in a `finally` block. `finalize()` has been deprecated.' }
+        ],
+        correctOptionId: '90b',
+        explanation: 'The `finalize()` method is deprecated and should not be used. For deterministic resource cleanup, use the `try-with-resources` statement for classes that implement `AutoCloseable`.'
+    },
+    {
+        id: '91',
+        title: 'Python `requests` without timeout',
+        language: 'python',
+        difficulty: 'Beginner',
+        category: 'IDOR',
+        xp: 30,
+        description: 'By default, `requests` can wait indefinitely for a response, which can cause your application to hang.',
+        vulnerableCode: `import requests
+# This could hang forever
+response = requests.get("http://example.com")`,
+        options: [
+            { id: '91a', code: '// Always specify a timeout for network requests.\nresponse = requests.get("http://example.com", timeout=5) // 5 seconds' }
+        ],
+        correctOptionId: '91a',
+        explanation: 'It is a crucial best practice to always include a `timeout` for any external network request to prevent your application from hanging indefinitely if the remote server is unresponsive.'
+    },
+    {
+        id: '92',
+        title: 'PHP `extract()` vulnerability',
+        language: 'php',
+        difficulty: 'Advanced',
+        category: 'IDOR',
+        xp: 85,
+        description: 'The `extract()` function imports variables into the current symbol table from an array. If used on user input like `$_GET`, an attacker can overwrite arbitrary variables.',
+        vulnerableCode: `$authorized = false;
+// Attacker visits /page.php?authorized=1
+extract($_GET);
+if ($authorized) {
+    // Access granted
+}`,
+        options: [
+            { id: '92a', code: '// This function is dangerous and should be avoided. Access array keys directly.' },
+            { id: '92b', code: '// Use the EXTR_SKIP flag to prevent overwriting existing variables.\nextract($_GET, EXTR_SKIP);' }
+        ],
+        correctOptionId: '92a',
+        explanation: 'While flags can make `extract()` slightly safer, its use is strongly discouraged as it obscures where variables are coming from. It is much clearer and safer to access superglobal array elements directly (e.g., `$_GET[\'name\']`).'
+    },
+    {
+        id: '93',
+        title: 'JavaScript `typeof` array',
+        language: 'javascript',
+        difficulty: 'Beginner',
+        category: 'CSRF',
+        xp: 25,
+        description: 'The `typeof` operator returns `"object"` for arrays, which can be misleading.',
+        vulnerableCode: `const myArr = [1, 2, 3];
+if (typeof myArr === 'object') {
+    // This block executes, but myArr is not a plain object
+}`,
+        options: [
+            { id: '93a', code: '// This is the correct way to check for an object.' },
+            { id: '93b', code: '// To reliably check for an array, use `Array.isArray()`.\nif (Array.isArray(myArr)) { ... }' }
+        ],
+        correctOptionId: '93b',
+        explanation: 'In JavaScript, arrays are a type of object. Because `typeof` returns `"object"` for both arrays and plain objects, you must use `Array.isArray()` to specifically test if a value is an array.'
+    },
+    {
+        id: '94',
+        title: 'C++ Virtual Function in Constructor',
+        language: 'cpp',
+        difficulty: 'Advanced',
+        category: 'IDOR',
+        xp: 75,
+        description: 'Calling a virtual function from within a constructor or destructor will not behave polymorphically. It will always call the version belonging to the class being constructed.',
+        vulnerableCode: `class Base { public: Base() { func(); } virtual void func() { /* Base version */ } };
+class Derived : public Base { public: void func() override { /* Derived version */ } };
+// Creating a \`Derived\` object will call Base::func, not Derived::func`,
+        options: [
+            { id: '94a', code: '// This is a fundamental rule of C++ object construction. The derived class object has not been fully constructed yet when the base class constructor is running.' },
+            { id: '94b', code: '// This is a compiler bug.' }
+        ],
+        correctOptionId: '94a',
+        explanation: 'During base class construction, the object is not yet of the derived type. Therefore, the vtable points to the base class\'s functions. Virtual functions only start working as expected after the object is fully constructed.'
+    },
+    {
+        id: '95',
+        title: 'Ruby Open URI',
+        language: 'python', // using python for ruby
+        difficulty: 'Advanced',
+        category: 'Command Injection',
+        xp: 85,
+        description: 'Ruby\'s `open-uri` library can execute shell commands if a user-provided URL starts with a pipe character (`|`).',
+        vulnerableCode: `# Ruby
+require 'open-uri'
+url = params[:url] # e.g., "| ls"
+# This will execute the 'ls' command
+open(url).read`,
+        options: [
+            { id: '95a', code: '# The fix is to validate the URL and ensure it starts with http or https before passing it to open().' }
+        ],
+        correctOptionId: '95a',
+        explanation: 'This is a powerful example of why all user input must be validated, especially when passed to functions that interact with the filesystem or operating system. A simple check for a valid protocol can prevent command injection.'
+    },
+    {
+        id: '96',
+        title: 'Java `double` vs `BigDecimal` for currency',
+        language: 'java',
+        difficulty: 'Intermediate',
+        category: 'IDOR',
+        xp: 55,
+        description: 'Using `double` or `float` for financial calculations is dangerous due to their inability to represent base-10 fractions precisely.',
+        vulnerableCode: `double price = 0.1;
+double total = price + price + price; // May not be exactly 0.3`,
+        options: [
+            { id: '96a', code: '// Use `BigDecimal` for financial calculations to ensure precision.\nBigDecimal price = new BigDecimal("0.1");\nBigDecimal total = price.add(price).add(price);' }
+        ],
+        correctOptionId: '96a',
+        explanation: 'Floating-point types are binary representations and cannot accurately represent all decimal fractions. For financial and other calculations that require exact decimal precision, `BigDecimal` is the correct choice in Java.'
+    },
+    {
+        id: '97',
+        title: 'Missing `.gitignore` file',
+        language: 'javascript', // Generic concept
+        difficulty: 'Beginner',
+        category: 'IDOR',
+        xp: 25,
+        description: 'Forgetting to create a `.gitignore` file can lead to sensitive files, large dependencies (`node_modules`), or system files (`.DS_Store`) being committed to version control.',
+        vulnerableCode: `// No code, but the project is missing a .gitignore file.
+// Command line:
+> git add .
+> git commit -m "Initial commit"`,
+        options: [
+            { id: '97a', code: '// Create a `.gitignore` file and add common patterns like `node_modules`, `*.log`, `.env`, and OS-specific files before committing.' }
+        ],
+        correctOptionId: '97a',
+        explanation: 'A `.gitignore` file is essential for every project to prevent unwanted files from being added to the repository, keeping it clean and secure.'
+    },
+    {
+        id: '98',
+        title: 'Python `input()` vs `raw_input()` (Python 2)',
+        language: 'python',
+        difficulty: 'Intermediate',
+        category: 'Command Injection',
+        xp: 55,
+        description: 'In Python 2, `input()` would evaluate the user\'s input as Python code, creating a massive vulnerability. `raw_input()` was the safe alternative.',
+        vulnerableCode: `# Python 2
+name = input("What's your name? ") # If user enters "__import__('os').system('ls')", it executes`,
+        options: [
+            { id: '98a', code: '# Use `raw_input()` in Python 2. In Python 3, `input()` behaves like the safe `raw_input()` and this is no longer a vulnerability.' }
+        ],
+        correctOptionId: '98a',
+        explanation: 'This is a historical vulnerability that highlights the dangers of evaluating user input. Python 3 fixed this by making the `input()` function always return a string.'
+    },
+    {
+        id: '99',
+        title: 'C++ `std::rand()`',
+        language: 'cpp',
+        difficulty: 'Intermediate',
+        category: 'CSRF',
+        xp: 50,
+        description: 'The older C-style `rand()` function is often not very random and can be predictable. It should not be used for security-sensitive purposes.',
+        vulnerableCode: `#include <cstdlib>
+// Not cryptographically secure
+int token = rand();`,
+        options: [
+            { id: '99a', code: '// Use the C++11 <random> library for better quality random numbers.\n#include <random>\nstd::mt19937 gen(std::random_device{}());\nstd::uniform_int_distribution<> distrib(1, 6);' },
+            { id: '99b', code: '// For cryptographic purposes, you need an OS-specific source like /dev/urandom or a dedicated crypto library.' }
+        ],
+        correctOptionId: '99b',
+        explanation: 'While the `<random>` library is a major improvement over `rand()`, it is still not designed for cryptographic security. Secure applications must use a cryptographically secure pseudo-random number generator (CSPRNG).'
+    },
+    {
+        id: '100',
+        title: 'JavaScript `with` Statement Deprecated',
+        language: 'javascript',
+        difficulty: 'Beginner',
+        category: 'CSRF',
+        xp: 35,
+        description: 'The `with` statement extends the scope chain for a statement. It is forbidden in strict mode and deprecated, as it can be a source of bugs and performance issues.',
+        vulnerableCode: `// Bad practice
+with (Math) {
+  console.log(PI); // 3.14159...
+}`,
+        options: [
+            { id: '100a', code: '// The `with` statement should never be used. Access properties directly.\nconsole.log(Math.PI);' }
+        ],
+        correctOptionId: '100a',
+        explanation: 'The `with` statement makes it difficult to know which variable is being referred to, leading to confusing code that is hard for both humans and JavaScript engines to optimize.'
     }
 ];
 
@@ -2169,3 +2859,6 @@ if (in_array((int)$user_id, $allowed_ids)) { ... }`
 //     explanation: `This is the placeholder explanation for why option B is correct for challenge ${i}.`,
 //   });
 // }
+
+    
+
