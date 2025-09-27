@@ -146,12 +146,12 @@ export type ConceptMatchChallenge = {
 export type SecurityFortressChallenge = {
   id: string;
   title: string;
-  category: 'XSS' | 'SQL Injection' | 'IDOR' | 'CSRF';
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  category: 'XSS' | 'SQL Injection' | 'IDOR' | 'CSRF' | 'SSRF' | 'RCE' | 'CORS' | 'Auth' | 'Info Disclosure' | 'Broken Auth' | 'File Inclusion' | 'XSS / CSP' | 'Business Logic' | 'DoS / Abuse' | 'Broken Access Control' | 'Crypto' | 'Protocol' | 'Mobile Security' | 'Session Management' | 'Insecure Deserialization' | 'Supply Chain';
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
   xp: number;
   description: string;
   vulnerableCode: string;
-  language: 'javascript' | 'python' | 'java' | 'php';
+  language: 'javascript' | 'python' | 'java' | 'php' | 'generic';
   options: {
     id: string;
     code: string;
