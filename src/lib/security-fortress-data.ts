@@ -557,6 +557,36 @@ function generateResetToken() {
         explanation: 'For any security-sensitive context (session IDs, tokens, etc.), you must use a cryptographically secure random number generator provided by the language or platform, such as `crypto.randomBytes` in Node.js or `secrets` in Python.',
     },
     {
+        id: '17',
+        title: 'Clickjacking',
+        category: 'CSRF',
+        difficulty: 'Intermediate',
+        xp: 50,
+        description: 'An attacker uses an invisible iframe to trick a user into clicking on something different from what the user perceives, potentially performing unintended actions.',
+        vulnerableCode: `// Victim's site does not send an X-Frame-Options header.
+// Attacker's site:
+<iframe src="https://victims-site.com/delete-account" style="opacity: 0;"></iframe>
+<button>Click here to win a prize!</button>`,
+        language: 'generic',
+        options: [
+            {
+                id: '17a',
+                code: `// Add a 'X-Frame-Options' header to all responses to prevent the site from being embedded in an iframe.
+// X-Frame-Options: DENY`
+            },
+            {
+                id: '17b',
+                code: `// Use JavaScript to detect if the site is in an iframe and break out of it.`
+            },
+            {
+                id: '17c',
+                code: `// A and B are both valid, but the header is the primary, most reliable defense.`
+            }
+        ],
+        correctOptionId: '17c',
+        explanation: 'The primary defense against clickjacking is to use the `X-Frame-Options` HTTP header (or the more modern `Content-Security-Policy: frame-ancestors`) to instruct the browser not to allow your page to be framed by other sites. Client-side script defenses (frame-busting) can be useful but are often bypassable.',
+    },
+    {
         id: '18',
         title: 'Insecure File Upload',
         category: 'IDOR',
@@ -683,6 +713,97 @@ const regex = /^a+$/;`
         ],
         correctOptionId: '21a',
         explanation: 'ReDoS occurs due to "catastrophic backtracking" in certain regex patterns. The fundamental fix is to rewrite the regular expression to be more efficient and avoid problematic constructs like nested quantifiers (e.g., `(a+)+`).',
+    },
+    {
+        id: '22',
+        title: 'Insecure Content-Type Header',
+        category: 'XSS',
+        difficulty: 'Intermediate',
+        xp: 50,
+        description: 'An application allows users to upload files and serves them with a permissive Content-Type header (e.g., text/html), which could cause the browser to execute it as code.',
+        vulnerableCode: `// Server responds with a user-uploaded file.
+// HTTP Response Headers:
+// Content-Disposition: inline
+// Content-Type: text/html 
+//
+// The file contains: <script>alert('XSS')</script>`,
+        language: 'generic',
+        options: [
+            {
+                id: '22a',
+                code: `// Set a Content-Disposition: attachment header to force a download.
+// Set a restrictive Content-Type, like 'application/octet-stream'.
+// Also set a 'X-Content-Type-Options: nosniff' header.`
+            },
+            {
+                id: '22b',
+                code: `// Rename the file to have a .txt extension.`
+            },
+            {
+                id: '22c',
+                code: `// Serve the file from a different domain.`
+            }
+        ],
+        correctOptionId: '22a',
+        explanation: 'To prevent the browser from interpreting a user-uploaded file, you should force it to be downloaded (`Content-Disposition: attachment`) and serve it with a generic MIME type (`application/octet-stream`). The `X-Content-Type-Options: nosniff` header prevents the browser from trying to guess the content type.',
+    },
+    {
+        id: '23',
+        title: 'Improper Asset Management',
+        category: 'IDOR',
+        difficulty: 'Beginner',
+        xp: 40,
+        description: 'An old, unmaintained version of an API (`/api/v1`) is left running in production and contains a known vulnerability that has been fixed in the current version (`/api/v2`).',
+        vulnerableCode: `// Conceptual - Server routing
+// Both endpoints are active:
+// app.use('/api/v1', oldVulnerableRouter);
+// app.use('/api/v2', newSecureRouter);`,
+        language: 'generic',
+        options: [
+            {
+                id: '23a',
+                code: `// Decommission and shut down the old, unmaintained API version.
+// Redirect traffic from v1 to v2 if possible.`
+            },
+            {
+                id: '23b',
+                code: `// Add a warning in the v1 API documentation.`
+            },
+            {
+                id: '23c',
+                code: `// Use a robots.txt file to hide the v1 API from search engines.`
+            }
+        ],
+        correctOptionId: '23a',
+        explanation: 'Leaving old, vulnerable, and unmonitored assets running in production is a major risk. The only way to secure them is to properly decommission them.',
+    },
+    {
+        id: '24',
+        title: 'Missing rel="noopener"',
+        category: 'IDOR',
+        difficulty: 'Intermediate',
+        xp: 45,
+        description: 'A link that opens in a new tab (`target="_blank"`) without `rel="noopener"` gives the new page partial access to the original page via the `window.opener` object, enabling phishing attacks.',
+        vulnerableCode: `<a href="https://untrusted-site.com" target="_blank">Click me!</a>
+// The untrusted site can now access window.opener and change its location.`,
+        language: 'generic',
+        options: [
+            {
+                id: '24a',
+                code: `<a href="..." target="_blank" rel="noopener noreferrer">Click me!</a>`
+            },
+            {
+                id: '24b',
+                code: `// Don't use target="_blank". Open links in the same tab.`
+            },
+            {
+                id: '24c',
+                code: `// Use JavaScript to open the window instead.
+// window.open(...)`
+            }
+        ],
+        correctOptionId: '24a',
+        explanation: 'When linking to external sites with `target="_blank"`, you must always add `rel="noopener noreferrer"`. `noopener` prevents the new page from accessing `window.opener`. `noreferrer` prevents sending the `Referer` header.',
     },
     {
         id: '25',
@@ -891,7 +1012,7 @@ def admin_dashboard():
         options: [
             {
                 id: '31a',
-                code: `// The fix is the same as for regular SQL injection: Use parameterized queries (prepared statements) for all database access.
+                code: `// The fix is the same as for regular SQL injection: Use parameterized queries (prepared statements) for all database access, even when using data that is already in your database.
 query = "SELECT * FROM sessions WHERE session_id = ?"
 // ... execute with the cookie value as a parameter.`
             },
@@ -1073,7 +1194,7 @@ switch($data) {
             },
             {
                 id: '36b',
-                code: `// Sanitize the input by removing dangerous function names.
+                code: `// Sanitize the input to remove dangerous function names.
 $data = str_replace('system', '', $data);
 eval($data);`
             },
@@ -1237,7 +1358,7 @@ public void processSamlResponse(String samlResponse) {
         category: 'Info Disclosure',
         difficulty: 'Beginner',
         xp: 40,
-        description: 'The web server is configured to show a list of all files in a directory if no index file (like `index.html`) is present.',
+        description: 'A web server is configured to show a list of all files in a directory if no index file (like `index.html`) is present.',
         vulnerableCode: `// Apache Web Server Configuration (.htaccess or httpd.conf)
 // If 'Options +Indexes' is present, or if 'Options -Indexes' is absent.
 // Visiting http://example.com/images/ will list all images.`,
@@ -1470,7 +1591,7 @@ if (ctype_alnum($page)) {
             {
                 id: '47c',
                 code: `// Use a web application firewall (WAF) to block error pages.`
-            },
+            }
         ],
         correctOptionId: '47a',
         explanation: 'Debug mode should NEVER be enabled in a production environment. Applications must be configured to catch all unhandled exceptions and display a generic error page to the user, while logging the detailed error on the server for developers.',
@@ -1497,8 +1618,8 @@ if (ctype_alnum($page)) {
             },
             {
                 id: '48c',
-                code: `Both A and B are essential. The files should not be there in the first place, and the server should block them as a second layer of defense.`
-            },
+                code: 'Both A and B are essential. The files should not be there in the first place, and the server should block them as a second layer of defense.'
+            }
         ],
         correctOptionId: '48c',
         explanation: 'Defense in depth is key. Your deployment pipeline should be configured to never place sensitive files like `.git` or `.env` in a public web directory (A). Additionally, your web server should be configured to block access to them just in case they are accidentally exposed (B).',
@@ -1518,7 +1639,7 @@ result = eval(user_input)`,
         options: [
             {
                 id: '49a',
-                code: `// NEVER use eval() on user input. Find a safer way to implement the desired logic.
+                code: `// NEVER use eval() on user input. Refactor the code to avoid it entirely.
 // If it's for math, use a dedicated math expression parser.
 // For other logic, use if/else or dictionary mapping.`
             },
@@ -1576,7 +1697,7 @@ app.post('/users/:id/delete', (req, res) => {
             {
                 id: '50c',
                 code: `// Ask the user to re-enter their password before deleting.`
-            },
+            }
         ],
         correctOptionId: '50a',
         explanation: 'Every privileged action must have a corresponding authorization check on the server-side. The server must verify that the authenticated user has the necessary permissions to perform the requested action on the target resource.',
@@ -1606,7 +1727,7 @@ prefs.edit().putString("api_token", new StringBuilder(token).reverse().toString(
             {
                 id: '51c',
                 code: `// Store the token in a file in the app's private directory.`
-            },
+            }
         ],
         correctOptionId: '51a',
         explanation: 'On a rooted device, `SharedPreferences` can be easily read. All sensitive data stored on a mobile device must be encrypted using platform-provided secure storage mechanisms, like the Android Keystore or iOS Keychain.',
@@ -1635,7 +1756,7 @@ prefs.edit().putString("api_token", new StringBuilder(token).reverse().toString(
             {
                 id: '52c',
                 code: `// Store the session token in localStorage instead of a cookie.`
-            },
+            }
         ],
         correctOptionId: '52a',
         explanation: 'Sessions must have a defined expiration time to limit the window of opportunity for an attacker who steals a session token. A combination of an inactivity/sliding timeout and an absolute timeout is best practice.',
@@ -1666,7 +1787,7 @@ prefs.edit().putString("api_token", new StringBuilder(token).reverse().toString(
             {
                 id: '53c',
                 code: `// Rate-limit 2FA code attempts.`
-            },
+            }
         ],
         correctOptionId: '53a',
         explanation: 'MFA must be a blocking step in a single, unified authentication flow. An initial login success should only grant a temporary status that is not fully authenticated. Full access is only granted after the second factor is successfully verified.',
@@ -1697,7 +1818,7 @@ public Object process(InputStream untrustedStream) throws Exception {
             {
                 id: '54c',
                 code: 'Both A and B are valid strategies, but B is generally the safest and most recommended approach for modern applications.'
-            },
+            }
         ],
         correctOptionId: '54c',
         explanation: 'Native Java serialization is notoriously unsafe. While look-ahead validation (A) can mitigate the risk, the most robust and modern solution is to avoid it entirely and use a safe format like JSON for data exchange (B).',
@@ -1730,7 +1851,7 @@ public Object process(InputStream untrustedStream) throws Exception {
             {
                 id: '55c',
                 code: `// Use a firewall to block exploits targeting the library.`
-            },
+            }
         ],
         correctOptionId: '55a',
         explanation: 'Supply chain security is critical. You must have an automated process to continuously scan your project\'s dependencies for known vulnerabilities and have a plan to update or replace them promptly when a security issue is discovered.',
@@ -1767,7 +1888,7 @@ app.post('/api/sensitive', cors(corsOptions), (req, res) => { /*...*/ }); // For
             {
                 id: '56c',
                 code: `// Check the Origin header manually inside the POST handler.`
-            },
+            }
         ],
         correctOptionId: '56a',
         explanation: 'CORS checks must be enforced on the actual request (e.g., POST, PUT), not just the preflight (OPTIONS) request. A common mistake is to have a permissive preflight response but fail to validate the `Origin` header on the subsequent request.',
@@ -1798,7 +1919,7 @@ Content-Security-Policy: script-src 'self' https://trusted.cdn.com;`
             {
                 id: '57c',
                 code: 'Both A and B are valid strategies for strengthening a weak CSP.'
-            },
+            }
         ],
         correctOptionId: '57c',
         explanation: '`unsafe-inline` effectively negates many of the benefits of CSP. The best practice is to move all inline scripts to external files (A). If inline scripts are absolutely necessary, you must use a nonce or hash-based approach to whitelist them individually (B).',
@@ -1839,7 +1960,7 @@ if (amount <= 0) {
             {
                 id: '58c',
                 code: `// Check that the 'fromUser' has sufficient credits for the transfer.`
-            },
+            }
         ],
         correctOptionId: '58a',
         explanation: 'Business logic flaws occur when the application behaves correctly from a technical standpoint but allows for unintended, harmful user actions. The server must always validate that user inputs make sense in the context of the business rule, such as ensuring a transfer amount is positive.',
@@ -1878,7 +1999,7 @@ app.post('/api/charge', (req, res) => {
             {
                 id: '59c',
                 code: `// Validate that the price is a positive number on the server.`
-            },
+            }
         ],
         correctOptionId: '59a',
         explanation: 'Never trust the client. Any security-sensitive data, especially price, must be authoritatively determined by the server. The client should only send non-sensitive identifiers (like an item ID), and the server should look up the corresponding price.',
@@ -1915,7 +2036,7 @@ const limiter = rateLimit({
             {
                 id: '60c',
                 code: `// Ban IP addresses that exceed the rate limit.`
-            },
+            }
         ],
         correctOptionId: '60a',
         explanation: 'The effectiveness of a rate limit depends entirely on the identifier used to track requests. This identifier must be reliable and not user-configurable. For authenticated users, their user ID or API key is best. For anonymous users, the source IP address is the most common (though imperfect) identifier.',
@@ -1943,7 +2064,7 @@ const limiter = rateLimit({
             {
                 id: '61c',
                 code: 'Both A and B are essential. Defense-in-depth requires both strong authentication and strict network controls for privileged endpoints.'
-            },
+            }
         ],
         correctOptionId: '61c',
         explanation: 'Protecting privileged endpoints requires multiple layers. The network configuration should make it impossible for the public to even connect to the endpoint (B). Additionally, the endpoint itself should still require strong authentication in case the network controls ever fail (A).',
@@ -1972,7 +2093,7 @@ Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");`
             {
                 id: '62c',
                 code: `// Encrypt the data twice with DES for more security.`
-            },
+            }
         ],
         correctOptionId: '62a',
         explanation: 'Do not roll your own crypto. Use modern, industry-standard algorithms and modes that are recommended by cryptographic experts. For symmetric encryption, AES-256 in GCM mode is a strong, standard choice.',
@@ -2001,7 +2122,7 @@ app.post('/login', (req, res) => {
             {
                 id: '63c',
                 code: `// Both A and B are needed. Account lockout stops brute-force on one account, while IP-based limiting helps slow down spraying across many accounts.`
-            },
+            }
         ],
         correctOptionId: '63c',
         explanation: 'Defending against various brute-force attacks requires multiple strategies. Account lockout (A) prevents an attacker from targeting a single known account. IP-based rate limiting (B) makes it harder for a single attacker to "spray" a common password against your entire user list.',
@@ -2027,13 +2148,1235 @@ app.post('/login', (req, res) => {
             },
             {
                 id: '64c',
-                code: `Both A and B are essential. Keeping the server patched (A) fixes known vulnerabilities, and proper configuration (B) hardens it against protocol-level abuse.`
-            },
+                code: 'Both A and B are essential. Keeping the server patched (A) fixes known vulnerabilities, and proper configuration (B) hardens it against protocol-level abuse.'
+            }
         ],
         correctOptionId: '64c',
         explanation: 'Protocol-level attacks are complex. The primary defenses are to use up-to-date server software that has patched known vulnerabilities (A) and to apply strict, sensible limits in your server configuration to prevent resource exhaustion (B).',
+    },
+    {
+        id: '65',
+        title: 'Insecure Logging (Sensitive Data)',
+        category: 'Info Disclosure',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'The application logs sensitive user information, such as passwords or credit card numbers, in plain text.',
+        vulnerableCode: `// Python (Flask)
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+    # Logging the full request body, including the password.
+    app.logger.info(f'Login attempt for user: {username}, data: {request.form}')
+    # ... authentication logic ...`,
+        language: 'python',
+        options: [
+            {
+                id: '65a',
+                code: '// Encrypt the log files.'
+            },
+            {
+                id: '65b',
+                code: '// Configure the logging library to filter out sensitive keys like "password", "token", "credit_card", etc., before writing to the log.'
+            },
+            {
+                id: '65c',
+                code: '// Log only the username and the result (success/failure).'
+            }
+        ],
+        correctOptionId: '65b',
+        explanation: 'Sensitive data should never be written to logs. The best practice is to implement filters at the logging configuration level to automatically scrub or mask known sensitive fields from all log messages.',
+    },
+    {
+        id: '66',
+        title: 'JWT Token Sent in URL',
+        category: 'Auth',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'An application passes a session JWT (JSON Web Token) as a URL query parameter, making it visible in browser history, server logs, and Referer headers.',
+        vulnerableCode: `// Client-side JavaScript
+const token = getAuthToken();
+// Token is exposed in the URL
+window.location.href = \`/dashboard?token=\${token}\`;`,
+        language: 'javascript',
+        options: [
+            {
+                id: '66a',
+                code: '// Transmit the JWT in a secure, HttpOnly cookie.'
+            },
+            {
+                id: '66b',
+                code: '// Transmit the JWT in the `Authorization: Bearer <token>` HTTP header.'
+            },
+            {
+                id: '66c',
+                code: 'Both A and B are secure and standard methods. B is common for SPAs, while A is a robust browser-based approach.'
+            }
+        ],
+        correctOptionId: '66c',
+        explanation: 'JWTs must never be sent in URL parameters. The two standard, secure methods are to send them in the `Authorization` header for API calls, or to store them in a secure `HttpOnly` cookie.',
+    },
+    {
+        id: '67',
+        title: 'SQL Injection (Second Order)',
+        category: 'SQL Injection',
+        difficulty: 'Expert',
+        xp: 95,
+        description: 'An attacker stores malicious SQL code in the database (e.g., in their username). The application later uses this "trusted" data in a different query, executing the injection.',
+        vulnerableCode: `// Conceptual Flow
+// 1. Attacker signs up with username: "admin' --"
+// 2. This username is stored safely in the database.
+// 3. Later, an admin function uses the username in an unsafe query:
+String query = "UPDATE analytics SET last_seen = NOW() WHERE username = '" + username + "'";`,
+        language: 'generic',
+        options: [
+            {
+                id: '67a',
+                code: '// The fix is the same as for first-order SQLi: use parameterized queries (prepared statements) for all database access, even when using data that is already in your database.'
+            },
+            {
+                id: '67b',
+                code: '// Sanitize data before storing it in the database.'
+            },
+            {
+                id: '67c',
+                code: '// Use a Web Application Firewall (WAF) to detect malicious usernames.'
+            }
+        ],
+        correctOptionId: '67a',
+        explanation: 'Second-order SQL injection highlights the importance of context. Data that seems safe in one context can be dangerous in another. The only reliable defense is to treat all data as untrusted and use parameterized queries for every single database operation.',
+    },
+    {
+        id: '68',
+        title: 'Android WebView Insecure Configuration',
+        category: 'Mobile Security',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'An Android WebView has JavaScript enabled and allows file system access, which can be exploited by malicious JavaScript loaded from a remote source.',
+        vulnerableCode: `// Java (Android)
+WebView webView = findViewById(R.id.webview);
+WebSettings webSettings = webView.getSettings();
+// Dangerous combination of settings
+webSettings.setJavaScriptEnabled(true);
+webSettings.setAllowFileAccess(true);
+webView.loadUrl("https://untrusted-site.com");`,
+        language: 'java',
+        options: [
+            {
+                id: '68a',
+                code: `// Disable JavaScript if it is not absolutely required for the WebView's functionality.
+webSettings.setJavaScriptEnabled(false);`
+            },
+            {
+                id: '68b',
+                code: `// Explicitly disable file system access unless it is absolutely required.
+webSettings.setAllowFileAccess(false);`
+            },
+            {
+                id: '68c',
+                code: '// Both A and B are critical. You must follow the principle of least privilege and disable any powerful features that are not strictly necessary for the WebView\'s purpose.'
+            }
+        ],
+        correctOptionId: '68c',
+        explanation: 'The principle of least privilege dictates that Android components should not be exported unless necessary (A). If a component must be exported and handle Intents, it must treat them as untrusted input and thoroughly validate them before use (B).',
+    },
+    {
+        id: '69',
+        title: 'Cache Poisoning (Web)',
+        category: 'Web Cache Poisoning',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'An attacker sends a request with an unkeyed header (e.g., `X-Forwarded-Host`) that the application uses to generate the response. A caching proxy then saves this malicious response and serves it to all other users.',
+        vulnerableCode: `// Conceptual: A caching proxy (like Varnish or a CDN) is in front of the application.
+// Python (Flask)
+@app.route('/')
+def home():
+    # The application uses a header to generate a link, but the cache doesn't know this.
+    host = request.headers.get('X-Forwarded-Host', 'example.com')
+    return f'<script src="https://{host}/script.js"></script>'`,
+        language: 'python',
+        options: [
+            {
+                id: '69a',
+                code: `// Configure the cache to include the 'X-Forwarded-Host' header in its cache key.
+// This ensures that different header values result in different cache entries.`
+            },
+            {
+                id: '69b',
+                code: `// Avoid using headers to dynamically generate the response. Use a relative URL or a server-side configuration value.`
+            },
+            {
+                id: '69c',
+                code: 'Either A or B can be a valid fix. B is generally safer as it eliminates the root cause, while A correctly configures the caching behavior.'
+            }
+        ],
+        correctOptionId: '69c',
+        explanation: 'Web cache poisoning occurs when an application uses input that is not part of the cache key to generate a response. The ideal fix is to not use such inputs (B). If you must use them, you must configure your cache to vary its cache key based on those inputs (A).',
+    },
+    {
+        id: '70',
+        title: 'Insecure Object Reference (Guessable IDs)',
+        category: 'IDOR',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'An application uses simple, sequential integer IDs (e.g., `/users/1`, `/users/2`) for objects, making it easy for an attacker to enumerate and guess the IDs of other users\' resources.',
+        vulnerableCode: `// The API uses sequential IDs, and an attacker can simply loop through numbers
+// to try and access other users' data.
+GET /api/documents/101
+GET /api/documents/102
+GET /api/documents/103`,
+        language: 'generic',
+        options: [
+            {
+                id: '70a',
+                code: `// Use non-guessable, random identifiers (like UUIDs or CUIDs) for objects instead of sequential integers.
+// e.g., GET /api/documents/0b1c7f4e-2b9a-4c8d-8a5f-7e8c9d0b1a2e`
+            },
+            {
+                id: '70b',
+                code: `// This is not a vulnerability if proper authorization checks are in place.`
+            },
+            {
+                id: '70c',
+                code: 'Both A and B are correct. Proper authorization is the primary defense, but using non-guessable IDs (A) is a critical defense-in-depth measure that prevents enumeration.'
+            }
+        ],
+        correctOptionId: '70c',
+        explanation: 'While robust authorization checks are the most important control, using sequential IDs makes it easy for attackers to find valid IDs to attack. Using UUIDs (A) is a best practice that prevents this enumeration, providing an essential layer of defense-in-depth.',
+    },
+    {
+        id: '71',
+        title: 'Missing `Secure` Flag on Cookies',
+        category: 'Session Management',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'A session cookie is set without the `Secure` flag, allowing it to be transmitted over unencrypted HTTP connections if any part of the site is served over HTTP.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+res.cookie('sessionId', 'abc12345', {
+  httpOnly: true,
+  // Secure flag is missing!
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '71a',
+                code: `// Add the 'secure: true' flag to ensure the cookie is only sent over HTTPS.
+res.cookie('sessionId', 'abc12345', {
+  httpOnly: true,
+  secure: true
+});`
+            },
+            {
+                id: '71b',
+                code: `// Enforce HTTPS across the entire site using HSTS.`
+            },
+            {
+                id: '71c',
+                code: 'Both A and B are important. The `secure` flag is a direct fix, and HSTS is a broader policy that ensures the browser only communicates over HTTPS.'
+            }
+        ],
+        correctOptionId: '71c',
+        explanation: 'The `Secure` flag on a cookie is essential to prevent it from being accidentally transmitted over an insecure connection. This should be combined with an HSTS (HTTP Strict Transport Security) policy, which tells the browser to never even attempt to connect via HTTP.',
+    },
+    {
+        id: '72',
+        title: 'HTTP Parameter Pollution (HPP)',
+        category: 'Web Cache Poisoning',
+        difficulty: 'Advanced',
+        xp: 70,
+        description: 'An attacker sends multiple HTTP parameters with the same name, and the application\'s backend interprets them differently than an intermediary system (like a cache or WAF), leading to a bypass.',
+        vulnerableCode: `// Python (Flask)
+// Attacker sends: ?id=123&id=456
+// Some frameworks might see 'id' as '456', while others might see it as '123' or ['123', '456'].
+@app.route('/data')
+def get_data():
+    user_id = request.args.get('id') // Only gets the first one in Flask
+    # ... logic based on user_id ...`,
+        language: 'python',
+        options: [
+            {
+                id: '72a',
+                code: `// Be aware of how your specific web framework handles duplicate parameter names.
+// Explicitly get all values and decide how to handle them.
+user_ids = request.args.getlist('id')
+if len(user_ids) > 1:
+    abort(400, "Duplicate parameter found")
+user_id = user_ids[0]`
+            },
+            {
+                id: '72b',
+                code: `// Use a Web Application Firewall (WAF) to block requests with duplicate parameters.`
+            },
+            {
+                id: '72c',
+                code: `// Always use the last parameter value provided.`
+            }
+        ],
+        correctOptionId: '72a',
+        explanation: 'HPP vulnerabilities arise from inconsistent parsing of HTTP parameters. The application code must be explicit about how it handles duplicate parameters, rather than relying on the framework\'s default behavior which may differ from other systems in the request chain.',
+    },
+    {
+        id: '73',
+        title: 'Information Leakage in Debugging Endpoints',
+        category: 'Info Disclosure',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'A debugging endpoint, such as `/status` or `/debug`, is left enabled in production and exposes sensitive internal state information.',
+        vulnerableCode: `// Java (Spring Boot Actuator)
+// The '/actuator/env' endpoint is enabled by default in some configurations,
+// which can leak environment variables, system properties, and configuration values.`,
+        language: 'java',
+        options: [
+            {
+                id: '73a',
+                code: `// Explicitly disable or secure all debugging and actuator endpoints in production.
+// application.properties:
+management.endpoints.web.exposure.include=health,info`
+            },
+            {
+                id: '73b',
+                code: `// Change the default path of the actuator endpoints from '/actuator' to a secret path.`
+            },
+            {
+                id: '73c',
+                code: `// Put a comment in the code warning developers not to use it.`
+            }
+        ],
+        correctOptionId: '73a',
+        explanation: 'Debugging endpoints are a common source of information leakage. They must be completely disabled in production environments or, if needed, secured with strong authentication and authorization.',
+    },
+    {
+        id: '74',
+        title: 'Improper Certificate Validation',
+        category: 'Crypto',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'An HTTP client is configured to ignore TLS/SSL certificate validation errors, making it vulnerable to man-in-the-middle (MITM) attacks.',
+        vulnerableCode: `// Python
+import requests
+
+// This disables certificate validation, which is very dangerous!
+response = requests.get('https://example.com', verify=False)`,
+        language: 'python',
+        options: [
+            {
+                id: '74a',
+                code: `// Never disable certificate validation in production.
+// Always use 'verify=True' (which is the default).
+response = requests.get('https://example.com')`
+            },
+            {
+                id: '74b',
+                code: `// If connecting to an internal service with a self-signed certificate, provide the path to a trusted CA bundle.
+response = requests.get('https://internal.service', verify='/path/to/ca.crt')`
+            },
+            {
+                id: '74c',
+                code: 'Both A and B are correct. A is for public sites, while B is the correct way to handle internal CAs without globally disabling security.'
+            }
+        ],
+        correctOptionId: '74c',
+        explanation: 'TLS certificate validation is a cornerstone of web security. Disabling it completely opens the door to MITM attacks. For public sites, validation should always be enabled. For internal sites with custom certificates, the correct approach is to configure the client to trust the specific Certificate Authority (CA) used.',
+    },
+    {
+        id: '75',
+        title: 'Race Condition in Financial Transaction',
+        category: 'Business Logic',
+        difficulty: 'Expert',
+        xp: 95,
+        description: 'Two simultaneous requests to withdraw money can succeed if the balance check and debit operation are not atomic, allowing a user to withdraw more money than they have.',
+        vulnerableCode: `// Conceptual API Logic
+async function withdraw(userId, amount) {
+  const user = await db.getUser(userId);
+  // 1. Check balance
+  if (user.balance >= amount) {
+    // 2. Attacker sends another request here!
+    // 3. Debit account
+    await db.updateBalance(userId, user.balance - amount);
+    return "Success";
+  }
+}`,
+        language: 'generic',
+        options: [
+            {
+                id: '75a',
+                code: `// Use a database transaction with a locking mechanism (e.g., 'SELECT ... FOR UPDATE') to ensure the check-and-debit operation is atomic.
+// BEGIN TRANSACTION;
+// SELECT balance FROM users WHERE id = ? FOR UPDATE;
+// -- if balance is sufficient --
+// UPDATE users SET balance = balance - ? WHERE id = ?;
+// COMMIT;`
+            },
+            {
+                id: '75b',
+                code: `// Add a small delay between checking the balance and updating it.`
+            },
+            {
+                id: '75c',
+                code: `// Use a 'volatile' keyword on the balance variable.`
+            }
+        ],
+        correctOptionId: '75a',
+        explanation: 'This "Time-of-check to time-of-use" (TOCTOU) vulnerability must be solved by making the operation atomic. A database transaction with row-level locking ensures that once a balance is read for an update, no other transaction can read or write to it until the first one is complete.',
+    },
+    {
+        id: '76',
+        title: 'Insecure Password Reset Mechanism',
+        category: 'Auth',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'The password reset functionality leaks information about whether a username or email exists in the system.',
+        vulnerableCode: `// API Logic
+app.post('/forgot-password', (req, res) => {
+  const user = db.findByEmail(req.body.email);
+  if (user) {
+    // Logic to send reset email...
+    res.send("If an account with that email exists, we have sent a reset link.");
+  } else {
+    // This different response leaks information!
+    res.status(404).send("No account found with that email address.");
+  }
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '76a',
+                code: `// Return the exact same generic success message whether the user was found or not.
+// This prevents an attacker from enumerating valid emails/usernames.
+app.post('/forgot-password', (req, res) => {
+  const user = db.findByEmail(req.body.email);
+  if (user) {
+    // Logic to send reset email...
+  }
+  // Send the same response in all cases!
+  res.send("If an account with that email exists, we have sent a reset link.");
+});`
+            },
+            {
+                id: '76b',
+                code: `// Rate-limit the forgot password endpoint.`
+            },
+            {
+                id: '76c',
+                code: `// Use a CAPTCHA on the forgot password form.`
+            }
+        ],
+        correctOptionId: '76a',
+        explanation: 'Account registration and password reset endpoints should not reveal whether an email or username is already registered. To prevent user enumeration, the application should return a consistent, generic response in both success and failure cases.',
+    },
+    {
+        id: '77',
+        title: 'Missing `SameSite` Cookie Attribute',
+        category: 'Session Management',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'A session cookie is set without the `SameSite` attribute, making it vulnerable to being sent in cross-site requests, which is a key component of CSRF attacks.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+res.cookie('sessionId', 'abc12345', {
+  httpOnly: true,
+  secure: true,
+  // SameSite attribute is missing!
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '77a',
+                code: `// Set the SameSite attribute to 'Lax' or 'Strict'.
+// 'Lax' is a good default for most applications.
+res.cookie('sessionId', 'abc12345', {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'Lax'
+});`
+            },
+            {
+                id: '77b',
+                code: `// Rely on the user's browser to have a default SameSite policy.`
+            },
+            {
+                id: '77c',
+                code: `// Use an anti-CSRF token instead of the SameSite attribute.`
+            }
+        ],
+        correctOptionId: '77a',
+        explanation: 'The `SameSite` cookie attribute is a powerful defense against CSRF attacks. Setting it to `Lax` prevents the cookie from being sent on most cross-site requests (e.g., from a form on another domain). `Strict` is even more secure but can affect user experience with top-level navigation.',
+    },
+    {
+        id: '78',
+        title: 'Prototype Pollution (Deep Merge)',
+        category: 'RCE',
+        difficulty: 'Expert',
+        xp: 95,
+        description: 'A recursive merge function can be exploited to add properties to `Object.prototype` by crafting a malicious JSON payload.',
+        vulnerableCode: `// JavaScript
+function merge(target, source) {
+  for (let key in source) {
+    if (key in source && key in target) {
+      merge(target[key], source[key]); // Recursive call
+    } else {
+      target[key] = source[key];
+    }
+  }
+}
+// Attacker sends: JSON.parse('{"__proto__":{"polluted":true}}')`,
+        language: 'javascript',
+        options: [
+            {
+                id: '78a',
+                code: `// Proactively freeze the Object prototype.
+Object.freeze(Object.prototype);`
+            },
+            {
+                id: '78b',
+                code: `// Explicitly block the '__proto__' key during the merge.
+function merge(target, source) {
+  for (let key in source) {
+    if (key === '__proto__') continue;
+    // ...
+  }
+}`
+            },
+            {
+                id: '78c',
+                code: `// Use objects without a prototype for merging.
+let obj1 = Object.create(null);`
+            }
+        ],
+        correctOptionId: '78a',
+        explanation: 'While blocking specific keys helps, attackers often find bypasses (e.g., using `constructor.prototype`). The most definitive defense is to freeze `Object.prototype` at the start of your application, which prevents any modification to it. Using `Object.create(null)` is also a very effective pattern.',
+    },
+    {
+        id: '79',
+        title: 'Android Intent Redirection',
+        category: 'Mobile Security',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'An exported Android component accepts an Intent as a parameter and then uses it to start another component, allowing a malicious app to launch internal, protected components.',
+        vulnerableCode: `// Java (Android)
+// A public, exported Activity
+public class RedirectActivity extends Activity {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Intent intent = getIntent().getParcelableExtra("redirect_intent");
+        // The app starts whatever component the malicious app provided.
+        startActivity(intent);
+    }
+}`,
+        language: 'java',
+        options: [
+            {
+                id: '79a',
+                code: `// Set 'android:exported="false"' on the RedirectActivity in the AndroidManifest.xml if it does not need to be launched by other apps.`
+            },
+            {
+                id: '79b',
+                code: `// Validate the Intent before using it. Check the target component, action, and data to ensure it is a safe and expected Intent.`
+            },
+            {
+                id: '79c',
+                code: 'Both A and B are critical defenses. Make components private by default (A), and always validate any data or Intents received from other apps (B).'
+            }
+        ],
+        correctOptionId: '79c',
+        explanation: 'The principle of least privilege dictates that Android components should not be exported unless necessary (A). If a component must be exported and handle Intents, it must treat them as untrusted input and thoroughly validate them before use (B).',
+    },
+    {
+        id: '80',
+        title: 'JWT Secret Key Brute-Force',
+        category: 'Auth',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'An HMAC-signed JWT uses a weak, easily guessable secret key, allowing an attacker to brute-force the key and then forge valid tokens for any user.',
+        vulnerableCode: `// JavaScript (jsonwebtoken library)
+// The secret key is a common, simple word.
+const secret = "secret";
+const token = jwt.sign({ user: 'admin' }, secret);`,
+        language: 'javascript',
+        options: [
+            {
+                id: '80a',
+                code: `// Use a very long, high-entropy, randomly generated string as the secret key.
+// const secret = require('crypto').randomBytes(64).toString('hex');`
+            },
+            {
+                id: '80b',
+                code: `// Use an asymmetric algorithm (RS256) with a public/private key pair instead of a shared secret.`
+            },
+            {
+                id: '80c',
+                code: 'Both A and B are valid solutions. A secures the HMAC approach, while B is an alternative cryptographic approach that avoids shared secrets.'
+            }
+        ],
+        correctOptionId: '80c',
+        explanation: 'The security of HMAC-signed tokens depends entirely on the secrecy and strength of the secret key. It must be long and random (A). Using asymmetric cryptography like RS256 (B) is an even better practice, as it avoids the need to share a secret between the signing and verifying parties.',
+    },
+    {
+        id: '81',
+        title: 'Denial of Service (DoS) via File Uploads',
+        category: 'DoS / Abuse',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'An application allows users to upload files without any size restrictions, enabling an attacker to fill up the server\'s disk space by uploading very large files.',
+        vulnerableCode: `// JavaScript (Node.js with multer)
+// No file size limits are configured for the upload.
+app.post('/upload', upload.single('file'), (req, res) => {
+  res.send('File uploaded!');
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '81a',
+                code: `// Configure a reasonable file size limit in the file upload middleware.
+const upload = multer({
+  dest: 'uploads/',
+  limits: { fileSize: 5 * 1024 * 1024 } // 5 MB limit
+});`
+            },
+            {
+                id: '81b',
+                code: '// Configure the web server (e.g., Nginx) to limit the maximum request body size.'
+            },
+            {
+                id: '81c',
+                code: 'Both A and B provide important layers of defense against large file upload DoS attacks.'
+            }
+        ],
+        correctOptionId: '81c',
+        explanation: 'Protecting against resource exhaustion from file uploads requires limits at multiple levels. The application itself should have a configured limit (A), and the web server in front of the application should also enforce a maximum request body size (B) as an earlier line of defense.',
+    },
+    {
+        id: '82',
+        title: 'Insecure Use of `dangerouslySetInnerHTML`',
+        category: 'XSS',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'React\'s `dangerouslySetInnerHTML` prop is used to render user-provided HTML without sanitizing it first, creating a classic Stored XSS vulnerability.',
+        vulnerableCode: `// React Component
+function UserComment({ comment }) {
+  // 'comment.htmlContent' comes from a user and is not sanitized.
+  return <div dangerouslySetInnerHTML={{ __html: comment.htmlContent }} />;
+}`,
+        language: 'javascript',
+        options: [
+            {
+                id: '82a',
+                code: `// Use a trusted, well-maintained HTML sanitization library (like DOMPurify) before passing content to dangerouslySetInnerHTML.
+import DOMPurify from 'dompurify';
+function UserComment({ comment }) {
+  const sanitizedHtml = DOMPurify.sanitize(comment.htmlContent);
+  return <div dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />;
+}`
+            },
+            {
+                id: '82b',
+                code: `// Avoid 'dangerouslySetInnerHTML' completely and render the content as text.
+function UserComment({ comment }) {
+  return <div>{comment.htmlContent}</div>;
+}`
+            },
+            {
+                id: '82c',
+                code: 'Both are valid. A is the fix if you must render user-supplied HTML. B is the simplest and safest fix if you do not need to render HTML.'
+            }
+        ],
+        correctOptionId: '82c',
+        explanation: 'As its name implies, `dangerouslySetInnerHTML` is dangerous. You should avoid it whenever possible (B). If you absolutely must render HTML from an untrusted source, you must sanitize it with a robust library like DOMPurify first (A).',
+    },
+    {
+        id: '83',
+        title: 'NoSQL Injection',
+        category: 'SQL Injection',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'User input is used to construct a NoSQL database query (e.g., for MongoDB), allowing an attacker to manipulate the query logic.',
+        vulnerableCode: `// JavaScript (Node.js with MongoDB)
+// Attacker sends a JSON request body like: { "$gt": "" }
+app.get('/users', (req, res) => {
+  // User input is directly placed inside the query object.
+  db.collection('users').find({ username: req.query.username }).toArray(...);
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '83a',
+                code: `// Never construct queries by mixing user input with operators.
+// Always treat user input as literal values.
+db.collection('users').find({ username: String(req.query.username) }).toArray(...);`
+            },
+            {
+                id: '83b',
+                code: '// Sanitize user input to remove characters like `$` and `{`.\nconst sanitized = req.query.username.replace(/\\$/g, \'\');'
+            },
+            {
+                id: '83c',
+                code: '// Use a library that automatically prevents NoSQL injection.'
+            }
+        ],
+        correctOptionId: '83a',
+        explanation: 'NoSQL injection occurs when user input is interpreted as query operators instead of literal values. The solution is to ensure user input is always treated as data. This can involve casting it to the expected type (e.g., `String()`) and never allowing user input to define the structure (the keys or operators) of the query object.',
+    },
+    {
+        id: '84',
+        title: 'Log Injection',
+        category: 'Info Disclosure',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'User input is logged without being sanitized, allowing an attacker to inject fake log entries, including newlines, to confuse log monitoring systems.',
+        vulnerableCode: `// Java
+String username = request.getParameter("username");
+// Attacker provides username: "guest%0AINFO:+User+admin+logged+in+successfully"
+log.info("Login failed for user: " + username);`,
+        language: 'java',
+        options: [
+            {
+                id: '84a',
+                code: `// Sanitize log data by removing or encoding newline characters and other control characters before logging.
+String username = request.getParameter("username").replaceAll("\\\\r|\\\\n", "");
+log.info("Login failed for user: " + username);`
+            },
+            {
+                id: '84b',
+                code: '// Use a logging framework that automatically handles encoding.'
+            },
+            {
+                id: '84c',
+                code: 'Both A and B are valid solutions. Modern logging frameworks (B) are the preferred approach as they handle this safely by default.'
+            }
+        ],
+        correctOptionId: '84c',
+        explanation: 'To prevent log injection, all user-controllable data must be sanitized before being written to logs. This typically involves filtering out newline characters. Using a modern logging framework that does this automatically is the most reliable solution.',
+    },
+    {
+        id: '85',
+        title: 'HTTP Response Splitting',
+        category: 'Web Cache Poisoning',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'An attacker can inject CRLF characters into a response header, causing the server to split the response into two. This can be used to control the second response, leading to XSS or cache poisoning.',
+        vulnerableCode: `// PHP
+// Attacker sets ?lang=en%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK...
+$lang = $_GET['lang'];
+header("Content-Language: " . $lang);`,
+        language: 'php',
+        options: [
+            {
+                id: '85a',
+                code: `// Filter user input to remove newline characters ('\\r', '\\n') before placing it in a response header.
+$lang = str_replace(array("\\r", "\\n"), '', $_GET['lang']);
+header("Content-Language: " . $lang);`
+            },
+            {
+                id: '85b',
+                code: '// Modern language versions and frameworks often have built-in protections against HTTP header injection. Keeping software updated is critical.'
+            },
+            {
+                id: '85c',
+                code: 'Both A and B are important. The application should perform its own filtering (A), and it should run on an up-to-date platform that has inherent protections (B).'
+            }
+        ],
+        correctOptionId: '85c',
+        explanation: 'HTTP Response Splitting is a critical vulnerability that is prevented by strictly filtering any user input that is reflected in a response header. Newline characters are the primary vector and must be removed. Using up-to-date frameworks provides an essential second layer of defense.',
+    },
+    {
+        id: '86',
+        title: 'Android Hardcoded API Key',
+        category: 'Mobile Security',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'An API key is hardcoded into an Android application\'s source code. An attacker can decompile the app to extract the key.',
+        vulnerableCode: `// Java (Android)
+public class ApiClient {
+    private static final String API_KEY = "super-secret-api-key";
+    // ...
+}`,
+        language: 'java',
+        options: [
+            {
+                id: '86a',
+                code: `// Do not store keys in code. Store them in 'build.gradle' and reference them from 'BuildConfig'.
+// build.gradle: buildConfigField("String", "API_KEY", "\\"YOUR_API_KEY\\"")
+// Code: String key = BuildConfig.API_KEY;`
+            },
+            {
+                id: '86b',
+                code: `// Use the NDK to store the key in C++ code, which is harder to decompile.`
+            },
+            {
+                id: '86c',
+                code: 'Both A and B provide some level of obfuscation, but neither is completely secure. The only truly secure approach is to not store secrets on the client at all.'
+            }
+        ],
+        correctOptionId: '86c',
+        explanation: 'Any key stored on the client (mobile app) can eventually be found by a determined attacker. While methods like using the NDK or Gradle files make it harder, they are not foolproof. The most secure architecture involves a backend server that holds the secret key and proxies requests for the mobile client.',
+    },
+    {
+        id: '87',
+        title: 'JWT Secret Key Brute-Force',
+        category: 'Auth',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'An HMAC-signed JWT uses a weak, easily guessable secret key, allowing an attacker to brute-force the key and then forge valid tokens for any user.',
+        vulnerableCode: `// JavaScript (jsonwebtoken library)
+// The secret key is a common, simple word.
+const secret = "secret";
+const token = jwt.sign({ user: 'admin' }, secret);`,
+        language: 'javascript',
+        options: [
+            {
+                id: '87a',
+                code: `// Use a very long, high-entropy, randomly generated string as the secret key.
+// const secret = require('crypto').randomBytes(64).toString('hex');`
+            },
+            {
+                id: '87b',
+                code: `// Use an asymmetric algorithm (RS256) with a public/private key pair instead of a shared secret.`
+            },
+            {
+                id: '87c',
+                code: 'Both A and B are valid solutions. A secures the HMAC approach, while B is an alternative cryptographic approach that avoids shared secrets.'
+            }
+        ],
+        correctOptionId: '87c',
+        explanation: 'The security of HMAC-signed tokens depends entirely on the secrecy and strength of the secret key. It must be long and random (A). Using asymmetric cryptography like RS256 (B) is an even better practice, as it avoids the need to share a secret between the signing and verifying parties.',
+    },
+    {
+        id: '88',
+        title: 'Server-Side Template Injection (SSTI)',
+        category: 'RCE',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'User input is concatenated directly into a server-side template, allowing the user to inject template directives that can lead to information disclosure or RCE.',
+        vulnerableCode: `// Python (Jinja2 Template)
+// User provides input like: {{ 7 * 7 }}
+from jinja2 import Template
+user_input = request.args.get('name')
+template = Template("Hello, " + user_input)
+return template.render()`,
+        language: 'python',
+        options: [
+            {
+                id: '88a',
+                code: `// Never concatenate user input into templates. Always pass user data into the template through the render context.
+template = Template("Hello, {{ name }}")
+return template.render(name=user_input)`
+            },
+            {
+                id: '88b',
+                code: `// Sanitize the user input to remove curly braces '{{'.`
+            },
+            {
+                id: '88c',
+                code: `// Use a sandboxed template engine.`
+            }
+        ],
+        correctOptionId: '88a',
+        explanation: 'SSTI is prevented by strictly separating the template code from the data. User input should never be part of the template string itself; it should always be passed as a variable to the `render` function, where it will be safely handled as data.',
+    },
+    {
+        id: '89',
+        title: 'Information Disclosure in Server Headers',
+        category: 'Info Disclosure',
+        difficulty: 'Beginner',
+        xp: 40,
+        description: 'The server sends response headers like `Server: Apache/2.4.29 (Ubuntu)` or `X-Powered-By: PHP/7.2.24`, which reveal specific technology versions that could help an attacker find known vulnerabilities.',
+        vulnerableCode: `// HTTP Response Headers
+Server: Apache/2.4.29 (Ubuntu)
+X-Powered-By: PHP/7.2.24`,
+        language: 'generic',
+        options: [
+            {
+                id: '89a',
+                code: `// Configure the web server and application framework to suppress these informational headers.
+// E.g., in Nginx: 'server_tokens off;'
+// E.g., in Express: 'app.disable('x-powered-by');'`
+            },
+            {
+                id: '89b',
+                code: `// Keep the server software updated so there are no known vulnerabilities.`
+            },
+            {
+                id: '89c',
+                code: `// Change the header to a fake value to confuse attackers.`
+            }
+        ],
+        correctOptionId: '89a',
+        explanation: 'While keeping software updated is crucial, revealing specific version numbers makes an attacker\'s job much easier. Security through obscurity is not a primary defense, but hiding this information is a standard hardening practice. All servers and frameworks should be configured to omit version information in headers.',
+    },
+    {
+        id: '90',
+        title: 'Insecure Object Storage in `localStorage`',
+        category: 'XSS',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'The application stores a sensitive session token in the browser\'s `localStorage`, making it accessible to any JavaScript running on the page. If an XSS vulnerability exists, the token can be easily stolen.',
+        vulnerableCode: `// JavaScript (Client-side)
+function handleLogin(response) {
+    const token = response.data.token;
+    // Storing the token in localStorage is vulnerable to XSS.
+    localStorage.setItem('session_token', token);
+}`,
+        language: 'javascript',
+        options: [
+            {
+                id: '90a',
+                code: `// For session tokens, the most secure storage mechanism is a server-set, HttpOnly cookie. This makes it inaccessible to JavaScript.`
+            },
+            {
+                id: '90b',
+                code: `// Store the token in a JavaScript variable in memory instead.`
+            },
+            {
+                id: '90c',
+                code: `// Encrypt the token before storing it in localStorage.`
+            }
+        ],
+        correctOptionId: '90a',
+        explanation: '`localStorage` is vulnerable to XSS because it\'s accessible via JavaScript. Encrypting the token on the client provides no security, as the key would also be in JavaScript. Storing in memory is not persistent. The standard, secure solution for session tokens is to use `HttpOnly` cookies, which the browser will send automatically with requests but will not expose to JavaScript.',
+    },
+    {
+        id: '91',
+        title: 'Improper Error Handling',
+        category: 'Info Disclosure',
+        difficulty: 'Beginner',
+        xp: 40,
+        description: 'A generic catch-all exception handler prevents the application from crashing but also hides the root cause of errors, making debugging difficult and potentially masking security issues.',
+        vulnerableCode: `// Java
+try {
+    // Risky operation...
+} catch (Exception e) {
+    // Swallowing the exception is a bad practice.
+    System.out.println("An error occurred, but we handled it!");
+}`,
+        language: 'java',
+        options: [
+            {
+                id: '91a',
+                code: '// Catch specific exceptions that you can actually handle. Let unexpected exceptions propagate or be caught by a global handler.'
+            },
+            {
+                id: '91b',
+                code: `// At a minimum, log the full exception stack trace before ignoring it.
+// e.printStackTrace();`
+            },
+            {
+                id: '91c',
+                code: 'Both A and B are important. You should log all exceptions (B), but it is better to catch specific, expected exceptions and have a top-level handler for everything else (A).'
+            }
+        ],
+        correctOptionId: '91c',
+        explanation: 'Swallowing exceptions without logging or re-throwing them is a dangerous anti-pattern. You should catch the most specific exceptions possible that you can reasonably recover from. Any unexpected exception should be logged in detail and result in a generic error response.',
+    },
+    {
+        id: '92',
+        title: 'Insecure iOS Data Storage (UserDefaults)',
+        category: 'Mobile Security',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'An iOS application stores a sensitive API token in `UserDefaults` without encryption, making it accessible on a jailbroken device.',
+        vulnerableCode: `// Swift
+let token = "sensitive-api-token"
+// UserDefaults is stored in a plaintext plist file.
+UserDefaults.standard.set(token, forKey: "apiToken")`,
+        language: 'generic',
+        options: [
+            {
+                id: '92a',
+                code: `// Use the iOS Keychain for storing all sensitive data like tokens, passwords, and keys. It is a hardware-backed secure enclave.
+// Use a Keychain wrapper library for easier access.`
+            },
+            {
+                id: '92b',
+                code: `// Encrypt the data with a hardcoded key before storing it in UserDefaults.`
+            },
+            {
+                id: '92c',
+                code: `// Store the token in a variable instead of persisting it.`
+            }
+        ],
+        correctOptionId: '92a',
+        explanation: '`UserDefaults` is not secure storage. For all secrets on iOS, the Keychain is the correct place to store them. The Keychain encrypts the data and stores it in a secure enclave, making it inaccessible even on most jailbroken devices.',
+    },
+    {
+        id: '93',
+        title: 'Missing `break` in `switch` (Fallthrough)',
+        category: 'Broken Access Control',
+        difficulty: 'Intermediate',
+        xp: 50,
+        description: 'A `switch` statement for authorization checks is missing a `break` statement, causing a lower-privileged user to "fall through" into a higher-privileged case.',
+        vulnerableCode: `// C#
+switch (user.Role)
+{
+    case "guest":
+        // Guest permissions
+    case "user": // Missing break! Guests get user permissions.
+        grantUserPermissions();
+        break;
+    case "admin":
+        grantAdminPermissions();
+        break;
+}`,
+        language: 'generic',
+        options: [
+            {
+                id: '93a',
+                code: `// Add a 'break' statement to each 'case' block to prevent fallthrough.
+case "guest":
+    grantGuestPermissions();
+    break;
+case "user":
+    grantUserPermissions();
+    break;`
+            },
+            {
+                id: '93b',
+                code: `// Reverse the order of the cases, putting "admin" first.`
+            },
+            {
+                id: '93c',
+                code: `// Use if-else if statements instead of a switch.`
+            }
+        ],
+        correctOptionId: '93a',
+        explanation: 'In C-style languages (C++, C#, Java, JavaScript), `switch` statements will fall through to the next case unless you explicitly use a `break` statement. This can be a common source of bugs, especially in authorization logic.',
+    },
+    {
+        id: '94',
+        title: 'Use of Deprecated Cryptographic Hash (SHA-1)',
+        category: 'Crypto',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'The application uses the SHA-1 hashing algorithm, which is considered cryptographically broken and vulnerable to collision attacks.',
+        vulnerableCode: `// Python
+import hashlib
+data = b"hello"
+# SHA-1 is no longer secure.
+hashed_data = hashlib.sha1(data).hexdigest()`,
+        language: 'python',
+        options: [
+            {
+                id: '94a',
+                code: `// Use a modern, secure hashing algorithm from the SHA-2 or SHA-3 family, such as SHA-256.
+hashed_data = hashlib.sha256(data).hexdigest()`
+            },
+            {
+                id: '94b',
+                code: `// Use MD5 instead.`
+            },
+            {
+                id: '94c',
+                code: `// "Salt" the SHA-1 hash to make it more secure.`
+            }
+        ],
+        correctOptionId: '94a',
+        explanation: 'Cryptographic hash functions can become weak over time as computing power increases. SHA-1 has been demonstrated to be vulnerable to practical collision attacks and must not be used for security-sensitive purposes like signature generation. SHA-256 is the current industry standard.',
+    },
+    {
+        id: '95',
+        title: 'Leaking State in Singleton Object',
+        category: 'Business Logic',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'A Singleton object in a multi-threaded application has instance variables that store user-specific state. This can cause data from one user\'s request to leak into another\'s.',
+        vulnerableCode: `// Java (in a web server)
+public class RequestProcessor {
+    private static RequestProcessor instance = new RequestProcessor();
+    private User currentUser; // This will be shared across all threads!
+
+    public void process(Request req) {
+        this.currentUser = req.getUser();
+        // ... do something ...
+    }
+}`,
+        language: 'java',
+        options: [
+            {
+                id: '95a',
+                code: `// Singleton objects should be stateless. Pass user-specific state as method parameters instead of storing it in instance fields.
+public void process(Request req) {
+    User currentUser = req.getUser(); // 'currentUser' is now a local variable.
+    // ... do something with currentUser ...
+}`
+            },
+            {
+                id: '95b',
+                code: `// Use the 'synchronized' keyword on the 'process' method.`
+            },
+            {
+                id: '95c',
+                code: `// Use a 'ThreadLocal' variable to store the user state.`
+            }
+        ],
+        correctOptionId: '95a',
+        explanation: 'In a multi-threaded environment like a web server, Singleton instances are shared across all requests. They must be stateless. Storing request-specific data in an instance variable is a classic bug that leads to race conditions and data leakage. All request-specific state should be passed through method parameters.',
+    },
+    {
+        id: '96',
+        title: 'Unsafe Reflection API Usage',
+        category: 'RCE',
+        difficulty: 'Expert',
+        xp: 90,
+        description: 'An application uses reflection to dynamically call a method based on user input, which can allow an attacker to call arbitrary methods.',
+        vulnerableCode: `// Java
+String methodName = request.getParameter("method");
+// Attacker can provide "exit" to call System.exit(0)
+Method method = System.class.getMethod(methodName, int.class);
+method.invoke(null, 0);`,
+        language: 'java',
+        options: [
+            {
+                id: '96a',
+                code: `// Avoid reflection with user input. Use a 'switch' statement or a 'Map<String, Runnable>' to map allowed input to specific, safe functions.
+switch (methodName) {
+    case "doSomething":
+        doSomething();
+        break;
+    default:
+        throw new IllegalArgumentException("Invalid method");
+}`
+            },
+            {
+                id: '96b',
+                code: `// Blacklist dangerous method names like "exit".`
+            },
+            {
+                id: '96c',
+                code: `// Use the Security Manager to restrict what the reflected method can do.`
+            }
+        ],
+        correctOptionId: '96a',
+        explanation: 'Using reflection with user-controlled input is extremely dangerous and often leads to code execution vulnerabilities. The only safe approach is to avoid it entirely. Instead, use a whitelist of allowed action names and map them to the corresponding safe functions to be executed.',
+    },
+    {
+        id: '97',
+        title: 'Insecure Temporary File Creation',
+        category: 'File Inclusion',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'An application creates a temporary file in a shared directory (like `/tmp/`) with a predictable name. An attacker can pre-create a symbolic link with the same name pointing to a sensitive file.',
+        vulnerableCode: `// Python
+import os
+pid = os.getpid()
+# Predictable filename
+temp_filename = f'/tmp/app_data_{pid}.tmp' 
+with open(temp_filename, 'w') as f:
+    f.write("secret data")`,
+        language: 'python',
+        options: [
+            {
+                id: '97a',
+                code: `// Use a secure temporary file creation function from the standard library, which creates a file with a random name and secure permissions.
+import tempfile
+with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
+    f.write("secret data")
+    temp_filename = f.name`
+            },
+            {
+                id: '97b',
+                code: `// Check if the file already exists before writing to it.`
+            },
+            {
+                id: '97c',
+                code: `// Create the temporary file in the user's home directory instead of /tmp.`
+            }
+        ],
+        correctOptionId: '97a',
+        explanation: 'Creating temporary files with predictable names is a classic security mistake. Always use the operating system or standard library\'s dedicated functions for creating secure temporary files, as they are designed to handle permissions and avoid race conditions.',
+    },
+    {
+        id: '98',
+        title: 'Use of `document.write` after Page Load',
+        category: 'XSS',
+        difficulty: 'Intermediate',
+        xp: 50,
+        description: 'Calling `document.write()` after the main page has finished loading will implicitly call `document.open()`, which clears the entire page content. If the input is user-controlled, this can lead to XSS.',
+        vulnerableCode: `// JavaScript
+// Sometime after the page has loaded...
+const userInput = "<script>alert('XSS')</script>";
+document.write(userInput); // This replaces the entire page`,
+        language: 'javascript',
+        options: [
+            {
+                id: '98a',
+                code: `// Never use 'document.write()'. Manipulate the DOM using safe methods like 'createElement' and 'textContent'.
+const newDiv = document.createElement('div');
+newDiv.textContent = userInput;
+document.body.appendChild(newDiv);`
+            },
+            {
+                id: '98b',
+                code: `// Only use 'document.write()' during the initial page load.`
+            },
+            {
+                id: '98c',
+                code: `// Sanitize the input before passing it to 'document.write()'.`
+            }
+        ],
+        correctOptionId: '98a',
+        explanation: '`document.write()` is a legacy function with dangerous side effects and should almost never be used. Modern web development relies on standard DOM manipulation APIs, which are safer and more predictable.',
+    },
+    {
+        id: '99',
+        title: 'Missing `autocomplete="new-password"`',
+        category: 'Auth',
+        difficulty: 'Intermediate',
+        xp: 50,
+        description: 'A password change or sign-up form does not use `autocomplete="new-password"`, which may cause browsers to autofill the field with a user\'s current, saved password, potentially leading to accidental overwrites or exposure.',
+        vulnerableCode: `<!-- Sign-up Form -->
+<label>Create Password:</label>
+<input type="password" name="password">
+
+<!-- Change Password Form -->
+<label>New Password:</label>
+<input type="password" name="new_password">`,
+        language: 'generic',
+        options: [
+            {
+                id: '99a',
+                code: `// Use autocomplete="new-password" for any field where the user is expected to create a new password.
+<label>Create Password:</label>
+<input type="password" name="password" autocomplete="new-password">`
+            },
+            {
+                id: '99b',
+                code: '// Use `autocomplete="off"` to disable autofill completely.'
+            },
+            {
+                id: '99c',
+                code: '// Use two separate fields for password and confirmation.'
+            }
+        ],
+        correctOptionId: '99a',
+        explanation: 'The HTML `autocomplete` attribute provides a hint to the browser about how to handle form fields. Using `new-password` signals that this is a field for creating a new password, preventing the browser from automatically filling it with a stored one and instead suggesting a new, strong password.',
+    },
+    {
+        id: '100',
+        title: 'Insecure TLS/SSL Configuration (Weak Cipher Suites)',
+        category: 'Crypto',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'A web server is configured to support old, weak, or insecure cipher suites (e.g., those using RC4, 3DES, or export-grade cryptography), making TLS connections vulnerable to decryption.',
+        vulnerableCode: `// Nginx Server Configuration
+ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+// A weak cipher suite list that includes outdated ciphers.
+ssl_ciphers 'ALL:!ADH:!EXPORT:!DES:!RC4:!MD5:!PSK';`,
+        language: 'generic',
+        options: [
+            {
+                id: '100a',
+                code: `// Configure the server to only support modern, strong protocols (TLS 1.2 and 1.3) and a limited set of strong cipher suites.
+ssl_protocols TLSv1.2 TLSv1.3;
+ssl_ciphers 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:...';`
+            },
+            {
+                id: '100b',
+                code: `// Rely on the browser to choose a strong cipher suite.`
+            },
+            {
+                id: '100c',
+                code: `// Always keep the server operating system updated.`
+            }
+        ],
+        correctOptionId: '100a',
+        explanation: 'Server configuration is critical for TLS security. The server must be explicitly configured to disable old protocols like SSLv3 and early TLS, and it must provide a restricted list of modern, strong cipher suites that do not have known vulnerabilities.',
     }
 ];
-
-    
-
