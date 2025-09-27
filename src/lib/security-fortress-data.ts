@@ -840,7 +840,7 @@ public Object process(InputStream untrustedStream) throws Exception {
             },
             {
                 id: '54c',
-                code: `Both A and B are valid strategies, but B is generally the safest and most recommended approach for modern applications.`
+                code: 'Both A and B are valid strategies, but B is generally the safest and most recommended approach for modern applications.'
             },
         ],
         correctOptionId: '54c',
@@ -1054,7 +1054,7 @@ const limiter = rateLimit({
             },
             {
                 id: '60b',
-                code: `// Use a lower max value for the rate limit.`
+                code: `// Use a lower 'max' value for the rate limit.`
             },
             {
                 id: '60c',
