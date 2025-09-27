@@ -51,14 +51,16 @@ export default function SecurityFortressLobbyPage() {
 
   const difficultyVariant = (difficulty: SecurityFortressChallenge['difficulty']): "default" | "secondary" | "destructive" | "outline" => {
     switch (difficulty) {
-      case "Beginner":
-        return "default";
-      case "Intermediate":
-        return "secondary";
-      case "Advanced":
-        return "destructive";
-      default:
-        return "default";
+        case "Beginner":
+            return "default";
+        case "Intermediate":
+            return "secondary";
+        case "Advanced":
+            return "outline";
+        case "Expert":
+            return "destructive";
+        default:
+            return "default";
     }
   }
 
