@@ -1376,7 +1376,7 @@ Options -Indexes`
             {
                 id: '41c',
                 code: `// Use a robots.txt file to disallow access.`
-            },
+            }
         ],
         correctOptionId: '41a',
         explanation: 'The most direct and secure fix is to configure the web server to never generate directory listings. Placing empty index files is a workaround that is easy to forget and doesn\'t scale.',
@@ -1410,7 +1410,7 @@ app.get('/api/u/p/a9b8c7', ...)`
             {
                 id: '42c',
                 code: `// Check for a specific HTTP header, like 'X-Requested-With'.`
-            },
+            }
         ],
         correctOptionId: '42a',
         explanation: 'Access control for sensitive endpoints must be enforced on the server-side with proper authentication middleware. The middleware should check for a valid session, token, or API key before allowing the request to proceed.',
@@ -1448,7 +1448,7 @@ res.json(userDto);`
             {
                 id: '43c',
                 code: `// Remove the sensitive data on the client-side after receiving it.`
-            },
+            }
         ],
         correctOptionId: '43a',
         explanation: 'APIs should be designed to return only the data that is absolutely necessary for the client. This practice, known as creating a DTO (Data Transfer Object) or "ViewModel", prevents accidentally leaking sensitive information.',
@@ -1523,7 +1523,7 @@ if (in_array($page, $allowed_pages)) {
             {
                 id: '45c',
                 code: 'Both A and B are necessary for a secure configuration.'
-            },
+            }
         ],
         correctOptionId: '45c',
         explanation: 'RFI is extremely dangerous. The best defense is to disable the feature at the server configuration level (A) and to also implement application-level logic (B) that only allows including files from a known, trusted list.',
@@ -2228,12 +2228,12 @@ window.location.href = \`/dashboard?token=\${token}\`;`,
 // 1. Attacker signs up with username: "admin' --"
 // 2. This username is stored safely in the database.
 // 3. Later, an admin function uses the username in an unsafe query:
-String query = "UPDATE analytics SET last_seen = NOW() WHERE username = '" + username + "'";`,
+String query = "SELECT * FROM activity_logs WHERE username = '" + usernameFromDb + "'";`,
         language: 'generic',
         options: [
             {
                 id: '67a',
-                code: `// The fix is the same as for first-order SQLi: use parameterized queries (prepared statements) for all database access, even when using data that is already in your database.`
+                code: `// The ONLY fix is to use parameterized queries for ALL database operations, regardless of the data's source.`
             },
             {
                 id: '67b',
@@ -2245,7 +2245,7 @@ String query = "UPDATE analytics SET last_seen = NOW() WHERE username = '" + use
             }
         ],
         correctOptionId: '67a',
-        explanation: 'Second-order SQL injection highlights the importance of context. Data that seems safe in one context can be dangerous in another. The only reliable defense is to treat all data as untrusted and use parameterized queries for every single database operation.',
+        explanation: 'This demonstrates that data sanitation is often insufficient. The only robust and universally correct solution to SQL injection is to use parameterized queries (prepared statements) for every single query, treating all variable data as data, never as executable code.',
     },
     {
         id: '68',
@@ -3607,8 +3607,8 @@ catch (err) {
         options: [
             {
                 id: '107a',
-                code: `// Add the Strict-Transport-Security header to all HTTPS responses.
-// Strict-Transport-Security: max-age=31536000; includeSubDomains`
+                code: `// Add the HSTS header to all HTTPS responses. The max-age should be long (e.g., 1 year). 'includeSubDomains' is also recommended.
+Strict-Transport-Security: max-age=31536000; includeSubDomains`
             },
             {
                 id: '107b',
@@ -3620,7 +3620,7 @@ catch (err) {
             },
         ],
         correctOptionId: '107a',
-        explanation: 'HSTS is a crucial security mechanism that instructs browsers to *only* communicate with a site over HTTPS, preventing downgrade attacks. While redirecting HTTP to HTTPS is also necessary, the HSTS header provides client-side enforcement.',
+        explanation: 'HSTS is a crucial security mechanism that instructs browsers to *only* communicate with a site over HTTPS, preventing downgrade attacks. While redirecting HTTP to HTTPS is also necessary, HSTS provides client-side enforcement.',
     },
     {
         id: '108',
@@ -3651,7 +3651,7 @@ window.addEventListener("message", (event) => {
             },
             {
                 id: '108b',
-                code: `// Check if the data has the correct format.`
+                code: `// Check that the data format is correct.`
             },
             {
                 id: '108c',
@@ -3659,7 +3659,7 @@ window.addEventListener("message", (event) => {
             }
         ],
         correctOptionId: '108a',
-        explanation: 'When using `postMessage`, the receiving window MUST validate the `origin` property of the event to ensure the message is coming from a trusted source. Failing to do so allows any malicious site to send messages to your window.',
+        explanation: 'When using `postMessage`, the receiving window MUST validate the `origin` property of the event to ensure the message is coming from an expected and trusted source. Failing to do so allows any malicious site to send messages to your page.',
     },
     {
         id: '109',
@@ -3700,26 +3700,26 @@ window.addEventListener("message", (event) => {
         difficulty: 'Advanced',
         xp: 85,
         description: 'An application is vulnerable to SSRF, which an attacker uses to make requests to the cloud provider\'s internal metadata service (e.g., `169.254.169.254`), stealing cloud credentials.',
-        vulnerableCode: `// Conceptual SSRF vulnerability
-// Attacker provides URL: http://169.254.169.254/latest/meta-data/iam/security-credentials/ec2-role-name
-// The application fetches this URL and displays the content, which includes secret access keys.`,
+        vulnerableCode: `// Attacker on a compromised EC2 instance runs:
+// curl http://169.254.169.254/latest/meta-data/iam/security-credentials/ec2-role-name
+// This returns a temporary AccessKeyId, SecretAccessKey, and Token.`,
         language: 'generic',
         options: [
             {
                 id: '110a',
-                code: `// Properly fix the SSRF vulnerability by using a strict whitelist of allowed domains.`
+                code: `// Enforce the use of IMDSv2 (Instance Metadata Service Version 2) on cloud instances. IMDSv2 requires a session-oriented approach that mitigates SSRF attacks.`
             },
             {
                 id: '110b',
-                code: `// Configure the instance to use IMDSv2 (Instance Metadata Service Version 2), which requires a session token and protects against basic SSRF.`
+                code: `// Apply the principle of least privilege: ensure the attached IAM role has only the absolute minimum permissions required for its job.`
             },
             {
                 id: '110c',
-                code: 'Both A and B are critical defenses. B limits the damage an attacker can do if they steal credentials, and A makes it much harder to steal them in the first place.'
+                code: 'Both A and B are essential defenses. B limits the damage an attacker can do if they steal credentials, and A makes it much harder to steal them in the first place.'
             }
         ],
         correctOptionId: '110c',
-        explanation: 'Accessing the cloud metadata service is a primary goal for attackers who find an SSRF vulnerability. Fixing the SSRF itself is the most important step (A). However, modern cloud environments provide hardened metadata services (like IMDSv2) that should be enforced as a powerful defense-in-depth measure (B).',
+        explanation: 'Protecting cloud credentials requires multiple layers. The attached IAM role should always have the minimum necessary permissions (B). Additionally, the infrastructure should be configured to use the latest, most secure version of the instance metadata service (A), which adds protection against SSRF attacks.',
     },
     {
         id: '111',
@@ -4495,7 +4495,7 @@ async function applyPromo(userId, code) {
             }
         ],
         correctOptionId: '134a',
-        explanation: 'This is another "Time-of-check to time-of-use" (TOCTOU) race condition. The only robust solution is to make the entire operation atomic at the database level. A transaction with `SELECT ... FOR UPDATE` locks the specific promo code row, forcing subsequent requests to wait until the first transaction is complete.',
+        explanation: 'This is another "Time-of-check to time-of-use" (TOCTOU) race condition. The only robust solution is to make the entire check-and-update process atomic at the database level. A transaction with `SELECT ... FOR UPDATE` locks the specific promo code row, forcing subsequent requests to wait until the first transaction is complete.',
     },
     {
         id: '135',
@@ -4658,7 +4658,7 @@ data = json.loads(untrusted_data)`
             }
         ],
         correctOptionId: '139a',
-        explanation: 'The `pickle` module is explicitly not secure and should never be used on data from an untrusted source. The only safe fix is to replace it with a secure, data-only serialization format like JSON.',
+        explanation: 'The `pickle` module is explicitly not secure and should never be used on data from an untrusted source. The only correct solution is to replace it with a secure, data-only serialization format like JSON.',
     },
     {
         id: '140',
@@ -5019,7 +5019,7 @@ app.use((req, res, next) => {
     },
     {
         id: '151',
-        title: 'Business Logic Flaw (Gift Card Credit)',
+        title: 'Business Logic Flaw: Gift Card Credit',
         category: 'Business Logic',
         difficulty: 'Expert',
         xp: 95,
@@ -5498,7 +5498,7 @@ if (in_array($tableName, $allowedTables)) {
 }`
             },
             {
-                id: '156b',
+                id: '165b',
                 code: `// Use prepared statements. (Note: This doesn't work for table names).`
             },
             {
@@ -5684,23 +5684,23 @@ dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);`
         language: 'generic',
         options: [
             {
-                id: '172a',
+                id: '171a',
                 code: `// Implement a reservation system. When an item is added to a cart, create a temporary reservation with a short expiration (e.g., 10 minutes). The checkout process must confirm the reservation is still valid.`
             },
             {
-                id: '172b',
+                id: '171b',
                 code: `// Use a 'first come, first served' model at checkout and show an error if the item is gone.`
             },
             {
-                id: '172c',
+                id: '171c',
                 code: `// Allow overselling and handle it manually later.`
             }
         ],
-        correctOptionId: '172a',
+        correctOptionId: '171a',
         explanation: 'While B is a valid (though poor UX) model, a better business logic solution for limited-stock items is to implement a reservation system. This provides a better user experience by temporarily guaranteeing the item\'s availability for a short period.',
     },
     {
-        id: '173',
+        id: '172',
         title: 'Reflected File Download (RFD)',
         category: 'Info Disclosure',
         difficulty: 'Advanced',
@@ -5715,23 +5715,23 @@ def export():
         language: 'python',
         options: [
             {
-                id: '173a',
+                id: '172a',
                 code: `// Do not allow user input to control the filename in the Content-Disposition header.`
             },
             {
-                id: '173b',
+                id: '172b',
                 code: `// Do not reflect user input directly in the response body of a file download.`
             },
             {
-                id: '173c',
+                id: '172c',
                 code: 'Both A and B are necessary. The server should control the filename, and the response body should be generated from safe, server-side data, not user input.'
             }
         ],
-        correctOptionId: '173c',
+        correctOptionId: '172c',
         explanation: 'RFD attacks rely on the browser trusting the server\'s `Content-Disposition` header. To prevent this, the server must never allow user input to dictate the filename of a download (A) and must not reflect user input into the content of a downloadable file (B).',
     },
     {
-        id: '174',
+        id: '173',
         title: 'Leaking Private IP Addresses via WebRTC',
         category: 'Info Disclosure',
         difficulty: 'Advanced',
@@ -5744,24 +5744,24 @@ const pc = new RTCPeerConnection();`,
         language: 'javascript',
         options: [
             {
-                id: '174a',
+                id: '173a',
                 code: `// There is no perfect client-side code fix. This is a browser feature.
 // Users must configure their browser (e.g., via extensions like uBlock Origin) to prevent this leakage if they are concerned.`
             },
             {
-                id: '174b',
+                id: '173b',
                 code: `// Only create a PeerConnection after getting user consent.`
             },
             {
-                id: '174c',
+                id: '173c',
                 code: `// Avoid using WebRTC.`
             }
         ],
-        correctOptionId: '174a',
+        correctOptionId: '173a',
         explanation: 'This is a well-known privacy issue with WebRTC. While applications should be mindful of when they initiate WebRTC connections, the leakage itself is a function of the browser and network configuration. The primary mitigation lies with the user configuring their browser or using a VPN that specifically protects against WebRTC leaks.',
     },
     {
-        id: '175',
+        id: '174',
         title: 'AWS IAM Role Trust Policy Too Permissive',
         category: 'Cloud Security',
         difficulty: 'Advanced',
@@ -5778,24 +5778,24 @@ const pc = new RTCPeerConnection();`,
         language: 'generic',
         options: [
             {
-                id: '175a',
+                id: '174a',
                 code: `// Be highly specific. The Principal should be the exact user, service (e.g., EC2), or specific role ARN that needs to assume this role.
 // e.g., "Principal": { "Service": "ec2.amazonaws.com" }`
             },
             {
-                id: '175b',
+                id: '174b',
                 code: `// Add a condition to the policy, such as checking the source IP.`
             },
             {
-                id: '175c',
+                id: '174c',
                 code: `// Limit the permissions of the role itself.`
             }
         ],
-        correctOptionId: '175a',
+        correctOptionId: '174a',
         explanation: 'A role\'s trust policy is a critical security boundary. The `Principal` should always be scoped down to the smallest possible set of entities that legitimately need to assume the role. Allowing the entire account (`root`) is almost always incorrect.',
     },
     {
-        id: '176',
+        id: '175',
         title: 'PHP Object Injection',
         category: 'Insecure Deserialization',
         difficulty: 'Expert',
@@ -5814,25 +5814,25 @@ unserialize($_COOKIE['user_data']);`,
         language: 'php',
         options: [
             {
-                id: '176a',
+                id: '175a',
                 code: `// Do not use unserialize() on any untrusted data.
 // Use json_decode() for data interchange instead.`
             },
             {
-                id: '176b',
+                id: '175b',
                 code: `// In PHP 7+, you can provide an 'allowed_classes' option to unserialize().
 unserialize($data, ['allowed_classes' => ['ExpectedClass']]);`
             },
             {
-                id: '176c',
+                id: '175c',
                 code: 'Both A and B are valid mitigations. A is the most broadly recommended best practice, while B provides a specific defense if native serialization must be used.'
             }
         ],
-        correctOptionId: '176c',
+        correctOptionId: '175c',
         explanation: 'PHP Object Injection is a severe vulnerability. The ideal solution is to completely avoid deserializing untrusted data (A). If that is not possible, newer PHP versions allow you to provide a whitelist of classes that are permitted to be deserialized, which significantly reduces the attack surface (B).',
     },
     {
-        id: '177',
+        id: '176',
         title: 'Android `Tapjacking`',
         category: 'Mobile Security',
         difficulty: 'Advanced',
@@ -5843,24 +5843,24 @@ unserialize($data, ['allowed_classes' => ['ExpectedClass']]);`
         language: 'generic',
         options: [
             {
-                id: '177a',
+                id: '176a',
                 code: `// Set 'android:filterTouchesWhenObscured="true"' on sensitive UI elements in the layout XML.
 <Button ... android:filterTouchesWhenObscured="true" />`
             },
             {
-                id: '177b',
+                id: '176b',
                 code: `// Alternatively, call 'view.setFilterTouchesWhenObscured(true)' programmatically.`
             },
             {
-                id: '177c',
+                id: '176c',
                 code: 'Both A and B achieve the same result. This setting causes the system to discard touches when the view is obscured by another visible window.'
             }
         ],
-        correctOptionId: '177c',
+        correctOptionId: '176c',
         explanation: 'Tapjacking is an overlay attack specific to Android. The `filterTouchesWhenObscured` property is the specific defense against it. When set to true on a View, the system will not deliver touches to it if another window is obscuring it, preventing the malicious app from intercepting the tap.',
     },
     {
-        id: '178',
+        id: '177',
         title: 'HTTP Request Smuggling',
         category: 'Protocol',
         difficulty: 'Expert',
@@ -5872,24 +5872,24 @@ unserialize($data, ['allowed_classes' => ['ExpectedClass']]);`
         language: 'generic',
         options: [
             {
-                id: '178a',
+                id: '177a',
                 code: `// This is a protocol-level vulnerability in server software.
 // Ensure all servers in the chain (front-end, back-end) are updated to the latest versions, which have protections against ambiguous requests.`
             },
             {
-                id: '178b',
+                id: '177b',
                 code: `// Normalize ambiguous requests at the network edge. For example, have the front-end server reject any request with multiple Content-Length headers.`
             },
             {
-                id: '178c',
+                id: '177c',
                 code: `// Use HTTP/2 for back-end connections, as its framing mechanism is not vulnerable to this class of attack.`
             }
         ],
-        correctOptionId: '178c',
+        correctOptionId: '177c',
         explanation: 'Request smuggling is a complex attack that exploits inconsistencies in how different servers parse HTTP requests. While keeping servers patched (A) and normalizing requests (B) are crucial, the most robust solution is to use HTTP/2 for communication between your servers, as its binary framing protocol eliminates the ambiguities that make these attacks possible.',
     },
     {
-        id: '179',
+        id: '178',
         title: 'Privilege Escalation via Insecure `sudo` Rules',
         category: 'Broken Access Control',
         difficulty: 'Advanced',
@@ -5904,23 +5904,23 @@ lowuser ALL=(root) NOPASSWD: /usr/bin/less /var/log/app.log
         language: 'generic',
         options: [
             {
-                id: '179a',
+                id: '178a',
                 code: `// Avoid allowing users to run commands that have shell escape features (like 'vim', 'less', 'more', 'find').`
             },
             {
-                id: '179b',
+                id: '178b',
                 code: `// Use the 'NOEXEC' option in the sudoers rule to prevent the command from executing other programs.`
             },
             {
-                id: '179c',
+                id: '178c',
                 code: 'Both A and B are important. A is the primary fix (don\'t allow commands with shell escapes), and B is a specific technical control to further restrict the command.'
             }
         ],
-        correctOptionId: '179c',
+        correctOptionId: '178c',
         explanation: 'Granting `sudo` privileges is extremely sensitive. You must never allow users to run commands that can be used to spawn a shell or execute other commands. If you must grant access to a command, research it thoroughly for any "shell escape" capabilities (A) and use restrictive `sudoers` options like `NOEXEC` (B) where possible.',
     },
     {
-        id: '180',
+        id: '179',
         title: 'XXE in Microsoft Office Documents',
         category: 'XXE',
         difficulty: 'Advanced',
@@ -5932,24 +5932,24 @@ lowuser ALL=(root) NOPASSWD: /usr/bin/less /var/log/app.log
         language: 'java',
         options: [
             {
-                id: '180a',
+                id: '179a',
                 code: `// The fix is the same as for any other XML processing:
 // The underlying XML parser used by the library (e.g., Apache POI) must be configured to disable DTDs and external entities.`
             },
             {
-                id: '180b',
+                id: '179b',
                 code: `// Unzip the .docx file and manually scan all XML files for DTDs before parsing.`
             },
             {
-                id: '180c',
+                id: '179c',
                 code: `// Only accept .doc files instead of .docx.`
             }
         ],
-        correctOptionId: '180a',
+        correctOptionId: '179a',
         explanation: 'Modern Office documents (docx, xlsx, etc.) are XML-based. When your application parses them, it is performing XML parsing. You must ensure that the library you are using is configured with a secure XML parser that disables DTDs and external entities to prevent XXE attacks.',
     },
     {
-        id: '181',
+        id: '180',
         title: 'Business Logic Flaw: Contest Submission Abuse',
         category: 'Business Logic',
         difficulty: 'Intermediate',
@@ -5966,7 +5966,7 @@ app.post('/contest/submit', (req, res) => {
         language: 'javascript',
         options: [
             {
-                id: '181a',
+                id: '180a',
                 code: `// The server must enforce the business rule by checking the current time against the contest deadline before accepting the submission.
 const deadline = new Date('2023-12-25T23:59:59Z');
 if (new Date() > deadline) {
@@ -5974,19 +5974,19 @@ if (new Date() > deadline) {
 }`
             },
             {
-                id: '181b',
+                id: '180b',
                 code: `// Disable the submit button on the front-end after the deadline.`
             },
             {
-                id: '181c',
+                id: '180c',
                 code: `// Manually filter out late submissions from the database later.`
             }
         ],
-        correctOptionId: '181a',
+        correctOptionId: '180a',
         explanation: 'Client-side controls are insufficient as they can be bypassed. The server is the only authority for enforcing business rules. The API endpoint must contain logic to check if the contest is still active before processing the submission.',
     },
     {
-        id: '182',
+        id: '181',
         title: 'AWS S3 Public Bucket ACL',
         category: 'Cloud Security',
         difficulty: 'Intermediate',
@@ -5997,23 +5997,23 @@ aws s3api put-bucket-acl --bucket my-bucket --acl public-read`,
         language: 'generic',
         options: [
             {
-                id: '182a',
+                id: '181a',
                 code: `// Disable ACLs for the bucket ('ACLs disabled' setting) and rely exclusively on IAM and bucket policies for access control.`
             },
             {
-                id: '182b',
+                id: '181b',
                 code: `// Regularly audit bucket ACLs.`
             },
             {
-                id: '182c',
-                code: 'Both are good practices. Disabling ACLs (A) simplifies the access control model, making it easier to secure and audit, which is the modern best practice.'
+                id: '181c',
+                code: 'Both A and B are good practices. Disabling ACLs (A) simplifies the access control model, making it easier to secure and audit, which is the modern best practice.'
             }
         ],
-        correctOptionId: '182c',
+        correctOptionId: '181c',
         explanation: 'S3 ACLs are a legacy access control mechanism. The modern and recommended best practice is to disable them entirely and use only IAM and S3 bucket policies. This creates a simpler, more consistent, and easier-to-audit security posture.',
     },
     {
-        id: '183',
+        id: '182',
         title: 'Android Insecure `PendingIntent`',
         category: 'Mobile Security',
         difficulty: 'Expert',
@@ -6027,27 +6027,27 @@ PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);`,
         language: 'java',
         options: [
             {
-                id: '183a',
+                id: '182a',
                 code: `// Make the PendingIntent immutable (on Android 6.0+).
 PendingIntent pendingIntent = PendingIntent.getActivity(
     this, 0, intent, PendingIntent.FLAG_IMMUTABLE
 );`
             },
             {
-                id: '183b',
+                id: '182b',
                 code: `// Explicitly set the target component in the Intent.
 intent.setComponent(new ComponentName(this, MyInternalActivity.class));`
             },
             {
-                id: '183c',
+                id: '182c',
                 code: 'Both A and B are necessary for secure PendingIntents. B ensures the Intent goes where you expect, and A prevents the malicious app from modifying it.'
             }
         ],
-        correctOptionId: '183c',
+        correctOptionId: '182c',
         explanation: 'When creating a `PendingIntent`, you must ensure it cannot be modified by a malicious app. This is achieved by making it immutable with `FLAG_IMMUTABLE` (A). You must also ensure the Intent itself is explicit, meaning it clearly defines the target component, so it cannot be redirected (B).',
     },
     {
-        id: '184',
+        id: '183',
         title: 'Second-Order SQL Injection',
         category: 'SQL Injection',
         difficulty: 'Expert',
@@ -6060,23 +6060,23 @@ String sql = "SELECT * FROM activity_logs WHERE username = '" + usernameFromDb +
         language: 'generic',
         options: [
             {
-                id: '184a',
+                id: '183a',
                 code: `// The ONLY fix is to use parameterized queries for ALL database operations, regardless of the data's source.`
             },
             {
-                id: '184b',
+                id: '183b',
                 code: `// Sanitize the username before storing it in the database.`
             },
             {
-                id: '184c',
+                id: '183c',
                 code: `// Escape the username when it is retrieved from the database.`
             }
         ],
-        correctOptionId: '184a',
+        correctOptionId: '183a',
         explanation: 'This demonstrates that data sanitation is often insufficient. The only robust and universally correct solution to SQL injection is to use parameterized queries (prepared statements) for every single query, treating all variable data as data, never as executable code.',
     },
     {
-        id: '185',
+        id: '184',
         title: 'HTTP Host Header Injection',
         category: 'Web Cache Poisoning',
         difficulty: 'Advanced',
@@ -6091,24 +6091,24 @@ def forgot_password(request):
         language: 'python',
         options: [
             {
-                id: '185a',
+                id: '184a',
                 code: `// Do not trust the Host header. Use a hardcoded, whitelisted domain name from the server's configuration to generate all absolute URLs.
 // e.g., in Django's settings.py: ALLOWED_HOSTS = ['trusted.example.com']`
             },
             {
-                id: '185b',
+                id: '184b',
                 code: `// Validate that the Host header matches an expected value.`
             },
             {
-                id: '185c',
+                id: '184c',
                 code: 'Both A and B are correct. A is the most secure approach, while B is a manual validation that achieves a similar goal.'
             }
         ],
-        correctOptionId: '185c',
+        correctOptionId: '184c',
         explanation: 'The `Host` header is user-controllable and cannot be trusted. The application must have a canonical, server-side configuration for its own domain name and use that value to generate all absolute links. Most web frameworks have a setting for this (e.g., `ALLOWED_HOSTS`).',
     },
     {
-        id: '186',
+        id: '185',
         title: 'Deserialization of Untrusted Data (PHP)',
         category: 'Insecure Deserialization',
         difficulty: 'Advanced',
@@ -6120,24 +6120,24 @@ $data = unserialize($_COOKIE['data']);`,
         language: 'php',
         options: [
             {
-                id: '186a',
+                id: '185a',
                 code: `// Do not use unserialize() on untrusted input. Use a safe, structured format like JSON instead.
 $data = json_decode($_COOKIE['data']);`
             },
             {
-                id: '186b',
+                id: '185b',
                 code: `// Validate the user's cookie before unserializing.`
             },
             {
-                id: '186c',
+                id: '185c',
                 code: `// Use a firewall to block serialized payloads.`
             }
         ],
-        correctOptionId: '186a',
+        correctOptionId: '185a',
         explanation: 'Like in other languages, native serialization in PHP is dangerous. The standard recommendation is to completely avoid `unserialize()` on any data that originates from a user, and to use a safe data interchange format like JSON instead.',
     },
     {
-        id: '187',
+        id: '186',
         title: 'Open Redirect',
         category: 'IDOR',
         difficulty: 'Intermediate',
@@ -6152,7 +6152,7 @@ public ActionResult Redirect(string returnUrl)
         language: 'generic',
         options: [
             {
-                id: '187a',
+                id: '186a',
                 code: `// Validate the returnUrl to ensure it is a local URL within your application.
 if (Url.IsLocalUrl(returnUrl))
 {
@@ -6161,19 +6161,19 @@ if (Url.IsLocalUrl(returnUrl))
 return RedirectToAction("Index", "Home");`
             },
             {
-                id: '187b',
+                id: '186b',
                 code: `// Check if the returnUrl starts with "http".`
             },
             {
-                id: '187c',
+                id: '186c',
                 code: `// Show a warning page before redirecting.`
             }
         ],
-        correctOptionId: '187a',
+        correctOptionId: '186a',
         explanation: 'Open redirect vulnerabilities are exploited by phishing attacks. The server must validate any user-supplied URLs to ensure they only point to pages within the same application. Most web frameworks provide a helper function (like `Url.IsLocalUrl`) for this purpose.',
     },
     {
-        id: '188',
+        id: '187',
         title: 'Missing Content Security Policy (CSP)',
         category: 'XSS',
         difficulty: 'Advanced',
@@ -6184,25 +6184,25 @@ return RedirectToAction("Index", "Home");`
         language: 'generic',
         options: [
             {
-                id: '188a',
+                id: '187a',
                 code: `// Implement a strict CSP that whitelists trusted sources for scripts, styles, images, etc.
 // Example:
 Content-Security-Policy: default-src 'self'; script-src 'self' https://apis.google.com;`
             },
             {
-                id: '188b',
+                id: '187b',
                 code: `// Rely on browser's built-in XSS filters.`
             },
             {
-                id: '188c',
+                id: '187c',
                 code: `// Sanitize all user input perfectly, making a CSP unnecessary.`
             }
         ],
-        correctOptionId: '188a',
+        correctOptionId: '187a',
         explanation: 'CSP is a critical defense-in-depth mechanism. While you should always sanitize input to prevent XSS, a CSP provides an additional layer of security by instructing the browser to only execute code from trusted sources, mitigating the impact of any XSS flaws that might be missed.',
     },
     {
-        id: '189',
+        id: '188',
         title: 'Use of Hardcoded Credentials',
         category: 'CSRF',
         difficulty: 'Beginner',
@@ -6214,24 +6214,24 @@ Connection conn = DriverManager.getConnection(dbUrl, "admin", dbPassword);`,
         language: 'java',
         options: [
             {
-                id: '189a',
+                id: '188a',
                 code: `// Load credentials from environment variables or a secure secret management system.
 String dbPassword = System.getenv("DB_PASSWORD");`
             },
             {
-                id: '189b',
+                id: '188b',
                 code: `// Store the password in a separate config.java file.`
             },
             {
-                id: '189c',
+                id: '188c',
                 code: `// Encrypt the password in the code and decrypt it at runtime.`
             }
         ],
-        correctOptionId: '189a',
+        correctOptionId: '188a',
         explanation: 'Credentials must never be hardcoded in source code. They should be managed externally using environment variables, configuration files that are not checked into source control, or a dedicated secrets management service (like AWS Secrets Manager, GCP Secret Manager, or HashiCorp Vault).',
     },
     {
-        id: '190',
+        id: '189',
         title: 'Broken Access Control - Missing Role Check',
         category: 'IDOR',
         difficulty: 'Intermediate',
@@ -6246,7 +6246,7 @@ def admin_dashboard():
         language: 'python',
         options: [
             {
-                id: '190a',
+                id: '189a',
                 code: `// Implement a role-based access control (RBAC) check.
 @app.route('/admin/dashboard')
 @login_required
@@ -6256,20 +6256,20 @@ def admin_dashboard():
     return "Welcome!"`
             },
             {
-                id: '190b',
+                id: '189b',
                 code: `// Make the URL harder to guess.
 @app.route('/admin/a7c4f1/dashboard')`
             },
             {
-                id: '190c',
+                id: '189c',
                 code: `// Log all access attempts to the admin dashboard.`
             }
         ],
-        correctOptionId: '190a',
+        correctOptionId: '189a',
         explanation: 'Authentication (who you are) is different from authorization (what you are allowed to do). For privileged endpoints, you must check not only that a user is logged in, but also that they have the specific roles or permissions required for that action.',
     },
     {
-        id: '191',
+        id: '190',
         title: 'Blind SQL Injection',
         category: 'SQL Injection',
         difficulty: 'Expert',
@@ -6282,25 +6282,25 @@ def admin_dashboard():
         language: 'generic',
         options: [
             {
-                id: '191a',
+                id: '190a',
                 code: `// The fix is the same as for regular SQL injection: Use parameterized queries (prepared statements) for all database access, even when using data that is already in your database.
 query = "SELECT * FROM sessions WHERE session_id = ?"
 // ... execute with the cookie value as a parameter.`
             },
             {
-                id: '191b',
+                id: '190b',
                 code: `// Return a generic response for all outcomes to confuse the attacker.`
             },
             {
-                id: '191c',
+                id: '190c',
                 code: `// Add a random delay to the response time.`
             }
         ],
-        correctOptionId: '191a',
+        correctOptionId: '190a',
         explanation: 'Even if the application doesn\'t directly display database results, it can still be vulnerable. Any user input that influences a database query must be handled with parameterized queries to prevent injection, regardless of whether the results are shown.',
     },
     {
-        id: '192',
+        id: '191',
         title: 'XML Bomb (Billion Laughs Attack)',
         category: 'IDOR',
         difficulty: 'Advanced',
@@ -6318,24 +6318,24 @@ query = "SELECT * FROM sessions WHERE session_id = ?"
         language: 'generic',
         options: [
             {
-                id: '192a',
+                id: '191a',
                 code: `// The best defense is to disable Document Type Definitions (DTDs) in the XML parser, as they are required for this attack.
 factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);`
             },
             {
-                id: '192b',
+                id: '191b',
                 code: `// Limit the size of the incoming XML file.`
             },
             {
-                id: '192c',
+                id: '191c',
                 code: `// Scan the XML for the string "<!ENTITY".`
             }
         ],
-        correctOptionId: '192a',
+        correctOptionId: '191a',
         explanation: 'This DoS attack relies on entity expansion defined in a DTD. The most effective way to prevent it is to configure the XML parser to completely disallow DTDs, which also prevents other DTD-based attacks like XXE.',
     },
     {
-        id: '193',
+        id: '192',
         title: 'Session Fixation',
         category: 'CSRF',
         difficulty: 'Advanced',
@@ -6350,24 +6350,24 @@ factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)
         language: 'generic',
         options: [
             {
-                id: '193a',
+                id: '192a',
                 code: `// Upon successful authentication, the server must invalidate the old session ID and generate a new, secure one for the user.
 // This is often called "session regeneration".`
             },
             {
-                id: '193b',
+                id: '192b',
                 code: `// Do not accept session IDs from URL parameters.`
             },
             {
-                id: '193c',
+                id: '192c',
                 code: `// Use a long and random session ID.`
             }
         ],
-        correctOptionId: '193a',
+        correctOptionId: '192a',
         explanation: 'Session fixation is prevented by regenerating the session ID immediately after a successful login. This ensures that any pre-login session ID (which may be known to an attacker) is invalidated, and the user is issued a fresh session that only they know.',
     },
     {
-        id: '194',
+        id: '193',
         title: 'Mass Assignment',
         category: 'IDOR',
         difficulty: 'Intermediate',
@@ -6380,25 +6380,25 @@ factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)
         language: 'generic',
         options: [
             {
-                id: '194a',
+                id: '193a',
                 code: `// Use a "strong parameters" or "whitelist" approach to explicitly define which parameters are allowed to be mass-assigned.
 // e.g., in Rails:
 params.require(:user).permit(:name, :email, :password)`
             },
             {
-                id: '194b',
+                id: '193b',
                 code: `// Use a "blacklist" approach to block known sensitive fields like 'is_admin'.`
             },
             {
-                id: '194c',
+                id: '193c',
                 code: `// Make the 'isAdmin' property private in the User model.`
             }
         ],
-        correctOptionId: '194a',
+        correctOptionId: '193a',
         explanation: 'Blacklisting is brittle because you might forget a sensitive field. The secure-by-default approach is whitelisting, where you explicitly declare the exact set of fields that are safe for mass assignment from a user request. All modern web frameworks provide a feature for this.',
     },
     {
-        id: '195',
+        id: '194',
         title: 'Server-Side Request Forgery (SSRF)',
         category: 'SSRF',
         difficulty: 'Advanced',
@@ -6414,13 +6414,13 @@ def fetch_image():
         language: 'python',
         options: [
             {
-                id: '195a',
+                id: '194a',
                 code: `// Sanitize the URL by blocking "localhost" and "127.0.0.1".
 if 'localhost' in image_url or '127.0.0.1' in image_url:
     return "Forbidden", 403`
             },
             {
-                id: '195b',
+                id: '194b',
                 code: `// Use a strict whitelist of allowed domains and protocols.
 from urllib.parse import urlparse
 allowed_domains = ['images.example.com']
@@ -6431,17 +6431,17 @@ else:
     return "Forbidden", 403`
             },
             {
-                id: '195c',
+                id: '194c',
                 code: `// Ensure the URL starts with https://.
 if not image_url.startswith('https://'):
     return "Forbidden", 403`
             },
         ],
-        correctOptionId: '195b',
+        correctOptionId: '194b',
         explanation: 'The only reliable way to prevent SSRF is to maintain a strict whitelist of allowed domains, IP addresses, and protocols that the server is permitted to request. Blacklisting is easily bypassed.',
     },
     {
-        id: '196',
+        id: '195',
         title: 'Remote Code Execution (RCE)',
         category: 'RCE',
         difficulty: 'Expert',
@@ -6453,7 +6453,7 @@ eval($data); // Extremely dangerous!`,
         language: 'php',
         options: [
             {
-                id: '196a',
+                id: '195a',
                 code: `// NEVER use eval() on user-controlled input. Refactor the code to avoid it entirely.
 // Use a safe, structured approach like a switch statement or function mapping.
 switch($data) {
@@ -6464,23 +6464,23 @@ switch($data) {
 }`
             },
             {
-                id: '196b',
+                id: '195b',
                 code: `// Sanitize the input to remove dangerous function names.
 $data = str_replace('system', '', $data);
 eval($data);`
             },
             {
-                id: '196c',
+                id: '195c',
                 code: `// Run the code in a sandboxed environment.
 // This is complex and not a primary defense.
 run_in_sandbox($data);`
             },
         ],
-        correctOptionId: '196a',
+        correctOptionId: '195a',
         explanation: 'The `eval()` function is extremely dangerous and should never be used with user-provided input. The only safe solution is to completely avoid it and refactor the logic to use safe, structured code constructs.',
     },
     {
-        id: '197',
+        id: '196',
         title: 'Insecure CORS Configuration',
         category: 'CORS',
         difficulty: 'Intermediate',
@@ -6495,7 +6495,7 @@ app.use((req, res, next) => {
         language: 'javascript',
         options: [
             {
-                id: '197a',
+                id: '196a',
                 code: `// Use a library like 'cors' and configure a strict whitelist of allowed origins.
 const cors = require('cors');
 const corsOptions = {
@@ -6504,7 +6504,7 @@ const corsOptions = {
 app.use(cors(corsOptions));`
             },
             {
-                id: '197b',
+                id: '196b',
                 code: `// Dynamically reflect the request's Origin header.
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
@@ -6512,16 +6512,16 @@ app.use((req, res, next) => {
 });`
             },
             {
-                id: '197c',
+                id: '196c',
                 code: `// Only allow GET requests.
 res.setHeader('Access-Control-Allow-Methods', 'GET');`
             },
         ],
-        correctOptionId: '197a',
+        correctOptionId: '196a',
         explanation: 'A wildcard `*` for CORS is dangerous for any API that is not completely public. You must use a strict whitelist of specific domains that are trusted to make cross-origin requests.',
     },
     {
-        id: '198',
+        id: '197',
         title: 'JWT Signature Bypass / "none" Algorithm',
         category: 'Auth',
         difficulty: 'Advanced',
@@ -6539,13 +6539,13 @@ def decode_token(token):
         language: 'python',
         options: [
             {
-                id: '198a',
+                id: '197a',
                 code: `// Always specify the exact, expected algorithm(s) and never include 'none'.
 def decode_token(token, secret):
     return jwt.decode(token, secret, algorithms=['HS256'])`
             },
             {
-                id: '198b',
+                id: '197b',
                 code: `// Check if the algorithm is "none" before decoding.
 def decode_token(token, secret):
     header = jwt.get_unverified_header(token)
@@ -6554,15 +6554,15 @@ def decode_token(token, secret):
     return jwt.decode(token, secret, algorithms=['HS256'])`
             },
             {
-                id: '198c',
+                id: '197c',
                 code: `// Update the JWT library to the latest version. Modern versions disallow the 'none' algorithm by default.`
             },
         ],
-        correctOptionId: '198c',
+        correctOptionId: '197c',
         explanation: 'While explicitly checking the algorithm is good practice (A, B), the most critical fix is to use an up-to-date JWT library where this vulnerability has been patched. Modern libraries require you to explicitly opt-in to insecure algorithms like "none".',
     },
     {
-        id: '199',
+        id: '198',
         title: 'OAuth Misconfiguration',
         category: 'Auth',
         difficulty: 'Intermediate',
@@ -6575,25 +6575,25 @@ def decode_token(token, secret):
         language: 'generic',
         options: [
             {
-                id: '199a',
+                id: '198a',
                 code: `// Use an exact match for the redirect URI.
 // Allowed Redirect URI: https://example.com/callback
 // Any other URI will be rejected.`
             },
             {
-                id: '199b',
+                id: '198b',
                 code: `// URL-encode the redirect URI parameter.`
             },
             {
-                id: '199c',
+                id: '198c',
                 code: `// Use a shorter authorization code lifetime.`
             },
         ],
-        correctOptionId: '199a',
+        correctOptionId: '198a',
         explanation: 'OAuth redirect URIs must be compared using an exact string match. Allowing partial matches, wildcards, or paths opens the door for an attacker to specify a subdomain or path under their control.',
     },
     {
-        id: '200',
+        id: '199',
         title: 'SAML Assertion Forgery',
         category: 'Auth',
         difficulty: 'Expert',
@@ -6608,21 +6608,51 @@ public void processSamlResponse(String samlResponse) {
         language: 'java',
         options: [
             {
-                id: '200a',
+                id: '199a',
                 code: `// Reject any assertion that does not have a signature.`
             },
             {
-                id: '200b',
+                id: '199b',
                 code: `// Use a trusted SAML library and configure it to require and validate the signature against the Identity Provider's public key.`
             },
             {
-                id: '200c',
+                id: '199c',
                 code: `// Encrypt the entire SAML assertion.`
             },
         ],
-        correctOptionId: '200b',
+        correctOptionId: '199b',
         explanation: 'The core of SAML security is the cryptographic signature. The service provider MUST validate the signature on every assertion using the known public key of the trusted identity provider. Relying on anything less allows for trivial forgery.',
+    },
+    {
+        id: '200',
+        title: 'Deserialization of Untrusted Data (PHP)',
+        category: 'Insecure Deserialization',
+        difficulty: 'Advanced',
+        xp: 90,
+        description: 'The PHP `unserialize()` function is used on user-provided data, which can lead to object injection and remote code execution.',
+        vulnerableCode: `// PHP
+// Attacker provides a malicious serialized string in a cookie
+$data = unserialize($_COOKIE['data']);`,
+        language: 'php',
+        options: [
+            {
+                id: '200a',
+                code: `// Do not use unserialize() on untrusted input. Use a safe, structured format like JSON instead.
+$data = json_decode($_COOKIE['data']);`
+            },
+            {
+                id: '200b',
+                code: `// Validate the user's cookie before unserializing.`
+            },
+            {
+                id: '200c',
+                code: `// Use a firewall to block serialized payloads.`
+            }
+        ],
+        correctOptionId: '200a',
+        explanation: 'Like in other languages, native serialization in PHP is dangerous. The standard recommendation is to completely avoid `unserialize()` on any data that originates from a user, and to use a safe data interchange format like JSON instead.',
     }
 ];
+
 
 
