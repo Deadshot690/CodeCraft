@@ -150,6 +150,862 @@ $comment = str_replace("<script>", "", $_POST['comment']);
         explanation: 'The correct way to prevent XSS is to properly encode output for its context. `htmlspecialchars` converts special HTML characters (like <, >, ") into their corresponding HTML entities, so they are displayed as text instead of being interpreted as code by the browser.',
     },
     {
+        id: '5',
+        title: 'Command Injection',
+        category: 'SQL Injection',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'User input is passed directly to a system shell command, allowing an attacker to execute arbitrary commands.',
+        vulnerableCode: `// Python
+import os
+filename = request.args.get('filename')
+os.system('ls -l ' + filename)`,
+        language: 'python',
+        options: [
+            {
+                id: '5a',
+                code: `// Pass arguments to commands safely.
+import subprocess
+subprocess.run(['ls', '-l', filename])`
+            },
+            {
+                id: '5b',
+                code: `// Remove special characters like ';' and '&'
+filename = filename.replace(';', '').replace('&', '')
+os.system('ls -l ' + filename)`
+            },
+            {
+                id: '5c',
+                code: `// Run the command as a less privileged user.`
+            }
+        ],
+        correctOptionId: '5a',
+        explanation: 'Never pass user input directly into a shell. Use library functions that support passing arguments in an array or list, which prevents them from being interpreted as part of the command itself.',
+    },
+    {
+        id: '6',
+        title: 'Cross-Site Request Forgery (CSRF)',
+        category: 'CSRF',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'A web application does not verify if a sensitive action (like changing an email) was intentionally triggered by the user.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+// Attacker tricks a logged-in user into visiting a malicious site
+// which has a form that POSTs to /change-email
+app.post('/change-email', (req, res) => {
+  req.user.email = req.body.email;
+  // No token check!
+  db.save(req.user);
+  res.send('Email changed!');
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '6a',
+                code: `// Check the Referer header to ensure the request came from your own site.`
+            },
+            {
+                id: '6b',
+                code: `// Use a unique, unpredictable anti-CSRF token.
+// 1. Generate a token and embed it in the form.
+// 2. On submission, verify the token matches the one in the user's session.
+if (req.session.csrfToken !== req.body.csrfToken) {
+  return res.status(403).send('Invalid CSRF token');
+}`
+            },
+            {
+                id: '6c',
+                code: `// Only allow the request if it is an AJAX request.`
+            }
+        ],
+        correctOptionId: '6b',
+        explanation: 'The standard defense against CSRF is the Synchronizer Token Pattern. The server provides a unique, secret token to the client, which must be included in all subsequent state-changing requests.',
+    },
+    {
+        id: '7',
+        title: 'XML External Entity (XXE) Injection',
+        category: 'SQL Injection',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'An application parses XML input from an untrusted source, and the XML parser is configured to process external entities.',
+        vulnerableCode: `// Java
+// Attacker sends XML with a malicious DOCTYPE
+// <!DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
+DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+DocumentBuilder builder = factory.newDocumentBuilder();
+Document doc = builder.parse(new InputSource(new StringReader(xmlInput)));`,
+        language: 'java',
+        options: [
+            {
+                id: '7a',
+                code: `// Manually search for and remove "<!DOCTYPE" from the XML string.`
+            },
+            {
+                id: '7b',
+                code: `// Disable DTDs and external entities in the XML parser.
+factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);`
+            },
+            {
+                id: '7c',
+                code: `// Use a different data format like JSON instead of XML.`
+            }
+        ],
+        correctOptionId: '7b',
+        explanation: 'The safest way to prevent XXE is to configure the XML parser to completely disable Document Type Definitions (DTDs) and the processing of external entities. This is the most direct and effective control.',
+    },
+    {
+        id: '8',
+        title: 'Insecure Deserialization',
+        category: 'SQL Injection',
+        difficulty: 'Advanced',
+        xp: 90,
+        description: 'An application deserializes untrusted data without sufficient validation, leading to remote code execution.',
+        vulnerableCode: `// Java
+// Attacker crafts a malicious serialized object
+ObjectInputStream ois = new ObjectInputStream(untrustedInputStream);
+MyObject obj = (MyObject) ois.readObject();`,
+        language: 'java',
+        options: [
+            {
+                id: '8a',
+                code: `// Use a safe, data-only format like JSON instead of native serialization.`
+            },
+            {
+                id: '8b',
+                code: `// Implement a custom readObject method in MyObject to validate the data.`
+            },
+            {
+                id: '8c',
+                code: `// Keep the JRE and libraries updated to patch known deserialization gadgets.`
+            }
+        ],
+        correctOptionId: '8a',
+        explanation: 'Native object serialization is inherently dangerous. The most robust solution is to avoid it completely and use a human-readable, data-only format like JSON for communication.',
+    },
+    {
+        id: '9',
+        title: 'Path Traversal',
+        category: 'IDOR',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'User input is used to construct a file path, but special elements like `../` are not properly sanitized.',
+        vulnerableCode: `// PHP
+$template = $_GET['template'];
+// e.g., ?template=../../../../etc/passwd
+include("/var/www/templates/" . $template);`,
+        language: 'php',
+        options: [
+            {
+                id: '9a',
+                code: `// Use a whitelist of allowed template names.
+$allowed = ['main', 'profile', 'contact'];
+if (in_array($template, $allowed)) {
+    include("/var/www/templates/" . $template);
+}`
+            },
+            {
+                id: '9b',
+                code: `// Strip out ".." from the input string.
+$template = str_replace('../', '', $_GET['template']);`
+            },
+            {
+                id: '9c',
+                code: `// Use realpath() to resolve the path and check if it's within the allowed directory.`
+            }
+        ],
+        correctOptionId: '9a',
+        explanation: 'Blacklisting (`str_replace`) is often bypassable. The most secure method is to use a strict whitelist of allowed file or template names, ensuring no other files can be accessed.',
+    },
+    {
+        id: '10',
+        title: 'Weak Password Hashing',
+        category: 'CSRF',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'Passwords are hashed using a fast, unsalted algorithm like MD5 or SHA1, making them vulnerable to rainbow table and brute-force attacks.',
+        vulnerableCode: `// Python
+import hashlib
+password = "password123"
+hashed_password = hashlib.md5(password.encode()).hexdigest()`,
+        language: 'python',
+        options: [
+            {
+                id: '10a',
+                code: `// Use a modern, slow, salted hashing algorithm like Argon2, scrypt, or bcrypt.
+import bcrypt
+salt = bcrypt.gensalt()
+hashed_password = bcrypt.hashpw(password.encode(), salt)`
+            },
+            {
+                id: '10b',
+                code: `// Hash the password multiple times (e.g., 1000 rounds of SHA256).`
+            },
+            {
+                id: '10c',
+                code: `// Add a static "pepper" to the password before hashing.`
+            }
+        ],
+        correctOptionId: '10a',
+        explanation: 'Secure password storage requires a hashing algorithm that is slow by design (to resist brute-force) and uses a unique salt for each user (to resist rainbow tables). Bcrypt, scrypt, and Argon2 are the current industry standards.',
+    },
+    {
+        id: '11',
+        title: 'Unvalidated Redirects and Forwards',
+        category: 'IDOR',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'The application redirects to a URL specified in a parameter without validating it, allowing attackers to redirect users to malicious sites.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+app.get('/redirect', (req, res) => {
+  const url = req.query.url;
+  // e.g., ?url=http://evil.com
+  res.redirect(url);
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '11a',
+                code: `// Validate the URL against a whitelist of allowed domains or ensure it's a relative path.
+if (isSafeUrl(url)) {
+    res.redirect(url);
+}`
+            },
+            {
+                id: '11b',
+                code: `// Show an intermediate page that says "You are now being redirected...".`
+            },
+            {
+                id: '11c',
+                code: `// Only redirect if the URL does not contain "http".`
+            }
+        ],
+        correctOptionId: '11a',
+        explanation: 'Never trust user input for redirection targets. The application must validate that the provided URL is safe and belongs to an expected destination, either by checking against a whitelist or by ensuring it is a relative path within the same application.',
+    },
+    {
+        id: '12',
+        title: 'Verbose Error Messages',
+        category: 'CSRF',
+        difficulty: 'Beginner',
+        xp: 40,
+        description: 'The application reveals detailed error messages (e.g., stack traces, database errors) to the user, which can leak sensitive information about the system.',
+        vulnerableCode: `// Python (Flask)
+@app.errorhandler(Exception)
+def handle_error(e):
+    # In production, this would show the user the full exception details.
+    return str(e), 500`,
+        language: 'python',
+        options: [
+            {
+                id: '12a',
+                code: `// In a production environment, catch the exception, log the full details for developers, and show the user a generic error message.
+def handle_error(e):
+    log.error(e)
+    return "An internal error occurred.", 500`
+            },
+            {
+                id: '12b',
+                code: `// Wrap every function in its own try/except block.`
+            },
+            {
+                id: '12c',
+                code: `// Only show error messages to authenticated users.`
+            }
+        ],
+        correctOptionId: '12a',
+        explanation: 'Detailed error messages should never be shown to end-users in a production environment. The correct approach is to log the detailed error for debugging and present the user with a generic, non-informative error message.',
+    },
+    {
+        id: '13',
+        title: 'DOM-based XSS',
+        category: 'XSS',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'Client-side JavaScript reads data from a user-controllable source (like `location.hash`) and passes it to an unsafe "sink" (like `eval()` or `innerHTML`).',
+        vulnerableCode: `// JavaScript
+// Attacker crafts URL: https://example.com#<img src=1 onerror=alert(1)>
+const data = window.location.hash.substring(1);
+document.getElementById('content').innerHTML = decodeURIComponent(data);`,
+        language: 'javascript',
+        options: [
+            {
+                id: '13a',
+                code: `// Use a safe sink, like .textContent, to render the data as text.
+document.getElementById('content').textContent = decodeURIComponent(data);`
+            },
+            {
+                id: '13b',
+                code: `// Sanitize the input before writing to innerHTML.
+const sanitized = DOMPurify.sanitize(decodeURIComponent(data));
+document.getElementById('content').innerHTML = sanitized;`
+            },
+            {
+                id: '13c',
+                code: 'Both A and B are valid solutions, depending on whether HTML rendering is required. A is safer if no HTML is needed.'
+            }
+        ],
+        correctOptionId: '13c',
+        explanation: 'DOM-based XSS occurs entirely on the client side. The fix is to avoid passing user-controllable data to unsafe sinks. If HTML is not needed, using `.textContent` (A) is the simplest fix. If HTML is required, it must be sanitized with a library like DOMPurify (B).',
+    },
+    {
+        id: '14',
+        title: 'Prototype Pollution',
+        category: 'CSRF',
+        difficulty: 'Expert',
+        xp: 95,
+        description: 'An attacker modifies `Object.prototype`, causing all objects in the application to inherit a malicious property.',
+        vulnerableCode: `// JavaScript
+function merge(target, source) {
+  for (let key in source) {
+    if (key === '__proto__') continue; // Incomplete check
+    target[key] = source[key];
+  }
+}
+let obj1 = {};
+// Attacker sends: { "__proto__": { "isAdmin": true } }
+let malicious_input = JSON.parse('{"__proto__":{"isAdmin":true}}');
+merge(obj1, malicious_input);`,
+        language: 'javascript',
+        options: [
+            {
+                id: '14a',
+                code: `// The best defense is to avoid unsafe recursive merge operations.
+// Other defenses include freezing Object.prototype or using objects created with Object.create(null).
+Object.freeze(Object.prototype);`
+            },
+            {
+                id: '14b',
+                code: `// Block the keyword "__proto__" from all user input.`
+            },
+            {
+                id: '14c',
+                code: `// Check for the constructor property as well.
+if (key === '__proto__' || key === 'constructor') continue;`
+            }
+        ],
+        correctOptionId: '14a',
+        explanation: 'Prototype pollution is a subtle and dangerous vulnerability. While blacklisting properties like `__proto__` or `constructor` can help, it\'s often bypassable. The most robust defenses are to avoid unsafe recursive merge/clone functions entirely, or to proactively harden the environment by freezing `Object.prototype`.',
+    },
+    {
+        id: '15',
+        title: 'Timing Attack',
+        category: 'IDOR',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'String comparison is not constant-time, allowing an attacker to guess a secret (like a token) character by character by measuring server response times.',
+        vulnerableCode: `// Python
+def check_token(provided_token, secret_token):
+    # This comparison short-circuits and returns early on the first mismatch.
+    if provided_token != secret_token:
+        return False
+    return True`,
+        language: 'python',
+        options: [
+            {
+                id: '15a',
+                code: `// Use a constant-time comparison function.
+import hmac
+def check_token(provided_token, secret_token):
+    return hmac.compare_digest(provided_token, secret_token)`
+            },
+            {
+                id: '15b',
+                code: `// Add a random delay before returning the response.`
+            },
+            {
+                id: '15c',
+                code: `// Ensure both strings have the same length before comparing.`
+            }
+        ],
+        correctOptionId: '15a',
+        explanation: 'Standard string comparison (`!=` or `==`) is not secure for cryptographic secrets because it returns as soon as it finds a mismatch. This leaks timing information. You must use a dedicated, constant-time comparison function provided by a crypto library.',
+    },
+    {
+        id: '16',
+        title: 'Insecure Randomness',
+        category: 'CSRF',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'The application uses a weak, predictable pseudo-random number generator (PRNG) for a security-sensitive purpose, like generating password reset tokens.',
+        vulnerableCode: `// JavaScript
+// Math.random() is not cryptographically secure.
+function generateResetToken() {
+    return Math.random().toString(36).substring(2);
+}`,
+        language: 'javascript',
+        options: [
+            {
+                id: '16a',
+                code: `// Use a cryptographically secure pseudo-random number generator (CSPRNG).
+import { randomBytes } from 'crypto';
+function generateResetToken() {
+    return randomBytes(20).toString('hex');
+}`
+            },
+            {
+                id: '16b',
+                code: `// Seed the random number generator with the current time.`
+            },
+            {
+                id: '16c',
+                code: `// Generate multiple tokens and pick one.`
+            }
+        ],
+        correctOptionId: '16a',
+        explanation: 'For any security-sensitive context (session IDs, tokens, etc.), you must use a cryptographically secure random number generator provided by the language or platform, such as `crypto.randomBytes` in Node.js or `secrets` in Python.',
+    },
+    {
+        id: '18',
+        title: 'Insecure File Upload',
+        category: 'IDOR',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'The application allows users to upload files but does not properly validate the file type or content, allowing an attacker to upload a web shell.',
+        vulnerableCode: `// PHP
+// No validation of file type, content, or extension.
+$target_file = "/var/www/uploads/" . basename($_FILES["fileToUpload"]["name"]);
+move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);`,
+        language: 'php',
+        options: [
+            {
+                id: '18a',
+                code: `// 1. Validate the file extension against a whitelist.
+// 2. Do not trust the client-provided Content-Type header.
+// 3. Generate a new, random filename for the uploaded file.
+// 4. Serve uploaded files from a different domain or with a restrictive Content-Type.`
+            },
+            {
+                id: '18b',
+                code: `// Check the Content-Type header sent by the browser.`
+            },
+            {
+                id: '18c',
+                code: `// Scan the uploaded file for viruses.`
+            }
+        ],
+        correctOptionId: '18a',
+        explanation: 'Secure file uploads require multiple layers of defense. This includes validating the file extension, ignoring the client-provided MIME type, renaming the file on the server to prevent extension-based attacks (e.g., `shell.php.jpg`), and serving the files from a non-executable location.',
+    },
+    {
+        id: '19',
+        title: 'Broken Authentication - Weak Password Policy',
+        category: 'CSRF',
+        difficulty: 'Beginner',
+        xp: 45,
+        description: 'The application allows users to set extremely simple, short, or common passwords like "123456" or "password".',
+        vulnerableCode: `// Conceptual - Sign-up form logic
+// The server has no validation rules for the password field's strength.
+// A user can register with the password "a".`,
+        language: 'generic',
+        options: [
+            {
+                id: '19a',
+                code: `// Enforce a strong password policy on the server-side:
+// - Minimum length (e.g., 10-12 characters)
+// - Complexity requirements (mix of upper, lower, numbers, symbols)
+// - Check against a list of common passwords.`
+            },
+            {
+                id: '19b',
+                code: `// Force users to change their password every 90 days.`
+            },
+            {
+                id: '19c',
+                code: `// Use multi-factor authentication (MFA).`
+            }
+        ],
+        correctOptionId: '19a',
+        explanation: 'While MFA and password rotation are good security measures, the fundamental fix is to enforce a strong password policy at the time of creation. This prevents users from choosing easily guessable passwords in the first place.',
+    },
+    {
+        id: '20',
+        title: 'Missing HttpOnly Cookie Flag',
+        category: 'XSS',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'A session cookie is set without the `HttpOnly` flag, allowing it to be accessed by client-side JavaScript. If an XSS vulnerability exists, an attacker can steal the session cookie.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+res.cookie('sessionId', 'abc12345', {
+  // HttpOnly flag is missing!
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '20a',
+                code: `// Always set the HttpOnly flag for session cookies.
+res.cookie('sessionId', 'abc12345', {
+  httpOnly: true,
+  secure: true // Also important!
+});`
+            },
+            {
+                id: '20b',
+                code: `// Encrypt the cookie value.`
+            },
+            {
+                id: '20c',
+                code: `// Use a shorter session timeout.`
+            }
+        ],
+        correctOptionId: '20a',
+        explanation: 'The `HttpOnly` flag instructs the browser to prevent client-side scripts from accessing the cookie. This is a critical defense-in-depth measure against session hijacking via XSS attacks.',
+    },
+    {
+        id: '21',
+        title: 'Regular Expression Denial of Service (ReDoS)',
+        category: 'IDOR',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'A poorly written regular expression takes an extremely long time to evaluate certain inputs, leading to a denial of service.',
+        vulnerableCode: `// JavaScript
+// Vulnerable to "catastrophic backtracking"
+const regex = /^(a+)+$/; 
+// An input like "aaaaaaaaaaaaaaaaaaaaaaX" will cause the regex engine
+// to hang for a very long time.`,
+        language: 'javascript',
+        options: [
+            {
+                id: '21a',
+                code: `// Avoid nested quantifiers and overlapping groups in regular expressions.
+// A better regex might be:
+const regex = /^a+$/;`
+            },
+            {
+                id: '21b',
+                code: `// Limit the length of the input string before testing it with the regex.`
+            },
+            {
+                id: '21c',
+                code: `// Run the regex matching in a separate worker thread with a timeout.`
+            }
+        ],
+        correctOptionId: '21a',
+        explanation: 'ReDoS occurs due to "catastrophic backtracking" in certain regex patterns. The fundamental fix is to rewrite the regular expression to be more efficient and avoid problematic constructs like nested quantifiers (e.g., `(a+)+`).',
+    },
+    {
+        id: '25',
+        title: 'Cleartext Submission of Password',
+        category: 'CSRF',
+        difficulty: 'Beginner',
+        xp: 45,
+        description: 'The login form submits the user\'s password to the server over an unencrypted HTTP connection.',
+        vulnerableCode: `<!-- HTML -->
+<form action="http://example.com/login" method="post">
+  <input type="password" name="password">
+  <button type="submit">Log In</button>
+</form>`,
+        language: 'generic',
+        options: [
+            {
+                id: '25a',
+                code: `// The entire site must be served over HTTPS (TLS/SSL).
+// The form action should point to an https:// URL.`
+            },
+            {
+                id: '25b',
+                code: `// Hash the password on the client-side with JavaScript before submitting it.`
+            },
+            {
+                id: '25c',
+                code: `// Use a POST request instead of a GET request.`
+            }
+        ],
+        correctOptionId: '25a',
+        explanation: 'All communication between the client and server must be encrypted using HTTPS to prevent eavesdropping. Client-side hashing (B) is not a substitute for HTTPS, as an attacker can still intercept the hash and perform an offline attack.',
+    },
+    {
+        id: '26',
+        title: 'Deserialization of Untrusted Data (PHP)',
+        category: 'SQL Injection',
+        difficulty: 'Advanced',
+        xp: 90,
+        description: 'The PHP `unserialize()` function is used on user-provided data, which can lead to object injection and remote code execution.',
+        vulnerableCode: `// PHP
+// Attacker provides a malicious serialized string in a cookie
+$data = unserialize($_COOKIE['data']);`,
+        language: 'php',
+        options: [
+            {
+                id: '26a',
+                code: `// Do not use unserialize() on untrusted input. Use a safe, structured format like JSON instead.
+$data = json_decode($_COOKIE['data']);`
+            },
+            {
+                id: '26b',
+                code: `// Validate the user's cookie before unserializing.`
+            },
+            {
+                id: '26c',
+                code: `// Use a firewall to block serialized payloads.`
+            }
+        ],
+        correctOptionId: '26a',
+        explanation: 'Like in other languages, native serialization in PHP is dangerous. The standard recommendation is to completely avoid `unserialize()` on any data that originates from a user, and to use a safe data interchange format like JSON instead.',
+    },
+    {
+        id: '27',
+        title: 'Open Redirect',
+        category: 'IDOR',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'An application redirects to a user-controlled URL without proper validation, enabling phishing attacks.',
+        vulnerableCode: `// C# (ASP.NET)
+public ActionResult Redirect(string returnUrl)
+{
+    // Attacker crafts link: /Redirect?returnUrl=http://evil-phishing-site.com
+    return Redirect(returnUrl);
+}`,
+        language: 'generic',
+        options: [
+            {
+                id: '27a',
+                code: `// Validate the returnUrl to ensure it is a local URL within your application.
+if (Url.IsLocalUrl(returnUrl))
+{
+    return Redirect(returnUrl);
+}
+return RedirectToAction("Index", "Home");`
+            },
+            {
+                id: '27b',
+                code: `// Check if the returnUrl starts with "http".`
+            },
+            {
+                id: '27c',
+                code: `// Show a warning page before redirecting.`
+            }
+        ],
+        correctOptionId: '27a',
+        explanation: 'Open redirect vulnerabilities are exploited by phishing attacks. The server must validate any user-supplied URLs to ensure they only point to pages within the same application. Most web frameworks provide a helper function (like `Url.IsLocalUrl`) for this purpose.',
+    },
+    {
+        id: '28',
+        title: 'Missing Content Security Policy (CSP)',
+        category: 'XSS',
+        difficulty: 'Advanced',
+        xp: 70,
+        description: 'The application does not set a Content Security Policy header, removing a powerful defense-in-depth layer against XSS attacks.',
+        vulnerableCode: `// The application's HTTP responses do not include a Content-Security-Policy header.
+// This makes it easier for an attacker to execute injected scripts.`,
+        language: 'generic',
+        options: [
+            {
+                id: '28a',
+                code: `// Implement a strict CSP that whitelists trusted sources for scripts, styles, images, etc.
+// Example:
+Content-Security-Policy: default-src 'self'; script-src 'self' https://apis.google.com;`
+            },
+            {
+                id: '28b',
+                code: `// Rely on browser's built-in XSS filters.`
+            },
+            {
+                id: '28c',
+                code: `// Sanitize all user input perfectly, making a CSP unnecessary.`
+            }
+        ],
+        correctOptionId: '28a',
+        explanation: 'CSP is a critical defense-in-depth mechanism. While you should always sanitize input to prevent XSS, a CSP provides an additional layer of security by instructing the browser to only execute code from trusted sources, mitigating the impact of any XSS flaws that might be missed.',
+    },
+    {
+        id: '29',
+        title: 'Use of Hardcoded Credentials',
+        category: 'CSRF',
+        difficulty: 'Beginner',
+        xp: 45,
+        description: 'A password, API key, or other secret is written directly into the source code.',
+        vulnerableCode: `// Java
+String dbPassword = "MySuperSecretPassword123!";
+Connection conn = DriverManager.getConnection(dbUrl, "admin", dbPassword);`,
+        language: 'java',
+        options: [
+            {
+                id: '29a',
+                code: `// Load credentials from environment variables or a secure secret management system.
+String dbPassword = System.getenv("DB_PASSWORD");`
+            },
+            {
+                id: '29b',
+                code: `// Store the password in a separate config.java file.`
+            },
+            {
+                id: '29c',
+                code: `// Encrypt the password in the code and decrypt it at runtime.`
+            }
+        ],
+        correctOptionId: '29a',
+        explanation: 'Credentials must never be hardcoded in source code. They should be managed externally using environment variables, configuration files that are not checked into source control, or a dedicated secrets management service (like AWS Secrets Manager, GCP Secret Manager, or HashiCorp Vault).',
+    },
+    {
+        id: '30',
+        title: 'Broken Access Control - Missing Role Check',
+        category: 'IDOR',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'An endpoint is protected by an authentication check, but fails to check if the authenticated user has the required *role* (e.g., "admin").',
+        vulnerableCode: `// Python (Flask)
+@app.route('/admin/dashboard')
+@login_required  // Checks IF user is logged in...
+def admin_dashboard():
+    # ... but does NOT check if user IS AN ADMIN.
+    return "Welcome to the admin panel!"`,
+        language: 'python',
+        options: [
+            {
+                id: '30a',
+                code: `// Implement a role-based access control (RBAC) check.
+@app.route('/admin/dashboard')
+@login_required
+def admin_dashboard():
+    if current_user.role != 'admin':
+        abort(403) // Forbidden
+    return "Welcome!"`
+            },
+            {
+                id: '30b',
+                code: `// Make the URL harder to guess.
+@app.route('/admin/a7c4f1/dashboard')`
+            },
+            {
+                id: '30c',
+                code: `// Log all access attempts to the admin dashboard.`
+            }
+        ],
+        correctOptionId: '30a',
+        explanation: 'Authentication (who you are) is different from authorization (what you are allowed to do). For privileged endpoints, you must check not only that a user is logged in, but also that they have the specific roles or permissions required for that action.',
+    },
+    {
+        id: '31',
+        title: 'Blind SQL Injection',
+        category: 'SQL Injection',
+        difficulty: 'Expert',
+        xp: 95,
+        description: 'The application is vulnerable to SQL injection, but the results of the query are not returned to the user. An attacker must use boolean or time-based techniques to extract data.',
+        vulnerableCode: `// A tracking cookie is used in a query without parameterization.
+// Attacker sets cookie to: 'xyz' AND 1=1 --
+// Attacker sets cookie to: 'xyz' AND 1=2 --
+// By observing the different responses (e.g., "Welcome back!" vs "Session not found"), the attacker can infer information.`,
+        language: 'generic',
+        options: [
+            {
+                id: '31a',
+                code: `// The fix is the same as for regular SQL injection: Use parameterized queries (prepared statements) for all database access.
+query = "SELECT * FROM sessions WHERE session_id = ?"
+// ... execute with the cookie value as a parameter.`
+            },
+            {
+                id: '31b',
+                code: `// Return a generic response for all outcomes to confuse the attacker.`
+            },
+            {
+                id: '31c',
+                code: `// Add a random delay to the response time.`
+            }
+        ],
+        correctOptionId: '31a',
+        explanation: 'Even if the application doesn\'t directly display database results, it can still be vulnerable. Any user input that influences a database query must be handled with parameterized queries to prevent injection, regardless of whether the results are shown.',
+    },
+    {
+        id: '32',
+        title: 'XML Bomb (Billion Laughs Attack)',
+        category: 'IDOR',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'An XML document uses nested entities to create a denial-of-service attack. A small XML file expands into a huge document in memory, consuming all available RAM.',
+        vulnerableCode: `<!-- Malicious XML -->
+<?xml version="1.0"?>
+<!DOCTYPE lolz [
+  <!ENTITY lol "lol">
+  <!ENTITY lol2 "&lol;&lol;&lol;...">
+  <!ENTITY lol3 "&lol2;&lol2;&lol2;...">
+  ...
+]>
+<lolz>&lol9;</lolz>`,
+        language: 'generic',
+        options: [
+            {
+                id: '32a',
+                code: `// The best defense is to disable Document Type Definitions (DTDs) in the XML parser, as they are required for this attack.
+factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);`
+            },
+            {
+                id: '32b',
+                code: `// Limit the size of the incoming XML file.`
+            },
+            {
+                id: '32c',
+                code: `// Scan the XML for the string "<!ENTITY".`
+            }
+        ],
+        correctOptionId: '32a',
+        explanation: 'This DoS attack relies on entity expansion defined in a DTD. The most effective way to prevent it is to configure the XML parser to completely disallow DTDs, which also prevents other DTD-based attacks like XXE.',
+    },
+    {
+        id: '33',
+        title: 'Session Fixation',
+        category: 'CSRF',
+        difficulty: 'Advanced',
+        xp: 70,
+        description: 'An attacker tricks a user into using a session ID known to the attacker. After the user logs in, the attacker can use the same session ID to impersonate the user.',
+        vulnerableCode: `// Conceptual Flow
+// 1. Attacker visits site, gets a session ID (e.g., 123).
+// 2. Attacker crafts a link: https://example.com/?SESSIONID=123 and sends to victim.
+// 3. Victim clicks link, uses session 123, and logs in.
+// 4. The server does not generate a new session ID upon login.
+// 5. Attacker can now use session ID 123 to access the victim's account.`,
+        language: 'generic',
+        options: [
+            {
+                id: '33a',
+                code: `// Upon successful authentication, the server must invalidate the old session ID and generate a new, secure one for the user.
+// This is often called "session regeneration".`
+            },
+            {
+                id: '33b',
+                code: `// Do not accept session IDs from URL parameters.`
+            },
+            {
+                id: '33c',
+                code: `// Use a long and random session ID.`
+            }
+        ],
+        correctOptionId: '33a',
+        explanation: 'Session fixation is prevented by regenerating the session ID immediately after a successful login. This ensures that any pre-login session ID (which may be known to an attacker) is invalidated, and the user is issued a fresh session that only they know.',
+    },
+    {
+        id: '34',
+        title: 'Mass Assignment',
+        category: 'IDOR',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'A web framework automatically binds incoming request parameters to object properties. An attacker sends extra parameters (like `isAdmin=true`) that were not in the form, and the framework blindly assigns them.',
+        vulnerableCode: `// Ruby on Rails (conceptual)
+// Attacker submits a sign-up form but adds 'user[is_admin]=1' to the POST body.
+@user = User.new(params[:user]) // is_admin is automatically set
+@user.save`,
+        language: 'generic',
+        options: [
+            {
+                id: '34a',
+                code: `// Use a "strong parameters" or "whitelist" approach to explicitly define which parameters are allowed to be mass-assigned.
+// e.g., in Rails:
+params.require(:user).permit(:name, :email, :password)`
+            },
+            {
+                id: '34b',
+                code: `// Use a "blacklist" approach to block known sensitive fields like 'is_admin'.`
+            },
+            {
+                id: '34c',
+                code: `// Make the 'isAdmin' property private in the User model.`
+            }
+        ],
+        correctOptionId: '34a',
+        explanation: 'Blacklisting is brittle because you might forget a sensitive field. The secure-by-default approach is whitelisting, where you explicitly declare the exact set of fields that are safe for mass assignment from a user request. All modern web frameworks provide a feature for this.',
+    },
+    {
         id: '35',
         title: 'Server-Side Request Forgery (SSRF)',
         category: 'SSRF',
@@ -1180,3 +2036,4 @@ app.post('/login', (req, res) => {
 ];
 
     
+
