@@ -1490,10 +1490,10 @@ let regex = new RegExp("^" + userPattern + "$");
         options: [
             {
                 id: '46a',
-                code: `// Escape special regex characters from the user input before creating the RegExp.
+                code: `// This is the fixed version
 function escapeRegex(string) {
-    // This escapes special characters
-    return string.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');
+    // This escapes special characters by adding a backslash before them.
+    return string.replace(/[.*+?^${}()|[\\]\\]/g, '\\\\$&');
 }
 let regex = new RegExp("^" + escapeRegex(userPattern) + "$");`
             },
