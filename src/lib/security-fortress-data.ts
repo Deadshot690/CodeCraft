@@ -263,8 +263,7 @@ move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $new_name);`
         difficulty: 'Advanced',
         xp: 90,
         description: 'A form that performs a state-changing action (like changing a password) lacks a mechanism to verify that the request was intentionally submitted by the user.',
-        vulnerableCode: `// HTML Form
-<form action="/change-password" method="POST">
+        vulnerableCode: `<form action="/change-password" method="POST">
   <input type="password" name="new_password">
   <button type="submit">Change Password</button>
 </form>`,
@@ -272,15 +271,13 @@ move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $new_name);`
         options: [
             {
                 id: '8a',
-                code: `// Change from POST to GET
-<form action="/change-password" method="GET">
+                code: `<form action="/change-password" method="GET">
 ...
 </form>`
             },
             {
                 id: '8b',
-                code: `// Add a hidden, unpredictable anti-CSRF token
-<form action="/change-password" method="POST">
+                code: `<form action="/change-password" method="POST">
   <input type="hidden" name="csrf_token" value="{{ server_generated_token }}">
   ...
 </form>
@@ -288,7 +285,13 @@ move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $new_name);`
             },
             {
                 id: '8c',
-                code: `// Add a captcha to the form`
+                code: `<form ...>
+  <script>
+    // Use JavaScript to confirm the action
+    if (!confirm('Are you sure?')) { event.preventDefault(); }
+  </script>
+  ...
+</form>`
             }
         ],
         correctOptionId: '8b',
@@ -708,28 +711,113 @@ def redirect_to_url():
         ],
         correctOptionId: '20a',
         explanation: 'Never redirect to a user-supplied URL without validating it against a whitelist of known, safe destinations. Checking for just `http` is not enough, as it could be `http://malicious-site.com`.',
+    },
+    {
+        id: '21',
+        title: 'Prototype Pollution',
+        category: 'IDOR',
+        difficulty: 'Advanced',
+        xp: 90,
+        description: 'A recursive merge function unsafely merges objects, allowing an attacker to modify the `Object.prototype`.',
+        vulnerableCode: `// JavaScript
+function merge(target, source) {
+  for (let key in source) {
+    if (key === '__proto__') continue;
+    if (typeof source[key] === 'object') {
+      merge(target[key], source[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+}`,
+        language: 'javascript',
+        options: [
+            {
+                id: '21a',
+                code: `// The code is safe because it checks for '__proto__'.`
+            },
+            {
+                id: '21b',
+                code: `function merge(target, source) {
+  for (let key in source) {
+    // Block constructor and prototype properties
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+      continue;
+    }
+    // ...
+  }
+}`
+            }
+        ],
+        correctOptionId: '21b',
+        explanation: 'An attacker can use other properties like `constructor` and `prototype` to pollute the object. All of these must be blocked during a merge.',
+    },
+    {
+        id: '22',
+        title: 'Blind SQL Injection',
+        category: 'SQL Injection',
+        difficulty: 'Advanced',
+        xp: 95,
+        description: 'The application does not return data from the database directly, but an attacker can still infer information by observing the application\'s different responses to queries.',
+        vulnerableCode: `// PHP
+$id = $_GET['id'];
+$sql = "SELECT tracking_id FROM tracking WHERE id = '$id'";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) {
+    echo "Tracking ID found.";
+} else {
+    echo "Tracking ID not found.";
+}`,
+        language: 'php',
+        options: [
+            {
+                id: '22a',
+                code: `// Add a delay to make timing attacks harder
+sleep(1);
+if (mysqli_num_rows($result) > 0) { ... }`
+            },
+            {
+                id: '22b',
+                code: `// The fix is the same as regular SQLi: use prepared statements.
+$stmt = $pdo->prepare("SELECT tracking_id FROM tracking WHERE id = :id");
+$stmt->execute(['id' => $id]);`
+            },
+        ],
+        correctOptionId: '22b',
+        explanation: 'Even if no data is shown, the query structure is still vulnerable. Prepared statements prevent the user input from being interpreted as a command, fixing all forms of SQLi.',
+    },
+    {
+        id: '23',
+        title: 'Insecure CORS Configuration',
+        category: 'CSRF',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'The server\'s Cross-Origin Resource Sharing (CORS) policy reflects any origin, allowing any malicious website to make requests to it.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '23a',
+                code: `// Explicitly whitelist trusted domains
+const whitelist = ['https://trusted.com', 'https://another.trusted.com'];
+const origin = req.headers.origin;
+if (whitelist.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+}`
+            },
+            {
+                id: '23b',
+                code: `// Allow all origins
+res.setHeader('Access-Control-Allow-Origin', '*');`
+            },
+        ],
+        correctOptionId: '23a',
+        explanation: 'Never reflect the origin header. Always use a strict whitelist of trusted domains for your CORS policy, especially when allowing credentials.',
     }
 ];
-
-// for (let i = 21; i <= 70; i++) {
-//   securityFortressChallenges.push({
-//     id: `${i}`,
-//     title: `Placeholder Challenge ${i}`,
-//     category: 'XSS',
-//     difficulty: 'Beginner',
-//     xp: 30,
-//     description: 'This is a placeholder description for the challenge.',
-//     vulnerableCode: `// Placeholder vulnerable code for challenge ${i}`,
-//     language: 'javascript',
-//     options: [
-//       { id: `${i}a`, code: `// Option A for challenge ${i}` },
-//       { id: `${i}b`, code: `// Correct option B for challenge ${i}` },
-//     ],
-//     correctOptionId: `${i}b`,
-//     explanation: `This is the placeholder explanation for why option B is correct for challenge ${i}.`,
-//   });
-// }
-
-    
-
-
