@@ -1,8 +1,9 @@
+
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Code, Gamepad, Home } from "lucide-react";
+import { Code, Gamepad, Home, Settings } from "lucide-react";
 
 import {
   Sidebar,
@@ -23,7 +24,10 @@ const CodeCraftLogo = () => (
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const isActive = (path: string) => pathname === path || (path !== '/dashboard' && pathname.startsWith(path));
+  const isActive = (path: string) => {
+    if (path === '/dashboard') return pathname === path || pathname === '/profile';
+    return pathname.startsWith(path);
+  }
 
   return (
     <Sidebar>
@@ -65,6 +69,18 @@ export function AppSidebar() {
               <Link href="/games">
                 <Gamepad />
                 <span>Mini-Games</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              isActive={isActive("/settings")}
+              tooltip="Settings"
+            >
+              <Link href="/settings">
+                <Settings />
+                <span>Settings</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

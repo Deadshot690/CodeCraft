@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { tasks, user } from "@/lib/data";
-import { Flame, Star, Zap, Trophy } from "lucide-react";
+import { Flame, Star, Zap, Trophy, Settings } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -33,6 +33,14 @@ export default function DashboardPage() {
         <h1 className="font-headline text-xl font-bold tracking-tight md:text-2xl">
           Dashboard
         </h1>
+         <div className="ml-auto">
+          <Button asChild variant="outline">
+            <Link href="/settings">
+              <Settings className="mr-2 h-4 w-4" />
+              Edit Profile
+            </Link>
+          </Button>
+        </div>
       </header>
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
