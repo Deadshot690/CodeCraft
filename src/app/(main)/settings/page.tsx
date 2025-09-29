@@ -17,7 +17,6 @@ import {
   Code, 
   Bell, 
   Shield, 
-  CreditCard, 
   Paintbrush, 
   Settings as SettingsIcon 
 } from 'lucide-react';
@@ -304,45 +303,6 @@ const PrivacySettings = () => {
     )
 }
 
-const SubscriptionSettings = () => {
-    return (
-         <Card>
-            <CardHeader>
-                <CardTitle>Billing & Subscriptions</CardTitle>
-                <CardDescription>Manage your subscription and payment details.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-                <div className="rounded-lg border bg-accent/30 p-4">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="font-bold">CodeCraft Pro</p>
-                            <p className="text-sm text-muted-foreground">Renews on Jan 1, 2025</p>
-                        </div>
-                        <Button variant="ghost">Manage</Button>
-                    </div>
-                </div>
-                 <div className="rounded-lg border p-4">
-                    <Label>Payment Method</Label>
-                     <div className="mt-2 flex items-center justify-between">
-                        <p className="text-sm text-muted-foreground">Visa ending in 4242</p>
-                        <Button variant="outline">Update</Button>
-                    </div>
-                </div>
-                <div className="rounded-lg border p-4">
-                    <Label>Invoices</Label>
-                     <div className="mt-2 flex items-center justify-between">
-                        <p className="text-sm text-muted-foreground">December 2023</p>
-                        <Button variant="link">Download</Button>
-                    </div>
-                </div>
-                 <div className="text-center">
-                    <Button variant="link" className="text-destructive">Cancel Subscription</Button>
-                 </div>
-            </CardContent>
-        </Card>
-    )
-}
-
 const FunSettings = () => {
     const { settings, setSetting } = useSettings();
 
@@ -466,7 +426,6 @@ export default function SettingsPage() {
         { value: 'editor', label: 'Editor & Practice', icon: Code, component: <EditorPreferences /> },
         { value: 'notifications', label: 'Notifications', icon: Bell, component: <NotificationSettings /> },
         { value: 'privacy', label: 'Privacy & Security', icon: Shield, component: <PrivacySettings /> },
-        { value: 'billing', label: 'Billing & Subscriptions', icon: CreditCard, component: <SubscriptionSettings /> },
         { value: 'personalization', label: 'Personalization', icon: Paintbrush, component: <FunSettings /> },
         { value: 'system', label: 'System', icon: SettingsIcon, component: <SystemSettings /> },
     ]
