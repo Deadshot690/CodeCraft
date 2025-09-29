@@ -131,7 +131,7 @@ export function AppSidebar() {
                 <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium leading-none">{settings.name}</p>
                     <p className="text-xs leading-none text-muted-foreground">
-                    {settings.username}
+                    {settings.email}
                     </p>
                 </div>
                 </DropdownMenuLabel>

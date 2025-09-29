@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { tasks, user } from "@/lib/data";
+import { tasks } from "@/lib/data";
 import { Flame, Star, Zap, Trophy, Settings } from "lucide-react";
 import {
   Tooltip,
@@ -26,7 +26,10 @@ import { cn } from "@/lib/utils";
 const dailyChallenge = tasks[0];
 
 export default function DashboardPage() {
-  const { settings } = useSettings();
+  const { settings, user } = useSettings();
+
+  // Note: In a real app, user stats (level, xp, etc.) would also come from a database.
+  // For now, they remain static but the user's name is dynamic.
   const xpPercentage = (user.xp / user.xpToNextLevel) * 100;
 
   return (

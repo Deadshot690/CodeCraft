@@ -7,7 +7,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { user } from '@/lib/user-data';
 import { toast } from '@/hooks/use-toast';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -86,7 +85,7 @@ const ProfileSettings = () => {
 }
 
 const AccountSettings = () => {
-    const [email, setEmail] = useState(user.email || '');
+    const { settings } = useSettings();
     const [isTwoFactor, setIsTwoFactor] = useState(false);
     const [isPending, startTransition] = useTransition();
 
@@ -105,7 +104,7 @@ const AccountSettings = () => {
             <CardContent className="space-y-6">
                  <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <Input id="email" type="email" value={settings.email} readOnly disabled />
                 </div>
                  <Button onClick={handleLogout} disabled={isPending} variant="outline" className="w-full">
                     {isPending ? <Loader2 className="mr-2 animate-spin" /> : <LogOut className="mr-2"/>}
@@ -443,7 +442,7 @@ export default function SettingsPage() {
         <div className="flex flex-col h-screen">
             <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
                 <h1 className="font-headline text-xl font-bold tracking-tight md:text-2xl">
-                    Settings ({languageDisplay[settings.appLanguage] || 'English'})
+                    Settings ({settings.email})
                 </h1>
             </header>
             <div className="flex-1 overflow-auto">
