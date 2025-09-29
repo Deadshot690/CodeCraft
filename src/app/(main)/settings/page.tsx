@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -12,14 +12,11 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   User, 
-  Lock, 
   Code, 
   Bell, 
   Shield, 
   Paintbrush, 
   Settings as SettingsIcon,
-  LogOut,
-  Loader2
 } from 'lucide-react';
 import {
   Select,
@@ -30,13 +27,6 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from '@/components/ui/textarea';
 import { useSettings } from '@/hooks/use-settings';
-import { logout } from '@/auth/actions';
-
-const languageDisplay: Record<string, string> = {
-    en: 'English',
-    hi: 'Hindi',
-    es: 'Spanish',
-};
 
 const ProfileSettings = () => {
     const { settings, setSetting } = useSettings();
@@ -78,75 +68,6 @@ const ProfileSettings = () => {
                  <div className="space-y-2">
                     <Label htmlFor="linkedin">LinkedIn</Label>
                     <Input id="linkedin" value={settings.linkedin} onChange={(e) => setSetting('linkedin', e.target.value)} placeholder="https://linkedin.com/in/your-profile" />
-                </div>
-            </CardContent>
-        </Card>
-    )
-}
-
-const AccountSettings = () => {
-    const { settings } = useSettings();
-    const [isTwoFactor, setIsTwoFactor] = useState(false);
-    const [isPending, startTransition] = useTransition();
-
-    const handleLogout = () => {
-        startTransition(async () => {
-            await logout();
-        });
-    }
-
-    return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Account</CardTitle>
-                <CardDescription>Manage your account settings and connected services.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-                 <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" value={settings.email} readOnly disabled />
-                </div>
-                 <Button onClick={handleLogout} disabled={isPending} variant="outline" className="w-full">
-                    {isPending ? <Loader2 className="mr-2 animate-spin" /> : <LogOut className="mr-2"/>}
-                    Log Out
-                </Button>
-                <div className="space-y-2">
-                    <Label htmlFor="current-password">Change Password</Label>
-                    <Input id="current-password" type="password" placeholder="Current Password"/>
-                    <Input id="new-password" type="password" placeholder="New Password"/>
-                </div>
-                <div className="flex items-center justify-between rounded-lg border p-4">
-                    <div className="space-y-0.5">
-                        <Label htmlFor="two-factor">Two-Factor Authentication</Label>
-                        <p className="text-xs text-muted-foreground">
-                            Enhance your account security with 2FA.
-                        </p>
-                    </div>
-                    <Switch
-                        id="two-factor"
-                        checked={isTwoFactor}
-                        onCheckedChange={setIsTwoFactor}
-                    />
-                </div>
-                 <div className="rounded-lg border p-4">
-                    <Label>Connected Accounts</Label>
-                    <div className="mt-2 flex flex-col gap-3">
-                       <div className="flex items-center justify-between">
-                            <span>Google</span>
-                            <Button variant="secondary">Connected</Button>
-                       </div>
-                        <div className="flex items-center justify-between">
-                            <span>GitHub</span>
-                            <Button variant="outline">Connect</Button>
-                       </div>
-                    </div>
-                </div>
-                <div className="rounded-lg border border-destructive/50 p-4">
-                    <Label className="text-destructive">Danger Zone</Label>
-                     <div className="mt-2 flex items-center justify-between">
-                        <p className="text-sm text-muted-foreground">Deactivate your account.</p>
-                        <Button variant="destructive" >Deactivate</Button>
-                    </div>
                 </div>
             </CardContent>
         </Card>
@@ -430,7 +351,6 @@ export default function SettingsPage() {
 
     const tabs = [
         { value: 'profile', label: 'Profile', icon: User, component: <ProfileSettings /> },
-        { value: 'account', label: 'Account', icon: Lock, component: <AccountSettings /> },
         { value: 'editor', label: 'Editor & Practice', icon: Code, component: <EditorPreferences /> },
         { value: 'notifications', label: 'Notifications', icon: Bell, component: <NotificationSettings /> },
         { value: 'privacy', label: 'Privacy & Security', icon: Shield, component: <PrivacySettings /> },
@@ -442,7 +362,7 @@ export default function SettingsPage() {
         <div className="flex flex-col h-screen">
             <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
                 <h1 className="font-headline text-xl font-bold tracking-tight md:text-2xl">
-                    Settings ({settings.email})
+                    Settings
                 </h1>
             </header>
             <div className="flex-1 overflow-auto">

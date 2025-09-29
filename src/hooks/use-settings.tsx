@@ -2,15 +2,13 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
-import { Badge } from '@/lib/types';
+import type { Badge } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 type Theme = 'light' | 'dark';
 
 // This represents the static user data that we are not yet storing in a database.
-// In a real app, this would be fetched from Firestore.
+// In a real app, this would be fetched from a database.
 const staticUserData = {
     level: 5,
     xp: 750,
@@ -67,7 +65,7 @@ interface SettingsContextType {
 
 const defaultSettings: Settings = {
   // User Profile from mock data
-  uid: null,
+  uid: 'guest',
   email: 'guest@example.com',
   name: "Guest",
   username: 'guest_user', 
@@ -90,24 +88,10 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 
 export const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
-  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setFirebaseUser(user);
-      setIsAuthLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const getLocalStorageKey = (uid: string | null) => uid ? `app-settings-${uid}` : 'app-settings-guest';
-
-  useEffect(() => {
-    if (isAuthLoading) return; // Wait until auth state is confirmed
-
-    const key = getLocalStorageKey(firebaseUser?.uid || null);
+    const key = 'app-settings-guest';
 
     if (typeof window !== 'undefined') {
       try {
@@ -116,17 +100,7 @@ export const SettingsProvider = ({ children }: { children: React.ReactNode }) =>
           const parsedSettings = JSON.parse(storedSettings);
           setSettings(prev => ({ ...prev, ...parsedSettings }));
         } else {
-           // If no stored settings, reset to default for the current user type
-           const userDefaults = firebaseUser
-             ? {
-                 uid: firebaseUser.uid,
-                 email: firebaseUser.email || 'user@example.com',
-                 name: firebaseUser.displayName || 'New User',
-                 username: firebaseUser.email?.split('@')[0] || 'new_user',
-                 avatarUrl: firebaseUser.photoURL || `https://picsum.photos/seed/${firebaseUser.uid}/200/200`,
-               }
-             : defaultSettings;
-           setSettings(prev => ({ ...defaultSettings, ...userDefaults }));
+           setSettings(defaultSettings);
         }
       } catch (error) {
         console.error('Failed to load settings from localStorage', error);
@@ -135,11 +109,11 @@ export const SettingsProvider = ({ children }: { children: React.ReactNode }) =>
       }
       setIsInitialized(true);
     }
-  }, [firebaseUser, isAuthLoading]);
+  }, []);
 
   useEffect(() => {
     if (isInitialized && typeof window !== 'undefined') {
-      const key = getLocalStorageKey(settings.uid);
+      const key = 'app-settings-guest';
       try {
         localStorage.setItem(key, JSON.stringify(settings));
         
@@ -163,22 +137,13 @@ export const SettingsProvider = ({ children }: { children: React.ReactNode }) =>
   }, []);
 
   const resetSettings = useCallback(() => {
-    const userSpecificDefaults = firebaseUser
-      ? {
-          uid: firebaseUser.uid,
-          email: firebaseUser.email || '',
-          name: firebaseUser.displayName || 'New User',
-          username: firebaseUser.email?.split('@')[0] || 'new_user',
-          avatarUrl: firebaseUser.photoURL || `https://picsum.photos/seed/${firebaseUser.uid}/200/200`,
-        }
-      : {};
-    setSettings({...defaultSettings, ...userSpecificDefaults});
-  }, [firebaseUser]);
+    setSettings(defaultSettings);
+  }, []);
 
   const user = { ...staticUserData };
-  const value = { settings, setSetting, resetSettings, user, isAuthLoading };
+  const value = { settings, setSetting, resetSettings, user, isAuthLoading: false };
 
-  if (isAuthLoading) {
+  if (!isInitialized) {
     return null; // Or a global loading spinner
   }
 
