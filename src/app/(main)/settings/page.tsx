@@ -9,129 +9,492 @@ import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { user } from '@/lib/data';
 import { toast } from '@/hooks/use-toast';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  User, 
+  Lock, 
+  Code, 
+  Bell, 
+  Shield, 
+  CreditCard, 
+  Paintbrush, 
+  Settings as SettingsIcon 
+} from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from '@/components/ui/textarea';
 
-export default function SettingsPage() {
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email || '');
-  const [avatar, setAvatar] = useState(user.avatarUrl);
+const ProfileSettings = () => {
+    const [name, setName] = useState(user.name);
+    const [username, setUsername] = useState('alex_codes');
+    const [bio, setBio] = useState('Full-stack developer and coffee enthusiast. Turning ideas into reality, one line of code at a time.');
+    const [location, setLocation] = useState('San Francisco, CA');
+    const [github, setGithub] = useState('https://github.com/alex_codes');
+    const [linkedin, setLinkedin] = useState('https://linkedin.com/in/alex_codes');
 
-  const [badgeAlerts, setBadgeAlerts] = useState(true);
-  const [challengeReminders, setChallengeReminders] = useState(true);
-  const [promoUpdates, setPromoUpdates] = useState(false);
-
-
-  const handleSave = () => {
-    // In a real app, you would send this data to your backend API
-    console.log('Saving user data:', { 
-        name, 
-        email, 
-        avatar,
-        notifications: {
-            badgeAlerts,
-            challengeReminders,
-            promoUpdates
-        }
-    });
-    toast({
-      title: 'Profile Updated',
-      description: 'Your changes have been saved successfully.',
-    });
-  };
-  
-  const handleAvatarChange = () => {
-      // In a real app, this might open a file picker.
-      // Here, we'll just cycle through some placeholder images for demonstration.
-      const currentIndex = PlaceHolderImages.findIndex(img => img.imageUrl === avatar);
-      const nextIndex = (currentIndex + 1) % PlaceHolderImages.length;
-      setAvatar(PlaceHolderImages[nextIndex].imageUrl);
-  }
-
-  return (
-    <div className="flex flex-col">
-      <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
-        <h1 className="font-headline text-xl font-bold tracking-tight md:text-2xl">
-          Settings
-        </h1>
-      </header>
-      <main className="flex-1 p-4 md:p-8">
-        <div className="mx-auto grid max-w-4xl gap-8">
-          <Card>
+    return (
+        <Card>
             <CardHeader>
-              <CardTitle>Profile</CardTitle>
-              <CardDescription>Update your personal information.</CardDescription>
+                <CardTitle>Profile</CardTitle>
+                <CardDescription>This is how others will see you on the site.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="flex items-center gap-6">
-                <Avatar className="h-20 w-20">
-                  <AvatarImage src={avatar} alt={name} />
-                  <AvatarFallback>{name.charAt(0).toUpperCase()}</AvatarFallback>
-                </Avatar>
-                <Button variant="outline" onClick={handleAvatarChange}>Change Avatar</Button>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              </div>
+                <div className="flex items-center gap-6">
+                    <Avatar className="h-20 w-20">
+                        <AvatarImage src={user.avatarUrl} alt={name} />
+                        <AvatarFallback>{name.charAt(0).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                    <Button variant="outline">Change Avatar</Button>
+                </div>
+                 <div className="space-y-2">
+                    <Label htmlFor="username">Username</Label>
+                    <Input id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="name">Display Name</Label>
+                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="bio">About Me</Label>
+                    <Textarea id="bio" value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Tell us a little bit about yourself" />
+                </div>
+                 <div className="space-y-2">
+                    <Label htmlFor="location">Location</Label>
+                    <Input id="location" value={location} onChange={(e) => setLocation(e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="github">GitHub</Label>
+                    <Input id="github" value={github} onChange={(e) => setGithub(e.target.value)} placeholder="https://github.com/your-username" />
+                </div>
+                 <div className="space-y-2">
+                    <Label htmlFor="linkedin">LinkedIn</Label>
+                    <Input id="linkedin" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} placeholder="https://linkedin.com/in/your-profile" />
+                </div>
             </CardContent>
-          </Card>
-          <Card>
+        </Card>
+    )
+}
+
+const AccountSettings = () => {
+    const [email, setEmail] = useState(user.email || '');
+    const [isTwoFactor, setIsTwoFactor] = useState(false);
+
+    return (
+        <Card>
             <CardHeader>
-              <CardTitle>Notifications</CardTitle>
-              <CardDescription>Manage your notification preferences.</CardDescription>
+                <CardTitle>Account</CardTitle>
+                <CardDescription>Manage your account settings and connected services.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                 <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="current-password">Change Password</Label>
+                    <Input id="current-password" type="password" placeholder="Current Password"/>
+                    <Input id="new-password" type="password" placeholder="New Password"/>
+                </div>
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                        <Label htmlFor="two-factor">Two-Factor Authentication</Label>
+                        <p className="text-xs text-muted-foreground">
+                            Enhance your account security with 2FA.
+                        </p>
+                    </div>
+                    <Switch
+                        id="two-factor"
+                        checked={isTwoFactor}
+                        onCheckedChange={setIsTwoFactor}
+                    />
+                </div>
+                 <div className="rounded-lg border p-4">
+                    <Label>Connected Accounts</Label>
+                    <div className="mt-2 flex flex-col gap-3">
+                       <div className="flex items-center justify-between">
+                            <span>Google</span>
+                            <Button variant="secondary">Connected</Button>
+                       </div>
+                        <div className="flex items-center justify-between">
+                            <span>GitHub</span>
+                            <Button variant="outline">Connect</Button>
+                       </div>
+                    </div>
+                </div>
+                <div className="rounded-lg border border-destructive/50 p-4">
+                    <Label className="text-destructive">Danger Zone</Label>
+                     <div className="mt-2 flex items-center justify-between">
+                        <p className="text-sm text-muted-foreground">Deactivate your account.</p>
+                        <Button variant="destructive" >Deactivate</Button>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
+
+const EditorPreferences = () => {
+    const [language, setLanguage] = useState('javascript');
+    const [theme, setTheme] = useState('dark');
+    const [fontSize, setFontSize] = useState(14);
+    const [autocomplete, setAutocomplete] = useState(true);
+
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>Editor & Practice</CardTitle>
+                <CardDescription>Customize your coding environment and challenge preferences.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                <div className="space-y-2">
+                    <Label>Default Language</Label>
+                    <Select value={language} onValueChange={setLanguage}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a language" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="javascript">JavaScript</SelectItem>
+                            <SelectItem value="python">Python</SelectItem>
+                            <SelectItem value="java">Java</SelectItem>
+                             <SelectItem value="cpp">C++</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                 <div className="space-y-2">
+                    <Label>Editor Theme</Label>
+                    <Select value={theme} onValueChange={setTheme}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a theme" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="dark">Okaidia (Dark)</SelectItem>
+                            <SelectItem value="light">Default Light</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="space-y-2">
+                    <Label>Font Size</Label>
+                    <Input type="number" value={fontSize} onChange={(e) => setFontSize(parseInt(e.target.value))} />
+                </div>
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                        <Label htmlFor="autocomplete">Enable Autocomplete</Label>
+                        <p className="text-xs text-muted-foreground">
+                            Get suggestions as you type.
+                        </p>
+                    </div>
+                    <Switch
+                        id="autocomplete"
+                        checked={autocomplete}
+                        onCheckedChange={setAutocomplete}
+                    />
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
+
+const NotificationSettings = () => {
+    const [badgeAlerts, setBadgeAlerts] = useState(true);
+    const [challengeReminders, setChallengeReminders] = useState(true);
+    const [promoUpdates, setPromoUpdates] = useState(false);
+
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>Notifications</CardTitle>
+                <CardDescription>Manage your notification preferences.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                    <Label htmlFor="badge-alerts">New Badge Alerts</Label>
-                    <p className="text-xs text-muted-foreground">
-                        Receive notifications when you unlock a new badge.
-                    </p>
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                        <Label htmlFor="badge-alerts">New Badge Alerts</Label>
+                        <p className="text-xs text-muted-foreground">
+                            Receive notifications when you unlock a new badge.
+                        </p>
+                    </div>
+                    <Switch
+                        id="badge-alerts"
+                        checked={badgeAlerts}
+                        onCheckedChange={setBadgeAlerts}
+                    />
                 </div>
-                <Switch
-                  id="badge-alerts"
-                  checked={badgeAlerts}
-                  onCheckedChange={setBadgeAlerts}
-                />
-              </div>
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                    <Label htmlFor="challenge-reminders">Daily Challenge Reminders</Label>
-                    <p className="text-xs text-muted-foreground">
-                        Get a reminder about the day's challenge.
-                    </p>
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                        <Label htmlFor="challenge-reminders">Daily Challenge Reminders</Label>
+                        <p className="text-xs text-muted-foreground">
+                            Get a reminder about the day's challenge.
+                        </p>
+                    </div>
+                    <Switch
+                        id="challenge-reminders"
+                        checked={challengeReminders}
+                        onCheckedChange={setChallengeReminders}
+                    />
                 </div>
-                <Switch
-                  id="challenge-reminders"
-                  checked={challengeReminders}
-                  onCheckedChange={setChallengeReminders}
-                />
-              </div>
-               <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                    <Label htmlFor="promo-updates">Promotional Updates</Label>
-                    <p className="text-xs text-muted-foreground">
-                        Receive news and special offers from CodeCraft.
-                    </p>
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                        <Label htmlFor="promo-updates">Promotional Updates</Label>
+                        <p className="text-xs text-muted-foreground">
+                            Receive news and special offers from CodeCraft.
+                        </p>
+                    </div>
+                    <Switch
+                        id="promo-updates"
+                        checked={promoUpdates}
+                        onCheckedChange={setPromoUpdates}
+                    />
                 </div>
-                <Switch
-                  id="promo-updates"
-                  checked={promoUpdates}
-                  onCheckedChange={setPromoUpdates}
-                />
-              </div>
             </CardContent>
-          </Card>
-           <div className="flex justify-end">
-            <Button onClick={handleSave}>Save Changes</Button>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
+        </Card>
+    );
 }
+
+const PrivacySettings = () => {
+    const [profileVisibility, setProfileVisibility] = useState('public');
+    const [showActivity, setShowActivity] = useState(true);
+
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>Privacy & Security</CardTitle>
+                <CardDescription>Control who can see your profile and activity.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                 <div className="space-y-2">
+                    <Label>Profile Visibility</Label>
+                    <Select value={profileVisibility} onValueChange={setProfileVisibility}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select visibility" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="public">Public</SelectItem>
+                            <SelectItem value="private">Private</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                        <Label htmlFor="show-activity">Show Activity on Leaderboard</Label>
+                    </div>
+                    <Switch
+                        id="show-activity"
+                        checked={showActivity}
+                        onCheckedChange={setShowActivity}
+                    />
+                </div>
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                    <p className="text-sm text-muted-foreground">Export your account data.</p>
+                    <Button variant="outline">Export Data</Button>
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
+
+const SubscriptionSettings = () => {
+    return (
+         <Card>
+            <CardHeader>
+                <CardTitle>Billing & Subscriptions</CardTitle>
+                <CardDescription>Manage your subscription and payment details.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                <div className="rounded-lg border bg-accent/30 p-4">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <p className="font-bold">CodeCraft Pro</p>
+                            <p className="text-sm text-muted-foreground">Renews on Jan 1, 2025</p>
+                        </div>
+                        <Button variant="ghost">Manage</Button>
+                    </div>
+                </div>
+                 <div className="rounded-lg border p-4">
+                    <Label>Payment Method</Label>
+                     <div className="mt-2 flex items-center justify-between">
+                        <p className="text-sm text-muted-foreground">Visa ending in 4242</p>
+                        <Button variant="outline">Update</Button>
+                    </div>
+                </div>
+                <div className="rounded-lg border p-4">
+                    <Label>Invoices</Label>
+                     <div className="mt-2 flex items-center justify-between">
+                        <p className="text-sm text-muted-foreground">December 2023</p>
+                        <Button variant="link">Download</Button>
+                    </div>
+                </div>
+                 <div className="text-center">
+                    <Button variant="link" className="text-destructive">Cancel Subscription</Button>
+                 </div>
+            </CardContent>
+        </Card>
+    )
+}
+
+const FunSettings = () => {
+    const [sounds, setSounds] = useState(true);
+    const [animations, setAnimations] = useState(true);
+
+    return (
+         <Card>
+            <CardHeader>
+                <CardTitle>Fun & Personalization</CardTitle>
+                <CardDescription>Make CodeCraft your own.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                        <Label htmlFor="sounds">Sound Effects</Label>
+                        <p className="text-xs text-muted-foreground">
+                            Enable sounds for achievements and actions.
+                        </p>
+                    </div>
+                    <Switch
+                        id="sounds"
+                        checked={sounds}
+                        onCheckedChange={setSounds}
+                    />
+                </div>
+                 <div className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                        <Label htmlFor="animations">Background Animations</Label>
+                        <p className="text-xs text-muted-foreground">
+                           Enable subtle background effects.
+                        </p>
+                    </div>
+                    <Switch
+                        id="animations"
+                        checked={animations}
+                        onCheckedChange={setAnimations}
+                    />
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
+
+const SystemSettings = () => {
+    const [language, setLanguage] = useState('en');
+    const [timeFormat, setTimeFormat] = useState('12h');
+    const [highContrast, setHighContrast] = useState(false);
+
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>System</CardTitle>
+                <CardDescription>Manage language, accessibility, and performance.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                <div className="space-y-2">
+                    <Label>Language</Label>
+                    <Select value={language} onValueChange={setLanguage}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a language" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="en">English</SelectItem>
+                            <SelectItem value="hi">Hindi</SelectItem>
+                            <SelectItem value="es">Spanish</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="space-y-2">
+                    <Label>Time Format</Label>
+                    <Select value={timeFormat} onValueChange={setTimeFormat}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a format" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="12h">12-hour</SelectItem>
+                            <SelectItem value="24h">24-hour</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                        <Label htmlFor="high-contrast">High Contrast Mode</Label>
+                        <p className="text-xs text-muted-foreground">
+                            Improves readability for visually impaired users.
+                        </p>
+                    </div>
+                    <Switch
+                        id="high-contrast"
+                        checked={highContrast}
+                        onCheckedChange={setHighContrast}
+                    />
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
+
+
+export default function SettingsPage() {
+
+    const handleSave = () => {
+        toast({
+            title: 'Settings Saved',
+            description: 'Your preferences have been updated successfully.',
+        });
+    };
+
+    const handleReset = () => {
+        // Here you would reset all state variables to their default values
+        toast({
+            title: 'Settings Reset',
+            description: 'Your preferences have been reset to the defaults.',
+            variant: 'destructive',
+        });
+    }
+
+    const tabs = [
+        { value: 'profile', label: 'Profile', icon: User, component: <ProfileSettings /> },
+        { value: 'account', label: 'Account', icon: Lock, component: <AccountSettings /> },
+        { value: 'editor', label: 'Editor & Practice', icon: Code, component: <EditorPreferences /> },
+        { value: 'notifications', label: 'Notifications', icon: Bell, component: <NotificationSettings /> },
+        { value: 'privacy', label: 'Privacy & Security', icon: Shield, component: <PrivacySettings /> },
+        { value: 'billing', label: 'Billing & Subscriptions', icon: CreditCard, component: <SubscriptionSettings /> },
+        { value: 'personalization', label: 'Personalization', icon: Paintbrush, component: <FunSettings /> },
+        { value: 'system', label: 'System', icon: SettingsIcon, component: <SystemSettings /> },
+    ]
+
+    return (
+        <div className="flex flex-col h-screen">
+            <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
+                <h1 className="font-headline text-xl font-bold tracking-tight md:text-2xl">
+                    Settings
+                </h1>
+            </header>
+            <div className="flex-1 overflow-auto">
+                <Tabs defaultValue="profile" className="flex flex-col md:flex-row gap-8 p-4 md:p-8">
+                    <TabsList className="flex flex-row md:flex-col h-auto justify-start items-start gap-2 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0">
+                        {tabs.map(tab => (
+                            <TabsTrigger key={tab.value} value={tab.value} className="w-full justify-start gap-2 text-base md:text-sm">
+                                <tab.icon className="h-4 w-4" />
+                                {tab.label}
+                            </TabsTrigger>
+                        ))}
+                    </TabsList>
+                    <div className="flex-1 max-w-4xl">
+                        {tabs.map(tab => (
+                            <TabsContent key={tab.value} value={tab.value}>
+                                {tab.component}
+                            </TabsContent>
+                        ))}
+                    </div>
+                </Tabs>
+            </div>
+             <footer className="sticky bottom-0 z-10 mt-auto flex items-center justify-end gap-4 border-t bg-background/80 p-4 backdrop-blur-sm">
+                <Button variant="outline" onClick={handleReset}>Reset to Defaults</Button>
+                <Button onClick={handleSave}>Save Changes</Button>
+            </footer>
+        </div>
+    );
+}
+
