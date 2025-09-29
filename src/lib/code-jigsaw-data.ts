@@ -335,4 +335,177 @@ def hello_world():
 if __name__ == '__main__':
     app.run()`
   },
+  {
+    id: 'js7',
+    title: 'JavaScript: Object Destructuring',
+    description: 'Reassemble this code to use destructuring to extract values from an object.',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `const person = {
+  firstName: 'John',
+  lastName: 'Doe',
+  age: 50
+};
+
+const { firstName, age } = person;
+
+console.log(firstName);
+console.log(age);`
+  },
+  {
+    id: 'py7',
+    title: 'Python: Working with JSON',
+    description: 'Parse a JSON string into a Python dictionary.',
+    language: 'python',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `import json
+
+json_string = '{ "name":"John", "age":30, "city":"New York"}'
+
+data = json.loads(json_string)
+
+print(data['age'])`
+  },
+  {
+    id: 'java5',
+    title: 'Java: HashMap',
+    description: 'Correctly create a HashMap, add a key-value pair, and retrieve it.',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 30,
+    codeSnippet: `import java.util.HashMap;
+
+public class MyClass {
+    public static void main(String[] args) {
+        HashMap<String, String> capitalCities = new HashMap<String, String>();
+        capitalCities.put("England", "London");
+        System.out.println(capitalCities.get("England"));
+    }
+}`
+  },
+  {
+    id: 'cpp5',
+    title: 'C++: Vector Iteration',
+    description: 'Iterate through a vector of integers and print each element.',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<int> numbers = {1, 2, 3, 4, 5};
+    for (int num : numbers) {
+        std::cout << num << " ";
+    }
+    return 0;
+}`
+  },
+  {
+    id: 'js8',
+    title: 'JavaScript: Ternary Operator',
+    description: 'Use the ternary operator to assign a value based on a condition.',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `let age = 19;
+let voteable = (age < 18) ? "Too young" : "Old enough";
+console.log(voteable);`
+  },
+  {
+    id: 'py8',
+    title: 'Python: Class Inheritance',
+    description: 'Assemble the code for a simple class inheritance structure.',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `class Person:
+  def __init__(self, fname, lname):
+    self.firstname = fname
+    self.lastname = lname
+
+class Student(Person):
+  def __init__(self, fname, lname):
+    super().__init__(fname, lname)`
+  },
+  {
+    id: 'java6',
+    title: 'Java: Interface',
+    description: 'Implement an interface in a Java class.',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `interface Animal {
+    public void animalSound();
+}
+
+class Pig implements Animal {
+    public void animalSound() {
+        System.out.println("The pig says: wee wee");
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Pig myPig = new Pig();
+        myPig.animalSound();
+    }
+}`
+  },
+  {
+    id: 'cpp6',
+    title: 'C++: Pointers',
+    description: 'Correctly declare a pointer, assign it a memory address, and dereference it.',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `#include <iostream>
+#include <string>
+
+int main() {
+    std::string food = "Pizza";
+    std::string* ptr = &food;
+    std::cout << *ptr;
+    return 0;
+}`
+  },
+  {
+    id: 'js9',
+    title: 'React: Component State',
+    description: 'Assemble this simple React component that manages state with the useState hook.',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 50,
+    codeSnippet: `import React, { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}`
+  },
+  {
+    id: 'py9',
+    title: 'Python: Generator Function',
+    description: 'Create a generator function that yields a sequence of numbers.',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `def my_generator(n):
+    for i in range(n):
+        yield i
+
+gen = my_generator(3)
+print(next(gen))
+print(next(gen))`
+  }
 ];
