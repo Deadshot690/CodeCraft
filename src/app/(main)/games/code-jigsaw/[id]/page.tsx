@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
@@ -6,7 +7,7 @@ import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea
 import { codeJigsawChallenges } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChevronLeft, RefreshCw, Check, Puzzle } from 'lucide-react';
+import { ChevronLeft, RefreshCw, Check, Puzzle, SkipForward } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CodeEditor } from '@/components/code-editor';
 import { cn } from '@/lib/utils';
@@ -123,6 +124,13 @@ export default function CodeJigsawArenaPage() {
     }
   };
 
+  const handleNextChallenge = () => {
+    if (!challenge) return;
+    const currentIndex = codeJigsawChallenges.findIndex(c => c.id === challenge.id);
+    const nextChallenge = codeJigsawChallenges[(currentIndex + 1) % codeJigsawChallenges.length];
+    router.push(`/games/code-jigsaw/${nextChallenge.id}`);
+  };
+
   if (!isClient) return null;
   if (!challenge) return notFound();
 
@@ -145,6 +153,10 @@ export default function CodeJigsawArenaPage() {
            <Button size="sm" onClick={checkSolution} disabled={columns.source?.lines.length > 0}>
             <Check className="mr-2 h-4 w-4" />
             Check Solution
+          </Button>
+          <Button size="sm" onClick={handleNextChallenge}>
+            <SkipForward className="mr-2 h-4 w-4" />
+            Next
           </Button>
         </div>
       </header>
