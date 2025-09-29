@@ -37,12 +37,7 @@ const languageDisplay: Record<string, string> = {
 };
 
 const ProfileSettings = () => {
-    const [name, setName] = useState(user.name);
-    const [username, setUsername] = useState('alex_codes');
-    const [bio, setBio] = useState('Full-stack developer and coffee enthusiast. Turning ideas into reality, one line of code at a time.');
-    const [location, setLocation] = useState('San Francisco, CA');
-    const [github, setGithub] = useState('https://github.com/alex_codes');
-    const [linkedin, setLinkedin] = useState('https://linkedin.com/in/alex_codes');
+    const { settings, setSetting } = useSettings();
 
     return (
         <Card>
@@ -53,34 +48,34 @@ const ProfileSettings = () => {
             <CardContent className="space-y-6">
                 <div className="flex items-center gap-6">
                     <Avatar className="h-20 w-20">
-                        <AvatarImage src={user.avatarUrl} alt={name} />
-                        <AvatarFallback>{name.charAt(0).toUpperCase()}</AvatarFallback>
+                        <AvatarImage src={settings.avatarUrl} alt={settings.name} />
+                        <AvatarFallback>{settings.name.charAt(0).toUpperCase()}</AvatarFallback>
                     </Avatar>
                     <Button variant="outline">Change Avatar</Button>
                 </div>
                  <div className="space-y-2">
                     <Label htmlFor="username">Username</Label>
-                    <Input id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    <Input id="username" value={settings.username} onChange={(e) => setSetting('username', e.target.value)} />
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="name">Display Name</Label>
-                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
+                    <Input id="name" value={settings.name} onChange={(e) => setSetting('name', e.target.value)} />
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="bio">About Me</Label>
-                    <Textarea id="bio" value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Tell us a little bit about yourself" />
+                    <Textarea id="bio" value={settings.bio} onChange={(e) => setSetting('bio', e.target.value)} placeholder="Tell us a little bit about yourself" />
                 </div>
                  <div className="space-y-2">
                     <Label htmlFor="location">Location</Label>
-                    <Input id="location" value={location} onChange={(e) => setLocation(e.target.value)} />
+                    <Input id="location" value={settings.location} onChange={(e) => setSetting('location', e.target.value)} />
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="github">GitHub</Label>
-                    <Input id="github" value={github} onChange={(e) => setGithub(e.target.value)} placeholder="https://github.com/your-username" />
+                    <Input id="github" value={settings.github} onChange={(e) => setSetting('github', e.target.value)} placeholder="https://github.com/your-username" />
                 </div>
                  <div className="space-y-2">
                     <Label htmlFor="linkedin">LinkedIn</Label>
-                    <Input id="linkedin" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} placeholder="https://linkedin.com/in/your-profile" />
+                    <Input id="linkedin" value={settings.linkedin} onChange={(e) => setSetting('linkedin', e.target.value)} placeholder="https://linkedin.com/in/your-profile" />
                 </div>
             </CardContent>
         </Card>
@@ -173,7 +168,7 @@ const EditorPreferences = () => {
                 </div>
                  <div className="space-y-2">
                     <Label>Editor Theme</Label>
-                    <Select value={settings.theme} onValueChange={(value) => setSetting('theme', value)}>
+                    <Select value={settings.theme} onValueChange={(value: 'dark' | 'light') => setSetting('theme', value)}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select a theme" />
                         </SelectTrigger>
@@ -400,11 +395,11 @@ const SystemSettings = () => {
 
 
 export default function SettingsPage() {
-    const { settings, setSetting, resetSettings } = useSettings();
+    const { settings, resetSettings } = useSettings();
 
     const handleSave = () => {
-        // In a real app, this would persist the settings object.
-        // Here, we just show a toast as the context handles state.
+        // The useSettings hook already saves to localStorage on change,
+        // but we can show a toast for user feedback.
         toast({
             title: 'Settings Saved',
             description: 'Your preferences have been updated successfully.',

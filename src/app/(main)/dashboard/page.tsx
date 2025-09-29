@@ -119,7 +119,7 @@ export default function DashboardPage() {
 
         <Card className="lg:col-span-3">
           <CardHeader>
-            <CardTitle className="font-headline">Badges</CardTitle>
+            <CardTitle className="font-headline">Badges ({settings.name})</CardTitle>
             <CardDescription>Your collection of achievements.</CardDescription>
           </CardHeader>
           <CardContent>

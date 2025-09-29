@@ -1,13 +1,12 @@
+
 import type { User, Badge } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
-export const user: User = {
+export const user: Pick<User, 'uid' | 'email' | 'level' | 'xp' | 'xpToNextLevel' | 'streak' | 'badges' | 'completedTasks'> = {
     uid: '123',
-    name: 'Alex',
     email: 'alex@example.com',
-    avatarUrl: 'https://picsum.photos/seed/avatar/100/100',
-    xp: 750,
     level: 5,
+    xp: 750,
     xpToNextLevel: 1000,
     streak: 12,
     badges: [
