@@ -2625,7 +2625,6 @@ if __name__ == '__main__':
   },
   {
     id: 'js215',
-    id: 'js215',
     title: 'JavaScript: `Geolocation` API',
     description: 'Get the geographical position of a user.',
     language: 'javascript',
@@ -3028,7 +3027,1257 @@ spanning multiple lines.
 EOD;
 echo $str;
 ?>`
+  },
+  {
+    id: 'py222',
+    title: 'Python: `map` and `filter`',
+    description: 'Use `map` and `filter` for functional-style processing.',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `nums = [1, 2, 3, 4, 5]
+evens = filter(lambda x: x % 2 == 0, nums)
+squares = map(lambda x: x * x, evens)
+print(list(squares))`
+  },
+  {
+    id: 'js222',
+    title: 'JavaScript: `Array.prototype.some`',
+    description: 'Check if at least one element in an array passes a test.',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `const array = [1, 2, 3, 4, 5];
+const even = (element) => element % 2 === 0;
+console.log(array.some(even));`
+  },
+  {
+    id: 'java222',
+    title: 'Java: `String.join`',
+    description: 'Join several strings with a delimiter.',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `String[] elements = {"Java", "is", "cool"};
+String message = String.join(" ", elements);
+System.out.println(message);`
+  },
+  {
+    id: 'cpp222',
+    title: 'C++: `std::accumulate`',
+    description: 'Sum the elements in a range.',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `#include <vector>
+#include <numeric>
+#include <iostream>
+std::vector<int> v = {1, 2, 3, 4, 5};
+int sum = std::accumulate(v.begin(), v.end(), 0);
+std::cout << sum;`
+  },
+  {
+    id: 'php222',
+    title: 'PHP: `array_merge`',
+    description: 'Merge one or more arrays.',
+    language: 'php',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `<?php
+$array1 = array("color" => "red", 2, 4);
+$array2 = array("a", "b", "color" => "green", "shape" => "trapezoid", 4);
+$result = array_merge($array1, $array2);
+print_r($result);
+?>`
+  },
+  {
+    id: 'py223',
+    title: 'Python: `collections.deque`',
+    description: 'Use a double-ended queue.',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `from collections import deque
+d = deque(['task1', 'task2'])
+d.append('task3')
+d.popleft()`
+  },
+  {
+    id: 'js223',
+    title: 'JavaScript: `Promise.race`',
+    description: 'Return a promise that fulfills or rejects as soon as one of the input promises does.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `const promise1 = new Promise((resolve) => setTimeout(resolve, 500, 'one'));
+const promise2 = new Promise((resolve) => setTimeout(resolve, 100, 'two'));
+Promise.race([promise1, promise2]).then((value) => {
+  console.log(value);
+});`
+  },
+  {
+    id: 'java223',
+    title: 'Java: `varargs`',
+    description: 'Use variable arguments in a method.',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `public void printNumbers(int... numbers) {
+    for (int number : numbers) {
+        System.out.println(number);
+    }
+}`
+  },
+  {
+    id: 'cpp223',
+    title: 'C++: `std::find_if`',
+    description: 'Find the first element in a range that satisfies a condition.',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `#include <vector>
+#include <algorithm>
+std::vector<int> v = {1, 2, 3, 4};
+auto it = std::find_if(v.begin(), v.end(), [](int i){return i % 2 == 0;});`
+  },
+  {
+    id: 'php223',
+    title: 'PHP: `$_SESSION`',
+    description: 'Store and access session variables.',
+    language: 'php',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `<?php
+session_start();
+$_SESSION["username"] = "john_doe";
+echo "Session is set.";
+?>`
+  },
+  {
+    id: 'py224',
+    title: 'Python: `namedtuple`',
+    description: 'Create tuple subclasses with named fields.',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `from collections import namedtuple
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(10, y=20)`
+  },
+  {
+    id: 'js224',
+    title: 'JavaScript: `Symbol`',
+    description: 'Create a unique and immutable primitive value.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `const sym1 = Symbol('foo');
+const sym2 = Symbol('foo');
+console.log(sym1 === sym2);`
+  },
+  {
+    id: 'java224',
+    title: 'Java: `Predicate` functional interface',
+    description: 'Use a predicate to filter a stream.',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `List<String> names = List.of("John", "Jane", "Jack");
+names.stream()
+    .filter(name -> name.startsWith("J"))
+    .forEach(System.out::println);`
+  },
+  {
+    id: 'cpp224',
+    title: 'C++: `[[nodiscard]]` attribute',
+    description: 'Indicate that a return value should not be ignored.',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 50,
+    codeSnippet: `[[nodiscard]] bool is_safe() {
+    return true;
+}
+int main() {
+    is_safe(); // Compiler will warn
+    return 0;
+}`
+  },
+  {
+    id: 'php224',
+    title: 'PHP: Abstract Class',
+    description: 'Create a parent class that cannot be instantiated.',
+    language: 'php',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `<?php
+abstract class ParentClass {
+  abstract public function prefixName($name);
+}
+class ChildClass extends ParentClass {
+  public function prefixName($name) {
+    return "Mr. " . $name;
+  }
+}
+?>`
+  },
+  {
+    id: 'py225',
+    title: 'Python: `functools.lru_cache`',
+    description: 'Memoize a function\'s results.',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 65,
+    codeSnippet: `from functools import lru_cache
+@lru_cache(maxsize=None)
+def fib(n):
+    if n < 2: return n
+    return fib(n-1) + fib(n-2)`
+  },
+  {
+    id: 'js225',
+    title: 'JavaScript: `Generator` function',
+    description: 'Create a function that can be paused and resumed.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `function* idMaker() {
+  let index = 0;
+  while (true) {
+    yield index++;
+  }
+}`
+  },
+  {
+    id: 'java225',
+    title: 'Java: `ExecutorService`',
+    description: 'Create and manage a thread pool.',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 70,
+    codeSnippet: `ExecutorService executor = Executors.newFixedThreadPool(10);
+executor.submit(() -> {
+    System.out.println("Task running in thread");
+});
+executor.shutdown();`
+  },
+  {
+    id: 'cpp225',
+    title: 'C++: `std::optional`',
+    description: 'Represent a value that may or may not be present.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `std::optional<std::string> create_string(bool b) {
+    if (b) return "Godzilla";
+    return std::nullopt;
+}`
+  },
+  {
+    id: 'php225',
+    title: 'PHP: Interface',
+    description: 'Define an interface that other classes must implement.',
+    language: 'php',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `<?php
+interface Animal {
+  public function makeSound();
+}
+class Cat implements Animal {
+  public function makeSound() {
+    echo "Meow";
+  }
+}
+?>`
+  },
+  {
+    id: 'py226',
+    title: 'Python: `any` and `all` functions',
+    description: 'Check for truthiness in an iterable.',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `numbers = [1, 2, 3, -5]
+print(any(n < 0 for n in numbers))
+print(all(n > 0 for n in numbers))`
+  },
+  {
+    id: 'js226',
+    title: 'JavaScript: `Symbol` as object key',
+    description: 'Use a Symbol to create a unique object property.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `const id = Symbol('id');
+let user = {
+    name: "John",
+    [id]: 123
+};`
+  },
+  {
+    id: 'java226',
+    title: 'Java: `default` methods in interfaces',
+    description: 'Provide a default implementation for a method in an interface.',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `interface MyInterface {
+    void existingMethod();
+    default void newDefaultMethod() {
+        System.out.println("Default implementation");
+    }
+}`
+  },
+  {
+    id: 'cpp226',
+    title: 'C++: `std::scoped_lock`',
+    description: 'Acquire multiple mutexes in a deadlock-safe way.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 75,
+    codeSnippet: `std::mutex m1, m2;
+std::scoped_lock lock(m1, m2);
+// m1 and m2 are locked`
+  },
+  {
+    id: 'php226',
+    title: 'PHP: Static Methods',
+    description: 'Call a method without creating an instance of the class.',
+    language: 'php',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `<?php
+class Greeting {
+  public static function welcome() {
+    echo "Hello World!";
+  }
+}
+Greeting::welcome();
+?>`
+  },
+  {
+    id: 'py227',
+    title: 'Python: `slice` object',
+    description: 'Create a slice object to be used for slicing.',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `a = [0, 1, 2, 3, 4, 5]
+s = slice(0, 5, 2)
+print(a[s])`
+  },
+  {
+    id: 'js227',
+    title: 'JavaScript: `Intl.DateTimeFormat`',
+    description: 'Format a date according to language-sensitive conventions.',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `const date = new Date(Date.UTC(2020, 11, 20, 3, 0, 0));
+const formatter = new Intl.DateTimeFormat('en-US');
+console.log(formatter.format(date));`
+  },
+  {
+    id: 'java227',
+    title: 'Java: `sealed` classes',
+    description: 'Restrict which other classes or interfaces may extend or implement them.',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `public abstract sealed class Shape 
+    permits Circle, Rectangle { ... }`
+  },
+  {
+    id: 'cpp227',
+    title: 'C++: `if constexpr`',
+    description: 'Conditionally compile code based on a compile-time condition.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 70,
+    codeSnippet: `template<typename T>
+auto get_value(T t) {
+    if constexpr (std::is_pointer_v<T>)
+        return *t;
+    else
+        return t;
+}`
+  },
+  {
+    id: 'php227',
+    title: 'PHP: Traits for code reuse',
+    description: 'Reuse sets of methods in several independent classes.',
+    language: 'php',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `<?php
+trait ezcReflectionReturnInfo {
+  function getReturnType() { /* ... */ }
+}
+class MyClass {
+  use ezcReflectionReturnInfo;
+}
+?>`
+  },
+  {
+    id: 'py228',
+    title: 'Python: Walrus Operator `:=`',
+    description: 'Assign a value to a variable as part of an expression.',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `if (n := len(a)) > 10:
+    print(f"List is too long ({n} elements)")`
+  },
+  {
+    id: 'js228',
+    title: 'JavaScript: `Tagged templates`',
+    description: 'Parse template literals with a function.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `function tag(strings, ...values) {
+  console.log(strings[0]);
+  console.log(values[0]);
+}
+let name = 'John';
+tag\`Hello, \${name}!\`;`
+  },
+  {
+    id: 'java228',
+    title: 'Java: `switch` Expressions',
+    description: 'Use switch as an expression to return a value.',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `int numLetters = switch (day) {
+    case MONDAY, FRIDAY, SUNDAY -> 6;
+    case TUESDAY -> 7;
+    default -> 0;
+};`
+  },
+  {
+    id: 'cpp228',
+    title: 'C++: `std::any`',
+    description: 'A type-safe container for single values of any type.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `auto a = std::any(12);
+a = std::string("hello");
+std::string s = std::any_cast<std::string>(a);`
+  },
+  {
+    id: 'php228',
+    title: 'PHP: `explode` and `implode`',
+    description: 'Split a string by a delimiter and join an array into a string.',
+    language: 'php',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `<?php
+$str = "a,b,c";
+$arr = explode(",", $str);
+echo implode("-", $arr);
+?>`
+  },
+  {
+    id: 'py229',
+    title: 'Python: `property` decorator',
+    description: 'Create a computed property.',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 50,
+    codeSnippet: `class C:
+    def __init__(self):
+        self._x = None
+    @property
+    def x(self):
+        return self._x`
+  },
+  {
+    id: 'js229',
+    title: 'JavaScript: Dynamic `import()`',
+    description: 'Asynchronously load an ES module.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `const button = document.getElementById('btn');
+button.addEventListener('click', () => {
+  import('./utils.js').then(module => {
+    module.doSomething();
+  });
+});`
+  },
+  {
+    id: 'java229',
+    title: 'Java: Text Blocks',
+    description: 'Create multi-line string literals.',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 30,
+    codeSnippet: `String html = """
+              <html>
+                  <body>
+                      <p>Hello, world</p>
+                  </body>
+              </html>
+              """;`
+  },
+  {
+    id: 'cpp229',
+    title: 'C++: Coroutines (C++20)',
+    description: 'Create a simple generator using coroutines.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 85,
+    codeSnippet: `generator<int> iota(int n = 0) {
+  while(true)
+    co_yield n++;
+}`
+  },
+  {
+    id: 'php229',
+    title: 'PHP: Namespaces',
+    description: 'Declare and use a namespace.',
+    language: 'php',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `<?php
+namespace MyProject;
+class Connection { /* ... */ }
+$conn = new Connection();
+?>`
+  },
+  {
+    id: 'py230',
+    title: 'Python: `__slots__`',
+    description: 'Save memory by pre-declaring instance attributes.',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `class MyClass:
+    __slots__ = ['val1', 'val2']
+    def __init__(self):
+        self.val1 = 1
+        self.val2 = 2`
+  },
+  {
+    id: 'js230',
+    title: 'JavaScript: Private Class Fields',
+    description: 'Create a private field in a class.',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `class ClassWithPrivate {
+  #privateField;
+  constructor() {
+    this.#privateField = 42;
+  }
+}`
+  },
+  {
+    id: 'java230',
+    title: 'Java: `instanceof` Pattern Matching',
+    description: 'Check the type and assign to a variable in one step.',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `if (obj instanceof String s) {
+    System.out.println(s.toUpperCase());
+}`
+  },
+  {
+    id: 'cpp230',
+    title: 'C++: `std::string_view`',
+    description: 'Use a non-owning view of a string.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `void print_sv(std::string_view sv) {
+    std::cout << sv << std::endl;
+}
+print_sv("Hello");`
+  },
+  {
+    id: 'php230',
+    title: 'PHP: `try...catch` block',
+    description: 'Handle exceptions in PHP.',
+    language: 'php',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `<?php
+try {
+  // code that can throw exceptions
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\\n";
+}
+?>`
+  },
+  {
+    id: 'py231',
+    title: 'Python: `async with`',
+    description: 'Use an asynchronous context manager.',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 65,
+    codeSnippet: `async with lock:
+    # critical section`
+  },
+  {
+    id: 'js231',
+    title: 'JavaScript: `Array.at()`',
+    description: 'Get an element at a negative index.',
+    language: 'javascript',
+    difficulty: 'Beginner',
+    xp: 20,
+    codeSnippet: `const array1 = [5, 12, 8, 130, 44];
+let index_neg = -2;
+console.log(array1.at(index_neg));`
+  },
+  {
+    id: 'java231',
+    title: 'Java: `ReentrantLock`',
+    description: 'Use an explicit lock.',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 65,
+    codeSnippet: `ReentrantLock lock = new ReentrantLock();
+lock.lock();
+try {
+    // critical section
+} finally {
+    lock.unlock();
+}`
+  },
+  {
+    id: 'cpp231',
+    title: 'C++: Fold Expressions',
+    description: 'Reduce a parameter pack over an operator.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 70,
+    codeSnippet: `template<typename... Args>
+bool all(Args... args) { return (... && args); }`
+  },
+  {
+    id: 'php231',
+    title: 'PHP: Class Constants',
+    description: 'Define a constant within a class.',
+    language: 'php',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `<?php
+class Goodbye {
+  const LEAVING_MESSAGE = "Thank you!";
+}
+echo Goodbye::LEAVING_MESSAGE;
+?>`
+  },
+  {
+    id: 'py232',
+    title: 'Python: `match` statement',
+    description: 'Use structural pattern matching.',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `match status:
+    case 400:
+        return "Bad request"
+    case 404:
+        return "Not found"
+    case _:
+        return "Something's wrong"`
+  },
+  {
+    id: 'js232',
+    title: 'JavaScript: Static Class Fields',
+    description: 'Define a static property on a class.',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `class ClassWithStaticField {
+  static staticField = 'some value';
+}`
+  },
+  {
+    id: 'java232',
+    title: 'Java: `Semaphore`',
+    description: 'Use a counting semaphore to control access.',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 65,
+    codeSnippet: `Semaphore semaphore = new Semaphore(1);
+semaphore.acquire();
+// ...
+semaphore.release();`
+  },
+  {
+    id: 'cpp232',
+    title: 'C++: Concepts (C++20)',
+    description: 'Define a concept to constrain a template parameter.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 80,
+    codeSnippet: `template<typename T>
+concept Integral = std::is_integral_v<T>;
+void my_func(Integral auto i) {}`
+  },
+  {
+    id: 'php232',
+    title: 'PHP: `final` Keyword',
+    description: 'Prevent a method from being overridden.',
+    language: 'php',
+    difficulty: 'Advanced',
+    xp: 45,
+    codeSnippet: `<?php
+class BaseClass {
+   public function test() { echo "Base"; }
+   final public function moreTesting() { echo "Base"; }
+}
+class Child extends BaseClass {
+   public function moreTesting() { echo "Child"; } // Error
+}
+?>`
+  },
+  {
+    id: 'py233',
+    title: 'Python: `typing.Final`',
+    description: 'Indicate that a name cannot be reassigned.',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `from typing import Final
+RATE: Final[int] = 42`
+  },
+  {
+    id: 'js233',
+    title: 'JavaScript: `Object.hasOwn`',
+    description: 'Check if an object has its own property.',
+    language: 'javascript',
+    difficulty: 'Intermediate',
+    xp: 30,
+    codeSnippet: `const object1 = { prop: 'exists' };
+console.log(Object.hasOwn(object1, 'prop'));`
+  },
+  {
+    id: 'java233',
+    title: 'Java: `ReadWriteLock`',
+    description: 'Allow multiple readers or a single writer.',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 70,
+    codeSnippet: `ReadWriteLock rwLock = new ReentrantReadWriteLock();
+rwLock.readLock().lock();
+// ...
+rwLock.readLock().unlock();`
+  },
+  {
+    id: 'cpp233',
+    title: 'C++: `std::jthread` (C++20)',
+    description: 'Use a thread that automatically joins on destruction.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 70,
+    codeSnippet: `void foo() {}
+std::jthread t(foo);
+// t automatically joins`
+  },
+  {
+    id: 'php233',
+    title: 'PHP: Magic Methods `__construct`',
+    description: 'Create a constructor for a class.',
+    language: 'php',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `<?php
+class MyClass {
+  public function __construct() {
+    echo 'Constructor called';
+  }
+}
+$obj = new MyClass();
+?>`
+  },
+  {
+    id: 'py234',
+    title: 'Python: `multiprocessing`',
+    description: 'Create and run a new process.',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 65,
+    codeSnippet: `from multiprocessing import Process
+
+def f(name):
+    print('hello', name)
+
+if __name__ == '__main__':
+    p = Process(target=f, args=('bob',))
+    p.start()`
+  },
+  {
+    id: 'js234',
+    title: 'JavaScript: `FinalizationRegistry`',
+    description: 'Register callbacks for garbage collection.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 70,
+    codeSnippet: `const registry = new FinalizationRegistry(heldValue => {
+  // cleanup
+});
+const obj = {};
+registry.register(obj, "some value");`
+  },
+  {
+    id: 'java234',
+    title: 'Java: `AtomicInteger`',
+    description: 'Perform atomic operations on an integer.',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 65,
+    codeSnippet: `import java.util.concurrent.atomic.AtomicInteger;
+AtomicInteger atomicInt = new AtomicInteger(0);
+atomicInt.incrementAndGet();`
+  },
+  {
+    id: 'cpp234',
+    title: 'C++: SFINAE with `enable_if`',
+    description: 'Conditionally remove a function from overload resolution.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 90,
+    codeSnippet: `template <typename T>
+typename std::enable_if<std::is_integral<T>::value, bool>::type
+is_even(T i) { return i % 2 == 0; }`
+  },
+  {
+    id: 'php234',
+    title: 'PHP: `include` vs `require`',
+    description: 'Include and evaluate a specified file.',
+    language: 'php',
+    difficulty: 'Intermediate',
+    xp: 35,
+    codeSnippet: `<?php
+// require will produce a fatal error if the file is not found.
+// include will only produce a warning.
+require 'header.php';
+?>`
+  },
+  {
+    id: 'py235',
+    title: 'Python: `heapq` module',
+    description: 'Use a min-heap implementation.',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 50,
+    codeSnippet: `import heapq
+heap = []
+heapq.heappush(heap, 4)
+heapq.heappush(heap, 1)
+heapq.heappop(heap)`
+  },
+  {
+    id: 'js235',
+    title: 'JavaScript: `IntersectionObserver`',
+    description: 'Asynchronously observe when an element enters the viewport.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `let observer = new IntersectionObserver(callback, options);
+observer.observe(target);`
+  },
+  {
+    id: 'java235',
+    title: 'Java: `CompletableFuture`',
+    description: 'Create an asynchronous computation.',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 70,
+    codeSnippet: `CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "Hello");`
+  },
+  {
+    id: 'cpp235',
+    title: 'C++: Fold Expressions (C++17)',
+    description: 'Reduce a parameter pack over an operator.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 70,
+    codeSnippet: `template<typename... Args>
+bool all(Args... args) { return (... && args); }`
+  },
+  {
+    id: 'php235',
+    title: 'PHP: File Uploads',
+    description: 'Create a form for uploading files.',
+    language: 'php',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `<form action="upload.php" method="post" enctype="multipart/form-data">
+  Select image to upload:
+  <input type="file" name="fileToUpload">
+</form>`
+  },
+  {
+    id: 'py236',
+    title: 'Python: `collections.ChainMap`',
+    description: 'Combine multiple dictionaries into a single view.',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `from collections import ChainMap
+dict1 = {'a': 1, 'b': 2}
+dict2 = {'b': 3, 'c': 4}
+chain = ChainMap(dict1, dict2)`
+  },
+  {
+    id: 'js236',
+    title: 'JavaScript: `MutationObserver`',
+    description: 'Watch for changes to the DOM tree.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 70,
+    codeSnippet: `const observer = new MutationObserver(mutations => {});
+observer.observe(targetNode, { attributes: true, childList: true });`
+  },
+  {
+    id: 'java236',
+    title: 'Java: `Thread.sleep`',
+    description: 'Pause the current thread.',
+    language: 'java',
+    difficulty: 'Beginner',
+    xp: 25,
+    codeSnippet: `try {
+  Thread.sleep(1000);
+} catch (InterruptedException e) {
+  // handle
+}`
+  },
+  {
+    id: 'cpp236',
+    title: 'C++: `std::thread`',
+    description: 'Create and run a new thread.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `#include <thread>
+void thread_function() {
+    // Do something
+}
+std::thread t(thread_function);
+t.join();`
+  },
+  {
+    id: 'php236',
+    title: 'PHP: `$_COOKIE` Superglobal',
+    description: 'Access cookies sent from the browser.',
+    language: 'php',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `<?php
+if(isset($_COOKIE["user"])) {
+  echo "Welcome " . $_COOKIE["user"];
+}
+?>`
+  },
+  {
+    id: 'py237',
+    title: 'Python: `__getitem__`',
+    description: 'Implement evaluation of `self[key]`.',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `class MyList:
+    def __getitem__(self, index):
+        return index * 10`
+  },
+  {
+    id: 'js237',
+    title: 'JavaScript: postMessage API',
+    description: 'Enable cross-origin communication between windows.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 65,
+    codeSnippet: `// In window A
+otherWindow.postMessage('Hello', 'http://example.com');
+// In window B
+window.addEventListener('message', event => { /*...*/ });`
+  },
+  {
+    id: 'java237',
+    title: 'Java: `volatile` keyword',
+    description: 'Ensure changes to a variable are visible to other threads.',
+    language: 'java',
+    difficulty: 'Advanced',
+    xp: 70,
+    codeSnippet: `private volatile boolean stop = false;
+// Thread 1: while(!stop){}
+// Thread 2: stop = true;`
+  },
+  {
+    id: 'cpp237',
+    title: 'C++: `std::mutex`',
+    description: 'Use a mutex to protect shared data.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 65,
+    codeSnippet: `#include <mutex>
+std::mutex m;
+m.lock();
+// critical section
+m.unlock();`
+  },
+  {
+    id: 'php237',
+    title: 'PHP: `filter_has_var`',
+    description: 'Check if a variable of a specific type exists.',
+    language: 'php',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `<?php
+if (filter_has_var(INPUT_GET, "email")) {
+  echo "Email found";
+}
+?>`
+  },
+  {
+    id: 'py238',
+    title: 'Python: `functools.wraps`',
+    description: 'Update a wrapper function to look like the wrapped function.',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `from functools import wraps
+def my_decorator(f):
+    @wraps(f)
+    def wrapper(*args, **kwds):
+        return f(*args, **kwds)
+    return wrapper`
+  },
+  {
+    id: 'js238',
+    title: 'JavaScript: `Proxy` traps',
+    description: 'Define custom behavior for fundamental operations.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 80,
+    codeSnippet: `const handler = {
+  get: function(target, prop, receiver) {
+    return 'intercepted';
+  }
+};`
+  },
+  {
+    id: 'java238',
+    title: 'Java: `synchronized` block',
+    description: 'Synchronize access to a block of code.',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `public void myMethod() {
+    synchronized(this) {
+        // critical section
+    }
+}`
+  },
+  {
+    id: 'cpp238',
+    title: 'C++: `std::condition_variable`',
+    description: 'Use a condition variable to block a thread.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 80,
+    codeSnippet: `std::condition_variable cv;
+std::mutex m;
+std::unique_lock<std::mutex> lock(m);
+cv.wait(lock);`
+  },
+  {
+    id: 'php238',
+    title: 'PHP: `mysqli` prepared statement',
+    description: 'Use prepared statements to prevent SQL injection.',
+    language: 'php',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `<?php
+$stmt = $conn->prepare("INSERT INTO MyGuests (firstname) VALUES (?)");
+$stmt->bind_param("s", $firstname);
+$firstname = "John";
+$stmt->execute();
+?>`
+  },
+  {
+    id: 'py239',
+    title: 'Python: `abc` module',
+    description: 'Define an Abstract Base Class.',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 65,
+    codeSnippet: `from abc import ABC, abstractmethod
+class MyABC(ABC):
+    @abstractmethod
+    def my_method(self):
+        pass`
+  },
+  {
+    id: 'js239',
+    title: 'JavaScript: `eval()` (discouraged)',
+    description: 'Evaluate a string as JavaScript code.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 70,
+    codeSnippet: `eval("alert('hi')");`
+  },
+  {
+    id: 'java239',
+    title: 'Java: `TreeMap`',
+    description: 'Use a sorted map implementation.',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 50,
+    codeSnippet: `// Sorted map
+Map<String, Integer> map = new TreeMap<>();
+map.put("c", 1);
+map.put("a", 2);`
+  },
+  {
+    id: 'cpp239',
+    title: 'C++: `std::future` and `std::promise`',
+    description: 'Communicate a result between threads.',
+    language: 'cpp',
+    difficulty: 'Advanced',
+    xp: 85,
+    codeSnippet: `std::promise<int> p;
+std::future<int> f = p.get_future();
+p.set_value(42);`
+  },
+  {
+    id: 'php239',
+    title: 'PHP: `PDO` prepared statement',
+    description: 'Use PDO for database access with prepared statements.',
+    language: 'php',
+    difficulty: 'Advanced',
+    xp: 60,
+    codeSnippet: `<?php
+$stmt = $conn->prepare("SELECT * FROM MyGuests WHERE lastname=:lastname");
+$stmt->execute(['lastname' => $lastname]);
+?>`
+  },
+  {
+    id: 'py240',
+    title: 'Python: slice assignment',
+    description: 'Replace a slice of a list.',
+    language: 'python',
+    difficulty: 'Intermediate',
+    xp: 40,
+    codeSnippet: `l = [1, 2, 3, 4]
+l[1:3] = [8, 9, 10]
+print(l)`
+  },
+  {
+    id: 'js240',
+    title: 'JavaScript: `Function.prototype.bind`',
+    description: 'Create a new function with a bound `this` context.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 50,
+    codeSnippet: `function log() { console.log(this.id); }
+const obj1 = { id: 1 };
+const boundLog = log.bind(obj1);
+boundLog();`
+  },
+  {
+    id: 'java240',
+    title: 'Java: `LinkedHashMap`',
+    description: 'Use a map that maintains insertion order.',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 50,
+    codeSnippet: `// Maintains insertion order
+Map<String, Integer> map = new LinkedHashMap<>();`
+  },
+  {
+    id: 'cpp240',
+    title: 'C++: `using` for type aliases',
+    description: 'Create a type alias with `using`.',
+    language: 'cpp',
+    difficulty: 'Beginner',
+    xp: 30,
+    codeSnippet: `using IntVector = std::vector<int>;
+IntVector v;`
+  },
+  {
+    id: 'php240',
+    title: 'PHP: `password_hash` and `password_verify`',
+    description: 'Securely hash and verify passwords.',
+    language: 'php',
+    difficulty: 'Advanced',
+    xp: 65,
+    codeSnippet: `<?php
+$hash = password_hash($password, PASSWORD_DEFAULT);
+if (password_verify($password, $hash)) {
+    echo 'Password is valid!';
+}
+?>`
+  },
+  {
+    id: 'py241',
+    title: 'Python: Exception Chaining',
+    description: 'Chain exceptions to provide more context.',
+    language: 'python',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `try:
+    # some code
+except IOError as e:
+    raise RuntimeError('Failed to open file') from e`
+  },
+  {
+    id: 'js241',
+    title: 'JavaScript: `Proxy` Object',
+    description: 'Create a proxy for another object to intercept operations.',
+    language: 'javascript',
+    difficulty: 'Advanced',
+    xp: 75,
+    codeSnippet: `const target = {};
+const handler = { get: () => 'intercepted' };
+const proxy = new Proxy(target, handler);
+console.log(proxy.test);`
+  },
+  {
+    id: 'java241',
+    title: 'Java: `PriorityQueue`',
+    description: 'Use a priority queue.',
+    language: 'java',
+    difficulty: 'Intermediate',
+    xp: 55,
+    codeSnippet: `Queue<Integer> pq = new PriorityQueue<>();
+pq.add(10);
+pq.add(1);
+System.out.println(pq.peek());`
+  },
+  {
+    id: 'cpp241',
+    title: 'C++: `static` members',
+    description: 'Define a member shared by all instances of a class.',
+    language: 'cpp',
+    difficulty: 'Intermediate',
+    xp: 45,
+    codeSnippet: `class MyClass {
+public:
+    static int myStatic;
+};
+int MyClass::myStatic = 0;`
+  },
+  {
+    id: 'php241',
+    title: 'PHP: Autoloading Classes',
+    description: 'Automatically load classes when they are needed.',
+    language: 'php',
+    difficulty: 'Advanced',
+    xp: 55,
+    codeSnippet: `<?php
+spl_autoload_register(function ($class_name) {
+    include $class_name . '.php';
+});
+$obj  = new MyClass1();
+?>`
   }
 ];
-
-    
