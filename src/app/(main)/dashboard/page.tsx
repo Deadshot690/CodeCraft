@@ -20,11 +20,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useSettings } from "@/hooks/use-settings";
+import { cn } from "@/lib/utils";
 
 const dailyChallenge = tasks[0];
 
 export default function DashboardPage() {
-  
+  const { settings } = useSettings();
   const xpPercentage = (user.xp / user.xpToNextLevel) * 100;
 
   return (
@@ -100,7 +102,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex justify-around text-center">
               <div className="flex flex-col items-center gap-1">
-                <Flame className="h-8 w-8 text-orange-500 animate-subtle-flicker" />
+                <Flame className={cn("h-8 w-8 text-orange-500", settings.animations && "animate-subtle-flicker")} />
                 <span className="text-2xl font-bold">{user.streak}</span>
                 <span className="text-xs text-muted-foreground">
                   Day Streak

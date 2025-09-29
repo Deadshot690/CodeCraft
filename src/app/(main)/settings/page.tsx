@@ -29,6 +29,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from '@/components/ui/textarea';
+import { useSettings } from '@/hooks/use-settings';
+
+const languageDisplay: Record<string, string> = {
+    en: 'English',
+    hi: 'Hindi',
+    es: 'Spanish',
+};
 
 const ProfileSettings = () => {
     const [name, setName] = useState(user.name);
@@ -140,8 +147,7 @@ const AccountSettings = () => {
 }
 
 const EditorPreferences = () => {
-    const [language, setLanguage] = useState('javascript');
-    const [theme, setTheme] = useState('dark');
+    const { settings, setSetting } = useSettings();
     const [fontSize, setFontSize] = useState(14);
     const [autocomplete, setAutocomplete] = useState(true);
 
@@ -154,7 +160,7 @@ const EditorPreferences = () => {
             <CardContent className="space-y-6">
                 <div className="space-y-2">
                     <Label>Default Language</Label>
-                    <Select value={language} onValueChange={setLanguage}>
+                    <Select value={settings.language} onValueChange={(value) => setSetting('language', value)}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select a language" />
                         </SelectTrigger>
@@ -168,7 +174,7 @@ const EditorPreferences = () => {
                 </div>
                  <div className="space-y-2">
                     <Label>Editor Theme</Label>
-                    <Select value={theme} onValueChange={setTheme}>
+                    <Select value={settings.theme} onValueChange={(value) => setSetting('theme', value)}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select a theme" />
                         </SelectTrigger>
@@ -338,8 +344,7 @@ const SubscriptionSettings = () => {
 }
 
 const FunSettings = () => {
-    const [sounds, setSounds] = useState(true);
-    const [animations, setAnimations] = useState(true);
+    const { settings, setSetting } = useSettings();
 
     return (
          <Card>
@@ -357,8 +362,8 @@ const FunSettings = () => {
                     </div>
                     <Switch
                         id="sounds"
-                        checked={sounds}
-                        onCheckedChange={setSounds}
+                        checked={settings.sounds}
+                        onCheckedChange={(checked) => setSetting('sounds', checked)}
                     />
                 </div>
                  <div className="flex items-center justify-between rounded-lg border p-4">
@@ -370,8 +375,8 @@ const FunSettings = () => {
                     </div>
                     <Switch
                         id="animations"
-                        checked={animations}
-                        onCheckedChange={setAnimations}
+                        checked={settings.animations}
+                        onCheckedChange={(checked) => setSetting('animations', checked)}
                     />
                 </div>
             </CardContent>
@@ -380,9 +385,8 @@ const FunSettings = () => {
 }
 
 const SystemSettings = () => {
-    const [language, setLanguage] = useState('en');
+    const { settings, setSetting } = useSettings();
     const [timeFormat, setTimeFormat] = useState('12h');
-    const [highContrast, setHighContrast] = useState(false);
 
     return (
         <Card>
@@ -393,7 +397,7 @@ const SystemSettings = () => {
             <CardContent className="space-y-6">
                 <div className="space-y-2">
                     <Label>Language</Label>
-                    <Select value={language} onValueChange={setLanguage}>
+                    <Select value={settings.appLanguage} onValueChange={(value) => setSetting('appLanguage', value)}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select a language" />
                         </SelectTrigger>
@@ -425,8 +429,8 @@ const SystemSettings = () => {
                     </div>
                     <Switch
                         id="high-contrast"
-                        checked={highContrast}
-                        onCheckedChange={setHighContrast}
+                        checked={settings.highContrast}
+                        onCheckedChange={(checked) => setSetting('highContrast', checked)}
                     />
                 </div>
             </CardContent>
@@ -436,8 +440,11 @@ const SystemSettings = () => {
 
 
 export default function SettingsPage() {
+    const { settings, setSetting, resetSettings } = useSettings();
 
     const handleSave = () => {
+        // In a real app, this would persist the settings object.
+        // Here, we just show a toast as the context handles state.
         toast({
             title: 'Settings Saved',
             description: 'Your preferences have been updated successfully.',
@@ -445,7 +452,7 @@ export default function SettingsPage() {
     };
 
     const handleReset = () => {
-        // Here you would reset all state variables to their default values
+        resetSettings();
         toast({
             title: 'Settings Reset',
             description: 'Your preferences have been reset to the defaults.',
@@ -468,7 +475,7 @@ export default function SettingsPage() {
         <div className="flex flex-col h-screen">
             <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
                 <h1 className="font-headline text-xl font-bold tracking-tight md:text-2xl">
-                    Settings
+                    Settings ({languageDisplay[settings.appLanguage] || 'English'})
                 </h1>
             </header>
             <div className="flex-1 overflow-auto">
@@ -497,4 +504,3 @@ export default function SettingsPage() {
         </div>
     );
 }
-
