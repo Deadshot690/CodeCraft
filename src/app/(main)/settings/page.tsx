@@ -10,15 +10,30 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { user } from '@/lib/data';
 import { toast } from '@/hooks/use-toast';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Switch } from '@/components/ui/switch';
 
 export default function SettingsPage() {
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email || '');
   const [avatar, setAvatar] = useState(user.avatarUrl);
 
+  const [badgeAlerts, setBadgeAlerts] = useState(true);
+  const [challengeReminders, setChallengeReminders] = useState(true);
+  const [promoUpdates, setPromoUpdates] = useState(false);
+
+
   const handleSave = () => {
     // In a real app, you would send this data to your backend API
-    console.log('Saving user data:', { name, email, avatar });
+    console.log('Saving user data:', { 
+        name, 
+        email, 
+        avatar,
+        notifications: {
+            badgeAlerts,
+            challengeReminders,
+            promoUpdates
+        }
+    });
     toast({
       title: 'Profile Updated',
       description: 'Your changes have been saved successfully.',
@@ -70,9 +85,46 @@ export default function SettingsPage() {
               <CardTitle>Notifications</CardTitle>
               <CardDescription>Manage your notification preferences.</CardDescription>
             </CardHeader>
-            <CardContent>
-              {/* Placeholder for notification settings */}
-              <p className="text-sm text-muted-foreground">Notification settings will be available in a future update.</p>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between rounded-lg border p-4">
+                <div className="space-y-0.5">
+                    <Label htmlFor="badge-alerts">New Badge Alerts</Label>
+                    <p className="text-xs text-muted-foreground">
+                        Receive notifications when you unlock a new badge.
+                    </p>
+                </div>
+                <Switch
+                  id="badge-alerts"
+                  checked={badgeAlerts}
+                  onCheckedChange={setBadgeAlerts}
+                />
+              </div>
+              <div className="flex items-center justify-between rounded-lg border p-4">
+                <div className="space-y-0.5">
+                    <Label htmlFor="challenge-reminders">Daily Challenge Reminders</Label>
+                    <p className="text-xs text-muted-foreground">
+                        Get a reminder about the day's challenge.
+                    </p>
+                </div>
+                <Switch
+                  id="challenge-reminders"
+                  checked={challengeReminders}
+                  onCheckedChange={setChallengeReminders}
+                />
+              </div>
+               <div className="flex items-center justify-between rounded-lg border p-4">
+                <div className="space-y-0.5">
+                    <Label htmlFor="promo-updates">Promotional Updates</Label>
+                    <p className="text-xs text-muted-foreground">
+                        Receive news and special offers from CodeCraft.
+                    </p>
+                </div>
+                <Switch
+                  id="promo-updates"
+                  checked={promoUpdates}
+                  onCheckedChange={setPromoUpdates}
+                />
+              </div>
             </CardContent>
           </Card>
            <div className="flex justify-end">
