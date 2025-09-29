@@ -1126,7 +1126,7 @@ params.require(:user).permit(:name, :email, :password)`
         correctOptionId: '34a',
         explanation: 'Blacklisting is brittle because you might forget a sensitive field. The secure-by-default approach is whitelisting, where you explicitly declare the exact set of fields that are safe for mass assignment from a user request. All modern web frameworks provide a feature for this.',
     },
-    {
+        {
         id: '35',
         title: 'Server-Side Request Forgery (SSRF)',
         category: 'SSRF',
@@ -1590,7 +1590,7 @@ if (ctype_alnum($page)) {
             },
             {
                 id: '47c',
-                code: `// Use a web application firewall (WAF) to block error pages.`
+                code: `// Use a Web Application Firewall (WAF) to block error pages.`
             }
         ],
         correctOptionId: '47a',
@@ -1614,7 +1614,10 @@ if (ctype_alnum($page)) {
             },
             {
                 id: '48b',
-                code: `// Configure the web server (e.g., Nginx, Apache) to explicitly deny access to these sensitive directories and files.`
+                code: `// Configure the web server (e.g., Nginx, Apache) to explicitly deny access to all files starting with a dot ('.').
+location ~ /\\. {
+    deny all;
+}`
             },
             {
                 id: '48c',
@@ -2225,7 +2228,7 @@ window.location.href = \`/dashboard?token=\${token}\`;`,
         xp: 95,
         description: 'An attacker stores malicious SQL code in the database (e.g., in their username). The application later uses this "trusted" data in a different query, executing the injection.',
         vulnerableCode: `// Conceptual Flow
-// 1. Attacker signs up with username: "admin' --"
+// 1. User signs up with username: "admin' --"
 // 2. This username is stored safely in the database.
 // 3. Later, an admin function uses the username in an unsafe query:
 String query = "SELECT * FROM activity_logs WHERE username = '" + usernameFromDb + "'";`,
@@ -2392,7 +2395,7 @@ res.cookie('sessionId', 'abc12345', {
 @app.route('/data')
 def get_data():
     user_id = request.args.get('id') // Only gets the first one in Flask
-    # ... logic based on user_id ...`,
+    // ... logic based on user_id ...`,
         language: 'python',
         options: [
             {
@@ -2967,7 +2970,7 @@ return template.render(name=user_input)`
             },
             {
                 id: '88c',
-                code: `// Use a sandboxed template engine.`
+                code: `// Use a different template engine.`
             }
         ],
         correctOptionId: '88a',
@@ -3142,7 +3145,7 @@ case "user":
     },
     {
         id: '94',
-        title: 'Use of Deprecated Cryptographic Hash (SHA-1)',
+        title: 'Use of Broken or Risky Cryptographic Algorithm (SHA-1)',
         category: 'Crypto',
         difficulty: 'Intermediate',
         xp: 60,
@@ -3227,12 +3230,9 @@ method.invoke(null, 0);`,
             {
                 id: '96a',
                 code: `// Avoid reflection with user input. Use a 'switch' statement or a 'Map<String, Runnable>' to map allowed input to specific, safe functions.
-switch (methodName) {
-    case "doSomething":
-        doSomething();
-        break;
-    default:
-        throw new IllegalArgumentException("Invalid method");
+switch(action) {
+    case "ACTION_A": doActionA(); break;
+    // ...
 }`
             },
             {
@@ -3241,11 +3241,11 @@ switch (methodName) {
             },
             {
                 id: '96c',
-                code: `// Use the Security Manager to restrict what the reflected method can do.`
+                code: `// Use a Java Security Manager to restrict the permissions of the reflected code.`
             }
         ],
         correctOptionId: '96a',
-        explanation: 'Using reflection with user-controlled input is extremely dangerous and often leads to code execution vulnerabilities. The only safe solution is to avoid it entirely. Instead, use a whitelist of allowed action names and map them to the corresponding safe functions to be executed.',
+        explanation: 'Using reflection with user-controlled data is extremely dangerous and often leads to code execution vulnerabilities. The only safe solution is to avoid it entirely by mapping user actions to specific, hardcoded function calls.',
     },
     {
         id: '97',
@@ -3379,7 +3379,7 @@ ssl_ciphers 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:...';`
         correctOptionId: '100a',
         explanation: 'Server configuration is critical for TLS security. The server must be explicitly configured to disable old protocols like SSLv3 and early TLS, and it must provide a restricted list of modern, strong cipher suites that do not have known vulnerabilities.',
     },
-    {
+        {
         id: '101',
         title: 'Android WebView JavascriptInterface Exposure',
         category: 'Mobile Security',
@@ -4150,26 +4150,30 @@ if (!user || !checkPassword(user, req.body.password)) {
         category: 'DoS / Abuse',
         difficulty: 'Advanced',
         xp: 80,
-        description: 'An XML parser is configured to allow DTDs and entity expansion, making it vulnerable to a "Billion Laughs" attack.',
-        vulnerableCode: `// Java
-// Default configuration may be vulnerable.
-DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-DocumentBuilder builder = factory.newDocumentBuilder();
-builder.parse(untrustedXmlStream);`,
-        language: 'java',
+        description: 'An XML document uses nested entities to create a denial-of-service attack. A small XML file expands into a huge document in memory, consuming all available RAM.',
+        vulnerableCode: `<!-- Malicious XML -->
+<?xml version="1.0"?>
+<!DOCTYPE lolz [
+  <!ENTITY lol "lol">
+  <!ENTITY lol2 "&lol;&lol;&lol;...">
+  <!ENTITY lol3 "&lol2;&lol2;&lol2;...">
+  ...
+]>
+<lolz>&lol9;</lolz>`,
+        language: 'generic',
         options: [
             {
                 id: '124a',
-                code: `// Securely configure the XML parser to disallow DTDs.
+                code: `// The best defense is to disable Document Type Definitions (DTDs) in the XML parser, as they are required for this attack.
 factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);`
             },
             {
                 id: '124b',
-                code: `// Check the input XML size before parsing.`
+                code: `// Limit the size of the incoming XML file.`
             },
             {
                 id: '124c',
-                code: `// Use a different data format, like JSON.`
+                code: `// Scan the XML for the string "<!ENTITY".`
             }
         ],
         correctOptionId: '124a',
@@ -4394,36 +4398,36 @@ sendBroadcast(intent);`
     },
     {
         id: '132',
-        title: 'SQLi via ORDER BY Clause',
+        title: 'SQL Injection via TRUNCATE',
         category: 'SQL Injection',
-        difficulty: 'Advanced',
-        xp: 80,
-        description: 'An `ORDER BY` clause in a SQL query is built using user input, which cannot be parameterized, leading to potential SQL injection.',
-        vulnerableCode: `// Python
-sort_column = request.args.get('sort')
-// Attacker provides: "(CASE WHEN (1=1) THEN username ELSE email END)"
-query = f"SELECT * FROM users ORDER BY {sort_column}"`,
-        language: 'python',
+        difficulty: 'Expert',
+        xp: 95,
+        description: 'An application dynamically builds a table name for a TRUNCATE operation from user input. Since TRUNCATE cannot be parameterized, this can lead to injection.',
+        vulnerableCode: `// PHP
+// Attacker provides: "logs; DROP TABLE users"
+$tableName = $_GET['table_to_truncate'];
+$pdo->exec("TRUNCATE TABLE " . $tableName);`,
+        language: 'php',
         options: [
             {
                 id: '132a',
-                code: `// Map the user input to a whitelist of allowed column names.
-allowed_columns = {"name": "username", "date": "created_at"}
-sort_key = allowed_columns.get(sort_column, "username") // Default to a safe column
-query = f"SELECT * FROM users ORDER BY {sort_key}"`
+                code: `// Validate the user-provided table name against a strict whitelist of tables that are allowed to be truncated.
+$allowedTables = ['logs', 'temp_data'];
+if (in_array($tableName, $allowedTables)) {
+    $pdo->exec("TRUNCATE TABLE " . $tableName);
+}`
             },
             {
                 id: '132b',
-                code: `// Use a parameterized query.
-query = "SELECT * FROM users ORDER BY ?" // This does not work for ORDER BY`
+                code: `// Use prepared statements. (Note: This doesn't work for table names).`
             },
             {
                 id: '132c',
-                code: `// Remove all special characters from the input.`
+                code: `// Escape the table name before using it in the query.`
             }
         ],
         correctOptionId: '132a',
-        explanation: 'Identifiers like table or column names cannot be replaced by parameter markers (`?`). The only safe way to handle user-controlled sorting is to validate the user\'s input against a strict whitelist of known, safe column names.',
+        explanation: 'SQL injection is not limited to data manipulation. Any part of a query constructed from user input is a potential vector. Since table and column names cannot be parameterized, the only safe approach is to validate the user input against a hardcoded whitelist of allowed values.',
     },
     {
         id: '133',
@@ -4457,22 +4461,22 @@ query = "SELECT * FROM users ORDER BY ?" // This does not work for ORDER BY`
     },
     {
         id: '134',
-        title: 'Business Logic Flaw (Race Condition on Promo Code)',
+        title: 'Business Logic Flaw: Race Condition on Promo Code',
         category: 'Business Logic',
         difficulty: 'Expert',
         xp: 95,
         description: 'An endpoint for applying a promo code checks if the code is valid and then applies it, but an attacker can send many simultaneous requests to use the same single-use code multiple times.',
         vulnerableCode: `// Conceptual API Logic
 async function applyPromo(userId, code) {
-    // 1. Check if code is valid and has uses remaining
-    const promo = await db.getPromo(code);
-    if (promo && promo.uses_left > 0) {
-        // 2. Attacker sends multiple requests that all pass the check here
-        // 3. Apply discount to user's cart
-        await db.applyDiscount(userId);
-        // 4. Decrement uses
-        await db.decrementPromo(code);
-    }
+  // 1. Check if code is valid and has uses remaining
+  const promo = await db.getPromo(code);
+  if (promo && promo.uses_left > 0) {
+    // 2. Attacker sends multiple requests that all pass this check.
+    // 3. Apply discount to user's cart
+    await db.applyDiscount(userId);
+    // 4. Decrement uses
+    await db.decrementPromo(code);
+  }
 }`,
         language: 'generic',
         options: [
@@ -4553,7 +4557,7 @@ else:
             },
             {
                 id: '136b',
-                code: '// URL-encode the `next_url` before redirecting.'
+                code: `// URL-encode the 'next_url' before redirecting.`
             },
             {
                 id: '136c',
@@ -5017,7 +5021,7 @@ app.use((req, res, next) => {
         correctOptionId: '150c',
         explanation: 'This is a business logic flaw that requires a server-side rule engine. The application must have clear rules defining which promotions can be combined. The simplest rule is to allow only one (B), but a more complex system would check for compatibility flags on each coupon before applying it (A).',
     },
-    {
+        {
         id: '151',
         title: 'Business Logic Flaw: Gift Card Credit',
         category: 'Business Logic',
@@ -5098,7 +5102,7 @@ webView.load(URLRequest(url: url))`,
         options: [
             {
                 id: '153a',
-                code: `// Check if the URL is a Universal Link and handle it appropriately before loading it in the WebView, or use a specific configuration to prevent the redirection.`
+                code: '// Check if the URL is a Universal Link and handle it appropriately before loading it in the WebView, or use a specific configuration to prevent the redirection.'
             },
             {
                 id: '153b',
@@ -5987,30 +5991,31 @@ if (new Date() > deadline) {
     },
     {
         id: '181',
-        title: 'AWS S3 Public Bucket ACL',
+        title: 'AWS S3 Bucket with Public Write ACL',
         category: 'Cloud Security',
         difficulty: 'Intermediate',
         xp: 65,
-        description: 'An S3 bucket is made public via its Access Control List (ACL) instead of a bucket policy, which can be harder to audit and manage.',
-        vulnerableCode: `// AWS CLI command making a bucket public
-aws s3api put-bucket-acl --bucket my-bucket --acl public-read`,
+        description: 'An S3 bucket has an Access Control List (ACL) that grants the "AllUsers" group write permissions, allowing anyone on the internet to upload files.',
+        vulnerableCode: `// This is a configuration issue, not code.
+// An attacker can upload arbitrary files, potentially including malware or phishing pages,
+// which would then be served from your trusted domain.`,
         language: 'generic',
         options: [
             {
                 id: '181a',
-                code: `// Disable ACLs for the bucket ('ACLs disabled' setting) and rely exclusively on IAM and bucket policies for access control.`
+                code: `// In the AWS S3 Console, go to the bucket's Permissions tab and remove the "Write" permission for the "Everyone (public access)" group.`
             },
             {
                 id: '181b',
-                code: `// Regularly audit bucket ACLs.`
+                code: `// Enable "Block all public access" for the bucket. This is a master control that overrides ACLs.`
             },
             {
                 id: '181c',
-                code: 'Both A and B are good practices. Disabling ACLs (A) simplifies the access control model, making it easier to secure and audit, which is the modern best practice.'
+                code: 'Both A and B are necessary. B acts as a crucial safety net, while A fixes the specific misconfiguration.'
             }
         ],
         correctOptionId: '181c',
-        explanation: 'S3 ACLs are a legacy access control mechanism. The modern and recommended best practice is to disable them entirely and use only IAM and S3 bucket policies. This creates a simpler, more consistent, and easier-to-audit security posture.',
+        explanation: 'Publicly writable S3 buckets are a severe security risk. You should ensure the ACLs and policies do not grant public write access (A), and you should also enable the "Block all public access" feature at the bucket level (B) to act as a fail-safe.',
     },
     {
         id: '182',
@@ -6651,8 +6656,1645 @@ $data = json_decode($_COOKIE['data']);`
         ],
         correctOptionId: '200a',
         explanation: 'Like in other languages, native serialization in PHP is dangerous. The standard recommendation is to completely avoid `unserialize()` on any data that originates from a user, and to use a safe data interchange format like JSON instead.',
+    },
+    {
+        id: '201',
+        title: 'HTTP Verb Tampering',
+        category: 'Broken Auth',
+        difficulty: 'Advanced',
+        xp: 70,
+        description: 'An authorization check is incorrectly tied to a specific HTTP method (e.g., GET), allowing an attacker to bypass it by using a different method (e.g., POST) for the same endpoint.',
+        vulnerableCode: `// A firewall rule or application middleware only checks for admin role on GET requests.
+// GET /api/users/123 -> Requires Admin Role
+// POST /api/users/123 -> No check! An attacker can use POST to access the data.`,
+        language: 'generic',
+        options: [
+            {
+                id: '201a',
+                code: `// Authorization logic must be applied consistently to the endpoint, regardless of the HTTP method.`
+            },
+            {
+                id: '201b',
+                code: `// Block all HTTP methods except GET.`
+            },
+            {
+                id: '201c',
+                code: `// Use different URLs for different methods.`
+            },
+        ],
+        correctOptionId: '201a',
+        explanation: 'Security controls must be applied to resources, not just specific HTTP methods. If an endpoint like `/api/users/123` requires admin access, that check must be performed for GET, POST, PUT, DELETE, or any other method that endpoint supports.',
+    },
+    {
+        id: '202',
+        title: 'Android WebView Local File Reading',
+        category: 'Mobile Security',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'An Android app uses a WebView to render local HTML files, but an insecure configuration allows JavaScript within those files to read other local files.',
+        vulnerableCode: `// Java (Android)
+WebView webView = findViewById(R.id.webview);
+WebSettings settings = webView.getSettings();
+settings.setJavaScriptEnabled(true);
+settings.setAllowFileAccessFromFileURLs(true); // Dangerous!
+webView.loadUrl("file:///android_asset/page.html");`,
+        language: 'java',
+        options: [
+            {
+                id: '202a',
+                code: `// Disable file access from file URLs. This is the default on modern Android versions but should be explicitly set for security.
+settings.setAllowFileAccessFromFileURLs(false);`
+            },
+            {
+                id: '202b',
+                code: `// Sanitize the HTML before loading it.`
+            },
+            {
+                id: '202c',
+                code: `// Do not enable JavaScript.`
+            },
+        ],
+        correctOptionId: '202a',
+        explanation: 'Allowing JavaScript running from a `file://` URL to access other `file://` URLs is a major security risk, as it breaks the same-origin policy for local files. This setting should always be disabled unless absolutely necessary for a very specific, trusted use case.',
+    },
+    {
+        id: '203',
+        title: 'Insecure `random()` function (Python)',
+        category: 'Crypto',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'The standard `random` module in Python is used for a cryptographic purpose, such as generating a password reset token. This is insecure as the module is not cryptographically random.',
+        vulnerableCode: `// Python
+import random
+import string
+def generate_token():
+    # 'random' is predictable and not suitable for security.
+    return ''.join(random.choice(string.ascii_letters) for i in range(20))`,
+        language: 'python',
+        options: [
+            {
+                id: '203a',
+                code: `// Use the 'secrets' module for all security-sensitive random number generation.
+import secrets
+import string
+def generate_token():
+    return ''.join(secrets.choice(string.ascii_letters) for i in range(20))`
+            },
+            {
+                id: '203b',
+                code: `// Seed the random module with a better source.
+random.seed(os.urandom(16))`
+            },
+            {
+                id: '203c',
+                code: `// Generate a much longer token using the 'random' module.`
+            },
+        ],
+        correctOptionId: '203a',
+        explanation: 'For any cryptographic or security-related purpose, you must use a cryptographically secure pseudo-random number generator (CSPRNG). In Python, the `secrets` module is specifically designed for this purpose.',
+    },
+    {
+        id: '204',
+        title: 'Information Leakage via Error Messages',
+        category: 'Info Disclosure',
+        difficulty: 'Intermediate',
+        xp: 50,
+        description: 'An application\'s response to a failed login reveals whether the username or the password was incorrect, allowing for username enumeration.',
+        vulnerableCode: `// C#
+if (user == null) {
+    return "Error: User not found.";
+}
+if (!VerifyPassword(user, password)) {
+    return "Error: Invalid password.";
+}`,
+        language: 'generic',
+        options: [
+            {
+                id: '204a',
+                code: `// Return the same generic error message for both failure cases.
+if (user == null || !VerifyPassword(user, password)) {
+    return "Error: Invalid username or password.";
+}`
+            },
+            {
+                id: '204b',
+                code: `// Add a random delay to the response time.`
+            },
+            {
+                id: '204c',
+                code: `// Use a CAPTCHA.`
+            },
+        ],
+        correctOptionId: '204a',
+        explanation: 'Authentication endpoints must not leak information about which part of the credential was incorrect. By returning a generic "Invalid username or password" message in all failure cases, you prevent attackers from being able to guess valid usernames.',
+    },
+    {
+        id: '205',
+        title: 'AWS S3 Bucket with Public Write ACL',
+        category: 'Cloud Security',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'An S3 bucket has an Access Control List (ACL) that grants the "AllUsers" group write permissions, allowing anyone on the internet to upload files.',
+        vulnerableCode: `// This is a configuration issue, not code.
+// An attacker can upload arbitrary files, potentially including malware or phishing pages,
+// which would then be served from your trusted domain.`,
+        language: 'generic',
+        options: [
+            {
+                id: '205a',
+                code: `// In the AWS S3 Console, go to the bucket's Permissions tab and remove the "Write" permission for the "Everyone (public access)" group.`
+            },
+            {
+                id: '205b',
+                code: `// Enable "Block all public access" for the bucket. This is a master control that overrides ACLs.`
+            },
+            {
+                id: '205c',
+                code: 'Both A and B are necessary. B acts as a crucial safety net, while A fixes the specific misconfiguration.'
+            }
+        ],
+        correctOptionId: '205c',
+        explanation: 'Publicly writable S3 buckets are a severe security risk. You should ensure the ACLs and policies do not grant public write access (A), and you should also enable the "Block all public access" feature at the bucket level (B) to act as a fail-safe.',
+    },
+    {
+        id: '206',
+        title: 'DOM Clobbering',
+        category: 'XSS',
+        difficulty: 'Expert',
+        xp: 90,
+        description: 'An attacker injects HTML that creates a DOM node with an `id` or `name` that overwrites a global JavaScript variable of the same name, leading to unexpected behavior.',
+        vulnerableCode: `// JavaScript code on the page
+var someConfig = { allowActions: true };
+
+// Attacker injects this HTML via a comment field, etc.
+<div id="someConfig"></div>
+
+// Later, the application checks the variable
+if (someConfig.allowActions) { // This will now cause a TypeError!
+    // ...
+}`,
+        language: 'javascript',
+        options: [
+            {
+                id: '206a',
+                code: `// Properly sanitize all user-provided HTML to remove 'id' and 'name' attributes, or use a safe method like .textContent to render user input.`
+            },
+            {
+                id: '206b',
+                code: `// Avoid using global variables for configuration. Encapsulate variables in a closure or module.`
+            },
+            {
+                id: '206c',
+                code: `// Both A and B are valid and important defenses against DOM clobbering.`
+            }
+        ],
+        correctOptionId: '206c',
+        explanation: 'DOM Clobbering is a subtle attack where HTML elements can overwrite global JavaScript variables. Defenses include sanitizing user HTML to prevent `id` attributes (A) and writing safer JavaScript that doesn\'t rely on global variables (B).',
+    },
+    {
+        id: '207',
+        title: 'Business Logic Flaw: Replay Attack',
+        category: 'Business Logic',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'An API request to perform a one-time action (like casting a vote or redeeming a coupon) does not have a mechanism to prevent it from being "replayed" multiple times by an attacker.',
+        vulnerableCode: `// Conceptual API endpoint
+// POST /api/vote?poll=1&option=A
+// The server has no way to distinguish a legitimate first request from a replayed one.`,
+        language: 'generic',
+        options: [
+            {
+                id: '207a',
+                code: `// Implement a unique, single-use token (a "nonce") for each request. The server should track used nonces and reject any request with a nonce it has already seen.`
+            },
+            {
+                id: '207b',
+                code: `// Make sure the API endpoint uses the POST method.`
+            },
+            {
+                id: '207c',
+                code: `// Rate-limit the endpoint.`
+            }
+        ],
+        correctOptionId: '207a',
+        explanation: 'To prevent replay attacks, the server must have a way to identify unique requests. This is typically done by having the client generate a nonce (a number used once) for each action. The server records the nonces it processes and rejects any duplicates.',
+    },
+    {
+        id: '208',
+        title: 'Zip Slip Vulnerability',
+        category: 'File Inclusion',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'An application extracts a ZIP archive containing path traversal sequences (`../`), allowing an attacker to overwrite arbitrary files on the server.',
+        vulnerableCode: `// Java
+// The ZIP file contains an entry named "../../../etc/important.conf"
+ZipInputStream zis = new ZipInputStream(inputStream);
+ZipEntry entry;
+while ((entry = zis.getNextEntry()) != null) {
+    // Unsafe: The path is not validated.
+    File newFile = new File("/var/www/uploads/", entry.getName());
+    // ... code to write the file ...
+}`,
+        language: 'java',
+        options: [
+            {
+                id: '208a',
+                code: `// Before writing, validate that the canonical path of the extracted file is within the intended destination directory.
+File destDir = new File("/var/www/uploads/");
+String destDirPath = destDir.getCanonicalPath();
+File newFile = new File(destDir, entry.getName());
+String destFilePath = newFile.getCanonicalPath();
+
+if (!destFilePath.startsWith(destDirPath + File.separator)) {
+    throw new IOException("Entry is outside of the target dir: " + entry.getName());
+}`
+            },
+            {
+                id: '208b',
+                code: `// Scan the entry names for ".." before extracting.`
+            },
+            {
+                id: '208c',
+                code: `// Use a different archive format like TAR.`
+            }
+        ],
+        correctOptionId: '208a',
+        explanation: 'The key to preventing Zip Slip is to resolve the canonical path of the file to be written and verify that it still starts with the path of the intended destination directory. This handles all forms of path traversal, including `../`, absolute paths, and symlinks.',
+    },
+    {
+        id: '209',
+        title: 'Missing `SameSite=None; Secure` on Cross-Domain Cookies',
+        category: 'Session Management',
+        difficulty: 'Advanced',
+        xp: 70,
+        description: 'A third-party cookie intended for cross-site use is missing the `SameSite=None; Secure` attributes, causing modern browsers to block it.',
+        vulnerableCode: `// HTTP Response Header for a cookie needed in an iframe
+Set-Cookie: tracking_id=123;`,
+        language: 'generic',
+        options: [
+            {
+                id: '209a',
+                code: `// For cookies that need to be sent in a third-party context, you must explicitly set SameSite=None and it must be accompanied by the Secure attribute.
+Set-Cookie: tracking_id=123; SameSite=None; Secure`
+            },
+            {
+                id: '209b',
+                code: `Set-Cookie: tracking_id=123; SameSite=Lax;`
+            },
+            {
+                id: '209c',
+                code: `// This is a browser setting and cannot be fixed by the server.`
+            }
+        ],
+        correctOptionId: '209a',
+        explanation: 'Modern browsers default to `SameSite=Lax`, which prevents cookies from being sent on most cross-site requests. To allow a cookie to be used in a third-party context (like an embedded iframe), you must explicitly opt-in by setting `SameSite=None`, which requires the `Secure` flag as well.',
+    },
+    {
+        id: '210',
+        title: 'SSRF via DNS Rebinding',
+        category: 'SSRF',
+        difficulty: 'Expert',
+        xp: 100,
+        description: 'An application checks a user-provided URL against a blocklist, but an attacker uses a domain with a very short DNS TTL. The server resolves it to a safe IP, but by the time the request is made, the DNS has changed to a forbidden internal IP.',
+        vulnerableCode: `// Conceptual Logic
+// 1. App receives URL: http://attacker.com
+// 2. App resolves attacker.com to a safe IP (e.g., 8.8.8.8) and validates it.
+// 3. DNS TTL for attacker.com is 1 second. Attacker updates DNS to point to 127.0.0.1.
+// 4. App makes the HTTP request. The OS re-resolves the DNS to the internal IP, 127.0.0.1.`,
+        language: 'generic',
+        options: [
+            {
+                id: '210a',
+                code: `// This is a complex attack. One mitigation is to resolve the IP address once, perform the validation, and then make the subsequent HTTP request directly to the validated IP address, passing the original hostname in the 'Host' header.`
+            },
+            {
+                id: '210b',
+                code: `// Block all domains with a low DNS TTL.`
+            },
+            {
+                id: '210c',
+                code: `// Use a different DNS resolver.`
+            }
+        ],
+        correctOptionId: '210a',
+        explanation: 'DNS rebinding attacks exploit the time gap between a security check and the actual use of a resource. To fix this, the application must ensure that the IP address it validated is the same one it connects to. This involves making the HTTP request directly to the IP and manually setting the `Host` header.',
+    },
+    {
+        id: '211',
+        title: 'JWT Secret Key Confusion',
+        category: 'Auth',
+        difficulty: 'Expert',
+        xp: 95,
+        description: 'A JWT library is used in a way that it can be tricked into using a public key as an HMAC secret.',
+        vulnerableCode: `// Conceptual:
+// 1. Attacker obtains the public key used for RS256 signing.
+// 2. Attacker crafts a new token, changing the 'alg' header to 'HS256'.
+// 3. Attacker signs the token using HMAC-SHA256, using the public key itself as the secret.
+// 4. Vulnerable server receives the token, sees 'HS256', and validates the signature using the public key as the secret.`,
+        language: 'generic',
+        options: [
+            {
+                id: '211a',
+                code: `// Do not allow multiple algorithms. The code that verifies tokens must be hardcoded to expect one specific algorithm (e.g., RS256) and reject all others.`
+            },
+            {
+                id: '211b',
+                code: `// Use a different secret key for HS256 and a different key pair for RS256.`
+            },
+            {
+                id: '211c',
+                code: `// Keep the public key secret.`
+            }
+        ],
+        correctOptionId: '211a',
+        explanation: 'This "cross-algorithm" attack is a known JWT vulnerability. The server must be the authority on which algorithm is acceptable. It should never trust the algorithm specified in the token header. The verification code must be configured to use one specific, expected algorithm (e.g., RS256) and reject any token that uses a different one.',
+    },
+    {
+        id: '212',
+        title: 'Insecure iOS Keychain Accessibility',
+        category: 'Mobile Security',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'Data is saved to the iOS Keychain, but with an overly permissive accessibility attribute, allowing it to be read from the device backup or when the device is locked.',
+        vulnerableCode: `// Swift
+let data = "secret".data(using: .utf8)!
+let query = [
+    kSecClass: kSecClassGenericPassword,
+    kSecAttrAccount: "my_account",
+    kSecValueData: data,
+    kSecAttrAccessible: kSecAttrAccessibleAlways // Insecure!
+] as [String: Any]
+SecItemAdd(query as CFDictionary, nil)`,
+        language: 'generic',
+        options: [
+            {
+                id: '212a',
+                code: `// Use the most restrictive accessibility level possible. For secrets that are only needed when the app is running in the foreground on an unlocked device, use:
+kSecAttrAccessible: kSecAttrAccessibleWhenUnlockedThisDeviceOnly`
+            },
+            {
+                id: '212b',
+                code: `// Encrypt the data before putting it in the Keychain.`
+            },
+            {
+                id: '212c',
+                code: `// The Keychain is always secure, so this is not a vulnerability.`
+            }
+        ],
+        correctOptionId: '212a',
+        explanation: 'While the Keychain is secure storage, it has different levels of accessibility. For maximum security, secrets should only be accessible when the device is unlocked (`WhenUnlockedThisDeviceOnly`), which also prevents them from being included in device backups.',
+    },
+    {
+        id: '213',
+        title: 'Server-Side Template Injection (SSTI) in JSP',
+        category: 'RCE',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'User input is included in a JSP page in a way that allows it to be interpreted as a JSP Expression Language (EL) expression.',
+        vulnerableCode: `// Java (JSP)
+// Attacker sends parameter: name=$\{1+1}
+String name = request.getParameter("name");
+// The application renders this directly into the page.
+out.println("Hello, " + name);`,
+        language: 'java',
+        options: [
+            {
+                id: '213a',
+                code: `// Escape user input to prevent it from being interpreted by the EL processor.
+// Use JSTL's <c:out> tag, which escapes XML and EL by default.
+<c:out value="$\\{param.name}" />`
+            },
+            {
+                id: '213b',
+                code: `// Disable EL for the entire page.
+<%@ page isELIgnored="true" %>`
+            },
+            {
+                id: '213c',
+                code: 'Both A and B are valid mitigations. B is a broad switch, while A is the standard, correct way to render user data safely.'
+            }
+        ],
+        correctOptionId: '213c',
+        explanation: 'To prevent JSP Expression Language injection, you must escape user-controlled data before rendering. The JSTL `<c:out>` tag is the standard way to do this. Disabling EL for the entire page is also an effective, though less flexible, mitigation.',
+    },
+    {
+        id: '214',
+        title: 'Publicly Exposed `.env` File',
+        category: 'Info Disclosure',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'A `.env` file containing secrets like database passwords and API keys is placed in the public web root, making it downloadable by anyone.',
+        vulnerableCode: `// File structure
+/var/www/html/
+  - index.html
+  - .env  <-- DANGEROUS!
+  - app.js`,
+        language: 'generic',
+        options: [
+            {
+                id: '214a',
+                code: `// Never place .env files in a public web root. They should be stored one level above the web root or in a completely separate, non-web-accessible directory.`
+            },
+            {
+                id: '214b',
+                code: `// Configure the web server (Nginx, Apache) to explicitly deny access to all files starting with a dot ('.').
+location ~ /\\. {
+    deny all;
+}`
+            },
+            {
+                id: '214c',
+                code: 'Both A and B are critical. A prevents the file from being in the wrong place, and B provides a defense-in-depth rule to block it if it is.'
+            }
+        ],
+        correctOptionId: '214c',
+        explanation: '`.env` files contain highly sensitive secrets and must never be publicly accessible. The correct setup is to store them outside the web root directory (A) AND configure your web server to block access to all dotfiles as a general hardening measure (B).',
+    },
+    {
+        id: '215',
+        title: 'Business Logic Flaw: Price Manipulation',
+        category: 'Business Logic',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'The price of an item is sent from the client to the server during checkout, allowing an attacker to tamper with it.',
+        vulnerableCode: `// JavaScript (Client-side)
+function checkout() {
+    const price = document.getElementById('price').textContent;
+    const itemId = 'prod_123';
+    // Attacker can modify 'price' in their browser before sending.
+    fetch('/api/charge', { method: 'POST', body: { itemId, price } });
+}`,
+        language: 'javascript',
+        options: [
+            {
+                id: '215a',
+                code: `// The server must NOT trust the price sent from the client.
+// It should re-fetch the item's price from its own database using the item ID.
+app.post('/api/charge', (req, res) => {
+    const { itemId } = req.body;
+    const item = db.products.find(itemId);
+    const price = item.price; // Get authoritative price from DB.
+    // ... create charge with the correct price ...
+});`
+            },
+            {
+                id: '215b',
+                code: `// Encrypt the price on the client before sending it.`
+            },
+            {
+                id: '215c',
+                code: `// Validate that the price is a positive number on the server.`
+            }
+        ],
+        correctOptionId: '215a',
+        explanation: 'Never trust the client. Any security-sensitive data, especially price, must be authoritatively determined by the server. The client should only send non-sensitive identifiers (like an item ID), and the server should look up the corresponding price.',
+    },
+    {
+        id: '216',
+        title: 'Unsafe Reflection in Java',
+        category: 'RCE',
+        difficulty: 'Expert',
+        xp: 95,
+        description: 'User input is used to determine a class name and method to call via reflection, leading to Remote Code Execution.',
+        vulnerableCode: `// Java
+String className = request.getParameter("class");
+String methodName = request.getParameter("method");
+
+// Attacker can specify 'java.lang.Runtime' and 'getRuntime'
+Class<?> clazz = Class.forName(className);
+Method method = clazz.getMethod(methodName);
+method.invoke(clazz.newInstance());`,
+        language: 'java',
+        options: [
+            {
+                id: '216a',
+                code: `// Never use user input to construct class or method names for reflection. Use a safe mapping of allowed actions instead.
+switch(action) {
+    case "ACTION_A": doActionA(); break;
+    // ...
+}`
+            },
+            {
+                id: '216b',
+                code: `// Use a Java Security Manager to restrict the permissions of the reflected code.`
+            },
+            {
+                id: '216c',
+                code: `// Blacklist known dangerous classes like 'java.lang.Runtime'.`
+            }
+        ],
+        correctOptionId: '216a',
+        explanation: 'Using reflection with user-controlled data is extremely dangerous. Blacklisting is ineffective and security managers are complex. The only safe approach is to avoid it entirely by mapping user actions to specific, hardcoded function calls.',
+    },
+    {
+        id: '217',
+        title: 'Android `ContentProvider` SQL Injection',
+        category: 'Mobile Security',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'An exported `ContentProvider` builds a raw SQL query using user input from the `selection` parameter.',
+        vulnerableCode: `// Java (Android)
+@Override
+public Cursor query(Uri uri, ..., String selection, String[] selectionArgs, ...) {
+    // Attacker provides a malicious 'selection' string.
+    String sql = "SELECT * FROM items WHERE " + selection;
+    return db.rawQuery(sql, selectionArgs);
+}`,
+        language: 'java',
+        options: [
+            {
+                id: '217a',
+                code: `// The 'selection' parameter should be used as the WHERE clause, and 'selectionArgs' should be used for the parameters. This is the Android equivalent of prepared statements.
+// The system will safely bind the arguments.
+return db.query("items", projection, selection, selectionArgs, null, null, sortOrder);`
+            },
+            {
+                id: '217b',
+                code: `// Manually validate the 'selection' string for SQL keywords.`
+            },
+            {
+                id: '217c',
+                code: `// Set 'android:exported="false"' for the provider.`
+            }
+        ],
+        correctOptionId: '217a',
+        explanation: 'Just like on a server, you must not build SQL queries by concatenating user input. The Android `ContentProvider` query interface is designed to prevent SQLi by separating the query structure (`selection`) from the data (`selectionArgs`).',
+    },
+    {
+        id: '218',
+        title: 'AWS EC2 Instance Role with Overly Permissive Policy',
+        category: 'Cloud Security',
+        difficulty: 'Intermediate',
+        xp: 70,
+        description: 'An EC2 instance is assigned an IAM role with `AdministratorAccess` (`"*:*"`), giving any code running on the instance full control over the AWS account.',
+        vulnerableCode: `// IAM Policy attached to an EC2 instance role
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "*",
+            "Resource": "*"
+        }
+    ]
+}`,
+        language: 'generic',
+        options: [
+            {
+                id: '218a',
+                code: `// Follow the principle of least privilege. Create a narrow policy that grants only the specific permissions required by the application.
+// e.g., only allow access to a specific S3 bucket.
+"Action": ["s3:GetObject", "s3:PutObject"],
+"Resource": "arn:aws:s3:::my-app-bucket/*"`
+            },
+            {
+                id: '218b',
+                code: `// Use access keys on the instance instead of a role.`
+            },
+            {
+                id: '218c',
+                code: `// Monitor the instance for suspicious activity.`
+            }
+        ],
+        correctOptionId: '218a',
+        explanation: 'IAM roles and policies must always follow the principle of least privilege. Granting wildcard (`*`) permissions is extremely dangerous. You should craft a policy that allows only the specific actions on the specific resources that the application needs to function.',
+    },
+    {
+        id: '219',
+        title: 'Missing `X-Content-Type-Options: nosniff`',
+        category: 'XSS',
+        difficulty: 'Intermediate',
+        xp: 50,
+        description: 'A server does not send the `X-Content-Type-Options: nosniff` header. This might allow a browser like Internet Explorer to misinterpret a file (e.g., an image) as HTML and execute a script.',
+        vulnerableCode: `// Server response is missing a security header.
+// This is especially risky if the server hosts user-uploaded content.`,
+        language: 'generic',
+        options: [
+            {
+                id: '219a',
+                code: `// Add the header to all server responses to prevent browsers from performing MIME-type sniffing.
+X-Content-Type-Options: nosniff`
+            },
+            {
+                id: '219b',
+                code: `// Ensure all 'Content-Type' headers are set correctly.`
+            },
+            {
+                id: '219c',
+                code: `// This is an old vulnerability and modern browsers are not affected.`
+            }
+        ],
+        correctOptionId: '219a',
+        explanation: 'The `X-Content-Type-Options: nosniff` header is a security measure that tells the browser to trust the `Content-Type` header set by the server and not try to guess a different content type. This prevents attacks where an attacker uploads a file that looks like an image but is actually HTML/JavaScript.',
+    },
+    {
+        id: '220',
+        title: 'Business Logic Flaw (Free Trial Abuse)',
+        category: 'Business Logic',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'A user can sign up for multiple free trials by simply using different email addresses or slight variations of their email address (e.g., `user+1@gmail.com`, `user+2@gmail.com`).',
+        vulnerableCode: '// The sign-up logic treats each unique email string as a new user, without normalization or further checks.',
+        language: 'generic',
+        options: [
+            {
+                id: '220a',
+                code: '// Normalize email addresses before checking for existence (e.g., remove dots and parts after a "+").'
+            },
+            {
+                id: '220b',
+                code: '// Use device fingerprinting or track IP addresses to identify users trying to create multiple accounts.'
+            },
+            {
+                id: '220c',
+                code: '// Require a credit card for the free trial.'
+            }
+        ],
+        correctOptionId: '220c',
+        explanation: 'While A and B can help, they are often bypassable. The most effective business logic control to prevent widespread free trial abuse is to require a unique payment method (like a credit card) for verification, even if it isn\'t charged.',
+    },
+    {
+        id: '221',
+        title: 'Failure to Invalidate Session on Logout',
+        category: 'Session Management',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'When a user changes their password, the application does not invalidate their other active sessions, allowing an attacker who has stolen a session cookie to remain logged in.',
+        vulnerableCode: `// API Logic for changing password
+app.post("/change-password", (req, res) => {
+    // ... logic to verify current password and set new password ...
+    // The server does not destroy other active sessions for this user.
+    res.send("Password changed.");
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '221a',
+                code: `// After a password change, the server must destroy all other active sessions for that user, forcing all other devices to log in again.
+// This is often implemented by changing a "session generation" value in the user's database record.`
+            },
+            {
+                id: '221b',
+                code: `// Force the user to log in again on the current device.`
+            },
+            {
+                id: '221c',
+                code: `// Send an email to the user notifying them of the password change.`
+            }
+        ],
+        correctOptionId: '221a',
+        explanation: 'Changing a password is a high-security event. It implies the user believes their account may be compromised. The correct response is to invalidate all existing sessions to ensure any attacker who has stolen a session token is kicked out.',
+    },
+    {
+        id: '222',
+        title: 'Android `exported` Component without Permissions',
+        category: 'Mobile Security',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'An Android Activity or Service is marked as `exported="true"` in the manifest but does not define a permission, allowing any app on the device to launch it.',
+        vulnerableCode: `<!-- AndroidManifest.xml -->
+<activity
+    android:name=".SensitiveActivity"
+    android:exported="true">
+    <!-- No permission required! -->
+</activity>`,
+        language: 'generic',
+        options: [
+            {
+                id: '222a',
+                code: `// If the component should only be launched by your own app, set it to be un-exported.
+<activity ... android:exported="false" />`
+            },
+            {
+                id: '222b',
+                code: `// If it must be exported, protect it with a custom permission so only authorized apps can launch it.
+<activity ... android:permission="com.example.MY_PERMISSION" />`
+            },
+            {
+                id: '222c',
+                code: 'Both A and B are valid solutions depending on the use case. A is the most secure default.'
+            }
+        ],
+        correctOptionId: '222c',
+        explanation: 'By default, components should not be exported (A), following the principle of least privilege. If a component must be exported to be launched by other apps, it must be protected with an appropriate permission to ensure only trusted apps can access it (B).',
+    },
+    {
+        id: '223',
+        title: 'Server-Side Template Injection (SSTI) in Freemarker',
+        category: 'RCE',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'User input is used to choose a template file for rendering in a Java application using the Freemarker template engine, but an attacker can use a special value to access the classloader and execute code.',
+        vulnerableCode: `// Java (Freemarker)
+// Attacker provides templateName = "new()\\"'freemarker.template.utility.Execute'\\"](\\'id\\')"
+String templateName = request.getParameter("templateName");
+Template template = freemarkerConfig.getTemplate(templateName);`,
+        language: 'java',
+        options: [
+            {
+                id: '223a',
+                code: `// Do not use user input to construct template paths.
+// Map user input to a whitelist of allowed, safe template files.`
+            },
+            {
+                id: '223b',
+                code: `// Sanitize the input to remove characters like '(', ')', and '['.`
+            },
+            {
+                id: '223c',
+                code: `// Use a different template engine.`
+            }
+        ],
+        correctOptionId: '223a',
+        explanation: 'SSTI vulnerabilities in template engines like Freemarker are extremely dangerous. The root cause is allowing user input to influence the template loading process itself. The only safe fix is to disallow this entirely and use user input only as data passed *into* a fixed, static template.',
+    },
+    {
+        id: '224',
+        title: 'CORS Misconfiguration (Reflected Origin)',
+        category: 'CORS',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'The server\'s CORS policy blindly reflects the `Origin` header from the request, allowing any site to make credentialed requests and read the response.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+app.use((req, res, next) => {
+  // This is a common but DANGEROUS pattern.
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '224a',
+                code: `// Use a strict, server-side whitelist of allowed origins.
+const allowedOrigins = ['https://trusted.site.com', 'https://another.trusted.site'];
+const origin = req.headers.origin;
+if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+}`
+            },
+            {
+                id: '224b',
+                code: `// Do not set 'Access-Control-Allow-Credentials' to 'true'.`
+            },
+            {
+                id: '224c',
+                code: `// Change '*' to 'null'.`
+            }
+        ],
+        correctOptionId: '224a',
+        explanation: 'Dynamically reflecting the Origin header is insecure because it effectively allows any origin. When credentials are also allowed, this is a major vulnerability. The server must validate the incoming `Origin` against a hardcoded whitelist of trusted domains.',
+    },
+    {
+        id: '225',
+        title: 'Unsecured Kubernetes `kube-apiserver`',
+        category: 'Cloud Security',
+        difficulty: 'Expert',
+        xp: 100,
+        description: 'The Kubernetes API server is configured to allow anonymous authentication, giving any unauthenticated user powerful access to the cluster.',
+        vulnerableCode: `// kube-apiserver configuration file
+// The following flag is set, which is highly insecure.
+--anonymous-auth=true`,
+        language: 'generic',
+        options: [
+            {
+                id: '225a',
+                code: `// Disable anonymous authentication. This is the default in modern Kubernetes versions.
+--anonymous-auth=false`
+            },
+            {
+                id: '225b',
+                code: `// Use a firewall to restrict access to the API server.`
+            },
+            {
+                id: '225c',
+                code: `// Use Role-Based Access Control (RBAC) to limit what anonymous users can do.`
+            }
+        ],
+        correctOptionId: '225a',
+        explanation: 'The Kubernetes API server is the brain of the cluster. Allowing anonymous access is a critical misconfiguration. This setting should always be disabled in any production cluster, and access should be controlled strictly through other authentication methods like service account tokens or client certificates.',
+    },
+    {
+        id: '226',
+        title: 'Use of a Deprecated Function (`strcpy`)',
+        category: 'RCE',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'The C function `strcpy` is used, which does not perform bounds checking and is a common source of buffer overflow vulnerabilities.',
+        vulnerableCode: `// C
+char dest[10];
+char* src = "This string is too long";
+strcpy(dest, src); // Buffer overflow!`,
+        language: 'cpp',
+        options: [
+            {
+                id: '226a',
+                code: `// Use a "safe" string copy function that takes the buffer size as an argument.
+strncpy(dest, src, sizeof(dest) - 1);
+dest[sizeof(dest) - 1] = '\\0';`
+            },
+            {
+                id: '226b',
+                code: `// Use 'strcat' instead.`
+            },
+            {
+                id: '226c',
+                code: `// Increase the size of the 'dest' buffer.`
+            }
+        ],
+        correctOptionId: '226a',
+        explanation: '`strcpy` is notoriously unsafe. You must use a version of the function that accepts the size of the destination buffer to prevent it from writing past the end. `strncpy` is a common choice, but you must be careful to null-terminate the result manually.',
+    },
+    {
+        id: '227',
+        title: 'Business Logic Flaw: API Abuse',
+        category: 'Business Logic',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'An API endpoint for sending a friend request has no rate limit, allowing an attacker to spam a user with thousands of requests.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+// POST /api/friends/request?userId=...
+// There are no limits on how many times this can be called.`,
+        language: 'javascript',
+        options: [
+            {
+                id: '227a',
+                code: `// Implement a rate limit specific to this action, keyed by the requesting user's ID.
+// For example, allow a user to only send 5 friend requests per minute.`
+            },
+            {
+                id: '227b',
+                code: `// Add a CAPTCHA to the friend request process.`
+            },
+            {
+                id: '227c',
+                code: `// Require users to be friends for at least 24 hours before they can send another request.`
+            }
+        ],
+        correctOptionId: '227a',
+        explanation: 'Any API endpoint that performs an action can be abused if it is not rate-limited. For actions tied to a user, the rate limit should be based on their user ID to prevent one user from spamming another.',
+    },
+    {
+        id: '228',
+        title: 'Clickjacking with `X-Frame-Options` Bypass',
+        category: 'CSRF',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'An application sets `X-Frame-Options: SAMEORIGIN`, but has a vulnerability on another page that allows an attacker to load a malicious iframe from the same origin, bypassing the protection.',
+        vulnerableCode: `// Victim site at https://example.com sets X-Frame-Options: SAMEORIGIN.
+// Victim site also has a JSONP endpoint vulnerable to callback hijacking at https://example.com/jsonp.
+// Attacker can use the JSONP endpoint to execute script in the context of example.com,
+// which can then create an iframe to perform clickjacking.`,
+        language: 'generic',
+        options: [
+            {
+                id: '228a',
+                code: `// Use the more modern and flexible Content-Security-Policy (CSP) 'frame-ancestors' directive.
+// CSP: frame-ancestors 'self';`
+            },
+            {
+                id: '228b',
+                code: `// Change the header to 'X-Frame-Options: DENY'.`
+            },
+            {
+                id: '228c',
+                code: 'Both A and B can be effective. CSP (A) is the modern standard and offers more granular control than X-Frame-Options (B).'
+            }
+        ],
+        correctOptionId: '228c',
+        explanation: 'While `X-Frame-Options: SAMEORIGIN` is a good defense, it can be bypassed if there is any other vulnerability (like XSS) on the same origin. The `Content-Security-Policy: frame-ancestors` directive is a more modern and robust replacement that offers better protection and flexibility.',
+    },
+    {
+        id: '229',
+        title: 'Android Insecure File Permissions',
+        category: 'Mobile Security',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'An Android app creates a file in its internal storage with `MODE_WORLD_READABLE` or `MODE_WORLD_WRITEABLE`, allowing any other app on the device to read or modify it.',
+        vulnerableCode: `// Java (Android)
+// This mode is deprecated and highly insecure.
+FileOutputStream fos = openFileOutput("secret.txt", Context.MODE_WORLD_READABLE);
+fos.write("my secret data".getBytes());
+fos.close();`,
+        language: 'java',
+        options: [
+            {
+                id: '229a',
+                code: `// Always use 'Context.MODE_PRIVATE' for internal storage. This is the default.
+// It ensures that only your application can access its files.
+FileOutputStream fos = openFileOutput("secret.txt", Context.MODE_PRIVATE);`
+            },
+            {
+                id: '229b',
+                code: `// Encrypt the file content.`
+            },
+            {
+                id: '229c',
+                code: `// Store the file on external storage instead.`
+            }
+        ],
+        correctOptionId: '229a',
+        explanation: 'Files stored in an app\'s internal storage should be private by default. Using world-readable or world-writable modes is a critical security flaw. Always use `MODE_PRIVATE` unless you have an explicit and well-vetted reason to share the file.',
+    },
+    {
+        id: '230',
+        title: 'Insecure Kubernetes RBAC Policy',
+        category: 'Cloud Security',
+        difficulty: 'Expert',
+        xp: 90,
+        description: 'A Kubernetes Role or ClusterRole grants wildcard permissions, violating the principle of least privilege.',
+        vulnerableCode: `// Kubernetes Role YAML
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: overly-permissive-role
+rules:
+- apiGroups: [""]
+  resources: ["*"] // Allows access to all core resources (pods, secrets, etc.)
+  verbs: ["*"]     // Allows all actions (get, list, create, delete, etc.)`,
+        language: 'generic',
+        options: [
+            {
+                id: '230a',
+                code: `// Follow the principle of least privilege. Be explicit about which resources and which verbs are required.
+// Example: A role that can only read pods.
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]`
+            },
+            {
+                id: '230b',
+                code: `// Use a Role instead of a ClusterRole to limit the scope to a single namespace.`
+            },
+            {
+                id: '230c',
+                code: 'Both A and B are important. A grants specific permissions, and B scopes them to a specific namespace.'
+            }
+        ],
+        correctOptionId: '230c',
+        explanation: 'Kubernetes RBAC policies must be as specific as possible. You should avoid wildcards (`*`) and explicitly list the exact verbs and resources that a service account or user needs. Scoping the permissions to a specific namespace using a `Role` instead of a `ClusterRole` is also a critical security practice.',
+    },
+    {
+        id: '231',
+        title: 'Business Logic Flaw: Bypassing 2FA',
+        category: 'Auth',
+        difficulty: 'Expert',
+        xp: 90,
+        description: 'After a user logs in with a password, they are presented with a 2FA prompt. However, they can bypass this step by directly navigating to a post-login URL.',
+        vulnerableCode: `// Conceptual API Flow
+// 1. POST /login -> successful, sets 'authenticated=true' in session.
+// 2. Server redirects to /verify-2fa.
+// 3. Attacker ignores redirect and directly browses to /dashboard.
+// 4. /dashboard only checks if 'authenticated=true', not if 2FA was completed.`,
+        language: 'generic',
+        options: [
+            {
+                id: '231a',
+                code: `// Use a stateful authentication flow. After password login, set a temporary state like '2fa_required'.
+// The /dashboard endpoint must check for a final, fully authenticated state ('mfa_complete=true'), not just the initial login state.`
+            },
+            {
+                id: '231b',
+                code: `// Use a single-page application (SPA) to make bypassing the redirect harder.`
+            },
+            {
+                id: '231c',
+                code: `// Add a strong Content Security Policy (CSP).`
+            }
+        ],
+        correctOptionId: '231a',
+        explanation: 'Multi-factor authentication must be a blocking step in the authentication flow. The server must maintain a state machine for the user\'s session, moving from `logged_in_password` to `logged_in_mfa`. Sensitive endpoints must only be accessible from the final, fully authenticated state.',
+    },
+    {
+        id: '232',
+        title: 'Leaking Secrets via `npm` Package',
+        category: 'Info Disclosure',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'An `.npmrc` file containing a private authentication token is accidentally published with an `npm` package.',
+        vulnerableCode: `// This is a file system issue.
+// The developer runs 'npm publish' from a directory containing a .npmrc file
+// with a line like: //registry.npmjs.org/:_authToken=...`,
+        language: 'generic',
+        options: [
+            {
+                id: '232a',
+                code: `// Use a '.npmignore' file (or the 'files' array in package.json) to explicitly control which files are included in the published package.
+// Ensure '.npmrc' is listed in '.npmignore'.`
+            },
+            {
+                id: '232b',
+                code: `// The developer should use a user-level .npmrc file (~/.npmrc) instead of a project-level one for authentication tokens.`
+            },
+            {
+                id: '232c',
+                code: 'Both A and B are correct. B is the standard practice, and A provides a defense-in-depth mechanism.'
+            }
+        ],
+        correctOptionId: '232c',
+        explanation: 'Authentication tokens should be stored in a user-specific configuration file, not one that is checked into a project\'s source control (B). Additionally, you should always use a `.npmignore` file to act as a whitelist/blacklist for what gets published, which can prevent accidental leakage (A).',
+    },
+    {
+        id: '233',
+        title: 'Deserialization of Untrusted Data (.NET)',
+        category: 'Insecure Deserialization',
+        difficulty: 'Advanced',
+        xp: 90,
+        description: 'A .NET application uses `BinaryFormatter` to deserialize data from an untrusted source, which can lead to remote code execution.',
+        vulnerableCode: `// C#
+// 'untrustedStream' comes from a network request.
+BinaryFormatter formatter = new BinaryFormatter();
+MyObject obj = (MyObject)formatter.Deserialize(untrustedStream); // Vulnerable`,
+        language: 'generic',
+        options: [
+            {
+                id: '233a',
+                code: `// Microsoft has marked BinaryFormatter as insecure and recommends against its use.
+// The recommended solution is to use a safe, data-only format like JSON with a library like Newtonsoft.Json or System.Text.Json.`
+            },
+            {
+                id: '233b',
+                code: `// Set a 'SerializationBinder' on the formatter to restrict the types that can be deserialized.`
+            },
+            {
+                id: '233c',
+                code: `// Keep the .NET Framework updated.`
+            }
+        ],
+        correctOptionId: '233a',
+        explanation: '`BinaryFormatter` is fundamentally insecure and has been deprecated by Microsoft. There is no reliable way to make it safe for untrusted data. The only correct solution is to migrate to a secure serialization format like JSON.',
+    },
+    {
+        id: '234',
+        title: 'Open Redirect via Case-Insensitive Check',
+        category: 'IDOR',
+        difficulty: 'Advanced',
+        xp: 70,
+        description: 'An application validates a redirect URL by checking if it starts with the trusted domain, but does so in a case-insensitive manner.',
+        vulnerableCode: `// JavaScript
+// Attacker crafts URL with redirect=https://EXAMPLE.com.evil.com
+const url = req.query.redirect;
+if (url.toLowerCase().startsWith("https://example.com")) {
+    // This check is bypassed!
+    res.redirect(url);
+}`,
+        language: 'javascript',
+        options: [
+            {
+                id: '234a',
+                code: `// Parse the URL and validate the hostname component specifically, using a case-insensitive comparison.
+const urlObj = new URL(url);
+if (urlObj.hostname.toLowerCase() === "example.com") {
+    res.redirect(url);
+}`
+            },
+            {
+                id: '234b',
+                code: `// Use a strict, case-sensitive startsWith check.`
+            },
+            {
+                id: '234c',
+                code: `// Blacklist common malicious domain names.`
+            }
+        ],
+        correctOptionId: '234a',
+        explanation: 'Simple string checks are insufficient for URL validation. You must parse the URL into its components (protocol, hostname, path) and validate each part. Hostname comparisons should be case-insensitive, but they must match the entire hostname, not just the start of the string.',
+    },
+    {
+        id: '235',
+        title: 'Business Logic Flaw: Limited Supply Race Condition',
+        category: 'Business Logic',
+        difficulty: 'Expert',
+        xp: 95,
+        description: 'An e-commerce site has a limited number of a promotional item. An attacker can send many simultaneous requests to add the item to their cart, bypassing the "limit 1 per customer" check.',
+        vulnerableCode: `// Conceptual API Logic
+async function addToCart(userId, itemId) {
+  // 1. Check if user already has the item in their cart.
+  const hasItem = await db.cart.find({ userId, itemId });
+  // 2. Check if stock > 0.
+  const stock = await db.stock.get(itemId);
+
+  if (!hasItem && stock > 0) {
+    // 3. Attacker sends multiple requests that all pass this check.
+    await db.cart.add({ userId, itemId });
+    await db.stock.decrement(itemId);
+  }
+}`,
+        language: 'generic',
+        options: [
+            {
+                id: '235a',
+                code: `// Use a unique constraint in the database (e.g., on 'userId' and 'itemId' in the cart table) to prevent duplicates at the data layer.`
+            },
+            {
+                id: '235b',
+                code: `// Make the entire check-and-add operation atomic using a database transaction with appropriate locking.`
+            },
+            {
+                id: '235c',
+                code: 'Both A and B are necessary. The unique constraint (A) is a final guard against duplicates, while the transaction (B) prevents the race condition where stock is checked and then decremented.'
+            }
+        ],
+        correctOptionId: '235c',
+        explanation: 'This is a classic race condition. The best defense is a combination of database constraints and application logic. A unique constraint in the database (A) makes it impossible to add the same item twice. A database transaction (B) makes the process of checking stock and adding to the cart atomic, preventing the checks from becoming invalid.',
+    },
+    {
+        id: '236',
+        title: 'Insecure Use of `innerHTML`',
+        category: 'XSS',
+        difficulty: 'Beginner',
+        xp: 45,
+        description: 'A JavaScript application writes user-controlled data directly to a DOM element\'s `innerHTML` property, leading to a Cross-Site Scripting (XSS) vulnerability.',
+        vulnerableCode: `// JavaScript
+const userInput = '<img src=x onerror=alert(1)>';
+const element = document.getElementById('container');
+element.innerHTML = userInput; // This executes the script!`,
+        language: 'javascript',
+        options: [
+            {
+                id: '236a',
+                code: `// If you only need to display text, use the 'textContent' property instead, which does not parse the string as HTML.
+element.textContent = userInput;`
+            },
+            {
+                id: '236b',
+                code: `// If you must render HTML from a user, sanitize it with a trusted library first.
+element.innerHTML = DOMPurify.sanitize(userInput);`
+            },
+            {
+                id: '236c',
+                code: `// Both A and B are valid fixes depending on the requirement. A is safer if HTML is not needed.`
+            }
+        ],
+        correctOptionId: '236c',
+        explanation: 'Setting `innerHTML` from an untrusted source is a primary vector for XSS. The safest approach is to treat the input as text and use `textContent` (A). If rendering HTML is a requirement, it is absolutely essential to sanitize it with a library like DOMPurify first (B).',
+    },
+    {
+        id: '237',
+        title: 'Docker Container with Root User',
+        category: 'Cloud Security',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'A Docker container is run as the `root` user by default. If an attacker compromises the application running in the container, they gain root privileges within the container, making it easier to escalate privileges to the host.',
+        vulnerableCode: `// Dockerfile
+FROM ubuntu:latest
+# The container will run as root by default.`,
+        language: 'generic',
+        options: [
+            {
+                id: '237a',
+                code: `// Create a dedicated non-root user in the Dockerfile and switch to it.
+FROM ubuntu:latest
+RUN useradd -ms /bin/bash appuser
+USER appuser`
+            },
+            {
+                id: '237b',
+                code: `// Run the container with the '--user' flag.
+docker run --user 1001 my-image`
+            },
+            {
+                id: '237c',
+                code: 'Both A and B achieve the goal. A is the best practice as it builds the security into the image itself.'
+            }
+        ],
+        correctOptionId: '237c',
+        explanation: 'Following the principle of least privilege, containers should never be run as the root user unless absolutely necessary. The best practice is to create a dedicated user in the Dockerfile (A). Alternatively, you can specify the user at runtime (B).',
+    },
+    {
+        id: '238',
+        title: 'Android `PendingIntent` without `FLAG_IMMUTABLE`',
+        category: 'Mobile Security',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'An app creates a mutable `PendingIntent`. A malicious app that obtains this `PendingIntent` can modify its internal intent, redirecting the action, filling in data, etc.',
+        vulnerableCode: `// Java (Android)
+Intent intent = new Intent(this, MyReceiver.class);
+// Missing FLAG_IMMUTABLE, making the intent's contents mutable by the receiver.
+PendingIntent pi = PendingIntent.getBroadcast(this, 0, intent, 0);`,
+        language: 'java',
+        options: [
+            {
+                id: '238a',
+                code: `// For apps targeting Android 6.0 (API 23) or higher, you must specify either FLAG_IMMUTABLE or FLAG_MUTABLE.
+// FLAG_IMMUTABLE is the secure default.
+PendingIntent pi = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);`
+            },
+            {
+                id: '238b',
+                code: `// Encrypt the data within the Intent's extras.`
+            },
+            {
+                id: '238c',
+                code: `// Use a different action string for the Intent.`
+            }
+        ],
+        correctOptionId: '238a',
+        explanation: 'To prevent malicious apps from hijacking a `PendingIntent`, you must make it immutable by adding the `FLAG_IMMUTABLE` flag during its creation. This prevents the receiving app from modifying the intent\'s action, data, and extras.',
+    },
+    {
+        id: '239',
+        title: 'Reflected XSS via JSONP',
+        category: 'XSS',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'A JSONP endpoint reflects a user-controlled callback function name directly into the response, allowing an attacker to inject arbitrary JavaScript.',
+        vulnerableCode: `// JavaScript (Node.js/Express)
+// Attacker crafts URL: /api/data?callback=alert(1)//
+app.get('/api/data', (req, res) => {
+    const callback = req.query.callback;
+    const data = '{"record": 1}';
+    // The callback name is not sanitized.
+    res.send(\`\${callback}(\${data});\`);
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '239a',
+                code: `// Validate the callback function name against a strict whitelist of allowed characters (e.g., alphanumeric and underscore).
+const callback = req.query.callback;
+if (!/^[a-zA-Z0-9_]+$/.test(callback)) {
+    return res.status(400).send('Invalid callback name.');
+}`
+            },
+            {
+                id: '239b',
+                code: `// JSONP is an outdated technique. Use CORS instead.`
+            },
+            {
+                id: '239c',
+                code: 'Both A and B are correct. A fixes the immediate vulnerability, while B is the modern architectural solution that obsoletes JSONP.'
+            }
+        ],
+        correctOptionId: '239c',
+        explanation: 'JSONP is inherently insecure because it works by injecting a script tag. While validating the callback name provides some protection (A), the modern and secure way to handle cross-origin data requests is to use CORS (B).',
+    },
+    {
+        id: '240',
+        title: 'SQL Injection via Integer Input',
+        category: 'SQL Injection',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'An application assumes that because a parameter is expected to be an integer, it is safe from SQL injection, but fails to actually validate or parameterize it.',
+        vulnerableCode: `// PHP
+// Attacker can send: ?id=123; DROP TABLE users
+$id = $_GET['id'];
+$query = "SELECT * FROM products WHERE id = $id";`,
+        language: 'php',
+        options: [
+            {
+                id: '240a',
+                code: `// All input must be parameterized, regardless of expected type.
+$stmt = $pdo->prepare("SELECT * FROM products WHERE id = :id");
+$stmt->execute(['id' => $id]);`
+            },
+            {
+                id: '240b',
+                code: `// Cast the input to an integer to sanitize it.
+$id = (int)$_GET['id'];
+$query = "SELECT * FROM products WHERE id = $id";`
+            },
+            {
+                id: '240c',
+                code: 'Both A and B are valid fixes. A is the universal best practice, while B is a secure alternative specifically for integer inputs.'
+            }
+        ],
+        correctOptionId: '240c',
+        explanation: 'Never trust that user input will be the type you expect. The best solution is always to use parameterized queries (A). For numeric inputs specifically, explicitly casting the input to an integer type (B) is also a safe and effective way to prevent injection.',
+    },
+    {
+        id: '241',
+        title: 'Business Logic Flaw: Negative Quantity',
+        category: 'Business Logic',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'An e-commerce API allows a user to add an item to their cart with a negative quantity, effectively adding credit to their order.',
+        vulnerableCode: `// JavaScript (Node.js API)
+// Attacker sends: { itemId: 'prod123', quantity: -10 }
+app.post('/cart/add', (req, res) => {
+    const { itemId, quantity } = req.body;
+    // No validation on the quantity.
+    addToCart(req.user.id, itemId, quantity);
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '241a',
+                code: `// Add server-side input validation to ensure the quantity is a positive integer.
+if (!Number.isInteger(quantity) || quantity <= 0) {
+    return res.status(400).send("Invalid quantity.");
+}`
+            },
+            {
+                id: '241b',
+                code: `// Use a client-side <input type="number" min="1">.`
+            },
+            {
+                id: '241c',
+                code: `// Use an unsigned integer for the quantity in the database.`
+            }
+        ],
+        correctOptionId: '241a',
+        explanation: 'This is a business logic flaw that must be caught by server-side validation. The server must verify that all inputs conform to the business rules (e.g., quantity must be positive) before processing them.',
+    },
+    {
+        id: '242',
+        title: 'Android Insecure `ContentProvider`',
+        category: 'Mobile Security',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'A `ContentProvider` is exported without any permissions, allowing any app on the device to read or write to the app\'s private data.',
+        vulnerableCode: `<!-- AndroidManifest.xml -->
+<provider
+    android:name=".MyProvider"
+    android:authorities="com.example.provider"
+    android:exported="true" /> <!-- No read/write permissions defined -->`,
+        language: 'generic',
+        options: [
+            {
+                id: '242a',
+                code: `// Set 'android:exported="false"' if the provider is only for your own app.`
+            },
+            {
+                id: '242b',
+                code: `// If it must be exported, define and require permissions for reading and writing.
+<provider ...
+    android:readPermission="com.example.permission.READ_DATA"
+    android:writePermission="com.example.permission.WRITE_DATA" />`
+            },
+            {
+                id: '242c',
+                code: `// Both A and B are valid fixes depending on the intended use. A is the most secure default.`
+            }
+        ],
+        correctOptionId: '242c',
+        explanation: 'Following the principle of least privilege, a `ContentProvider` should not be exported unless necessary (A). If it must be exported, access must be restricted by requiring specific permissions for read and write operations (B).',
+    },
+    {
+        id: '243',
+        title: 'Unrestricted File Upload',
+        category: 'File Inclusion',
+        difficulty: 'Advanced',
+        xp: 80,
+        description: 'An application allows users to upload files but only checks the `Content-Type` header, which is user-controllable, allowing an attacker to upload a malicious executable.',
+        vulnerableCode: `// Python (Flask)
+@app.route('/upload', methods=['POST'])
+def upload():
+    file = request.files['file']
+    # Attacker can set Content-Type to 'image/jpeg' for a 'shell.php' file.
+    if file.content_type == 'image/jpeg':
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+    return 'OK'`,
+        language: 'python',
+        options: [
+            {
+                id: '243a',
+                code: `// Do not trust the Content-Type header.
+// 1. Validate the file extension against a strict whitelist.
+// 2. (Better) Identify the file type by its contents (magic bytes).`
+            },
+            {
+                id: '243b',
+                code: `// Store uploaded files in a directory outside of the web root.`
+            },
+            {
+                id: '243c',
+                code: `// Both A and B are crucial. A validates the file, and B prevents it from being executed even if validation fails.`
+            }
+        ],
+        correctOptionId: '243c',
+        explanation: 'The `Content-Type` header is completely controlled by the client and cannot be trusted. You must validate files by their extension and, more reliably, by their actual content (A). Furthermore, as a defense-in-depth measure, all user-uploaded files should be stored in a location where they cannot be executed by the web server (B).',
+    },
+    {
+        id: '244',
+        title: 'Information Disclosure via `robots.txt`',
+        category: 'Info Disclosure',
+        difficulty: 'Beginner',
+        xp: 40,
+        description: 'A `robots.txt` file, intended to keep pages out of search engines, is used to list the paths to sensitive or admin-related directories, effectively giving attackers a map.',
+        vulnerableCode: `# /robots.txt
+User-agent: *
+Disallow: /admin/
+Disallow: /backup-scripts/`,
+        language: 'generic',
+        options: [
+            {
+                id: '244a',
+                code: `// Do not list sensitive directories in robots.txt.
+// Sensitive pages should be protected by authentication and authorization, not hidden.`
+            },
+            {
+                id: '244b',
+                code: `// Use a different filename, like 'robot.txt'.`
+            },
+            {
+                id: '244c',
+                code: `// Add a comment warning that these are private.`
+            }
+        ],
+        correctOptionId: '244a',
+        explanation: '`robots.txt` is public and provides no security; it is merely a suggestion for search engine crawlers. Listing sensitive paths in it is counter-productive. Access to sensitive paths must be controlled by server-side authentication and authorization.',
+    },
+    {
+        id: '245',
+        title: 'Insecure Kubernetes `serviceAccountName`',
+        category: 'Cloud Security',
+        difficulty: 'Advanced',
+        xp: 85,
+        description: 'A Kubernetes pod is assigned the `default` service account, which in some clusters might have overly broad permissions, or it is not assigned a service account at all when it needs no API access.',
+        vulnerableCode: `// pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: my-container
+    image: nginx
+  # 'serviceAccountName' is not specified, so it uses 'default'.`,
+        language: 'generic',
+        options: [
+            {
+                id: '245a',
+                code: `// If the pod does not need to talk to the Kubernetes API, explicitly disable service account token mounting.
+spec:
+  automountServiceAccountToken: false`
+            },
+            {
+                id: '245b',
+                code: `// If the pod needs specific permissions, create a dedicated ServiceAccount for it with a tightly scoped Role attached.
+spec:
+  serviceAccountName: my-app-sa`
+            },
+            {
+                id: '245c',
+                code: 'Both A and B are correct depending on the pod\'s needs. A is the most secure if no API access is required.'
+            }
+        ],
+        correctOptionId: '245c',
+        explanation: 'Following the principle of least privilege, pods should not have access to the Kubernetes API unless they need it. If no access is needed, disable token mounting entirely (A). If access is needed, create a dedicated service account with the minimum required RBAC permissions (B).',
+    },
+    {
+        id: '246',
+        title: 'Open Redirect in OAuth Flow',
+        category: 'Auth',
+        difficulty: 'Advanced',
+        xp: 75,
+        description: 'An OAuth 2.0 implementation allows an attacker to specify a `redirect_uri` that points to a subdomain or path under their control.',
+        vulnerableCode: `// OAuth Client Configuration on Provider
+// Allowed Redirect URIs:
+// - https://client.example.com/
+// Attacker registers their own app at 'https://client.example.com.attacker.com'`,
+        language: 'generic',
+        options: [
+            {
+                id: '246a',
+                code: `// The OAuth provider MUST use exact string matching for redirect URIs, not partial or prefix matching.`
+            },
+            {
+                id: '246b',
+                code: `// The client should check the 'state' parameter to prevent CSRF.`
+            },
+            {
+                id: '246c',
+                code: `// Use the Authorization Code flow with PKCE.`
+            }
+        ],
+        correctOptionId: '246a',
+        explanation: 'The OAuth 2.0 spec requires that redirect URIs be compared using exact string matching to prevent attackers from using open redirectors. Allowing subdomains or partial paths creates a severe vulnerability.',
+    },
+    {
+        id: '247',
+        title: 'Insecure PRNG for Cryptography (Java)',
+        category: 'Crypto',
+        difficulty: 'Intermediate',
+        xp: 60,
+        description: 'A Java application uses `java.util.Random` for a security-sensitive purpose. This class is a predictable PRNG and not suitable for cryptography.',
+        vulnerableCode: `// Java
+// Using a non-cryptographic random number generator for a security token.
+Random rand = new Random();
+byte[] token = new byte[16];
+rand.nextBytes(token);`,
+        language: 'java',
+        options: [
+            {
+                id: '247a',
+                code: `// Use 'java.security.SecureRandom' for all cryptographic randomness needs.
+SecureRandom secRand = new SecureRandom();
+byte[] token = new byte[16];
+secRand.nextBytes(token);`
+            },
+            {
+                id: '247b',
+                code: `// Seed the 'Random' instance with the current time.
+Random rand = new Random(System.currentTimeMillis());`
+            },
+            {
+                id: '247c',
+                code: `// Generate a larger token.`
+            }
+        ],
+        correctOptionId: '247a',
+        explanation: 'For any security purpose, such as generating tokens, salts, or keys, you must use a cryptographically secure pseudo-random number generator (CSPRNG). In Java, this is `java.security.SecureRandom`.',
+    },
+    {
+        id: '248',
+        title: 'Business Logic Flaw: API Abuse',
+        category: 'DoS / Abuse',
+        difficulty: 'Intermediate',
+        xp: 65,
+        description: 'An API for sending "likes" is not rate-limited, allowing a malicious user to create a script that generates thousands of likes in seconds.',
+        vulnerableCode: `// API Endpoint
+app.post('/posts/:id/like', (req, res) => {
+    // No rate limiting is applied.
+    db.posts.incrementLikes(req.params.id);
+    res.send("Liked!");
+});`,
+        language: 'javascript',
+        options: [
+            {
+                id: '248a',
+                code: `// Implement a rate limit based on the authenticated user's ID.
+// For example, allow each user to call this endpoint only 10 times per minute.`
+            },
+            {
+                id: '248b',
+                code: `// Implement a rate limit based on the source IP address.`
+            },
+            {
+                id: '248c',
+                code: `// Both A and B are useful. A prevents a single user from abusing the system, while B helps mitigate distributed attacks.`
+            }
+        ],
+        correctOptionId: '248c',
+        explanation: 'Rate limiting is essential for preventing abuse of API endpoints. For authenticated actions, the limit should be keyed on the user\'s ID (A). Adding an IP-based limit as well (B) provides defense-in-depth against attackers using multiple accounts from a single IP or anonymous attacks.',
+    },
+    {
+        id: '249',
+        title: 'Android WebView loads HTTP content',
+        category: 'Mobile Security',
+        difficulty: 'Intermediate',
+        xp: 55,
+        description: 'An Android app loads content into a WebView over an unencrypted HTTP connection, making it vulnerable to man-in-the-middle (MITM) attacks.',
+        vulnerableCode: `// Java (Android)
+WebView webView = findViewById(R.id.webview);
+// Loading content over an insecure connection.
+webView.loadUrl("http://example.com");`,
+        language: 'java',
+        options: [
+            {
+                id: '249a',
+                code: `// In the app's Network Security Configuration, block cleartext (HTTP) traffic.
+// res/xml/network_security_config.xml
+<base-config cleartextTrafficPermitted="false">
+    ...
+</base-config>`
+            },
+            {
+                id: '249b',
+                code: `// Ensure all URLs loaded into WebViews use HTTPS.
+webView.loadUrl("https://example.com");`
+            },
+            {
+                id: '249c',
+                code: 'Both A and B are essential. B fixes the specific instance, while A provides a global, app-wide policy to prevent future mistakes.'
+            }
+        ],
+        correctOptionId: '249c',
+        explanation: 'To prevent MITM attacks, all network traffic should be encrypted. You should always use HTTPS URLs (B), and as a defense-in-depth measure, you should use a Network Security Configuration to explicitly disable all cleartext (HTTP) traffic for your entire application (A).',
+    },
+    {
+        id: '250',
+        title: 'Server-Side Request Forgery via File Upload',
+        category: 'SSRF',
+        difficulty: 'Expert',
+        xp: 95,
+        description: 'A feature that fetches an image from a user-provided URL can be tricked into fetching files from the local server or making requests to internal services.',
+        vulnerableCode: `// Python (Flask)
+@app.route('/upload_from_url')
+def upload_from_url():
+    url = request.args.get('url')
+    # Attacker provides url=file:///etc/passwd or url=http://169.254.169.254/
+    content = requests.get(url).content
+    # ... save content ...`,
+        language: 'python',
+        options: [
+            {
+                id: '250a',
+                code: `// 1. Parse the URL and validate that the scheme is 'http' or 'https'.
+// 2. Resolve the hostname to an IP address.
+// 3. Validate that the IP address is not a private, reserved, or loopback address.`
+            },
+            {
+                id: '250b',
+                code: `// Use a library specifically designed to protect against SSRF.`
+            },
+            {
+                id: '250c',
+                code: 'Both A and B are valid. B is generally easier and less error-prone, but A describes the manual steps required to mitigate SSRF.'
+            }
+        ],
+        correctOptionId: '250c',
+        explanation: 'SSRF is a serious vulnerability. A full defense requires several steps: validating the URL protocol, resolving the domain to an IP address, and then validating that the IP address is a public one, not an internal or loopback address (A). Using a purpose-built library (B) can simplify this process and is often the recommended approach.',
     }
 ];
-
-
-
