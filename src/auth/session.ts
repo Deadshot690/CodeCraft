@@ -7,8 +7,8 @@ import type { User } from 'firebase/auth';
 const SESSION_COOKIE_NAME = 'firebase-session';
 
 export async function setSession(user: User) {
-  const idToken = await user.getIdToken();
-  cookies().set(SESSION_COOKIE_NAME, idToken, {
+  const uid = user.uid;
+  cookies().set(SESSION_COOKIE_NAME, uid, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
