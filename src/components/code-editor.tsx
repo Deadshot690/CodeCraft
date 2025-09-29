@@ -9,6 +9,7 @@ import { java, javaLanguage } from "@codemirror/lang-java";
 import { cpp, cppLanguage } from "@codemirror/lang-cpp";
 import { okaidia } from '@uiw/codemirror-theme-okaidia';
 import { cn } from "@/lib/utils";
+import { php } from "@codemirror/lang-php";
 
 
 type Language = 'javascript' | 'python' | 'java' | 'cpp' | 'php';
@@ -25,7 +26,7 @@ const languageExtensions = {
   python: [python()],
   java: [java()],
   cpp: [cpp()],
-  php: [javascript({ jsx: true })], // Using JS for PHP syntax highlighting
+  php: [php()], 
 };
 
 export const CodeEditor: React.FC<CodeEditorProps> = ({ initialCode, language, onCodeChange, readOnly = false }) => {

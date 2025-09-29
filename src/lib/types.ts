@@ -90,7 +90,7 @@ export type CodeJigsawChallenge = {
   id: string;
   title: string;
   description: string;
-  language: 'python' | 'javascript' | 'java' | 'cpp';
+  language: 'python' | 'javascript' | 'java' | 'cpp' | 'php';
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   xp: number;
   codeSnippet: string;
@@ -99,7 +99,7 @@ export type CodeJigsawChallenge = {
 export type CodeTyperChallenge = {
   id: string;
   title: string;
-  language: 'python' | 'javascript' | 'java' | 'cpp';
+  language: 'python' | 'javascript' | 'java' | 'cpp' | 'php';
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   xp: number;
   snippet: string;
@@ -146,7 +146,7 @@ export type ConceptMatchChallenge = {
 export type SecurityFortressChallenge = {
   id: string;
   title: string;
-  category: 'XSS' | 'SQL Injection' | 'IDOR' | 'CSRF' | 'SSRF' | 'RCE' | 'CORS' | 'Auth' | 'Info Disclosure' | 'Broken Auth' | 'File Inclusion' | 'XSS / CSP' | 'Business Logic' | 'DoS / Abuse' | 'Broken Access Control' | 'Crypto' | 'Protocol' | 'Mobile Security' | 'Session Management' | 'Insecure Deserialization' | 'Supply Chain';
+  category: 'XSS' | 'SQL Injection' | 'IDOR' | 'CSRF' | 'SSRF' | 'RCE' | 'CORS' | 'Auth' | 'Info Disclosure' | 'Broken Auth' | 'File Inclusion' | 'XSS / CSP' | 'Business Logic' | 'DoS / Abuse' | 'Broken Access Control' | 'Crypto' | 'Protocol' | 'Mobile Security' | 'Session Management' | 'Insecure Deserialization' | 'Supply Chain' | 'Web Cache Poisoning';
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
   xp: number;
   description: string;
