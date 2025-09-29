@@ -33,9 +33,9 @@ interface SettingsContextType {
 
 const defaultSettings: Settings = {
   // User Profile from mock data
-  name: defaultUser.name,
+  name: "Alex",
   username: 'alex_codes', // default mock value
-  avatarUrl: defaultUser.avatarUrl,
+  avatarUrl: "https://picsum.photos/seed/alex/200/200",
   bio: 'Full-stack developer and coffee enthusiast. Turning ideas into reality, one line of code at a time.',
   location: 'San Francisco, CA',
   github: 'https://github.com/alex_codes',
@@ -57,21 +57,23 @@ export const SettingsProvider = ({ children }: { children: React.ReactNode }) =>
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    try {
-      const storedSettings = localStorage.getItem('app-settings');
-      if (storedSettings) {
-        // Merge stored settings with defaults to avoid breaking changes
-        const parsedSettings = JSON.parse(storedSettings);
-        setSettings(prev => ({ ...prev, ...parsedSettings }));
+    if (typeof window !== 'undefined') {
+      try {
+        const storedSettings = localStorage.getItem('app-settings');
+        if (storedSettings) {
+          // Merge stored settings with defaults to avoid breaking changes
+          const parsedSettings = JSON.parse(storedSettings);
+          setSettings(prev => ({ ...prev, ...parsedSettings }));
+        }
+      } catch (error) {
+        console.error('Failed to load settings from localStorage', error);
       }
-    } catch (error) {
-      console.error('Failed to load settings from localStorage', error);
+      setIsInitialized(true);
     }
-    setIsInitialized(true);
   }, []);
 
   useEffect(() => {
-    if (isInitialized) {
+    if (isInitialized && typeof window !== 'undefined') {
       try {
         localStorage.setItem('app-settings', JSON.stringify(settings));
         
