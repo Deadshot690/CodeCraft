@@ -1,13 +1,13 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { user } from '@/lib/data';
+import { user } from '@/lib/user-data';
 import { toast } from '@/hooks/use-toast';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -18,7 +18,9 @@ import {
   Bell, 
   Shield, 
   Paintbrush, 
-  Settings as SettingsIcon 
+  Settings as SettingsIcon,
+  LogOut,
+  Loader2
 } from 'lucide-react';
 import {
   Select,
@@ -29,6 +31,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from '@/components/ui/textarea';
 import { useSettings } from '@/hooks/use-settings';
+import { logout } from '@/auth/actions';
 
 const languageDisplay: Record<string, string> = {
     en: 'English',
@@ -85,6 +88,13 @@ const ProfileSettings = () => {
 const AccountSettings = () => {
     const [email, setEmail] = useState(user.email || '');
     const [isTwoFactor, setIsTwoFactor] = useState(false);
+    const [isPending, startTransition] = useTransition();
+
+    const handleLogout = () => {
+        startTransition(async () => {
+            await logout();
+        });
+    }
 
     return (
         <Card>
@@ -97,6 +107,10 @@ const AccountSettings = () => {
                     <Label htmlFor="email">Email</Label>
                     <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
+                 <Button onClick={handleLogout} disabled={isPending} variant="outline" className="w-full">
+                    {isPending ? <Loader2 className="mr-2 animate-spin" /> : <LogOut className="mr-2"/>}
+                    Log Out
+                </Button>
                 <div className="space-y-2">
                     <Label htmlFor="current-password">Change Password</Label>
                     <Input id="current-password" type="password" placeholder="Current Password"/>
@@ -458,3 +472,5 @@ export default function SettingsPage() {
         </div>
     );
 }
+
+    

@@ -1,3 +1,4 @@
+
 "use server";
 
 import {
@@ -56,6 +57,8 @@ export async function signup(data: z.infer<typeof SignupSchema>) {
 
 export async function logout() {
     await clearSession();
+    // Adding a short delay and redirect to ensure session is cleared
+    await new Promise(resolve => setTimeout(resolve, 500));
     redirect('/auth/login');
 }
 
@@ -77,3 +80,5 @@ function mapFirebaseError(errorCode: string): string {
       return 'An unexpected error occurred. Please try again.';
   }
 }
+
+    
